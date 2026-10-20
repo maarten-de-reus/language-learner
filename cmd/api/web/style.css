@@ -179,6 +179,7 @@ body {
   background: var(--surface-2); color: var(--text-2);
 }
 .chip .dot { width: 8px; height: 8px; border-radius: 2px; }
+.chip.retry { background: var(--warn-bg); color: var(--warn); }
 
 .prompt-label { margin: 0; font-size: 13px; color: var(--muted); }
 .card .prompt {
@@ -291,6 +292,9 @@ body {
 .results .src { font-weight: 600; }
 .results .exp { color: var(--text-2); text-align: right; }
 .results .yours { color: var(--bad); text-decoration: line-through; margin-right: 6px; }
+.results .retry-note { grid-column: 2 / -1; margin-top: -6px; font-size: 12px; }
+.results .retry-note.ok { color: var(--good); }
+.results .retry-note.ko { color: var(--bad); }
 
 .error {
   margin: 0; padding: 10px 14px; border-radius: 12px;

@@ -105,7 +105,9 @@ function renderCard(card) {
 
       <div class="chips">
         <span class="chip">${esc(LANG[card.from] || card.from)} → ${esc(LANG[card.to] || card.to)}</span>
-        <span class="chip"><span class="dot" style="background:var(--s${card.step})"></span>interval ${days(interval)}</span>
+        ${card.retry
+          ? `<span class="chip retry">↻ Herhaling · telt niet mee voor de planning</span>`
+          : `<span class="chip"><span class="dot" style="background:var(--s${card.step})"></span>interval ${days(interval)}</span>`}
         ${card.context ? `<span class="chip">${esc(card.context)}</span>` : ""}
       </div>
 
@@ -176,16 +178,20 @@ function renderFeedback(fb) {
 
   const answers = fb.expected.map((x) => `<span class="answer">${esc(x)}</span>`).join(" of ");
   const isLast = state.card.position === state.card.runSize;
+  const title = fb.correct
+    ? (fb.retry ? "Goed! Morgen volgt de echte test." : "Goed zo!")
+    : (fb.retry ? "Nog niet goed" : "Helaas, niet goed");
 
   slot.innerHTML = `
     <div class="feedback ${fb.correct ? "good" : "bad"}" role="status">
       <span class="icon" aria-hidden="true">${fb.correct ? "✓" : "✕"}</span>
       <div>
-        <strong>${fb.correct ? "Goed zo!" : "Helaas, niet goed"}</strong>
+        <strong>${title}</strong>
         ${fb.correct
           ? (fb.expected.length > 1 ? `<p>Ook goed: ${answers}</p>` : "")
           : `<p>Het juiste antwoord: ${answers}</p>`}
         <p>Volgende herhaling ${esc(relative(fb.nextReview))} · interval ${days(state.stats.intervals[fb.step])}</p>
+        ${fb.willRetry ? `<p>Je krijgt dit woord aan het eind van de ronde nog een keer.</p>` : ""}
         ${fb.accentOnly ? `<span class="hint">Bijna! Alleen de accenten kloppen niet.</span>` : ""}
       </div>
     </div>
@@ -214,6 +220,11 @@ function pulse(el) {
 }
 
 // ---------- Run finished ----------
+
+function retryNote(r) {
+  if (!r.retryCorrect) return `↻ ook bij ${r.retries === 1 ? "de herhaling" : `${r.retries} herhalingen`} fout`;
+  return `↻ goed bij de ${r.retries === 1 ? "1e" : `${r.retries}e`} herhaling`;
+}
 
 function renderDone() {
   const { results, stats } = state;
@@ -246,6 +257,7 @@ function renderDone() {
               <span class="mark">${r.correct ? "✓" : "✕"}</span>
               <span class="src">${esc(r.prompt)}</span>
               <span class="exp">${r.correct ? "" : `<span class="yours">${esc(r.input)}</span>`}${esc(r.expected.join(", "))}</span>
+              ${r.retries > 0 ? `<span class="retry-note ${r.retryCorrect ? "ok" : "ko"}">${retryNote(r)}</span>` : ""}
             </li>`).join("")}
         </ul>
         <button class="btn block" id="again" type="button">${stats.due > 0 ? "Nieuwe ronde" : "Opnieuw controleren"}</button>
@@ -273,9 +285,11 @@ function render() {
     return;
   }
 
-  if (state.card.id !== renderedCardId || !document.getElementById("card")) {
+  // Een herhaling heeft hetzelfde ID als de eerste poging; positie maakt de kaart uniek
+  const cardKey = `${state.card.id}#${state.card.position}`;
+  if (cardKey !== renderedCardId || !document.getElementById("card")) {
     renderCard(state.card);
-    renderedCardId = state.card.id;
+    renderedCardId = cardKey;
   }
   renderFeedback(state.feedback);
 }

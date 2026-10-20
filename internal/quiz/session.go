@@ -9,6 +9,10 @@ import (
 	"hungarian-language-learner/internal/storage"
 )
 
+// MaxRetries is hoe vaak een fout beantwoord concept aan het eind van de run opnieuw gevraagd wordt.
+// Deze herhalingen zijn oefening: ze veranderen de planning niet, de echte toets is de volgende review.
+const MaxRetries = 2
+
 // Card is het concept dat nu gevraagd wordt
 type Card struct {
 	ID       string `json:"id"`
@@ -19,6 +23,7 @@ type Card struct {
 	Step     int    `json:"step"`
 	Position int    `json:"position"`
 	RunSize  int    `json:"runSize"`
+	Retry    bool   `json:"retry"` // oefenherhaling binnen de run, telt niet mee voor de planning
 }
 
 // Feedback is de uitslag van het laatst gegeven antwoord
@@ -29,14 +34,25 @@ type Feedback struct {
 	Expected   []string  `json:"expected"`
 	Step       int       `json:"step"`
 	NextReview time.Time `json:"nextReview"`
+	Retry      bool      `json:"retry"`     // dit was een oefenherhaling
+	WillRetry  bool      `json:"willRetry"` // het concept komt aan het eind van de run nog een keer
 }
 
-// Result is één beantwoord concept binnen de huidige run
+// Result is één beantwoord concept binnen de huidige run; Correct gaat over de eerste poging
 type Result struct {
-	Prompt   string   `json:"prompt"`
-	Input    string   `json:"input"`
-	Expected []string `json:"expected"`
-	Correct  bool     `json:"correct"`
+	Prompt       string   `json:"prompt"`
+	Input        string   `json:"input"`
+	Expected     []string `json:"expected"`
+	Correct      bool     `json:"correct"`
+	Retries      int      `json:"retries"`      // aantal oefenherhalingen
+	RetryCorrect bool     `json:"retryCorrect"` // bij een herhaling alsnog goed
+}
+
+// runItem is één vraag in de run; retry > 0 betekent een oefenherhaling
+type runItem struct {
+	concept int // index in concepts, zodat updates direct in de hoofdlijst landen
+	retry   int
+	result  int // index in results (alleen voor herhalingen)
 }
 
 // Stats geeft een overzicht van alle concepten
@@ -53,7 +69,7 @@ type Session struct {
 	words        map[string]storage.Word
 	concepts     []storage.TranslationConcept
 	idIndex      map[string]int // concept-ID -> index in concepts
-	run          []int          // indices in concepts, zodat updates direct in de hoofdlijst landen
+	run          []runItem
 	pos          int
 	feedback     *Feedback // gevuld zodra het huidige concept beantwoord is
 	results      []Result
@@ -91,7 +107,8 @@ func (s *Session) Current() *Card {
 	if s.Done() {
 		return nil
 	}
-	c := s.concepts[s.run[s.pos]]
+	item := s.run[s.pos]
+	c := s.concepts[item.concept]
 	card := &Card{
 		ID:       c.ID,
 		Prompt:   s.words[c.SourceWordID].Text,
@@ -100,6 +117,7 @@ func (s *Session) Current() *Card {
 		Step:     c.StepIndex,
 		Position: s.pos + 1,
 		RunSize:  len(s.run),
+		Retry:    item.retry > 0,
 	}
 	if len(c.TargetWordIDs) > 0 {
 		card.To = s.words[c.TargetWordIDs[0]].Language
@@ -107,7 +125,9 @@ func (s *Session) Current() *Card {
 	return card
 }
 
-// Answer kijkt het antwoord op het huidige concept na, werkt de voortgang bij en slaat die op.
+// Answer kijkt het antwoord op het huidige concept na.
+// Bij een eerste poging wordt de voortgang bijgewerkt en opgeslagen; bij een oefenherhaling niet.
+// Een fout antwoord zet het concept (maximaal MaxRetries keer) achteraan de run.
 // Geeft nil terug als er niets na te kijken valt (run klaar, of al beantwoord).
 // Een fout betekent dat opslaan mislukte; de voortgang is in het geheugen wel bijgewerkt.
 func (s *Session) Answer(input string) (*Feedback, error) {
@@ -115,10 +135,32 @@ func (s *Session) Answer(input string) (*Feedback, error) {
 		return nil, nil
 	}
 
-	concept := &s.concepts[s.run[s.pos]]
+	item := s.run[s.pos]
+	concept := &s.concepts[item.concept]
 	expected := s.targetTexts(concept)
 	correct, accentOnly := engine.CheckAnswer(input, expected)
-	engine.UpdateProgressSmart(concept, correct)
+
+	var saveErr error
+	if item.retry == 0 {
+		engine.UpdateProgressSmart(concept, correct)
+		saveErr = s.Save()
+		item.result = len(s.results)
+		s.results = append(s.results, Result{
+			Prompt:   s.words[concept.SourceWordID].Text,
+			Input:    input,
+			Expected: expected,
+			Correct:  correct,
+		})
+	} else {
+		r := &s.results[item.result]
+		r.Retries = item.retry
+		r.RetryCorrect = correct
+	}
+
+	willRetry := !correct && item.retry < MaxRetries
+	if willRetry {
+		s.run = append(s.run, runItem{concept: item.concept, retry: item.retry + 1, result: item.result})
+	}
 
 	s.feedback = &Feedback{
 		Correct:    correct,
@@ -127,14 +169,10 @@ func (s *Session) Answer(input string) (*Feedback, error) {
 		Expected:   expected,
 		Step:       concept.StepIndex,
 		NextReview: concept.NextReview,
+		Retry:      item.retry > 0,
+		WillRetry:  willRetry,
 	}
-	s.results = append(s.results, Result{
-		Prompt:   s.words[concept.SourceWordID].Text,
-		Input:    input,
-		Expected: expected,
-		Correct:  correct,
-	})
-	return s.feedback, s.Save()
+	return s.feedback, saveErr
 }
 
 // Next gaat naar het volgende concept; kan alleen nadat het huidige beantwoord is
@@ -183,7 +221,7 @@ func (s *Session) startRun() {
 	chunk, _ := engine.GetNextChunk(s.concepts, s.runSize)
 	s.run = s.run[:0]
 	for _, c := range chunk {
-		s.run = append(s.run, s.idIndex[c.ID])
+		s.run = append(s.run, runItem{concept: s.idIndex[c.ID]})
 	}
 	s.pos = 0
 	s.feedback = nil

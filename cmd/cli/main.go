@@ -111,6 +111,16 @@ func (m model) View() string {
 				}
 			}
 			fmt.Fprintf(&b, "🎉 Run voltooid! Score: %d / %d\n", good, len(results))
+			for _, r := range results {
+				if r.Retries == 0 {
+					continue
+				}
+				if r.RetryCorrect {
+					fmt.Fprintf(&b, "   ↻ %s: fout, goed bij herhaling %d\n", r.Prompt, r.Retries)
+				} else {
+					fmt.Fprintf(&b, "   ↻ %s: ook bij %d herhaling(en) fout (%s)\n", r.Prompt, r.Retries, strings.Join(r.Expected, ", "))
+				}
+			}
 			fmt.Fprintf(&b, "👉 Er staan nog %d woorden te wachten in de database.\n", stats.Due)
 		}
 		if stats.Due == 0 && stats.NextDue != nil {
@@ -121,11 +131,14 @@ func (m model) View() string {
 	}
 
 	card := m.session.Current()
-	interval := fmt.Sprintf("%d dagen", engine.AnkiIntervals[card.Step])
+	interval := fmt.Sprintf("Interval: %d dagen", engine.AnkiIntervals[card.Step])
 	if engine.AnkiIntervals[card.Step] == 1 {
-		interval = "1 dag"
+		interval = "Interval: 1 dag"
 	}
-	fmt.Fprintf(&b, "Vraag %d van de %d uit deze run [Interval: %s]\n", card.Position, card.RunSize, interval)
+	if card.Retry {
+		interval = "↻ herhaling, telt niet mee voor de planning"
+	}
+	fmt.Fprintf(&b, "Vraag %d van de %d uit deze run [%s]\n", card.Position, card.RunSize, interval)
 	if card.Context != "" {
 		fmt.Fprintf(&b, "Context: %s\n", card.Context)
 	}
@@ -147,7 +160,11 @@ func (m model) View() string {
 			b.WriteString("💡 Bijna! Alleen de accenten kloppen niet.\n")
 		}
 	}
-	fmt.Fprintf(&b, "Volgende herhaling: %s\n\n", relative(fb.NextReview))
+	fmt.Fprintf(&b, "Volgende herhaling: %s\n", relative(fb.NextReview))
+	if fb.WillRetry {
+		b.WriteString("↻ Je krijgt dit woord aan het eind van de ronde nog een keer.\n")
+	}
+	b.WriteString("\n")
 	b.WriteString("[Druk op ENTER voor het volgende woord]\n")
 	return b.String()
 }

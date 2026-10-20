@@ -125,3 +125,82 @@ func TestStats(t *testing.T) {
 		t.Error("verwacht een volgende herhaling")
 	}
 }
+
+func TestWrongAnswerIsRetriedAtEndOfRun(t *testing.T) {
+	s, _ := newTestSession(t)
+	first := s.Current().ID
+
+	fb, _ := s.Answer("fout")
+	if !fb.WillRetry || s.Current().RunSize != 3 {
+		t.Fatalf("verwacht dat het concept achteraan de run komt, kreeg %+v", fb)
+	}
+	s.Next()
+	if s.Current().ID == first || s.Current().Retry {
+		t.Error("de herhaling mag niet direct na de fout komen")
+	}
+	s.Answer("víz")
+	s.Next()
+
+	card := s.Current()
+	if card.ID != first || !card.Retry || card.Position != 3 {
+		t.Errorf("verwacht de herhaling van %s op positie 3, kreeg %+v", first, card)
+	}
+}
+
+func TestRetryDoesNotChangeSchedule(t *testing.T) {
+	s, _ := newTestSession(t)
+	s.Answer("fout") // koffie: reset naar stap 0, morgen weer
+	s.Next()
+	s.Answer("víz")
+	s.Next()
+
+	before := s.concepts[s.run[s.pos].concept]
+	fb, err := s.Answer("kávé")
+	if err != nil {
+		t.Fatal(err)
+	}
+	after := s.concepts[s.run[s.pos].concept]
+	if !fb.Correct || !fb.Retry || fb.WillRetry {
+		t.Errorf("verwacht een goede herhaling zonder nieuwe herhaling, kreeg %+v", fb)
+	}
+	if after.StepIndex != 0 || !after.NextReview.Equal(before.NextReview) {
+		t.Errorf("herhaling mag de planning niet veranderen: voor %+v, na %+v", before, after)
+	}
+
+	r := s.Results()[0]
+	if r.Correct || r.Retries != 1 || !r.RetryCorrect {
+		t.Errorf("verwacht: eerste poging fout, 1 herhaling, alsnog goed; kreeg %+v", r)
+	}
+	if len(s.Results()) != 2 {
+		t.Errorf("herhalingen mogen geen extra resultaten toevoegen, kreeg %d", len(s.Results()))
+	}
+}
+
+func TestRetriesAreCapped(t *testing.T) {
+	s, _ := newTestSession(t)
+	answers := 0
+	for !s.Done() {
+		s.Answer("fout")
+		s.Next()
+		answers++
+	}
+	// 2 concepten x (1 poging + MaxRetries herhalingen)
+	if want := 2 * (1 + MaxRetries); answers != want {
+		t.Errorf("verwacht %d vragen, kreeg %d", want, answers)
+	}
+	for _, r := range s.Results() {
+		if r.Retries != MaxRetries || r.RetryCorrect {
+			t.Errorf("verwacht %d mislukte herhalingen, kreeg %+v", MaxRetries, r)
+		}
+	}
+}
+
+func TestCorrectAnswerIsNotRetried(t *testing.T) {
+	s, _ := newTestSession(t)
+	if fb, _ := s.Answer("kávé"); fb.WillRetry {
+		t.Error("een goed antwoord mag niet herhaald worden")
+	}
+	if s.Current().RunSize != 2 {
+		t.Errorf("run mag niet groeien, kreeg %d", s.Current().RunSize)
+	}
+}
