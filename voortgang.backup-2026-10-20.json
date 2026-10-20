@@ -1,0 +1,210 @@
+{
+  "c_1": {
+    "step_index": 1,
+    "next_review": "2026-10-22T23:06:07.035001245+02:00"
+  },
+  "c_10": {
+    "step_index": 2,
+    "next_review": "2026-10-24T22:00:58.917919657+02:00"
+  },
+  "c_11": {
+    "step_index": 2,
+    "next_review": "2026-10-24T21:59:35.966081359+02:00"
+  },
+  "c_12": {
+    "step_index": 2,
+    "next_review": "2026-10-24T22:01:54.089440084+02:00"
+  },
+  "c_13": {
+    "step_index": 2,
+    "next_review": "2026-10-24T22:02:23.905954957+02:00"
+  },
+  "c_14": {
+    "step_index": 2,
+    "next_review": "2026-10-25T22:02:30.049979658+01:00"
+  },
+  "c_15": {
+    "step_index": 2,
+    "next_review": "2026-10-21T21:12:24.261503285+02:00"
+  },
+  "c_16": {
+    "step_index": 0,
+    "next_review": "2026-10-20T23:06:38.718083011+02:00"
+  },
+  "c_17": {
+    "step_index": 2,
+    "next_review": "2026-10-24T21:59:29.222554844+02:00"
+  },
+  "c_18": {
+    "step_index": 2,
+    "next_review": "2026-10-24T22:02:46.108824747+02:00"
+  },
+  "c_19": {
+    "step_index": 2,
+    "next_review": "2026-10-24T22:02:51.946803476+02:00"
+  },
+  "c_2": {
+    "step_index": 2,
+    "next_review": "2026-10-24T22:00:00.263225059+02:00"
+  },
+  "c_20": {
+    "step_index": 2,
+    "next_review": "2026-10-23T22:03:00.511167634+02:00"
+  },
+  "c_21": {
+    "step_index": 2,
+    "next_review": "2026-10-24T21:59:33.033292941+02:00"
+  },
+  "c_22": {
+    "step_index": 2,
+    "next_review": "2026-10-24T22:03:05.235469599+02:00"
+  },
+  "c_23": {
+    "step_index": 2,
+    "next_review": "2026-10-23T22:03:10.925093921+02:00"
+  },
+  "c_24": {
+    "step_index": 2,
+    "next_review": "2026-10-24T22:03:15.679900606+02:00"
+  },
+  "c_25": {
+    "step_index": 2,
+    "next_review": "2026-10-24T22:03:21.868530602+02:00"
+  },
+  "c_26": {
+    "step_index": 1,
+    "next_review": "2026-10-22T23:06:58.740352961+02:00"
+  },
+  "c_27": {
+    "step_index": 1,
+    "next_review": "2026-10-22T23:07:05.874167887+02:00"
+  },
+  "c_28": {
+    "step_index": 2,
+    "next_review": "2026-10-25T22:03:31.555684582+01:00"
+  },
+  "c_3": {
+    "step_index": 2,
+    "next_review": "2026-10-24T22:00:06.404898719+02:00"
+  },
+  "c_4": {
+    "step_index": 2,
+    "next_review": "2026-10-25T22:00:14.378333794+01:00"
+  },
+  "c_5": {
+    "step_index": 2,
+    "next_review": "2026-10-24T22:00:31.323230269+02:00"
+  },
+  "c_6": {
+    "step_index": 2,
+    "next_review": "2026-10-24T22:00:44.586856178+02:00"
+  },
+  "c_7": {
+    "step_index": 1,
+    "next_review": "2026-10-22T23:06:23.259294483+02:00"
+  },
+  "c_8": {
+    "step_index": 2,
+    "next_review": "2026-10-24T22:00:47.042349282+02:00"
+  },
+  "c_9": {
+    "step_index": 2,
+    "next_review": "2026-10-25T22:00:49.174228044+01:00"
+  },
+  "c_hu_nl_beszélni": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:59:24.611324728+02:00"
+  },
+  "c_hu_nl_forró": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:54:18.859912788+02:00"
+  },
+  "c_hu_nl_hő": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:55:57.569455029+02:00"
+  },
+  "c_hu_nl_hőmérséklet": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:54:07.033558574+02:00"
+  },
+  "c_hu_nl_idő": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:58:29.084483037+02:00"
+  },
+  "c_hu_nl_kedvenc": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:54:11.624144915+02:00"
+  },
+  "c_hu_nl_meleg": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:54:47.517789961+02:00"
+  },
+  "c_hu_nl_melyik": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:59:01.057044057+02:00"
+  },
+  "c_hu_nl_milyen": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:59:14.610034241+02:00"
+  },
+  "c_hu_nl_mérséklet": {
+    "step_index": 1,
+    "next_review": "2026-10-22T23:07:40.604708103+02:00"
+  },
+  "c_hu_nl_normális": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:53:47.525200717+02:00"
+  },
+  "c_hu_nl_szobahőmérséklet": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:55:21.447866093+02:00"
+  },
+  "c_nl_hu_favoriet": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:54:15.666237173+02:00"
+  },
+  "c_nl_hu_heet": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:54:31.88091265+02:00"
+  },
+  "c_nl_hu_kamertemperatuur": {
+    "step_index": 0,
+    "next_review": "2026-10-20T23:08:07.086279768+02:00"
+  },
+  "c_nl_hu_mate": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:55:50.554221953+02:00"
+  },
+  "c_nl_hu_normaal": {
+    "step_index": 1,
+    "next_review": "2026-10-22T23:07:12.635310601+02:00"
+  },
+  "c_nl_hu_praten": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:58:49.983302803+02:00"
+  },
+  "c_nl_hu_temperatuur": {
+    "step_index": 0,
+    "next_review": "2026-10-20T23:07:25.008991914+02:00"
+  },
+  "c_nl_hu_warm": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:54:51.125254133+02:00"
+  },
+  "c_nl_hu_warmte": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:56:08.578382467+02:00"
+  },
+  "c_nl_hu_wat_voor": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:59:20.762791548+02:00"
+  },
+  "c_nl_hu_weer": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:58:55.614175524+02:00"
+  },
+  "c_nl_hu_welke": {
+    "step_index": 1,
+    "next_review": "2026-10-20T21:59:05.024581245+02:00"
+  }
+}

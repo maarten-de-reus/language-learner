@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Magyar · Woordtrainer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="top">
+      <div class="brand">
+        <span class="flag" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div>
+          <h1>Magyar</h1>
+          <p>Woordtrainer · Nederlands ↔ Hongaars</p>
+        </div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><span class="kpi-value" id="kpi-due">–</span><span class="kpi-label">te herhalen</span></div>
+        <div class="kpi"><span class="kpi-value" id="kpi-total">–</span><span class="kpi-label">concepten</span></div>
+      </div>
+    </header>
+
+    <section class="steps" aria-labelledby="steps-title">
+      <div class="steps-head">
+        <h2 id="steps-title">Voortgang per stap</h2>
+        <span class="muted" id="steps-hint">interval tot de volgende herhaling</span>
+      </div>
+      <div class="steps-bar" id="steps-bar" role="img"></div>
+      <ul class="steps-legend" id="steps-legend"></ul>
+      <div class="tooltip" id="tooltip" hidden></div>
+    </section>
+
+    <main id="app" class="stage" aria-live="polite"></main>
+
+    <p class="error" id="error" hidden></p>
+
+    <footer class="foot muted">
+      <kbd>Enter</kbd> controleren / volgende
+    </footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
