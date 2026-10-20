@@ -1,4 +1,4 @@
-// Package quiz bevat de oefensessie die door alle frontends (CLI, web) gedeeld wordt:
+// Package quiz bevat de oefensessie van de web-interface:
 // een run van te herhalen concepten, antwoorden nakijken, voortgang bijwerken en opslaan.
 package quiz
 
