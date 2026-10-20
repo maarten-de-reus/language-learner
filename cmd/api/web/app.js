@@ -17,12 +17,23 @@ let renderedCardId = null;
 const esc = (s) =>
   String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
+// Een herhaaldag begint om 04:00, net als op de server (engine.DayStartHour)
+const DAY_START_HOUR = 4;
+
+// relative toont wanneer een herhaling is, in herhaaldagen: "morgen", "over 3 dagen".
+// Binnen dezelfde herhaaldag in uren of minuten.
 function relative(iso) {
-  const min = (new Date(iso) - Date.now()) / 60000;
-  if (Math.abs(min) < 60) return rtf.format(Math.round(min), "minute");
-  const h = min / 60;
-  if (Math.abs(h) < 20) return rtf.format(Math.round(h), "hour");
-  return rtf.format(Math.round(h / 24), "day");
+  const t = new Date(iso);
+  const ms = t - Date.now();
+  if (ms <= 0) return "nu";
+  const reviewDay = (d) => {
+    const shifted = new Date(d.getTime() - DAY_START_HOUR * 3600000);
+    return Date.UTC(shifted.getFullYear(), shifted.getMonth(), shifted.getDate());
+  };
+  const days = Math.round((reviewDay(t) - reviewDay(new Date())) / 86400000);
+  if (days > 0) return rtf.format(days, "day");
+  if (ms < 3600000) return rtf.format(Math.max(1, Math.round(ms / 60000)), "minute");
+  return rtf.format(Math.round(ms / 3600000), "hour");
 }
 
 // highlight markeert de woorden in een (ge-escapete) voorbeeldzin, hoofdletterongevoelig

@@ -113,3 +113,47 @@ func TestNotDueIsExcluded(t *testing.T) {
 		t.Error("concept dat nog niet due is mag niet in de run")
 	}
 }
+
+func TestReviewDateUsesDayBoundary(t *testing.T) {
+	ams, err := time.LoadLocation("Europe/Amsterdam")
+	if err != nil {
+		t.Skip("tijdzonedata niet beschikbaar")
+	}
+	at := func(day, hour, minute int) time.Time { return time.Date(2026, 10, day, hour, minute, 0, 0, ams) }
+
+	cases := []struct {
+		name string
+		now  time.Time
+		days int
+		want time.Time
+	}{
+		{"avond oefenen, morgen herhalen: morgenochtend", at(20, 21, 0), 1, at(21, 4, 0)},
+		{"ochtend oefenen, morgen herhalen", at(20, 9, 30), 1, at(21, 4, 0)},
+		{"na middernacht hoort nog bij de vorige dag", at(21, 1, 30), 1, at(21, 4, 0)},
+		{"precies om 04:00 begint de nieuwe dag", at(21, 4, 0), 1, at(22, 4, 0)},
+		{"7 dagen, over de wintertijd heen", at(20, 21, 0), 7, at(27, 4, 0)},
+	}
+	for _, c := range cases {
+		if got := ReviewDate(c.now, c.days); !got.Equal(c.want) {
+			t.Errorf("%s: kreeg %v, verwacht %v", c.name, got, c.want)
+		}
+	}
+}
+
+func TestUpdateProgressSchedulesAtStartOfDay(t *testing.T) {
+	now := time.Date(2026, 10, 20, 21, 15, 0, 0, time.Local)
+	tomorrow := time.Date(2026, 10, 21, DayStartHour, 0, 0, 0, time.Local)
+
+	wrong := storage.TranslationConcept{StepIndex: 3, NextReview: now.Add(-time.Hour)}
+	updateProgress(&wrong, false, now)
+	if wrong.StepIndex != 0 || !wrong.NextReview.Equal(tomorrow) {
+		t.Errorf("fout: verwacht stap 0 en morgen %02d:00, kreeg %+v", DayStartHour, wrong)
+	}
+
+	right := storage.TranslationConcept{StepIndex: 0, NextReview: now.Add(-time.Hour)}
+	updateProgress(&right, true, now)
+	want := time.Date(2026, 10, 23, DayStartHour, 0, 0, 0, time.Local) // stap 1 = 3 dagen
+	if right.StepIndex != 1 || !right.NextReview.Equal(want) {
+		t.Errorf("goed: verwacht stap 1 en %v, kreeg %+v", want, right)
+	}
+}

@@ -22,9 +22,25 @@ const (
 // Rotsvast array in het geheugen voor maximale snelheid (geen slice overhead)
 var AnkiIntervals = [6]int{1, 3, 7, 16, 40, 90}
 
+// DayStartHour is het uur waarop een nieuwe herhaaldag begint (zoals in Anki). Wie om 01:00
+// oefent, zit nog in de vorige dag. Het uur geldt in de tijdzone van de server (TZ).
+const DayStartHour = 4
+
+// ReviewDate geeft het begin van de herhaaldag die `days` dagen na de huidige herhaaldag valt.
+// Zo wordt een woord dat je om 21:00 oefende morgenochtend herhaald, niet pas morgenavond.
+func ReviewDate(now time.Time, days int) time.Time {
+	day := now.Add(-DayStartHour * time.Hour)
+	return time.Date(day.Year(), day.Month(), day.Day()+days, DayStartHour, 0, 0, 0, now.Location())
+}
+
+// clampStep houdt een stap binnen de bekende intervallen, ook bij beschadigde voortgang
+func clampStep(step int) int {
+	return max(0, min(step, len(AnkiIntervals)-1))
+}
+
 // CalculateIntervalWithFuzz berekent de exacte speling op basis van het basis-interval
 func CalculateIntervalWithFuzz(stepIndex int) int {
-	baseDays := AnkiIntervals[stepIndex]
+	baseDays := AnkiIntervals[clampStep(stepIndex)]
 	if baseDays < 7 {
 		return baseDays
 	}
@@ -45,12 +61,16 @@ func CalculateIntervalWithFuzz(stepIndex int) int {
 
 // UpdateProgressSmart verwerkt het antwoord en houdt rekening met vroegtijdig studeren
 func UpdateProgressSmart(concept *storage.TranslationConcept, isCorrect bool) {
-	isEarly := time.Now().Before(concept.NextReview)
+	updateProgress(concept, isCorrect, time.Now())
+}
+
+func updateProgress(concept *storage.TranslationConcept, isCorrect bool, now time.Time) {
+	isEarly := now.Before(concept.NextReview)
 
 	if !isCorrect {
 		// Fout = Altijd harde reset, ook bij vroegtijdig oefenen
 		concept.StepIndex = 0
-		concept.NextReview = time.Now().AddDate(0, 0, 1)
+		concept.NextReview = ReviewDate(now, 1)
 		return
 	}
 
@@ -60,12 +80,8 @@ func UpdateProgressSmart(concept *storage.TranslationConcept, isCorrect bool) {
 	}
 
 	// Normale flow: Verhoog stap indien mogelijk
-	if concept.StepIndex < len(AnkiIntervals)-1 {
-		concept.StepIndex++
-	}
-
-	actualDays := CalculateIntervalWithFuzz(concept.StepIndex)
-	concept.NextReview = time.Now().AddDate(0, 0, actualDays)
+	concept.StepIndex = clampStep(concept.StepIndex + 1)
+	concept.NextReview = ReviewDate(now, CalculateIntervalWithFuzz(concept.StepIndex))
 }
 
 // GetNextChunk haalt de eerstvolgende 'run' op en geeft aan hoeveel er overblijven.
