@@ -142,7 +142,11 @@ func (m model) View() string {
 	if card.Context != "" {
 		fmt.Fprintf(&b, "Context: %s\n", card.Context)
 	}
-	fmt.Fprintf(&b, "Vertaal het woord: '%s'\n\n", card.Prompt)
+	fmt.Fprintf(&b, "Vertaal het woord: '%s'\n", card.Prompt)
+	if card.Example != "" {
+		fmt.Fprintf(&b, "💬 \"%s\"\n", card.Example)
+	}
+	b.WriteString("\n")
 	fmt.Fprintf(&b, "Jouw antwoord: %s", m.userInput)
 
 	fb := m.session.Feedback()
@@ -156,9 +160,19 @@ func (m model) View() string {
 		fmt.Fprintf(&b, "\n\n✅ Correct! Opties: %s.\n", answers)
 	} else {
 		fmt.Fprintf(&b, "\n\n❌ Fout! Het moest zijn: %s.\n", answers)
+		if om := fb.OtherMeaning; om != nil {
+			ctx := ""
+			if om.Context != "" {
+				ctx = " (" + om.Context + ")"
+			}
+			fmt.Fprintf(&b, "💡 Klopt, '%s' kan ook '%s'%s betekenen, maar hier wordt '%s' bedoeld.\n", card.Prompt, om.Answer, ctx, answers)
+		}
 		if fb.AccentOnly {
 			b.WriteString("💡 Bijna! Alleen de accenten kloppen niet.\n")
 		}
+	}
+	if fb.Example != "" && card.Example == "" {
+		fmt.Fprintf(&b, "💬 \"%s\"\n", fb.Example)
 	}
 	fmt.Fprintf(&b, "Volgende herhaling: %s\n", relative(fb.NextReview))
 	if fb.WillRetry {

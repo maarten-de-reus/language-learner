@@ -116,6 +116,8 @@ func SaveWords(wordsFile string, wordsPool map[string]Word, concepts []Translati
 			SourceWordID:  c.SourceWordID,
 			ContextSource: c.ContextSource,
 			TargetWordIDs: c.TargetWordIDs,
+			Example:       c.Example,
+			ExampleLang:   c.ExampleLang,
 		}
 	}
 

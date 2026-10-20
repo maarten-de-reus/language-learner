@@ -19,6 +19,7 @@ type newConcept struct {
 	Dutch     string
 	Context   string   // hint bij NL->HU, bijv. "Meubel"
 	Hungarian []string // geaccepteerde Hongaarse vertalingen; de eerste is de bron van HU->NL
+	Example   string   // optionele Hongaarse voorbeeldzin, voor beide richtingen
 
 	// HU->NL: óf samenvoegen met een bestaand concept met dezelfde betekenis (bijv. ő -> hij/zij),
 	// óf een nieuw concept met een eigen hint die de betekenis aanwijst (bijv. idő -> weer / tijd)
@@ -122,12 +123,18 @@ func addConceptPair(words map[string]storage.Word, concepts []storage.Translatio
 		SourceWordID:  dutchID,
 		ContextSource: nc.Context,
 		TargetWordIDs: huIDs,
+		Example:       nc.Example,
+		ExampleLang:   exampleLang(nc.Example),
 	})
 
 	// --- CONCEPT 2: Hongaars -> Nederlands ---
 	if mergeIdx >= 0 {
-		if !slices.Contains(concepts[mergeIdx].TargetWordIDs, dutchID) {
-			concepts[mergeIdx].TargetWordIDs = append(concepts[mergeIdx].TargetWordIDs, dutchID)
+		merged := &concepts[mergeIdx]
+		if !slices.Contains(merged.TargetWordIDs, dutchID) {
+			merged.TargetWordIDs = append(merged.TargetWordIDs, dutchID)
+		}
+		if merged.Example == "" && nc.Example != "" {
+			merged.Example, merged.ExampleLang = nc.Example, exampleLang(nc.Example)
 		}
 		return concepts, res, nil
 	}
@@ -145,6 +152,8 @@ func addConceptPair(words map[string]storage.Word, concepts []storage.Translatio
 		SourceWordID:  huIDs[0],
 		ContextSource: strings.TrimSpace(nc.ReverseContext),
 		TargetWordIDs: []string{dutchID},
+		Example:       nc.Example,
+		ExampleLang:   exampleLang(nc.Example),
 	})
 	return concepts, res, nil
 }
@@ -183,6 +192,14 @@ func ensureWord(words map[string]storage.Word, lang, text string) string {
 	id := uniqueID("w_"+lang+"_"+safeID(text), func(id string) bool { _, taken := words[id]; return taken })
 	words[id] = storage.Word{ID: id, Language: lang, Text: text}
 	return id
+}
+
+// exampleLang: voorbeeldzinnen zijn in de taal die je leert
+func exampleLang(example string) string {
+	if example == "" {
+		return ""
+	}
+	return "hu"
 }
 
 func safeID(s string) string {

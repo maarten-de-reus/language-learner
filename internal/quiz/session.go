@@ -3,6 +3,7 @@
 package quiz
 
 import (
+	"strings"
 	"time"
 
 	"hungarian-language-learner/internal/engine"
@@ -23,7 +24,8 @@ type Card struct {
 	Step     int    `json:"step"`
 	Position int    `json:"position"`
 	RunSize  int    `json:"runSize"`
-	Retry    bool   `json:"retry"` // oefenherhaling binnen de run, telt niet mee voor de planning
+	Retry    bool   `json:"retry"`             // oefenherhaling binnen de run, telt niet mee voor de planning
+	Example  string `json:"example,omitempty"` // alleen als de zin in de taal van de vraag is en dus het antwoord niet verraadt
 }
 
 // Feedback is de uitslag van het laatst gegeven antwoord
@@ -36,6 +38,16 @@ type Feedback struct {
 	NextReview time.Time `json:"nextReview"`
 	Retry      bool      `json:"retry"`     // dit was een oefenherhaling
 	WillRetry  bool      `json:"willRetry"` // het concept komt aan het eind van de run nog een keer
+	Example    string    `json:"example,omitempty"`
+	// OtherMeaning is gevuld als het antwoord een goede vertaling is van een ándere betekenis
+	// van hetzelfde woord (bijv. idő -> "tijd" terwijl "weer" bedoeld is). Het telt als fout.
+	OtherMeaning *OtherMeaning `json:"otherMeaning,omitempty"`
+}
+
+// OtherMeaning beschrijft de andere betekenis waar het antwoord bij hoort
+type OtherMeaning struct {
+	Answer  string `json:"answer"`
+	Context string `json:"context"`
 }
 
 // Result is één beantwoord concept binnen de huidige run; Correct gaat over de eerste poging
@@ -119,6 +131,9 @@ func (s *Session) Current() *Card {
 		RunSize:  len(s.run),
 		Retry:    item.retry > 0,
 	}
+	if c.Example != "" && c.ExampleLang == card.From {
+		card.Example = c.Example
+	}
 	if len(c.TargetWordIDs) > 0 {
 		card.To = s.words[c.TargetWordIDs[0]].Language
 	}
@@ -171,8 +186,29 @@ func (s *Session) Answer(input string) (*Feedback, error) {
 		NextReview: concept.NextReview,
 		Retry:      item.retry > 0,
 		WillRetry:  willRetry,
+		Example:    concept.Example,
+	}
+	if !correct {
+		s.feedback.OtherMeaning = s.otherMeaning(item.concept, input)
 	}
 	return s.feedback, saveErr
+}
+
+// otherMeaning zoekt een ander concept met hetzelfde bronwoord (taal + tekst, niet het ID)
+// waarvoor de invoer wél het goede antwoord is
+func (s *Session) otherMeaning(idx int, input string) *OtherMeaning {
+	src := s.words[s.concepts[idx].SourceWordID]
+	for i, c := range s.concepts {
+		other := s.words[c.SourceWordID]
+		if i == idx || other.Language != src.Language || !strings.EqualFold(strings.TrimSpace(other.Text), strings.TrimSpace(src.Text)) {
+			continue
+		}
+		targets := s.targetTexts(&c)
+		if ok, _ := engine.CheckAnswer(input, targets); ok {
+			return &OtherMeaning{Answer: strings.Join(targets, ", "), Context: c.ContextSource}
+		}
+	}
+	return nil
 }
 
 // Next gaat naar het volgende concept; kan alleen nadat het huidige beantwoord is

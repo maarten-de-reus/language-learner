@@ -103,3 +103,20 @@ func TestSaveWordsSortedByID(t *testing.T) {
 		}
 	}
 }
+
+func TestSaveWordsKeepsExample(t *testing.T) {
+	dir := t.TempDir()
+	path := filepath.Join(dir, "woorden.json")
+	concepts := []TranslationConcept{{ID: "c_1", Example: "Milyen az idő?", ExampleLang: "hu", StepIndex: 3}}
+
+	if err := SaveWords(path, map[string]Word{}, concepts); err != nil {
+		t.Fatal(err)
+	}
+	_, loaded, err := LoadData(path, filepath.Join(dir, "voortgang.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if loaded[0].Example != "Milyen az idő?" || loaded[0].ExampleLang != "hu" {
+		t.Errorf("voorbeeldzin niet bewaard: %+v", loaded[0])
+	}
+}

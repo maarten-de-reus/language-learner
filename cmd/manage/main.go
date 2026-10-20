@@ -73,6 +73,9 @@ func main() {
 			}
 			askReverse(reader, wordsPool, conceptsDB, &nc)
 
+			fmt.Printf("Voorbeeldzin in het Hongaars met '%s' erin (optioneel, Enter = overslaan): ", nc.Hungarian[0])
+			nc.Example, _ = readLine(reader)
+
 			var res addResult
 			conceptsDB, res, err = addConceptPair(wordsPool, conceptsDB, nc)
 			if err != nil {
@@ -83,6 +86,9 @@ func main() {
 
 			fmt.Printf("🎉 Toegevoegd:\n")
 			fmt.Printf("   👉 🇳🇱 ➔ 🇭🇺 : '%s'%s ➔ %s\n", nc.Dutch, hintSuffix(nc.Context), strings.Join(nc.Hungarian, ", "))
+			if nc.Example != "" {
+				fmt.Printf("   💬 %s\n", nc.Example)
+			}
 			if res.ReverseMerged {
 				fmt.Printf("   👉 🇭🇺 ➔ 🇳🇱 : '%s' bestond al, '%s' is toegevoegd als extra goed antwoord\n", res.ReverseSource, nc.Dutch)
 			} else {

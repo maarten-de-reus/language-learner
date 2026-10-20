@@ -25,6 +25,17 @@ function relative(iso) {
   return rtf.format(Math.round(h / 24), "day");
 }
 
+// highlight markeert de woorden in een (ge-escapete) voorbeeldzin, hoofdletterongevoelig
+function highlight(sentence, words) {
+  let html = esc(sentence);
+  for (const w of words) {
+    if (!w || !w.trim()) continue;
+    const re = new RegExp(esc(w.trim()).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "giu");
+    html = html.replace(re, (m) => `<mark>${m}</mark>`);
+  }
+  return html;
+}
+
 const days = (n) => (n === 1 ? "1 dag" : `${n} dagen`);
 
 async function call(path, body) {
@@ -113,6 +124,7 @@ function renderCard(card) {
 
       <p class="prompt-label">Vertaal</p>
       <h2 class="prompt">${esc(card.prompt)}</h2>
+      ${card.example ? `<p class="example" lang="${esc(card.from)}">“${highlight(card.example, [card.prompt])}”</p>` : ""}
 
       <form id="answer-form" autocomplete="off">
         <div class="answer-row">
@@ -191,6 +203,10 @@ function renderFeedback(fb) {
           ? (fb.expected.length > 1 ? `<p>Ook goed: ${answers}</p>` : "")
           : `<p>Het juiste antwoord: ${answers}</p>`}
         <p>Volgende herhaling ${esc(relative(fb.nextReview))} · interval ${days(state.stats.intervals[fb.step])}</p>
+        ${fb.otherMeaning ? `<p class="hint">Klopt, <b>${esc(state.card.prompt)}</b> kan ook
+          ‘${esc(fb.otherMeaning.answer)}’ betekenen${fb.otherMeaning.context ? ` (${esc(fb.otherMeaning.context)})` : ""},
+          maar hier wordt ‘${esc(fb.expected.join(", "))}’ bedoeld.</p>` : ""}
+        ${fb.example ? `<p class="example">“${highlight(fb.example, [state.card.prompt, ...fb.expected])}”</p>` : ""}
         ${fb.willRetry ? `<p>Je krijgt dit woord aan het eind van de ronde nog een keer.</p>` : ""}
         ${fb.accentOnly ? `<span class="hint">Bijna! Alleen de accenten kloppen niet.</span>` : ""}
       </div>

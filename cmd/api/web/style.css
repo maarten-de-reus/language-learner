@@ -191,6 +191,24 @@ body {
   overflow-wrap: anywhere;
 }
 
+.card .example {
+  margin: -10px 0 22px;
+  font-size: 17px;
+  font-style: italic;
+  color: var(--text-2);
+}
+.feedback .example { margin-top: 6px; font-style: italic; }
+.example mark {
+  background: none;
+  color: var(--text);
+  font-weight: 650;
+  font-style: normal;
+  text-decoration: underline;
+  text-decoration-color: var(--focus);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.feedback p.hint { display: block; }
 .answer-row { display: flex; gap: 8px; }
 .answer-input {
   flex: 1; min-width: 0;

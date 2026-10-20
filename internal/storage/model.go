@@ -18,9 +18,11 @@ type Word struct {
 // TranslationConcept is de 'lijm' die per leerrichting wordt aangemaakt
 type TranslationConcept struct {
 	ID            string    `json:"id"`
-	SourceWordID  string    `json:"source_word_id"` // Verwijst naar bijv. "bank" (NL)
-	ContextSource string    `json:"context_source"` // Context in taal van de bron: "Zitmeubilair"
-	TargetWordIDs []string  `json:"target_word_ids"` // Slice van geaccepteerde synoniem-IDs ["w_pad", "w_kanape"]
+	SourceWordID  string    `json:"source_word_id"`         // Verwijst naar bijv. "bank" (NL)
+	ContextSource string    `json:"context_source"`         // Context in taal van de bron: "Zitmeubilair"
+	TargetWordIDs []string  `json:"target_word_ids"`        // Slice van geaccepteerde synoniem-IDs ["w_pad", "w_kanape"]
+	Example       string    `json:"example,omitempty"`      // Voorbeeldzin, bijv. "Milyen lesz az idő holnap?"
+	ExampleLang   string    `json:"example_lang,omitempty"` // Taal van de voorbeeldzin, bijv. "hu"
 	StepIndex     int       `json:"step_index"`
 	NextReview    time.Time `json:"next_review"`
 }

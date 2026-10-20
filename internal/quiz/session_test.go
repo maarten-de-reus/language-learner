@@ -204,3 +204,63 @@ func TestCorrectAnswerIsNotRetried(t *testing.T) {
 		t.Errorf("run mag niet groeien, kreeg %d", s.Current().RunSize)
 	}
 }
+
+// időData: idő met twee betekenissen (weer / tijd) en een Hongaarse voorbeeldzin
+func időData(t *testing.T) *Session {
+	t.Helper()
+	words := map[string]storage.Word{
+		"w_hu_idő":  {ID: "w_hu_idő", Language: "hu", Text: "idő"},
+		"w_nl_weer": {ID: "w_nl_weer", Language: "nl", Text: "weer"},
+		"w_nl_tijd": {ID: "w_nl_tijd", Language: "nl", Text: "tijd"},
+	}
+	past := time.Now().Add(-time.Hour)
+	concepts := []storage.TranslationConcept{
+		{ID: "c_weer", SourceWordID: "w_hu_idő", ContextSource: "buiten", TargetWordIDs: []string{"w_nl_weer"},
+			Example: "Milyen lesz az idő holnap?", ExampleLang: "hu", StepIndex: 2, NextReview: past},
+		{ID: "c_tijd", SourceWordID: "w_hu_idő", ContextSource: "klok", TargetWordIDs: []string{"w_nl_tijd"},
+			NextReview: time.Now().Add(48 * time.Hour)},
+		{ID: "c_nl_weer", SourceWordID: "w_nl_weer", TargetWordIDs: []string{"w_hu_idő"},
+			Example: "Milyen lesz az idő holnap?", ExampleLang: "hu", StepIndex: 3, NextReview: past},
+	}
+	return New(words, concepts, filepath.Join(t.TempDir(), "voortgang.json"), 10)
+}
+
+func TestOtherMeaningIsWrongWithExplanation(t *testing.T) {
+	s := időData(t)
+	if s.Current().ID != "c_weer" {
+		t.Fatalf("verwacht c_weer eerst, kreeg %s", s.Current().ID)
+	}
+	fb, _ := s.Answer("Tijd")
+	if fb.Correct || fb.Step != 0 {
+		t.Errorf("de andere betekenis moet als fout tellen, kreeg %+v", fb)
+	}
+	if fb.OtherMeaning == nil || fb.OtherMeaning.Answer != "tijd" || fb.OtherMeaning.Context != "klok" {
+		t.Errorf("verwacht uitleg over de betekenis 'tijd (klok)', kreeg %+v", fb.OtherMeaning)
+	}
+}
+
+func TestRandomWrongAnswerHasNoOtherMeaning(t *testing.T) {
+	s := időData(t)
+	if fb, _ := s.Answer("zon"); fb.OtherMeaning != nil {
+		t.Errorf("geen andere betekenis verwacht, kreeg %+v", fb.OtherMeaning)
+	}
+}
+
+func TestExampleShownBeforeOnlyWhenItDoesNotGiveAwayTheAnswer(t *testing.T) {
+	s := időData(t)
+
+	// HU->NL: Hongaarse zin bij een Hongaarse vraag mag vooraf
+	if got := s.Current().Example; got != "Milyen lesz az idő holnap?" {
+		t.Errorf("HU->NL: verwacht de voorbeeldzin op de kaart, kreeg %q", got)
+	}
+	s.Answer("weer")
+	s.Next()
+
+	// NL->HU: de Hongaarse zin bevat het antwoord, dus pas na het antwoorden
+	if card := s.Current(); card.ID != "c_nl_weer" || card.Example != "" {
+		t.Errorf("NL->HU: voorbeeldzin mag niet vooraf getoond worden, kreeg %+v", card)
+	}
+	if fb, _ := s.Answer("idő"); fb.Example != "Milyen lesz az idő holnap?" {
+		t.Errorf("NL->HU: verwacht de voorbeeldzin in de feedback, kreeg %q", fb.Example)
+	}
+}

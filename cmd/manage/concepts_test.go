@@ -207,3 +207,31 @@ func TestGeneratedIDsDoNotCollide(t *testing.T) {
 		t.Errorf("verwacht c_nl_hu_bank_2, kreeg %s", concepts[1].ID)
 	}
 }
+
+func TestExampleStoredOnBothDirections(t *testing.T) {
+	words := map[string]storage.Word{}
+	concepts, _, err := add(t, words, nil, "weer", "buiten", "idő", func(nc *newConcept) {
+		nc.Example = "Milyen lesz az idő holnap?"
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, c := range concepts {
+		if c.Example != "Milyen lesz az idő holnap?" || c.ExampleLang != "hu" {
+			t.Errorf("voorbeeldzin ontbreekt op %s: %+v", c.ID, c)
+		}
+	}
+}
+
+func TestMergeKeepsExistingExample(t *testing.T) {
+	words := map[string]storage.Word{}
+	concepts, _, _ := add(t, words, nil, "hij", "", "ő", func(nc *newConcept) { nc.Example = "Ő a barátom." })
+	revID := concepts[1].ID
+	concepts, _, _ = add(t, words, concepts, "zij", "vrouw", "ő", func(nc *newConcept) {
+		nc.MergeReverseInto = revID
+		nc.Example = "Ő a nővérem."
+	})
+	if got := concepts[indexOf(concepts, revID)].Example; got != "Ő a barátom." {
+		t.Errorf("bestaande voorbeeldzin mag niet overschreven worden, kreeg %q", got)
+	}
+}
