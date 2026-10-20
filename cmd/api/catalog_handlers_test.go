@@ -125,7 +125,8 @@ func TestAddConceptSavesAndIsQuizzable(t *testing.T) {
 	s.session.NewRun()
 	found := false
 	for !s.session.Done() {
-		if strings.HasPrefix(s.session.Current().ID, "c_nl_hu_tijd") {
+		// Beide richtingen zijn nieuw; welke in deze run zit is willekeurig (de andere volgt later)
+		if id := s.session.Current().ID; strings.HasPrefix(id, "c_nl_hu_tijd") || strings.HasPrefix(id, "c_hu_nl_idő_klok") {
 			found = true
 		}
 		s.session.Answer("x")

@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"hungarian-language-learner/internal/engine"
 	"hungarian-language-learner/internal/storage"
 )
 
@@ -22,6 +23,12 @@ func testData() (map[string]storage.Word, []storage.TranslationConcept) {
 		{ID: "c_later", SourceWordID: "w_nl_water", TargetWordIDs: []string{"w_hu_viz"}, NextReview: time.Now().Add(48 * time.Hour)},
 	}
 	return words, concepts
+}
+
+// correctAnswer geeft het goede antwoord op de huidige vraag; de volgorde in een run is willekeurig
+func correctAnswer(s *Session) string {
+	c := s.lib.Concepts[s.run[s.pos].concept]
+	return s.lib.Words[c.TargetWordIDs[0]].Text
 }
 
 func newTestSession(t *testing.T) (*Session, string) {
@@ -45,13 +52,14 @@ func TestRunContainsOnlyDueConcepts(t *testing.T) {
 func TestAnswerUpdatesAndPersistsProgress(t *testing.T) {
 	s, path := newTestSession(t)
 	id := s.Current().ID
+	want := s.Current().Step + 1
 
-	fb, err := s.Answer("kávé")
+	fb, err := s.Answer(correctAnswer(s))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !fb.Correct || fb.Step != 2 {
-		t.Errorf("verwacht correct en stap 2, kreeg %+v", fb)
+	if !fb.Correct || fb.Step != want {
+		t.Errorf("verwacht correct en stap %d, kreeg %+v", want, fb)
 	}
 
 	// De voortgang moet echt in het bestand staan (dit ging eerder mis in de web-frontend)
@@ -64,16 +72,17 @@ func TestAnswerUpdatesAndPersistsProgress(t *testing.T) {
 		t.Fatal(err)
 	}
 	for _, c := range reloaded {
-		if c.ID == id && c.StepIndex != 2 {
-			t.Errorf("opgeslagen stap voor %s: %d, verwacht 2", id, c.StepIndex)
+		if c.ID == id && c.StepIndex != want {
+			t.Errorf("opgeslagen stap voor %s: %d, verwacht %d", id, c.StepIndex, want)
 		}
 	}
 }
 
 func TestAnswerTwiceIsIgnored(t *testing.T) {
 	s, _ := newTestSession(t)
+	answer := correctAnswer(s)
 	s.Answer("fout")
-	if fb, _ := s.Answer("kávé"); fb != nil {
+	if fb, _ := s.Answer(answer); fb != nil {
 		t.Error("tweede antwoord op hetzelfde concept mag niet nagekeken worden")
 	}
 	if len(s.Results()) != 1 || s.Results()[0].Correct {
@@ -83,7 +92,7 @@ func TestAnswerTwiceIsIgnored(t *testing.T) {
 
 func TestAccentOnlyIsWrongWithHint(t *testing.T) {
 	s, _ := newTestSession(t)
-	fb, _ := s.Answer("kave")
+	fb, _ := s.Answer(engine.Fold(correctAnswer(s))) // kávé -> kave, víz -> viz
 	if fb.Correct || !fb.AccentOnly || fb.Step != 0 {
 		t.Errorf("verwacht fout met accent-hint en reset naar stap 0, kreeg %+v", fb)
 	}
@@ -138,7 +147,7 @@ func TestWrongAnswerIsRetriedAtEndOfRun(t *testing.T) {
 	if s.Current().ID == first || s.Current().Retry {
 		t.Error("de herhaling mag niet direct na de fout komen")
 	}
-	s.Answer("víz")
+	s.Answer(correctAnswer(s))
 	s.Next()
 
 	card := s.Current()
@@ -149,13 +158,13 @@ func TestWrongAnswerIsRetriedAtEndOfRun(t *testing.T) {
 
 func TestRetryDoesNotChangeSchedule(t *testing.T) {
 	s, _ := newTestSession(t)
-	s.Answer("fout") // koffie: reset naar stap 0, morgen weer
+	s.Answer("fout") // eerste woord: reset naar stap 0, morgen weer
 	s.Next()
-	s.Answer("víz")
+	s.Answer(correctAnswer(s))
 	s.Next()
 
 	before := s.lib.Concepts[s.run[s.pos].concept]
-	fb, err := s.Answer("kávé")
+	fb, err := s.Answer(correctAnswer(s))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -197,7 +206,7 @@ func TestRetriesAreCapped(t *testing.T) {
 
 func TestCorrectAnswerIsNotRetried(t *testing.T) {
 	s, _ := newTestSession(t)
-	if fb, _ := s.Answer("kávé"); fb.WillRetry {
+	if fb, _ := s.Answer(correctAnswer(s)); fb.WillRetry {
 		t.Error("een goed antwoord mag niet herhaald worden")
 	}
 	if s.Current().RunSize != 2 {
@@ -255,6 +264,11 @@ func TestExampleShownBeforeOnlyWhenItDoesNotGiveAwayTheAnswer(t *testing.T) {
 	}
 	s.Answer("weer")
 	s.Next()
+
+	// Beide richtingen van idő/weer komen nooit in dezelfde run; NL->HU volgt in de volgende run
+	if !s.Done() || !s.NewRun() {
+		t.Fatal("verwacht dat de run klaar is en een nieuwe run start")
+	}
 
 	// NL->HU: de Hongaarse zin bevat het antwoord, dus pas na het antwoorden
 	if card := s.Current(); card.ID != "c_nl_weer" || card.Example != "" {

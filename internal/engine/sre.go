@@ -2,6 +2,7 @@ package engine
 
 import (
 	"math/rand/v2"
+	"slices"
 	"sort"
 	"time"
 
@@ -67,7 +68,10 @@ func UpdateProgressSmart(concept *storage.TranslationConcept, isCorrect bool) {
 	concept.NextReview = time.Now().AddDate(0, 0, actualDays)
 }
 
-// GetNextChunk haalt de eerstvolgende 'run' op en geeft aan hoeveel er overblijven
+// GetNextChunk haalt de eerstvolgende 'run' op en geeft aan hoeveel er overblijven.
+// Laagste stappen (meest kritiek) gaan voor, binnen dezelfde stap in willekeurige volgorde.
+// Twee richtingen van hetzelfde woord komen nooit in dezelfde run: het antwoord van de ene
+// is de vraag van de andere. De tweede richting wacht op een volgende run.
 func GetNextChunk(allConcepts []storage.TranslationConcept, chunkSize int) (currentChunk []storage.TranslationConcept, remainingCount int) {
 	var dueWords []storage.TranslationConcept
 	now := time.Now()
@@ -78,15 +82,27 @@ func GetNextChunk(allConcepts []storage.TranslationConcept, chunkSize int) (curr
 		}
 	}
 
-	// Sorteer: Laagste stappen (meest kritiek) eerst
-	sort.Slice(dueWords, func(i, j int) bool {
+	rand.Shuffle(len(dueWords), func(i, j int) { dueWords[i], dueWords[j] = dueWords[j], dueWords[i] })
+	sort.SliceStable(dueWords, func(i, j int) bool {
 		return dueWords[i].StepIndex < dueWords[j].StepIndex
 	})
 
-	totalDue := len(dueWords)
-	if totalDue <= chunkSize {
-		return dueWords, 0
+	for _, c := range dueWords {
+		if len(currentChunk) == chunkSize {
+			break
+		}
+		if slices.ContainsFunc(currentChunk, func(other storage.TranslationConcept) bool { return reverseOf(c, other) }) {
+			continue
+		}
+		currentChunk = append(currentChunk, c)
 	}
 
-	return dueWords[:chunkSize], totalDue - chunkSize
+	// Ook de volgorde binnen de run husselen, zodat de meest kritieke niet altijd vooraan staan
+	rand.Shuffle(len(currentChunk), func(i, j int) { currentChunk[i], currentChunk[j] = currentChunk[j], currentChunk[i] })
+	return currentChunk, len(dueWords) - len(currentChunk)
+}
+
+// reverseOf is true als de twee concepten elkaars omgekeerde richting zijn (bijv. koffie -> kávé en kávé -> koffie)
+func reverseOf(a, b storage.TranslationConcept) bool {
+	return slices.Contains(a.TargetWordIDs, b.SourceWordID) || slices.Contains(b.TargetWordIDs, a.SourceWordID)
 }
