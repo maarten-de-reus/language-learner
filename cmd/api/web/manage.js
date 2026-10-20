@@ -22,10 +22,11 @@ let lastHuInput = null; // invoerveld waar de accentknoppen in typen
 // ---------- API ----------
 
 async function api(method, path, body) {
-  const res = await fetch(path, {
+  // Alle wijzigingen gaan als JSON: de server weigert andere verzoeken (bescherming tegen CSRF)
+  const res = await fetch(path, method === "GET" ? { method } : {
     method,
-    headers: body === undefined ? {} : { "Content-Type": "application/json" },
-    body: body === undefined ? undefined : JSON.stringify(body),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body ?? {}),
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {

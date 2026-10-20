@@ -39,10 +39,11 @@ function highlight(sentence, words) {
 const days = (n) => (n === 1 ? "1 dag" : `${n} dagen`);
 
 async function call(path, body) {
-  const opts = body === undefined ? { method: path === "/api/state" ? "GET" : "POST" } : {
+  // Alle wijzigingen gaan als JSON: de server weigert andere POSTs (bescherming tegen CSRF)
+  const opts = path === "/api/state" ? { method: "GET" } : {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
+    body: JSON.stringify(body ?? {}),
   };
   const res = await fetch(path, opts);
   if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
