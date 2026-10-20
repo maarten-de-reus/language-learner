@@ -34,7 +34,7 @@ func LoadData(wordsFile, progressFile string) (map[string]Word, []TranslationCon
 
 	var input InputData
 	if err := json.Unmarshal(wordsData, &input); err != nil {
-		return nil, nil, err
+		return nil, nil, fmt.Errorf("%s is corrupt: %w", wordsFile, err)
 	}
 
 	// Zet de words slice om naar een map voor snelle ID-lookups in de frontend
