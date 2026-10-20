@@ -99,9 +99,26 @@ func (s *server) handleUpdateConcept(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+func (s *server) handleDeleteConcept(w http.ResponseWriter, r *http.Request) {
+	var res catalog.DeleteResult
+	withReverse := r.URL.Query().Get("reverse") == "1"
+	s.mutate(w, http.StatusOK, func() (err error) {
+		res, err = catalog.Delete(s.lib, r.PathValue("id"), withReverse)
+		return err
+	}, func() {
+		// Pas na een geslaagde save: verwijderde concepten uit de lopende run halen
+		// en de voortgang opschonen (voortgang.json bevat dan geen verwijderde concepten meer)
+		s.session.Forget(res.Deleted...)
+		if err := s.session.Save(); err != nil {
+			log.Printf("Voortgang na verwijderen niet opgeslagen: %v", err)
+		}
+	})
+}
+
 // mutate voert een wijziging uit en slaat woorden.json op. Mislukt een van beide,
 // dan wordt de woordenschat in het geheugen teruggezet, zodat geheugen en bestand gelijk blijven.
-func (s *server) mutate(w http.ResponseWriter, okStatus int, change func() error) {
+// onSaved draait alleen als de wijziging is opgeslagen.
+func (s *server) mutate(w http.ResponseWriter, okStatus int, change func() error, onSaved ...func()) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -116,6 +133,9 @@ func (s *server) mutate(w http.ResponseWriter, okStatus int, change func() error
 		log.Printf("Fout bij opslaan woorden: %v", err)
 		writeError(w, http.StatusInternalServerError, errors.New("woorden konden niet worden opgeslagen: "+err.Error()))
 		return
+	}
+	for _, f := range onSaved {
+		f()
 	}
 	writeJSON(w, okStatus, entriesResponse{catalog.Entries(s.lib)})
 }

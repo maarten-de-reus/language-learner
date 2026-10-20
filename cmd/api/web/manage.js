@@ -194,10 +194,30 @@ function editFormHTML(e) {
       ${accentBar()}
       <p class="m-error" hidden></p>
       <div class="m-actions">
+        <button type="button" class="btn danger-ghost" data-delete>Verwijderen…</button>
+        <span class="m-spacer"></span>
         <button type="button" class="btn secondary" data-cancel>Annuleren</button>
         <button type="submit" class="btn">Opslaan</button>
       </div>
+      <div class="m-confirm" hidden>${confirmDeleteHTML(e)}</div>
     </form>`;
+}
+
+// Bevestiging in de pagina zelf; bij een omgekeerde richting kun je kiezen of die ook weg moet
+function confirmDeleteHTML(e) {
+  const reverse = (e.reverse || []).map((id) => view.entries.find((x) => x.id === id)).filter(Boolean);
+  return `
+    <p><b>${esc(e.prompt)}</b>${e.context ? ` (${esc(e.context)})` : ""} → ${esc(e.answers.join(", "))} verwijderen?
+    Je voortgang voor dit concept gaat ook verloren.</p>
+    ${reverse.length ? `<label class="m-radio">
+      <input type="checkbox" id="d-reverse" checked>
+      <span>Ook de andere richting: ${reverse.map((r) => `<b>${esc(r.prompt)}</b> → ${esc(r.answers.join(", "))}`).join("; ")}
+      <small class="muted">Hoort die ook bij andere woorden, dan gaat alleen „${esc(e.prompt)}” eruit als antwoord.</small></span>
+    </label>` : ""}
+    <div class="m-actions">
+      <button type="button" class="btn secondary" data-delete-cancel>Toch niet</button>
+      <button type="button" class="btn danger" data-delete-confirm>Verwijderen</button>
+    </div>`;
 }
 
 function newFormHTML() {
@@ -280,7 +300,21 @@ function bindManage() {
     }));
 
   const edit = manageEl.querySelector(".m-edit");
-  if (edit) edit.addEventListener("submit", (e) => { e.preventDefault(); saveEdit(edit); });
+  if (edit) {
+    edit.addEventListener("submit", (e) => { e.preventDefault(); saveEdit(edit); });
+    const confirmBox = edit.querySelector(".m-confirm");
+    const actions = edit.querySelector(".m-actions");
+    edit.querySelector("[data-delete]").addEventListener("click", () => {
+      confirmBox.hidden = false;
+      actions.hidden = true;
+      confirmBox.querySelector("[data-delete-confirm]").focus();
+    });
+    confirmBox.querySelector("[data-delete-cancel]").addEventListener("click", () => {
+      confirmBox.hidden = true;
+      actions.hidden = false;
+    });
+    confirmBox.querySelector("[data-delete-confirm]").addEventListener("click", () => deleteConcept(edit));
+  }
 
   const add = document.getElementById("m-new");
   if (add) {
@@ -314,6 +348,22 @@ async function saveEdit(form) {
     view.openId = null;
     flash([id]);
     toast("Opgeslagen");
+  } catch (err) {
+    showError(form, err.message);
+  }
+}
+
+async function deleteConcept(form) {
+  const id = form.dataset.id;
+  const entry = view.entries.find((e) => e.id === id);
+  const withReverse = form.querySelector("#d-reverse")?.checked ?? false;
+  try {
+    const res = await api("DELETE", `/api/concepts/${encodeURIComponent(id)}${withReverse ? "?reverse=1" : ""}`);
+    view.entries = res.entries;
+    view.openId = null;
+    renderManage();
+    toast(`“${entry?.prompt ?? id}” verwijderd`);
+    refreshStats();
   } catch (err) {
     showError(form, err.message);
   }

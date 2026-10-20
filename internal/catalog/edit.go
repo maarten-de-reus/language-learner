@@ -25,7 +25,8 @@ type Entry struct {
 	Context    string    `json:"context"`
 	Answers    []string  `json:"answers"`
 	Example    string    `json:"example,omitempty"`
-	Meanings   int       `json:"meanings"` // aantal concepten met hetzelfde bronwoord en dezelfde richting
+	Meanings   int       `json:"meanings"`          // aantal concepten met hetzelfde bronwoord en dezelfde richting
+	Reverse    []string  `json:"reverse,omitempty"` // ID's van de omgekeerde richting(en), bijv. kávé -> koffie bij koffie -> kávé
 	Step       int       `json:"step"`
 	Interval   int       `json:"interval"` // dagen bij de huidige stap
 	NextReview time.Time `json:"nextReview"`
@@ -50,6 +51,7 @@ func Entries(lib *storage.Library) []Entry {
 			Answers:    TargetTexts(lib, c),
 			Example:    c.Example,
 			Meanings:   meanings[meaningKey(lib, c)],
+			Reverse:    reverseIDs(lib, c),
 			Step:       c.StepIndex,
 			NextReview: c.NextReview,
 		}
@@ -135,4 +137,67 @@ func targetLang(lib *storage.Library, c storage.TranslationConcept) string {
 		return ""
 	}
 	return lib.Words[c.TargetWordIDs[0]].Language
+}
+
+// DeleteResult beschrijft wat Delete heeft gedaan
+type DeleteResult struct {
+	Deleted []string `json:"deleted"` // verwijderde concepten
+	Updated []string `json:"updated"` // omgekeerde concepten waar alleen een antwoord uit is gehaald
+}
+
+// Delete verwijdert een concept, en met withReverse ook de omgekeerde richting.
+// Een omgekeerd concept dat ook bij andere woorden hoort (ő -> hij, zij) wordt niet verwijderd;
+// alleen dit woord gaat eruit als goed antwoord. Woorden die nergens meer gebruikt worden verdwijnen.
+// Verwijderde concepten moeten daarna ook uit de lopende quiz (quiz.Session.Forget).
+func Delete(lib *storage.Library, id string, withReverse bool) (DeleteResult, error) {
+	var res DeleteResult
+	i := lib.Index(id)
+	if i < 0 {
+		return res, ErrNotFound
+	}
+	c := lib.Concepts[i]
+	res.Deleted = append(res.Deleted, id)
+
+	if withReverse {
+		for _, revID := range reverseIDs(lib, c) {
+			r := &lib.Concepts[lib.Index(revID)]
+			if remaining := slices.DeleteFunc(slices.Clone(r.TargetWordIDs), func(w string) bool { return w == c.SourceWordID }); len(remaining) > 0 {
+				r.TargetWordIDs = remaining
+				res.Updated = append(res.Updated, revID)
+			} else {
+				res.Deleted = append(res.Deleted, revID)
+			}
+		}
+	}
+
+	lib.Concepts = slices.DeleteFunc(lib.Concepts, func(x storage.TranslationConcept) bool { return slices.Contains(res.Deleted, x.ID) })
+	removeUnusedWords(lib)
+	return res, nil
+}
+
+// reverseIDs zoekt de concepten die de omgekeerde richting van c zijn: hun bronwoord is een
+// antwoord van c, en het bronwoord van c is een van hun antwoorden
+func reverseIDs(lib *storage.Library, c storage.TranslationConcept) []string {
+	var ids []string
+	for _, o := range lib.Concepts {
+		if o.ID != c.ID && slices.Contains(c.TargetWordIDs, o.SourceWordID) && slices.Contains(o.TargetWordIDs, c.SourceWordID) {
+			ids = append(ids, o.ID)
+		}
+	}
+	return ids
+}
+
+func removeUnusedWords(lib *storage.Library) {
+	used := map[string]bool{}
+	for _, c := range lib.Concepts {
+		used[c.SourceWordID] = true
+		for _, t := range c.TargetWordIDs {
+			used[t] = true
+		}
+	}
+	for id := range lib.Words {
+		if !used[id] {
+			delete(lib.Words, id)
+		}
+	}
 }

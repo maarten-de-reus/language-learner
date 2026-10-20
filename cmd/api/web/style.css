@@ -475,6 +475,18 @@ body.mode-manage .shell { max-width: 820px; }
 .m-error { margin: 0; padding: 8px 12px; border-radius: 10px; background: var(--bad-bg); color: var(--bad); font-size: 14px; }
 .m-actions { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
 .m-actions .btn { min-height: 44px; }
+.m-spacer { flex: 1; }
+.btn.danger { background: var(--bad); color: #fff; }
+.btn.danger-ghost { background: none; color: var(--bad); padding: 0 8px; }
+.btn.danger-ghost:hover { background: var(--bad-bg); opacity: 1; }
+.m-confirm {
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--bad-bg);
+  animation: enter .2s ease;
+}
+.m-confirm p { margin: 0; font-size: 14px; }
 
 /* Toast */
 .toast {

@@ -4,6 +4,7 @@ package quiz
 
 import (
 	"errors"
+	"slices"
 	"strings"
 	"time"
 
@@ -63,9 +64,37 @@ type Result struct {
 
 // runItem is één vraag in de run; retry > 0 betekent een oefenherhaling
 type runItem struct {
-	concept int // index in concepts, zodat updates direct in de hoofdlijst landen
-	retry   int
-	result  int // index in results (alleen voor herhalingen)
+	conceptID string // op ID, niet op positie: posities verschuiven als er een concept verwijderd wordt
+	retry     int
+	result    int // index in results (alleen voor herhalingen)
+}
+
+// conceptOf geeft het concept van een run-item in de gedeelde woordenschat, zodat
+// wijzigingen (voortgang, bewerkingen in het beheer) direct in de hoofdlijst landen
+func (s *Session) conceptOf(item runItem) *storage.TranslationConcept {
+	if i := s.lib.Index(item.conceptID); i >= 0 {
+		return &s.lib.Concepts[i]
+	}
+	return nil
+}
+
+// Forget haalt verwijderde concepten uit de lopende run. Was het huidige concept verwijderd,
+// dan schuift de volgende vraag op zijn plek.
+func (s *Session) Forget(ids ...string) {
+	kept := make([]runItem, 0, len(s.run))
+	pos := s.pos
+	for i, item := range s.run {
+		if !slices.Contains(ids, item.conceptID) {
+			kept = append(kept, item)
+			continue
+		}
+		if i < s.pos {
+			pos--
+		} else if i == s.pos {
+			s.feedback = nil
+		}
+	}
+	s.run, s.pos = kept, pos
 }
 
 // Stats geeft een overzicht van alle concepten
@@ -79,7 +108,7 @@ type Stats struct {
 
 // Session is niet veilig voor gelijktijdig gebruik; de aanroeper zorgt voor locking.
 type Session struct {
-	lib          *storage.Library // gedeeld met het beheer; concepten worden alleen toegevoegd of ter plekke aangepast
+	lib          *storage.Library // gedeeld met het beheer; na verwijderen roept het beheer Forget aan
 	run          []runItem
 	pos          int
 	feedback     *Feedback // gevuld zodra het huidige concept beantwoord is
@@ -116,7 +145,7 @@ func (s *Session) Current() *Card {
 		return nil
 	}
 	item := s.run[s.pos]
-	c := s.lib.Concepts[item.concept]
+	c := s.conceptOf(item)
 	card := &Card{
 		ID:       c.ID,
 		Prompt:   s.lib.Words[c.SourceWordID].Text,
@@ -147,7 +176,7 @@ func (s *Session) Answer(input string) (*Feedback, error) {
 	}
 
 	item := s.run[s.pos]
-	concept := &s.lib.Concepts[item.concept]
+	concept := s.conceptOf(item)
 	expected := s.targetTexts(concept)
 	correct, accentOnly := engine.CheckAnswer(input, expected)
 	stepBefore := concept.StepIndex
@@ -171,7 +200,7 @@ func (s *Session) Answer(input string) (*Feedback, error) {
 
 	willRetry := !correct && item.retry < MaxRetries
 	if willRetry {
-		s.run = append(s.run, runItem{concept: item.concept, retry: item.retry + 1, result: item.result})
+		s.run = append(s.run, runItem{conceptID: item.conceptID, retry: item.retry + 1, result: item.result})
 	}
 
 	s.feedback = &Feedback{
@@ -186,7 +215,7 @@ func (s *Session) Answer(input string) (*Feedback, error) {
 		Example:    concept.Example,
 	}
 	if !correct {
-		s.feedback.OtherMeaning = s.otherMeaning(item.concept, input)
+		s.feedback.OtherMeaning = s.otherMeaning(concept, input)
 	}
 	return s.feedback, errors.Join(saveErr, s.logReview(concept, input, stepBefore))
 }
@@ -213,11 +242,11 @@ func (s *Session) logReview(c *storage.TranslationConcept, input string, stepBef
 
 // otherMeaning zoekt een ander concept met hetzelfde bronwoord (taal + tekst, niet het ID)
 // waarvoor de invoer wél het goede antwoord is
-func (s *Session) otherMeaning(idx int, input string) *OtherMeaning {
-	src := s.lib.Words[s.lib.Concepts[idx].SourceWordID]
-	for i, c := range s.lib.Concepts {
+func (s *Session) otherMeaning(current *storage.TranslationConcept, input string) *OtherMeaning {
+	src := s.lib.Words[current.SourceWordID]
+	for _, c := range s.lib.Concepts {
 		other := s.lib.Words[c.SourceWordID]
-		if i == idx || other.Language != src.Language || !strings.EqualFold(strings.TrimSpace(other.Text), strings.TrimSpace(src.Text)) {
+		if c.ID == current.ID || other.Language != src.Language || !strings.EqualFold(strings.TrimSpace(other.Text), strings.TrimSpace(src.Text)) {
 			continue
 		}
 		targets := s.targetTexts(&c)
@@ -274,7 +303,7 @@ func (s *Session) startRun() {
 	chunk, _ := engine.GetNextChunk(s.lib.Concepts, s.runSize)
 	s.run = s.run[:0]
 	for _, c := range chunk {
-		s.run = append(s.run, runItem{concept: s.lib.Index(c.ID)})
+		s.run = append(s.run, runItem{conceptID: c.ID})
 	}
 	s.pos = 0
 	s.feedback = nil

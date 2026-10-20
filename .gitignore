@@ -1,0 +1,17 @@
+# Build output
+/magyar
+/api
+*.exe
+*.test
+*.out
+
+# One-off scripts (migrations etc.) that should not be committed
+/_*/
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# Editors and OS
+.idea/
+*.swp
+.DS_Store

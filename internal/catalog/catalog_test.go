@@ -336,3 +336,70 @@ func TestUpdateValidation(t *testing.T) {
 		t.Errorf("NL->HU 'weer' mag hint 'klok' hebben (andere richting/bron), kreeg %v", err)
 	}
 }
+
+func TestDeleteSingleDirection(t *testing.T) {
+	lib := newLib()
+	add(t, lib, "koffie", "", "kávé")
+	nlhu, hunl := lib.Concepts[0].ID, lib.Concepts[1].ID
+
+	res, err := Delete(lib, nlhu, false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !slices.Equal(res.Deleted, []string{nlhu}) || len(lib.Concepts) != 1 || lib.Concepts[0].ID != hunl {
+		t.Errorf("alleen %s mag weg, kreeg %+v / %v", nlhu, res, lib.Concepts)
+	}
+	if len(lib.Words) != 2 {
+		t.Error("woorden van de overgebleven richting moeten blijven")
+	}
+}
+
+func TestDeleteWithReverse(t *testing.T) {
+	lib := newLib()
+	add(t, lib, "koffie", "", "kávé")
+	add(t, lib, "thee", "", "tea")
+
+	res, err := Delete(lib, lib.Concepts[0].ID, true)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(res.Deleted) != 2 || len(res.Updated) != 0 || len(lib.Concepts) != 2 {
+		t.Errorf("verwacht beide richtingen van koffie weg, kreeg %+v", res)
+	}
+	if _, ok := lib.Words["w_nl_koffie"]; ok {
+		t.Error("ongebruikte woorden moeten opgeruimd worden")
+	}
+	if _, ok := lib.Words["w_nl_thee"]; !ok {
+		t.Error("woorden van andere concepten moeten blijven")
+	}
+}
+
+// ő -> hij, zij is de omgekeerde richting van zowel hij -> ő als zij -> ő
+func TestDeleteKeepsSharedReverse(t *testing.T) {
+	lib := newLib()
+	add(t, lib, "hij", "man", "ő")
+	shared := lib.Concepts[1].ID
+	add(t, lib, "zij", "vrouw", "ő", func(nc *NewPair) { nc.MergeReverseInto = shared })
+	hij := lib.Concepts[0].ID
+
+	if got := Entries(lib); len(got[0].Reverse) == 0 && len(got[1].Reverse) == 0 {
+		t.Error("Entries moet de omgekeerde richting aangeven")
+	}
+
+	res, err := Delete(lib, hij, true)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !slices.Equal(res.Deleted, []string{hij}) || !slices.Equal(res.Updated, []string{shared}) {
+		t.Errorf("verwacht alleen hij -> ő weg en ő bijgewerkt, kreeg %+v", res)
+	}
+	if got := TargetTexts(lib, concept(t, lib, shared)); !slices.Equal(got, []string{"zij"}) {
+		t.Errorf("ő moet alleen nog 'zij' als antwoord hebben, kreeg %v", got)
+	}
+}
+
+func TestDeleteUnknown(t *testing.T) {
+	if _, err := Delete(newLib(), "bestaat-niet", true); !errors.Is(err, ErrNotFound) {
+		t.Errorf("verwacht ErrNotFound, kreeg %v", err)
+	}
+}

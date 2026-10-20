@@ -177,3 +177,42 @@ func TestFailedSaveRollsBack(t *testing.T) {
 		t.Errorf("geheugen moet teruggezet zijn, kreeg %d concepten / %d woorden", len(s.lib.Concepts), len(s.lib.Words))
 	}
 }
+
+func TestDeleteConceptWithReverse(t *testing.T) {
+	s, h := newTestServer(t)
+	current := s.session.Current().ID
+
+	code, out := call(t, h, "DELETE", "/api/concepts/"+url.PathEscape("c_nl_hu_weer")+"?reverse=1", "{}")
+	if code != http.StatusOK {
+		t.Fatalf("verwacht 200, kreeg %d %s", code, out)
+	}
+	if n := len(entriesFrom(t, out["entries"])); n != 0 {
+		t.Errorf("beide richtingen moeten weg zijn, nog %d over", n)
+	}
+	if savedConcepts(t, s) != 0 {
+		t.Error("woorden.json moet bijgewerkt zijn")
+	}
+	if !s.session.Done() {
+		t.Errorf("het verwijderde concept %s mag niet meer gevraagd worden", current)
+	}
+
+	code, _ = call(t, h, "DELETE", "/api/concepts/c_nl_hu_weer", "{}")
+	if code != http.StatusNotFound {
+		t.Errorf("nogmaals verwijderen: verwacht 404, kreeg %d", code)
+	}
+}
+
+func TestDeleteSingleDirectionKeepsReverseQuizzable(t *testing.T) {
+	s, h := newTestServer(t)
+	code, out := call(t, h, "DELETE", "/api/concepts/c_nl_hu_weer", "{}")
+	if code != http.StatusOK {
+		t.Fatalf("verwacht 200, kreeg %d %s", code, out)
+	}
+	entries := entriesFrom(t, out["entries"])
+	if len(entries) != 1 || entries[0].ID != "c_hu_nl_idő" || len(entries[0].Reverse) != 0 {
+		t.Errorf("alleen idő -> weer moet overblijven, kreeg %+v", entries)
+	}
+	if c := s.session.Current(); c != nil && c.ID == "c_nl_hu_weer" {
+		t.Error("het verwijderde concept mag niet meer gevraagd worden")
+	}
+}

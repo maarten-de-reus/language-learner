@@ -28,7 +28,7 @@ func testData() (map[string]storage.Word, []storage.TranslationConcept) {
 
 // correctAnswer geeft het goede antwoord op de huidige vraag; de volgorde in een run is willekeurig
 func correctAnswer(s *Session) string {
-	c := s.lib.Concepts[s.run[s.pos].concept]
+	c := *s.conceptOf(s.run[s.pos])
 	return s.lib.Words[c.TargetWordIDs[0]].Text
 }
 
@@ -164,12 +164,12 @@ func TestRetryDoesNotChangeSchedule(t *testing.T) {
 	s.Answer(correctAnswer(s))
 	s.Next()
 
-	before := s.lib.Concepts[s.run[s.pos].concept]
+	before := *s.conceptOf(s.run[s.pos])
 	fb, err := s.Answer(correctAnswer(s))
 	if err != nil {
 		t.Fatal(err)
 	}
-	after := s.lib.Concepts[s.run[s.pos].concept]
+	after := *s.conceptOf(s.run[s.pos])
 	if !fb.Correct || !fb.Retry || fb.WillRetry {
 		t.Errorf("verwacht een goede herhaling zonder nieuwe herhaling, kreeg %+v", fb)
 	}
@@ -323,5 +323,28 @@ func TestBrokenLogDoesNotBlockPractice(t *testing.T) {
 	}
 	if _, err := os.Stat(path); err != nil {
 		t.Errorf("de voortgang moet wel opgeslagen zijn: %v", err)
+	}
+}
+
+func TestForgetRemovesDeletedConceptsFromRun(t *testing.T) {
+	s, _ := newTestSession(t)
+	first := s.Current().ID
+	s.Answer("fout") // first komt ook nog terug als oefenherhaling
+	s.Next()
+	second := s.Current().ID
+
+	// Het eerder beantwoorde concept (en zijn herhaling) wordt verwijderd: de huidige vraag blijft
+	s.Forget(first)
+	if s.Current() == nil || s.Current().ID != second || s.Current().Position != 1 || s.Current().RunSize != 1 {
+		t.Fatalf("verwacht %s als enige vraag op positie 1, kreeg %+v", second, s.Current())
+	}
+
+	// Het huidige concept wordt verwijderd: de run is dan klaar
+	s.Forget(second)
+	if !s.Done() || s.Feedback() != nil {
+		t.Errorf("verwacht een afgeronde run zonder feedback, kreeg %+v", s.Current())
+	}
+	if len(s.Results()) != 1 {
+		t.Errorf("resultaten van al gegeven antwoorden blijven bewaard, kreeg %d", len(s.Results()))
 	}
 }

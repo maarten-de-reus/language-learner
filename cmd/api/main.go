@@ -88,5 +88,6 @@ func (s *server) routes() *http.ServeMux {
 	mux.HandleFunc("POST /api/concepts/check", s.handleCheckConcept)
 	mux.HandleFunc("POST /api/concepts", s.handleAddConcept)
 	mux.HandleFunc("PUT /api/concepts/{id}", s.handleUpdateConcept)
+	mux.HandleFunc("DELETE /api/concepts/{id}", s.handleDeleteConcept)
 	return mux
 }
