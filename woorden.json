@@ -1226,6 +1226,897 @@
       ],
       "step_index": 0,
       "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_szia",
+      "source_word_id": "w_hu_1",
+      "context_source": "Groet",
+      "target_word_ids": [
+        "w_nl_1"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_jó_reggelt",
+      "source_word_id": "w_hu_2",
+      "context_source": "Groet (ochtend)",
+      "target_word_ids": [
+        "w_nl_2"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_jó_napot",
+      "source_word_id": "w_hu_3",
+      "context_source": "Groet (overdag)",
+      "target_word_ids": [
+        "w_nl_3"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_jó_estét",
+      "source_word_id": "w_hu_4",
+      "context_source": "Groet (avond)",
+      "target_word_ids": [
+        "w_nl_4"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_jó_éjszakát",
+      "source_word_id": "w_hu_5",
+      "context_source": "Groet (nacht)",
+      "target_word_ids": [
+        "w_nl_5"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_köszönöm",
+      "source_word_id": "w_hu_6",
+      "context_source": "Beleefdheid",
+      "target_word_ids": [
+        "w_nl_6"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_kérem",
+      "source_word_id": "w_hu_7",
+      "context_source": "Beleefdheid",
+      "target_word_ids": [
+        "w_nl_7"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_igen",
+      "source_word_id": "w_hu_8",
+      "context_source": "Antwoord",
+      "target_word_ids": [
+        "w_nl_8"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_nem",
+      "source_word_id": "w_hu_9",
+      "context_source": "Antwoord",
+      "target_word_ids": [
+        "w_nl_9"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_én",
+      "source_word_id": "w_hu_10",
+      "context_source": "Pronomen (1e p. enk.)",
+      "target_word_ids": [
+        "w_nl_10"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_te",
+      "source_word_id": "w_hu_11",
+      "context_source": "Pronomen (2e p. enk. informeel)",
+      "target_word_ids": [
+        "w_nl_11"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_ő",
+      "source_word_id": "w_hu_12",
+      "context_source": "Pronomen (3e p. enk.)",
+      "target_word_ids": [
+        "w_nl_12",
+        "w_nl_12_f"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_mi",
+      "source_word_id": "w_hu_13",
+      "context_source": "Pronomen (1e p. meerv.)",
+      "target_word_ids": [
+        "w_nl_13"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_ti",
+      "source_word_id": "w_hu_14",
+      "context_source": "Pronomen (2e p. meerv.)",
+      "target_word_ids": [
+        "w_nl_14"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_ők",
+      "source_word_id": "w_hu_15",
+      "context_source": "Pronomen (3e p. meerv.)",
+      "target_word_ids": [
+        "w_nl_15"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_egy",
+      "source_word_id": "w_hu_16",
+      "context_source": "Getal",
+      "target_word_ids": [
+        "w_nl_16"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_kettő",
+      "source_word_id": "w_hu_17",
+      "context_source": "Getal",
+      "target_word_ids": [
+        "w_nl_17"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_három",
+      "source_word_id": "w_hu_18",
+      "context_source": "Getal",
+      "target_word_ids": [
+        "w_nl_18"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_négy",
+      "source_word_id": "w_hu_19",
+      "context_source": "Getal",
+      "target_word_ids": [
+        "w_nl_19"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_öt",
+      "source_word_id": "w_hu_20",
+      "context_source": "Getal",
+      "target_word_ids": [
+        "w_nl_20"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_hat",
+      "source_word_id": "w_hu_21",
+      "context_source": "Getal",
+      "target_word_ids": [
+        "w_nl_21"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_hét",
+      "source_word_id": "w_hu_22",
+      "context_source": "Getal",
+      "target_word_ids": [
+        "w_nl_22"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_nyolc",
+      "source_word_id": "w_hu_23",
+      "context_source": "Getal",
+      "target_word_ids": [
+        "w_nl_23"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_kilenc",
+      "source_word_id": "w_hu_24",
+      "context_source": "Getal",
+      "target_word_ids": [
+        "w_nl_24"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_tíz",
+      "source_word_id": "w_hu_25",
+      "context_source": "Getal",
+      "target_word_ids": [
+        "w_nl_25"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_víz",
+      "source_word_id": "w_hu_26",
+      "context_source": "Drank",
+      "target_word_ids": [
+        "w_nl_26"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_kenyér",
+      "source_word_id": "w_hu_27",
+      "context_source": "Voedsel",
+      "target_word_ids": [
+        "w_nl_27"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_koffie",
+      "source_word_id": "w_nl_28",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_28"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_kávé",
+      "source_word_id": "w_hu_28",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_28"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_bier",
+      "source_word_id": "w_nl_29",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_29"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_sör",
+      "source_word_id": "w_hu_29",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_29"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_huis",
+      "source_word_id": "w_nl_30",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_30"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_ház",
+      "source_word_id": "w_hu_30",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_30"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_auto",
+      "source_word_id": "w_nl_31",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_31"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_autó",
+      "source_word_id": "w_hu_31",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_31"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_trein",
+      "source_word_id": "w_nl_32",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_32"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_vonat",
+      "source_word_id": "w_hu_32",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_32"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_winkel",
+      "source_word_id": "w_nl_33",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_33"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_bolt",
+      "source_word_id": "w_hu_33",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_33"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_school",
+      "source_word_id": "w_nl_34",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_34"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_iskola",
+      "source_word_id": "w_hu_34",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_34"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_vriend",
+      "source_word_id": "w_nl_35",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_35"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_barát",
+      "source_word_id": "w_hu_35",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_35"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_vrouw",
+      "source_word_id": "w_nl_36",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_36"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_nő",
+      "source_word_id": "w_hu_36",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_36"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_man",
+      "source_word_id": "w_nl_37",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_37"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_férfi",
+      "source_word_id": "w_hu_37",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_37"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_kind",
+      "source_word_id": "w_nl_38",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_38"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_gyerek",
+      "source_word_id": "w_hu_38",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_38"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_studeren",
+      "source_word_id": "w_nl_39",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_39"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_tanul",
+      "source_word_id": "w_hu_39",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_39"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_spreken",
+      "source_word_id": "w_nl_40",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_40"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_beszél",
+      "source_word_id": "w_hu_40",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_40"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_schrijven",
+      "source_word_id": "w_nl_41",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_41"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_ír",
+      "source_word_id": "w_hu_41",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_41"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_lezen",
+      "source_word_id": "w_nl_42",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_42"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_olvas",
+      "source_word_id": "w_hu_42",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_42"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_gaan",
+      "source_word_id": "w_nl_43",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_43"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_megy",
+      "source_word_id": "w_hu_43",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_43"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_komen",
+      "source_word_id": "w_nl_44",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_44"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_jön",
+      "source_word_id": "w_hu_44",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_44"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_eten",
+      "source_word_id": "w_nl_45",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_45"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_eszik",
+      "source_word_id": "w_hu_45",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_45"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_drinken",
+      "source_word_id": "w_nl_46",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_46"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_iszik",
+      "source_word_id": "w_hu_46",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_46"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_slapen",
+      "source_word_id": "w_nl_47",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_47"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_alszik",
+      "source_word_id": "w_hu_47",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_47"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_zien",
+      "source_word_id": "w_nl_48",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_48"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_lát",
+      "source_word_id": "w_hu_48",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_48"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_goed",
+      "source_word_id": "w_nl_49",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_49"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_jó",
+      "source_word_id": "w_hu_49",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_49"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_slecht",
+      "source_word_id": "w_nl_50",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_50"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_rossz",
+      "source_word_id": "w_hu_50",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_50"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_groot",
+      "source_word_id": "w_nl_51",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_51"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_nagy",
+      "source_word_id": "w_hu_51",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_51"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_klein",
+      "source_word_id": "w_nl_52",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_52"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_kicsi",
+      "source_word_id": "w_hu_52",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_52"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_mooi",
+      "source_word_id": "w_nl_53",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_53"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_szép",
+      "source_word_id": "w_hu_53",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_53"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_nieuw",
+      "source_word_id": "w_nl_54",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_54"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_új",
+      "source_word_id": "w_hu_54",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_54"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_oud",
+      "source_word_id": "w_nl_55",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_55"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_régi",
+      "source_word_id": "w_hu_55",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_55"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_vandaag",
+      "source_word_id": "w_nl_56",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_56"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_ma",
+      "source_word_id": "w_hu_56",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_56"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_morgen",
+      "source_word_id": "w_nl_57",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_57"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_holnap",
+      "source_word_id": "w_hu_57",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_57"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_nl_hu_gisteren",
+      "source_word_id": "w_nl_58",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_58"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
+    },
+    {
+      "id": "c_hu_nl_tegnap",
+      "source_word_id": "w_hu_58",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_58"
+      ],
+      "step_index": 0,
+      "next_review": "0001-01-01T00:00:00Z"
     }
   ]
 }

@@ -111,13 +111,69 @@
     "step_index": 2,
     "next_review": "2026-10-25T22:00:49.174228044+01:00"
   },
+  "c_hu_nl_alszik": {
+    "step_index": 0,
+    "next_review": "2026-10-27T04:00:00+01:00"
+  },
+  "c_hu_nl_autó": {
+    "step_index": 0,
+    "next_review": "2026-10-26T04:00:00+01:00"
+  },
+  "c_hu_nl_barát": {
+    "step_index": 0,
+    "next_review": "2026-10-26T04:00:00+01:00"
+  },
+  "c_hu_nl_beszél": {
+    "step_index": 0,
+    "next_review": "2026-10-27T04:00:00+01:00"
+  },
   "c_hu_nl_beszélni": {
     "step_index": 2,
     "next_review": "2026-10-27T08:08:00.860485017+01:00"
   },
+  "c_hu_nl_bolt": {
+    "step_index": 0,
+    "next_review": "2026-10-26T04:00:00+01:00"
+  },
+  "c_hu_nl_egy": {
+    "step_index": 0,
+    "next_review": "2026-10-21T04:00:00+02:00"
+  },
+  "c_hu_nl_eszik": {
+    "step_index": 0,
+    "next_review": "2026-10-27T04:00:00+01:00"
+  },
   "c_hu_nl_forró": {
     "step_index": 2,
     "next_review": "2026-10-28T19:15:42.465341644+01:00"
+  },
+  "c_hu_nl_férfi": {
+    "step_index": 0,
+    "next_review": "2026-10-26T04:00:00+01:00"
+  },
+  "c_hu_nl_gyerek": {
+    "step_index": 0,
+    "next_review": "2026-10-26T04:00:00+01:00"
+  },
+  "c_hu_nl_hat": {
+    "step_index": 0,
+    "next_review": "2026-10-22T04:00:00+02:00"
+  },
+  "c_hu_nl_holnap": {
+    "step_index": 0,
+    "next_review": "2026-10-28T04:00:00+01:00"
+  },
+  "c_hu_nl_három": {
+    "step_index": 0,
+    "next_review": "2026-10-21T04:00:00+02:00"
+  },
+  "c_hu_nl_ház": {
+    "step_index": 0,
+    "next_review": "2026-10-26T04:00:00+01:00"
+  },
+  "c_hu_nl_hét": {
+    "step_index": 0,
+    "next_review": "2026-10-22T04:00:00+02:00"
   },
   "c_hu_nl_hő": {
     "step_index": 0,
@@ -131,9 +187,85 @@
     "step_index": 2,
     "next_review": "2026-10-27T13:42:24.039580599+01:00"
   },
+  "c_hu_nl_igen": {
+    "step_index": 0,
+    "next_review": "2026-10-20T20:17:47.075195717+02:00"
+  },
+  "c_hu_nl_iskola": {
+    "step_index": 0,
+    "next_review": "2026-10-26T04:00:00+01:00"
+  },
+  "c_hu_nl_iszik": {
+    "step_index": 0,
+    "next_review": "2026-10-27T04:00:00+01:00"
+  },
+  "c_hu_nl_jó": {
+    "step_index": 0,
+    "next_review": "2026-10-27T04:00:00+01:00"
+  },
+  "c_hu_nl_jó_estét": {
+    "step_index": 0,
+    "next_review": "2026-10-20T20:17:47.075195717+02:00"
+  },
+  "c_hu_nl_jó_napot": {
+    "step_index": 0,
+    "next_review": "2026-10-20T20:17:47.075195717+02:00"
+  },
+  "c_hu_nl_jó_reggelt": {
+    "step_index": 0,
+    "next_review": "2026-10-20T20:17:47.075195717+02:00"
+  },
+  "c_hu_nl_jó_éjszakát": {
+    "step_index": 0,
+    "next_review": "2026-10-20T20:17:47.075195717+02:00"
+  },
+  "c_hu_nl_jön": {
+    "step_index": 0,
+    "next_review": "2026-10-27T04:00:00+01:00"
+  },
   "c_hu_nl_kedvenc": {
     "step_index": 2,
     "next_review": "2026-10-26T13:42:46.842889345+01:00"
+  },
+  "c_hu_nl_kenyér": {
+    "step_index": 0,
+    "next_review": "2026-10-22T04:00:00+02:00"
+  },
+  "c_hu_nl_kettő": {
+    "step_index": 0,
+    "next_review": "2026-10-21T04:00:00+02:00"
+  },
+  "c_hu_nl_kicsi": {
+    "step_index": 0,
+    "next_review": "2026-10-28T04:00:00+01:00"
+  },
+  "c_hu_nl_kilenc": {
+    "step_index": 0,
+    "next_review": "2026-10-22T04:00:00+02:00"
+  },
+  "c_hu_nl_kávé": {
+    "step_index": 0,
+    "next_review": "2026-10-25T04:00:00+01:00"
+  },
+  "c_hu_nl_kérem": {
+    "step_index": 0,
+    "next_review": "2026-10-20T20:17:47.075195717+02:00"
+  },
+  "c_hu_nl_köszönöm": {
+    "step_index": 0,
+    "next_review": "2026-10-20T20:17:47.075195717+02:00"
+  },
+  "c_hu_nl_lát": {
+    "step_index": 0,
+    "next_review": "2026-10-27T04:00:00+01:00"
+  },
+  "c_hu_nl_ma": {
+    "step_index": 0,
+    "next_review": "2026-10-28T04:00:00+01:00"
+  },
+  "c_hu_nl_megy": {
+    "step_index": 0,
+    "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_hu_nl_meleg": {
     "step_index": 2,
@@ -143,6 +275,10 @@
     "step_index": 2,
     "next_review": "2026-10-27T13:42:14.250658434+01:00"
   },
+  "c_hu_nl_mi": {
+    "step_index": 0,
+    "next_review": "2026-10-21T04:00:00+02:00"
+  },
   "c_hu_nl_milyen": {
     "step_index": 2,
     "next_review": "2026-10-27T08:08:17.347942152+01:00"
@@ -151,41 +287,253 @@
     "step_index": 2,
     "next_review": "2026-10-26T19:15:15.49134282+01:00"
   },
+  "c_hu_nl_nagy": {
+    "step_index": 0,
+    "next_review": "2026-10-28T04:00:00+01:00"
+  },
+  "c_hu_nl_nem": {
+    "step_index": 0,
+    "next_review": "2026-10-20T20:17:47.075195717+02:00"
+  },
   "c_hu_nl_normális": {
     "step_index": 2,
     "next_review": "2026-10-28T13:42:34.609971386+01:00"
+  },
+  "c_hu_nl_nyolc": {
+    "step_index": 0,
+    "next_review": "2026-10-22T04:00:00+02:00"
+  },
+  "c_hu_nl_négy": {
+    "step_index": 0,
+    "next_review": "2026-10-21T04:00:00+02:00"
+  },
+  "c_hu_nl_nő": {
+    "step_index": 0,
+    "next_review": "2026-10-26T04:00:00+01:00"
+  },
+  "c_hu_nl_olvas": {
+    "step_index": 0,
+    "next_review": "2026-10-27T04:00:00+01:00"
+  },
+  "c_hu_nl_rossz": {
+    "step_index": 0,
+    "next_review": "2026-10-28T04:00:00+01:00"
+  },
+  "c_hu_nl_régi": {
+    "step_index": 0,
+    "next_review": "2026-10-28T04:00:00+01:00"
+  },
+  "c_hu_nl_szia": {
+    "step_index": 0,
+    "next_review": "2026-10-20T20:17:47.075195717+02:00"
   },
   "c_hu_nl_szobahőmérséklet": {
     "step_index": 2,
     "next_review": "2026-10-27T13:41:50.632998444+01:00"
   },
+  "c_hu_nl_szép": {
+    "step_index": 0,
+    "next_review": "2026-10-28T04:00:00+01:00"
+  },
+  "c_hu_nl_sör": {
+    "step_index": 0,
+    "next_review": "2026-10-25T04:00:00+01:00"
+  },
+  "c_hu_nl_tanul": {
+    "step_index": 0,
+    "next_review": "2026-10-26T04:00:00+01:00"
+  },
+  "c_hu_nl_te": {
+    "step_index": 0,
+    "next_review": "2026-10-21T04:00:00+02:00"
+  },
+  "c_hu_nl_tegnap": {
+    "step_index": 0,
+    "next_review": "2026-10-28T04:00:00+01:00"
+  },
+  "c_hu_nl_ti": {
+    "step_index": 0,
+    "next_review": "2026-10-21T04:00:00+02:00"
+  },
+  "c_hu_nl_tíz": {
+    "step_index": 0,
+    "next_review": "2026-10-22T04:00:00+02:00"
+  },
+  "c_hu_nl_vonat": {
+    "step_index": 0,
+    "next_review": "2026-10-26T04:00:00+01:00"
+  },
+  "c_hu_nl_víz": {
+    "step_index": 0,
+    "next_review": "2026-10-22T04:00:00+02:00"
+  },
+  "c_hu_nl_én": {
+    "step_index": 0,
+    "next_review": "2026-10-20T20:17:47.075195717+02:00"
+  },
+  "c_hu_nl_ír": {
+    "step_index": 0,
+    "next_review": "2026-10-27T04:00:00+01:00"
+  },
+  "c_hu_nl_öt": {
+    "step_index": 0,
+    "next_review": "2026-10-21T04:00:00+02:00"
+  },
+  "c_hu_nl_új": {
+    "step_index": 0,
+    "next_review": "2026-10-28T04:00:00+01:00"
+  },
+  "c_hu_nl_ő": {
+    "step_index": 0,
+    "next_review": "2026-10-21T04:00:00+02:00"
+  },
+  "c_hu_nl_ők": {
+    "step_index": 0,
+    "next_review": "2026-10-21T04:00:00+02:00"
+  },
+  "c_nl_hu_auto": {
+    "step_index": 0,
+    "next_review": "2026-10-23T04:00:00+02:00"
+  },
+  "c_nl_hu_bier": {
+    "step_index": 0,
+    "next_review": "2026-10-22T04:00:00+02:00"
+  },
+  "c_nl_hu_drinken": {
+    "step_index": 0,
+    "next_review": "2026-10-24T04:00:00+02:00"
+  },
+  "c_nl_hu_eten": {
+    "step_index": 0,
+    "next_review": "2026-10-24T04:00:00+02:00"
+  },
   "c_nl_hu_favoriet": {
     "step_index": 2,
     "next_review": "2026-10-27T19:15:46.566065639+01:00"
+  },
+  "c_nl_hu_gaan": {
+    "step_index": 0,
+    "next_review": "2026-10-24T04:00:00+02:00"
+  },
+  "c_nl_hu_gisteren": {
+    "step_index": 0,
+    "next_review": "2026-10-25T04:00:00+01:00"
+  },
+  "c_nl_hu_goed": {
+    "step_index": 0,
+    "next_review": "2026-10-24T04:00:00+02:00"
+  },
+  "c_nl_hu_groot": {
+    "step_index": 0,
+    "next_review": "2026-10-25T04:00:00+01:00"
   },
   "c_nl_hu_heet": {
     "step_index": 2,
     "next_review": "2026-10-27T19:15:39.510200798+01:00"
   },
+  "c_nl_hu_huis": {
+    "step_index": 0,
+    "next_review": "2026-10-22T04:00:00+02:00"
+  },
   "c_nl_hu_kamertemperatuur": {
     "step_index": 1,
     "next_review": "2026-10-23T08:05:22.267761666+02:00"
+  },
+  "c_nl_hu_kind": {
+    "step_index": 0,
+    "next_review": "2026-10-23T04:00:00+02:00"
+  },
+  "c_nl_hu_klein": {
+    "step_index": 0,
+    "next_review": "2026-10-25T04:00:00+01:00"
+  },
+  "c_nl_hu_koffie": {
+    "step_index": 0,
+    "next_review": "2026-10-22T04:00:00+02:00"
+  },
+  "c_nl_hu_komen": {
+    "step_index": 0,
+    "next_review": "2026-10-24T04:00:00+02:00"
+  },
+  "c_nl_hu_lezen": {
+    "step_index": 0,
+    "next_review": "2026-10-24T04:00:00+02:00"
+  },
+  "c_nl_hu_man": {
+    "step_index": 0,
+    "next_review": "2026-10-23T04:00:00+02:00"
   },
   "c_nl_hu_mate": {
     "step_index": 2,
     "next_review": "2026-10-27T19:15:10.123944199+01:00"
   },
+  "c_nl_hu_mooi": {
+    "step_index": 0,
+    "next_review": "2026-10-25T04:00:00+01:00"
+  },
+  "c_nl_hu_morgen": {
+    "step_index": 0,
+    "next_review": "2026-10-25T04:00:00+01:00"
+  },
+  "c_nl_hu_nieuw": {
+    "step_index": 0,
+    "next_review": "2026-10-25T04:00:00+01:00"
+  },
   "c_nl_hu_normaal": {
     "step_index": 0,
     "next_review": "2026-10-21T08:06:05.226256808+02:00"
+  },
+  "c_nl_hu_oud": {
+    "step_index": 0,
+    "next_review": "2026-10-25T04:00:00+01:00"
   },
   "c_nl_hu_praten": {
     "step_index": 2,
     "next_review": "2026-10-28T08:07:54.270851862+01:00"
   },
+  "c_nl_hu_school": {
+    "step_index": 0,
+    "next_review": "2026-10-23T04:00:00+02:00"
+  },
+  "c_nl_hu_schrijven": {
+    "step_index": 0,
+    "next_review": "2026-10-24T04:00:00+02:00"
+  },
+  "c_nl_hu_slapen": {
+    "step_index": 0,
+    "next_review": "2026-10-24T04:00:00+02:00"
+  },
+  "c_nl_hu_slecht": {
+    "step_index": 0,
+    "next_review": "2026-10-24T04:00:00+02:00"
+  },
+  "c_nl_hu_spreken": {
+    "step_index": 0,
+    "next_review": "2026-10-23T04:00:00+02:00"
+  },
+  "c_nl_hu_studeren": {
+    "step_index": 0,
+    "next_review": "2026-10-23T04:00:00+02:00"
+  },
   "c_nl_hu_temperatuur": {
     "step_index": 0,
     "next_review": "2026-10-21T08:05:53.717254059+02:00"
+  },
+  "c_nl_hu_trein": {
+    "step_index": 0,
+    "next_review": "2026-10-23T04:00:00+02:00"
+  },
+  "c_nl_hu_vandaag": {
+    "step_index": 0,
+    "next_review": "2026-10-25T04:00:00+01:00"
+  },
+  "c_nl_hu_vriend": {
+    "step_index": 0,
+    "next_review": "2026-10-23T04:00:00+02:00"
+  },
+  "c_nl_hu_vrouw": {
+    "step_index": 0,
+    "next_review": "2026-10-23T04:00:00+02:00"
   },
   "c_nl_hu_warm": {
     "step_index": 0,
@@ -206,5 +554,13 @@
   "c_nl_hu_welke": {
     "step_index": 2,
     "next_review": "2026-10-27T13:42:11.101248462+01:00"
+  },
+  "c_nl_hu_winkel": {
+    "step_index": 0,
+    "next_review": "2026-10-23T04:00:00+02:00"
+  },
+  "c_nl_hu_zien": {
+    "step_index": 0,
+    "next_review": "2026-10-24T04:00:00+02:00"
   }
 }
