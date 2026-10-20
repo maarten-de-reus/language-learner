@@ -26,15 +26,27 @@ func main() {
 		log.Fatalf("Fout bij laden data: %v", err)
 	}
 
-	s := &server{lib: lib, session: quiz.New(lib, ProgressPath, RunSize)}
-
-	static, _ := fs.Sub(webFiles, "web")
-	http.Handle("/", http.FileServer(http.FS(static)))
-	http.HandleFunc("GET /api/state", s.handle(func() {}))
-	http.HandleFunc("POST /api/answer", s.handleAnswer)
-	http.HandleFunc("POST /api/next", s.handle(func() { s.session.Next() }))
-	http.HandleFunc("POST /api/run", s.handle(func() { s.session.NewRun() }))
+	s := &server{lib: lib, wordsPath: WordsPath, session: quiz.New(lib, ProgressPath, RunSize)}
 
 	log.Printf("🌍 Web frontend gestart op http://localhost%s", Addr)
-	log.Fatal(http.ListenAndServe(Addr, nil))
+	log.Fatal(http.ListenAndServe(Addr, s.routes()))
+}
+
+func (s *server) routes() *http.ServeMux {
+	mux := http.NewServeMux()
+	static, _ := fs.Sub(webFiles, "web")
+	mux.Handle("/", http.FileServer(http.FS(static)))
+
+	// Oefenen
+	mux.HandleFunc("GET /api/state", s.handle(func() {}))
+	mux.HandleFunc("POST /api/answer", s.handleAnswer)
+	mux.HandleFunc("POST /api/next", s.handle(func() { s.session.Next() }))
+	mux.HandleFunc("POST /api/run", s.handle(func() { s.session.NewRun() }))
+
+	// Beheer
+	mux.HandleFunc("GET /api/concepts", s.handleListConcepts)
+	mux.HandleFunc("POST /api/concepts/check", s.handleCheckConcept)
+	mux.HandleFunc("POST /api/concepts", s.handleAddConcept)
+	mux.HandleFunc("PUT /api/concepts/{id}", s.handleUpdateConcept)
+	return mux
 }

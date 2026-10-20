@@ -1,0 +1,151 @@
+package main
+
+import (
+	"encoding/json"
+	"errors"
+	"log"
+	"net/http"
+
+	"hungarian-language-learner/internal/catalog"
+	"hungarian-language-learner/internal/storage"
+)
+
+// conceptRequest is de invoer voor check en toevoegen. Hungarian is een komma-gescheiden lijst.
+type conceptRequest struct {
+	Dutch            string            `json:"dutch"`
+	Context          string            `json:"context"`
+	Hungarian        string            `json:"hungarian"`
+	Example          string            `json:"example"`
+	MergeReverseInto string            `json:"mergeReverseInto"`
+	ReverseContext   *string           `json:"reverseContext"` // nil = zelfde hint als NL->HU
+	ExistingHints    map[string]string `json:"existingHints"`
+}
+
+// checkResponse vertelt de frontend vóór het toevoegen of het een duplicaat is
+// en of het Hongaarse woord al andere betekenissen heeft
+type checkResponse struct {
+	Duplicate  bool            `json:"duplicate"`
+	Reverse    string          `json:"reverse"` // het Hongaarse woord dat de bron van HU->NL wordt
+	Candidates []catalog.Entry `json:"candidates"`
+}
+
+type entriesResponse struct {
+	Entries []catalog.Entry `json:"entries"`
+}
+
+func (s *server) handleListConcepts(w http.ResponseWriter, r *http.Request) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	writeJSON(w, http.StatusOK, entriesResponse{catalog.Entries(s.lib)})
+}
+
+func (s *server) handleCheckConcept(w http.ResponseWriter, r *http.Request) {
+	var req conceptRequest
+	if !decode(w, r, &req) {
+		return
+	}
+	nc, err := catalog.ParseInput(req.Dutch, req.Context, req.Hungarian)
+	if err != nil {
+		writeError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	resp := checkResponse{Duplicate: catalog.IsDuplicate(s.lib, nc), Reverse: nc.Hungarian[0], Candidates: []catalog.Entry{}}
+	ids := map[string]bool{}
+	for _, i := range catalog.ReverseCandidates(s.lib, nc.Hungarian[0]) {
+		ids[s.lib.Concepts[i].ID] = true
+	}
+	for _, e := range catalog.Entries(s.lib) {
+		if ids[e.ID] {
+			resp.Candidates = append(resp.Candidates, e)
+		}
+	}
+	writeJSON(w, http.StatusOK, resp)
+}
+
+func (s *server) handleAddConcept(w http.ResponseWriter, r *http.Request) {
+	var req conceptRequest
+	if !decode(w, r, &req) {
+		return
+	}
+	nc, err := catalog.ParseInput(req.Dutch, req.Context, req.Hungarian)
+	if err != nil {
+		writeError(w, http.StatusBadRequest, err)
+		return
+	}
+	nc.Example = req.Example
+	nc.MergeReverseInto = req.MergeReverseInto
+	nc.ExistingHints = req.ExistingHints
+	if req.ReverseContext != nil {
+		nc.ReverseContext = *req.ReverseContext
+	}
+
+	s.mutate(w, http.StatusCreated, func() error {
+		_, err := catalog.AddPair(s.lib, nc)
+		return err
+	})
+}
+
+func (s *server) handleUpdateConcept(w http.ResponseWriter, r *http.Request) {
+	var edit catalog.Edit
+	if !decode(w, r, &edit) {
+		return
+	}
+	s.mutate(w, http.StatusOK, func() error {
+		return catalog.Update(s.lib, r.PathValue("id"), edit)
+	})
+}
+
+// mutate voert een wijziging uit en slaat woorden.json op. Mislukt een van beide,
+// dan wordt de woordenschat in het geheugen teruggezet, zodat geheugen en bestand gelijk blijven.
+func (s *server) mutate(w http.ResponseWriter, okStatus int, change func() error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	snapshot := s.lib.Clone()
+	if err := change(); err != nil {
+		*s.lib = *snapshot
+		writeError(w, statusFor(err), err)
+		return
+	}
+	if err := storage.SaveWords(s.wordsPath, s.lib.Words, s.lib.Concepts); err != nil {
+		*s.lib = *snapshot
+		log.Printf("Fout bij opslaan woorden: %v", err)
+		writeError(w, http.StatusInternalServerError, errors.New("woorden konden niet worden opgeslagen: "+err.Error()))
+		return
+	}
+	writeJSON(w, okStatus, entriesResponse{catalog.Entries(s.lib)})
+}
+
+func statusFor(err error) int {
+	switch {
+	case errors.Is(err, catalog.ErrNotFound):
+		return http.StatusNotFound
+	case errors.Is(err, catalog.ErrDuplicate), errors.Is(err, catalog.ErrReverseAmbiguous), errors.Is(err, catalog.ErrContextTaken):
+		return http.StatusConflict
+	default:
+		return http.StatusBadRequest
+	}
+}
+
+func decode(w http.ResponseWriter, r *http.Request, v any) bool {
+	if err := json.NewDecoder(r.Body).Decode(v); err != nil {
+		writeError(w, http.StatusBadRequest, errors.New("ongeldige invoer"))
+		return false
+	}
+	return true
+}
+
+func writeError(w http.ResponseWriter, status int, err error) {
+	writeJSON(w, status, map[string]string{"error": err.Error()})
+}
+
+func writeJSON(w http.ResponseWriter, status int, v any) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Cache-Control", "no-store")
+	w.WriteHeader(status)
+	_ = json.NewEncoder(w).Encode(v)
+}

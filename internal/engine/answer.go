@@ -12,6 +12,11 @@ func normalize(s string) string {
 	return strings.Join(strings.Fields(strings.ToLower(s)), " ")
 }
 
+// Fold maakt tekst vergelijkbaar voor zoeken en sorteren: kleine letters, zonder accenten
+func Fold(s string) string {
+	return accentReplacer.Replace(normalize(s))
+}
+
 // CheckAnswer vergelijkt de invoer met de geaccepteerde antwoorden.
 // accentOnly is true als het antwoord fout is, maar alleen in de accenten afwijkt.
 func CheckAnswer(input string, accepted []string) (correct bool, accentOnly bool) {

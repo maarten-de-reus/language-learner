@@ -250,3 +250,89 @@ func TestGeneratedIDsDoNotCollide(t *testing.T) {
 		t.Errorf("verwacht c_nl_hu_bank_2, kreeg %s", lib.Concepts[1].ID)
 	}
 }
+
+func TestEntriesSortedWithMeanings(t *testing.T) {
+	lib := newLib()
+	add(t, lib, "weer", "buiten", "idő")
+	add(t, lib, "tijd", "klok", "idő")
+	add(t, lib, "appel", "", "alma")
+
+	entries := Entries(lib)
+	if len(entries) != 6 {
+		t.Fatalf("verwacht 6 entries, kreeg %d", len(entries))
+	}
+	var prompts []string
+	for _, e := range entries {
+		prompts = append(prompts, e.Prompt)
+	}
+	// "idő" sorteert als "ido", tussen "appel"/"alma" en "tijd"/"weer"
+	if want := []string{"alma", "appel", "idő", "idő", "tijd", "weer"}; !slices.Equal(prompts, want) {
+		t.Errorf("volgorde: %v, verwacht %v", prompts, want)
+	}
+	idő := entries[2]
+	if idő.Meanings != 2 || idő.From != "hu" || idő.To != "nl" || idő.Context != "buiten" || idő.Interval != 1 {
+		t.Errorf("entry idő: %+v", idő)
+	}
+	if entries[0].Meanings != 1 {
+		t.Errorf("alma heeft één betekenis, kreeg %d", entries[0].Meanings)
+	}
+}
+
+func TestUpdateChangesHintAnswersAndExample(t *testing.T) {
+	lib := newLib()
+	add(t, lib, "bank", "Meubel", "pad")
+	id := lib.Concepts[0].ID
+	step, next := lib.Concepts[0].StepIndex, lib.Concepts[0].NextReview
+
+	err := Update(lib, id, Edit{Context: " zitmeubel ", Answers: []string{"pad", " kanapé", "PAD", ""}, Example: "Leülök a padra."})
+	if err != nil {
+		t.Fatal(err)
+	}
+	c := concept(t, lib, id)
+	if c.ContextSource != "zitmeubel" || c.Example != "Leülök a padra." || c.ExampleLang != "hu" {
+		t.Errorf("hint/voorbeeld niet aangepast: %+v", c)
+	}
+	if got := TargetTexts(lib, c); !slices.Equal(got, []string{"pad", "kanapé"}) {
+		t.Errorf("antwoorden: %v (dubbele en lege moeten eruit)", got)
+	}
+	if lib.Words[c.TargetWordIDs[1]].Language != "hu" {
+		t.Error("nieuw antwoord moet in de doeltaal zijn")
+	}
+	if c.StepIndex != step || !c.NextReview.Equal(next) {
+		t.Error("bewerken mag de voortgang niet veranderen")
+	}
+
+	if err := Update(lib, id, Edit{Context: "zitmeubel", Answers: []string{"pad"}}); err != nil {
+		t.Fatal(err)
+	}
+	if c := concept(t, lib, id); c.Example != "" || c.ExampleLang != "" {
+		t.Errorf("lege voorbeeldzin moet de zin verwijderen: %+v", c)
+	}
+}
+
+func TestUpdateValidation(t *testing.T) {
+	lib := newLib()
+	add(t, lib, "weer", "buiten", "idő")
+	add(t, lib, "tijd", "klok", "idő")
+	tijdRev := lib.Concepts[3].ID
+	before := lib.Clone()
+
+	if err := Update(lib, "bestaat-niet", Edit{Answers: []string{"x"}}); !errors.Is(err, ErrNotFound) {
+		t.Errorf("verwacht ErrNotFound, kreeg %v", err)
+	}
+	if err := Update(lib, tijdRev, Edit{Context: "klok", Answers: []string{" ", ""}}); !errors.Is(err, ErrNoAnswers) {
+		t.Errorf("verwacht ErrNoAnswers, kreeg %v", err)
+	}
+	if err := Update(lib, tijdRev, Edit{Context: "Buiten", Answers: []string{"tijd"}}); !errors.Is(err, ErrContextTaken) {
+		t.Errorf("hint van de andere betekenis: verwacht ErrContextTaken, kreeg %v", err)
+	}
+	if len(lib.Words) != len(before.Words) || concept(t, lib, tijdRev).ContextSource != "klok" {
+		t.Error("bij een fout mag er niets veranderen")
+	}
+
+	// Een hint die alleen bij een ander bronwoord of de andere richting voorkomt is geen probleem
+	nlWeer := lib.Concepts[0].ID
+	if err := Update(lib, nlWeer, Edit{Context: "klok", Answers: []string{"idő"}}); err != nil {
+		t.Errorf("NL->HU 'weer' mag hint 'klok' hebben (andere richting/bron), kreeg %v", err)
+	}
+}
