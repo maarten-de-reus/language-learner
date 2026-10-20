@@ -9,6 +9,7 @@ import (
 	"os"
 	"strings"
 
+	"hungarian-language-learner/internal/catalog"
 	"hungarian-language-learner/internal/storage"
 )
 
@@ -22,12 +23,11 @@ func main() {
 
 	// Laad de bestaande data in. Alleen als woorden.json echt nog niet bestaat beginnen we leeg;
 	// bij elke andere fout stoppen we, anders overschrijft "opslaan" de bestaande woordenlijst.
-	wordsPool, conceptsDB, err := storage.LoadData(WordsPath, ProgressPath)
+	lib, err := storage.LoadLibrary(WordsPath, ProgressPath)
 	switch {
 	case errors.Is(err, fs.ErrNotExist):
 		fmt.Printf("ℹ️  %s bestaat nog niet, we starten een nieuwe database.\n", WordsPath)
-		wordsPool = make(map[string]storage.Word)
-		conceptsDB = []storage.TranslationConcept{}
+		lib = &storage.Library{Words: map[string]storage.Word{}}
 	case err != nil:
 		fmt.Printf("❌ Kon de data niet laden: %v\n", err)
 		fmt.Println("   Herstel het bestand (bijv. met git) en probeer opnieuw.")
@@ -62,22 +62,21 @@ func main() {
 			fmt.Print("Voer de Hongaarse vertaling in (meerdere scheiden met een komma): ")
 			hungarianInput, _ := readLine(reader)
 
-			nc, err := parseInput(dutchText, contextText, hungarianInput)
+			nc, err := catalog.ParseInput(dutchText, contextText, hungarianInput)
 			if err != nil {
 				printError(err)
 				continue
 			}
-			if isDuplicate(wordsPool, conceptsDB, nc) {
-				printError(ErrDuplicate)
+			if catalog.IsDuplicate(lib, nc) {
+				printError(catalog.ErrDuplicate)
 				continue
 			}
-			askReverse(reader, wordsPool, conceptsDB, &nc)
+			askReverse(reader, lib, &nc)
 
 			fmt.Printf("Voorbeeldzin in het Hongaars met '%s' erin (optioneel, Enter = overslaan): ", nc.Hungarian[0])
 			nc.Example, _ = readLine(reader)
 
-			var res addResult
-			conceptsDB, res, err = addConceptPair(wordsPool, conceptsDB, nc)
+			res, err := catalog.AddPair(lib, nc)
 			if err != nil {
 				printError(err)
 				continue
@@ -97,11 +96,11 @@ func main() {
 
 		case "2":
 			fmt.Printf("\n📊 Statistieken:\n")
-			fmt.Printf("   - Totaal aantal unieke woorden in de pool: %d\n", len(wordsPool))
-			fmt.Printf("   - Totaal aantal actieve leerconcepten: %d\n", len(conceptsDB))
+			fmt.Printf("   - Totaal aantal unieke woorden in de pool: %d\n", len(lib.Words))
+			fmt.Printf("   - Totaal aantal actieve leerconcepten: %d\n", len(lib.Concepts))
 
 		case "3":
-			if err := storage.SaveWords(WordsPath, wordsPool, conceptsDB); err != nil {
+			if err := storage.SaveWords(WordsPath, lib.Words, lib.Concepts); err != nil {
 				// Niet afsluiten: de nieuwe woorden staan alleen nog in het geheugen
 				fmt.Printf("❌ Fout bij het opslaan van woorden: %v\n", err)
 				fmt.Println("   Je wijzigingen zijn niet verloren; los het probleem op en kies opnieuw 3.")
@@ -120,15 +119,15 @@ func main() {
 // askReverse bepaalt hoe het HU->NL concept eruitziet. Bestaat het Hongaarse woord al als HU->NL,
 // dan vragen we of het dezelfde betekenis is (extra goed antwoord, zoals ő -> hij/zij)
 // of een andere (apart concept met eigen hint, zoals idő -> weer / tijd).
-func askReverse(reader *bufio.Reader, words map[string]storage.Word, concepts []storage.TranslationConcept, nc *newConcept) {
+func askReverse(reader *bufio.Reader, lib *storage.Library, nc *catalog.NewPair) {
 	hu := nc.Hungarian[0]
-	candidates := reverseCandidates(words, concepts, hu)
+	candidates := catalog.ReverseCandidates(lib, hu)
 
 	if len(candidates) > 0 {
 		fmt.Printf("\n'%s' bestaat al als HU->NL. Is '%s' dezelfde betekenis of een andere?\n", hu, nc.Dutch)
 		for n, i := range candidates {
-			c := concepts[i]
-			fmt.Printf("  %d) Zelfde betekenis als '%s'%s ➔ %s (extra goed antwoord)\n", n+1, hu, hintSuffix(c.ContextSource), targetTexts(words, c))
+			c := lib.Concepts[i]
+			fmt.Printf("  %d) Zelfde betekenis als '%s'%s ➔ %s (extra goed antwoord)\n", n+1, hu, hintSuffix(c.ContextSource), answers(lib, c))
 		}
 		newOption := len(candidates) + 1
 		fmt.Printf("  %d) Andere betekenis (apart concept met eigen hint)\n", newOption)
@@ -138,7 +137,7 @@ func askReverse(reader *bufio.Reader, words map[string]storage.Word, concepts []
 			line, eof := readLine(reader)
 			var n int
 			if _, err := fmt.Sscan(line, &n); err == nil && n >= 1 && n < newOption {
-				nc.MergeReverseInto = concepts[candidates[n-1]].ID
+				nc.MergeReverseInto = lib.Concepts[candidates[n-1]].ID
 				return
 			}
 			if n == newOption || eof {
@@ -149,12 +148,12 @@ func askReverse(reader *bufio.Reader, words map[string]storage.Word, concepts []
 		// Bestaande concepten zonder hint zijn na deze toevoeging niet meer te onderscheiden
 		nc.ExistingHints = map[string]string{}
 		for _, i := range candidates {
-			c := concepts[i]
+			c := lib.Concepts[i]
 			if strings.TrimSpace(c.ContextSource) != "" {
 				continue
 			}
 			for {
-				fmt.Printf("Het bestaande '%s' ➔ %s heeft nog geen hint. Hint (bijv. 'buiten, ☀️'): ", hu, targetTexts(words, c))
+				fmt.Printf("Het bestaande '%s' ➔ %s heeft nog geen hint. Hint (bijv. 'buiten, ☀️'): ", hu, answers(lib, c))
 				hint, eof := readLine(reader)
 				if hint != "" || eof {
 					nc.ExistingHints[c.ID] = hint
@@ -170,12 +169,16 @@ func askReverse(reader *bufio.Reader, words map[string]storage.Word, concepts []
 		if hint == "" {
 			hint = nc.Context
 		}
-		if eof || len(candidates) == 0 || (hint != "" && !reverseHintTaken(words, concepts, *nc, hint)) {
+		if eof || len(candidates) == 0 || (hint != "" && !catalog.ReverseHintTaken(lib, *nc, hint)) {
 			nc.ReverseContext = hint
 			return
 		}
 		fmt.Println("❌ Die hint onderscheidt deze betekenis niet van de bestaande; kies een andere.")
 	}
+}
+
+func answers(lib *storage.Library, c storage.TranslationConcept) string {
+	return strings.Join(catalog.TargetTexts(lib, c), ", ")
 }
 
 func hintSuffix(hint string) string {

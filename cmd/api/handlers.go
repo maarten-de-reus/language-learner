@@ -7,11 +7,13 @@ import (
 	"sync"
 
 	"hungarian-language-learner/internal/quiz"
+	"hungarian-language-learner/internal/storage"
 )
 
 // server is de HTTP-laag rond één quiz-sessie; mu beschermt de sessie tegen gelijktijdige requests
 type server struct {
 	mu        sync.Mutex
+	lib       *storage.Library
 	session   *quiz.Session
 	saveError string
 }

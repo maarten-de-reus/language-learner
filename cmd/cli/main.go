@@ -27,12 +27,12 @@ type model struct {
 }
 
 func initialModel() model {
-	wordsPool, conceptsDB, err := storage.LoadData(WordsPath, ProgressPath)
+	lib, err := storage.LoadLibrary(WordsPath, ProgressPath)
 	if err != nil {
 		fmt.Printf("Fout bij het laden van data: %v\n", err)
 		os.Exit(1)
 	}
-	return model{session: quiz.New(wordsPool, conceptsDB, ProgressPath, RunSize)}
+	return model{session: quiz.New(lib, ProgressPath, RunSize)}
 }
 
 func (m model) Init() tea.Cmd {

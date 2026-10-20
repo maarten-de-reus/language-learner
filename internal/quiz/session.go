@@ -78,9 +78,7 @@ type Stats struct {
 
 // Session is niet veilig voor gelijktijdig gebruik; de aanroeper zorgt voor locking.
 type Session struct {
-	words        map[string]storage.Word
-	concepts     []storage.TranslationConcept
-	idIndex      map[string]int // concept-ID -> index in concepts
+	lib          *storage.Library // gedeeld met het beheer; concepten worden alleen toegevoegd of ter plekke aangepast
 	run          []runItem
 	pos          int
 	feedback     *Feedback // gevuld zodra het huidige concept beantwoord is
@@ -90,17 +88,8 @@ type Session struct {
 }
 
 // New maakt een sessie en start meteen de eerste run
-func New(words map[string]storage.Word, concepts []storage.TranslationConcept, progressPath string, runSize int) *Session {
-	s := &Session{
-		words:        words,
-		concepts:     concepts,
-		idIndex:      make(map[string]int, len(concepts)),
-		progressPath: progressPath,
-		runSize:      runSize,
-	}
-	for i, c := range concepts {
-		s.idIndex[c.ID] = i
-	}
+func New(lib *storage.Library, progressPath string, runSize int) *Session {
+	s := &Session{lib: lib, progressPath: progressPath, runSize: runSize}
 	s.startRun()
 	return s
 }
@@ -120,12 +109,12 @@ func (s *Session) Current() *Card {
 		return nil
 	}
 	item := s.run[s.pos]
-	c := s.concepts[item.concept]
+	c := s.lib.Concepts[item.concept]
 	card := &Card{
 		ID:       c.ID,
-		Prompt:   s.words[c.SourceWordID].Text,
+		Prompt:   s.lib.Words[c.SourceWordID].Text,
 		Context:  c.ContextSource,
-		From:     s.words[c.SourceWordID].Language,
+		From:     s.lib.Words[c.SourceWordID].Language,
 		Step:     c.StepIndex,
 		Position: s.pos + 1,
 		RunSize:  len(s.run),
@@ -135,7 +124,7 @@ func (s *Session) Current() *Card {
 		card.Example = c.Example
 	}
 	if len(c.TargetWordIDs) > 0 {
-		card.To = s.words[c.TargetWordIDs[0]].Language
+		card.To = s.lib.Words[c.TargetWordIDs[0]].Language
 	}
 	return card
 }
@@ -151,7 +140,7 @@ func (s *Session) Answer(input string) (*Feedback, error) {
 	}
 
 	item := s.run[s.pos]
-	concept := &s.concepts[item.concept]
+	concept := &s.lib.Concepts[item.concept]
 	expected := s.targetTexts(concept)
 	correct, accentOnly := engine.CheckAnswer(input, expected)
 
@@ -161,7 +150,7 @@ func (s *Session) Answer(input string) (*Feedback, error) {
 		saveErr = s.Save()
 		item.result = len(s.results)
 		s.results = append(s.results, Result{
-			Prompt:   s.words[concept.SourceWordID].Text,
+			Prompt:   s.lib.Words[concept.SourceWordID].Text,
 			Input:    input,
 			Expected: expected,
 			Correct:  correct,
@@ -197,9 +186,9 @@ func (s *Session) Answer(input string) (*Feedback, error) {
 // otherMeaning zoekt een ander concept met hetzelfde bronwoord (taal + tekst, niet het ID)
 // waarvoor de invoer wél het goede antwoord is
 func (s *Session) otherMeaning(idx int, input string) *OtherMeaning {
-	src := s.words[s.concepts[idx].SourceWordID]
-	for i, c := range s.concepts {
-		other := s.words[c.SourceWordID]
+	src := s.lib.Words[s.lib.Concepts[idx].SourceWordID]
+	for i, c := range s.lib.Concepts {
+		other := s.lib.Words[c.SourceWordID]
 		if i == idx || other.Language != src.Language || !strings.EqualFold(strings.TrimSpace(other.Text), strings.TrimSpace(src.Text)) {
 			continue
 		}
@@ -232,14 +221,14 @@ func (s *Session) NewRun() bool {
 
 // Save schrijft de voortgang van alle concepten weg
 func (s *Session) Save() error {
-	return storage.SaveProgress(s.progressPath, s.concepts)
+	return storage.SaveProgress(s.progressPath, s.lib.Concepts)
 }
 
 // Stats telt per stap en bepaalt hoeveel er nu klaarstaan en wanneer de volgende herhaling is
 func (s *Session) Stats() Stats {
 	now := time.Now()
-	st := Stats{Total: len(s.concepts), Intervals: engine.AnkiIntervals}
-	for _, c := range s.concepts {
+	st := Stats{Total: len(s.lib.Concepts), Intervals: engine.AnkiIntervals}
+	for _, c := range s.lib.Concepts {
 		if c.StepIndex >= 0 && c.StepIndex < len(st.Steps) {
 			st.Steps[c.StepIndex]++
 		}
@@ -254,10 +243,10 @@ func (s *Session) Stats() Stats {
 }
 
 func (s *Session) startRun() {
-	chunk, _ := engine.GetNextChunk(s.concepts, s.runSize)
+	chunk, _ := engine.GetNextChunk(s.lib.Concepts, s.runSize)
 	s.run = s.run[:0]
 	for _, c := range chunk {
-		s.run = append(s.run, runItem{concept: s.idIndex[c.ID]})
+		s.run = append(s.run, runItem{concept: s.lib.Index(c.ID)})
 	}
 	s.pos = 0
 	s.feedback = nil
@@ -267,7 +256,7 @@ func (s *Session) startRun() {
 func (s *Session) targetTexts(c *storage.TranslationConcept) []string {
 	var texts []string
 	for _, id := range c.TargetWordIDs {
-		texts = append(texts, s.words[id].Text)
+		texts = append(texts, s.lib.Words[id].Text)
 	}
 	return texts
 }

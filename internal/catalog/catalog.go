@@ -1,10 +1,14 @@
-package main
+// Package catalog beheert de woordenschat: concepten toevoegen en bewerken, met controles op
+// duplicaten en betekenissen. Duplicaten worden herkend op tekst en context, nooit op ID:
+// ID's zijn alleen labels (oude data heeft genummerde ID's zoals c_1 en w_hu_11).
+package catalog
 
 import (
 	"errors"
 	"fmt"
 	"slices"
 	"strings"
+	"time"
 
 	"hungarian-language-learner/internal/storage"
 )
@@ -14,8 +18,8 @@ var (
 	ErrReverseAmbiguous = errors.New("er bestaat al een HU->NL concept met dit woord en deze hint; kies een andere hint")
 )
 
-// newConcept is de invoer voor een nieuw NL->HU / HU->NL paar
-type newConcept struct {
+// NewPair is de invoer voor een nieuw NL->HU / HU->NL paar
+type NewPair struct {
 	Dutch     string
 	Context   string   // hint bij NL->HU, bijv. "Meubel"
 	Hungarian []string // geaccepteerde Hongaarse vertalingen; de eerste is de bron van HU->NL
@@ -28,15 +32,15 @@ type newConcept struct {
 	ExistingHints    map[string]string // hints voor bestaande HU->NL concepten die er nog geen hadden
 }
 
-// addResult beschrijft wat addConceptPair heeft gedaan, voor de melding aan de gebruiker
-type addResult struct {
+// AddResult beschrijft wat AddPair heeft gedaan, voor de melding aan de gebruiker
+type AddResult struct {
 	ReverseSource string // Hongaars woord dat de bron is van het HU->NL concept
 	ReverseMerged bool   // true als het NL-woord aan een bestaand HU->NL concept is toegevoegd
 }
 
-// parseInput schoont de invoer op; meerdere Hongaarse vertalingen worden gescheiden door komma's
-func parseInput(dutch, context, hungarianInput string) (newConcept, error) {
-	nc := newConcept{Dutch: strings.TrimSpace(dutch), Context: strings.TrimSpace(context)}
+// ParseInput schoont de invoer op; meerdere Hongaarse vertalingen worden gescheiden door komma's
+func ParseInput(dutch, context, hungarianInput string) (NewPair, error) {
+	nc := NewPair{Dutch: strings.TrimSpace(dutch), Context: strings.TrimSpace(context)}
 	if nc.Dutch == "" {
 		return nc, errors.New("woord mag niet leeg zijn")
 	}
@@ -52,30 +56,29 @@ func parseInput(dutch, context, hungarianInput string) (newConcept, error) {
 	return nc, nil
 }
 
-// isDuplicate herkent een bestaand NL->HU concept op tekst en context, niet op ID:
-// ID's zijn alleen labels (oude data heeft genummerde ID's zoals c_1 en w_hu_11)
-func isDuplicate(words map[string]storage.Word, concepts []storage.TranslationConcept, nc newConcept) bool {
-	return slices.ContainsFunc(concepts, func(c storage.TranslationConcept) bool {
-		return matches(words, c, "nl", nc.Dutch, "hu") && strings.EqualFold(strings.TrimSpace(c.ContextSource), nc.Context)
+// IsDuplicate herkent een bestaand NL->HU concept op tekst en context
+func IsDuplicate(lib *storage.Library, nc NewPair) bool {
+	return slices.ContainsFunc(lib.Concepts, func(c storage.TranslationConcept) bool {
+		return matches(lib.Words, c, "nl", nc.Dutch, "hu") && strings.EqualFold(strings.TrimSpace(c.ContextSource), nc.Context)
 	})
 }
 
-// reverseCandidates geeft de bestaande HU->NL concepten met dit Hongaarse woord als bron
-func reverseCandidates(words map[string]storage.Word, concepts []storage.TranslationConcept, hungarian string) []int {
+// ReverseCandidates geeft de bestaande HU->NL concepten met dit Hongaarse woord als bron
+func ReverseCandidates(lib *storage.Library, hungarian string) []int {
 	var idx []int
-	for i, c := range concepts {
-		if matches(words, c, "hu", hungarian, "nl") {
+	for i, c := range lib.Concepts {
+		if matches(lib.Words, c, "hu", hungarian, "nl") {
 			idx = append(idx, i)
 		}
 	}
 	return idx
 }
 
-// reverseHintTaken is true als een ander HU->NL concept met dit woord al deze hint heeft
-func reverseHintTaken(words map[string]storage.Word, concepts []storage.TranslationConcept, nc newConcept, hint string) bool {
-	for _, i := range reverseCandidates(words, concepts, nc.Hungarian[0]) {
-		existing := concepts[i].ContextSource
-		if h, ok := nc.ExistingHints[concepts[i].ID]; ok {
+// ReverseHintTaken is true als een ander HU->NL concept met dit woord al deze hint heeft
+func ReverseHintTaken(lib *storage.Library, nc NewPair, hint string) bool {
+	for _, i := range ReverseCandidates(lib, nc.Hungarian[0]) {
+		existing := lib.Concepts[i].ContextSource
+		if h, ok := nc.ExistingHints[lib.Concepts[i].ID]; ok {
 			existing = h
 		}
 		if strings.EqualFold(strings.TrimSpace(existing), strings.TrimSpace(hint)) {
@@ -85,24 +88,26 @@ func reverseHintTaken(words map[string]storage.Word, concepts []storage.Translat
 	return false
 }
 
-// addConceptPair voegt het NL->HU concept toe en maakt of verrijkt het HU->NL concept.
-// Alle controles gebeuren vóór er iets aangepast wordt.
-func addConceptPair(words map[string]storage.Word, concepts []storage.TranslationConcept, nc newConcept) ([]storage.TranslationConcept, addResult, error) {
-	res := addResult{ReverseSource: nc.Hungarian[0], ReverseMerged: nc.MergeReverseInto != ""}
+// AddPair voegt het NL->HU concept toe en maakt of verrijkt het HU->NL concept.
+// Alle controles gebeuren vóór er iets aangepast wordt. Nieuwe concepten zijn meteen te oefenen.
+func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
+	words := lib.Words
+	res := AddResult{ReverseSource: nc.Hungarian[0], ReverseMerged: nc.MergeReverseInto != ""}
 
 	// --- CONTROLES ---
-	if isDuplicate(words, concepts, nc) {
-		return concepts, res, ErrDuplicate
+	if IsDuplicate(lib, nc) {
+		return res, ErrDuplicate
 	}
 	mergeIdx := -1
 	if res.ReverseMerged {
-		mergeIdx = indexOf(concepts, nc.MergeReverseInto)
-		if mergeIdx < 0 || !matches(words, concepts[mergeIdx], "hu", nc.Hungarian[0], "nl") {
-			return concepts, res, fmt.Errorf("HU->NL concept %q hoort niet bij %q", nc.MergeReverseInto, nc.Hungarian[0])
+		mergeIdx = lib.Index(nc.MergeReverseInto)
+		if mergeIdx < 0 || !matches(words, lib.Concepts[mergeIdx], "hu", nc.Hungarian[0], "nl") {
+			return res, fmt.Errorf("HU->NL concept %q hoort niet bij %q", nc.MergeReverseInto, nc.Hungarian[0])
 		}
-	} else if reverseHintTaken(words, concepts, nc, nc.ReverseContext) {
-		return concepts, res, ErrReverseAmbiguous
+	} else if ReverseHintTaken(lib, nc, nc.ReverseContext) {
+		return res, ErrReverseAmbiguous
 	}
+	now := time.Now()
 
 	// --- VERWERK DE WOORDEN IN DE POOL (bestaande woorden worden hergebruikt) ---
 	dutchID := ensureWord(words, "nl", nc.Dutch)
@@ -118,44 +123,46 @@ func addConceptPair(words map[string]storage.Word, concepts []storage.Translatio
 	if nc.Context != "" {
 		base += "_" + safeID(nc.Context)
 	}
-	concepts = append(concepts, storage.TranslationConcept{
-		ID:            uniqueConceptID(concepts, base),
+	lib.Concepts = append(lib.Concepts, storage.TranslationConcept{
+		ID:            uniqueConceptID(lib, base),
 		SourceWordID:  dutchID,
 		ContextSource: nc.Context,
 		TargetWordIDs: huIDs,
 		Example:       nc.Example,
 		ExampleLang:   exampleLang(nc.Example),
+		NextReview:    now,
 	})
 
 	// --- CONCEPT 2: Hongaars -> Nederlands ---
 	if mergeIdx >= 0 {
-		merged := &concepts[mergeIdx]
+		merged := &lib.Concepts[mergeIdx]
 		if !slices.Contains(merged.TargetWordIDs, dutchID) {
 			merged.TargetWordIDs = append(merged.TargetWordIDs, dutchID)
 		}
 		if merged.Example == "" && nc.Example != "" {
 			merged.Example, merged.ExampleLang = nc.Example, exampleLang(nc.Example)
 		}
-		return concepts, res, nil
+		return res, nil
 	}
 	for id, hint := range nc.ExistingHints {
-		if i := indexOf(concepts, id); i >= 0 {
-			concepts[i].ContextSource = strings.TrimSpace(hint)
+		if i := lib.Index(id); i >= 0 {
+			lib.Concepts[i].ContextSource = strings.TrimSpace(hint)
 		}
 	}
 	base = "c_hu_nl_" + safeID(nc.Hungarian[0])
 	if nc.ReverseContext != "" {
 		base += "_" + safeID(nc.ReverseContext)
 	}
-	concepts = append(concepts, storage.TranslationConcept{
-		ID:            uniqueConceptID(concepts, base),
+	lib.Concepts = append(lib.Concepts, storage.TranslationConcept{
+		ID:            uniqueConceptID(lib, base),
 		SourceWordID:  huIDs[0],
 		ContextSource: strings.TrimSpace(nc.ReverseContext),
 		TargetWordIDs: []string{dutchID},
 		Example:       nc.Example,
 		ExampleLang:   exampleLang(nc.Example),
+		NextReview:    now,
 	})
-	return concepts, res, nil
+	return res, nil
 }
 
 // matches is true als het concept van srcLang naar targetLang gaat met deze brontekst (hoofdletterongevoelig)
@@ -167,13 +174,13 @@ func matches(words map[string]storage.Word, c storage.TranslationConcept, srcLan
 	return len(c.TargetWordIDs) > 0 && words[c.TargetWordIDs[0]].Language == targetLang
 }
 
-// targetTexts geeft de geaccepteerde antwoorden van een concept, voor meldingen
-func targetTexts(words map[string]storage.Word, c storage.TranslationConcept) string {
+// TargetTexts geeft de geaccepteerde antwoorden van een concept
+func TargetTexts(lib *storage.Library, c storage.TranslationConcept) []string {
 	var texts []string
 	for _, id := range c.TargetWordIDs {
-		texts = append(texts, words[id].Text)
+		texts = append(texts, lib.Words[id].Text)
 	}
-	return strings.Join(texts, ", ")
+	return texts
 }
 
 // ensureWord geeft het ID van een bestaand woord met deze taal en tekst, of maakt een nieuw woord aan
@@ -206,8 +213,8 @@ func safeID(s string) string {
 	return strings.ReplaceAll(strings.ToLower(strings.TrimSpace(s)), " ", "_")
 }
 
-func uniqueConceptID(concepts []storage.TranslationConcept, base string) string {
-	return uniqueID(base, func(id string) bool { return indexOf(concepts, id) >= 0 })
+func uniqueConceptID(lib *storage.Library, base string) string {
+	return uniqueID(base, func(id string) bool { return lib.Index(id) >= 0 })
 }
 
 // uniqueID voegt _2, _3, ... toe zolang het ID al bezet is
@@ -217,8 +224,4 @@ func uniqueID(base string, taken func(string) bool) string {
 		id = fmt.Sprintf("%s_%d", base, n)
 	}
 	return id
-}
-
-func indexOf(concepts []storage.TranslationConcept, id string) int {
-	return slices.IndexFunc(concepts, func(c storage.TranslationConcept) bool { return c.ID == id })
 }

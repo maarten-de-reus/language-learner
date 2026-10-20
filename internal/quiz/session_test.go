@@ -28,7 +28,7 @@ func newTestSession(t *testing.T) (*Session, string) {
 	t.Helper()
 	words, concepts := testData()
 	path := filepath.Join(t.TempDir(), "voortgang.json")
-	return New(words, concepts, path, 10), path
+	return New(&storage.Library{Words: words, Concepts: concepts}, path, 10), path
 }
 
 func TestRunContainsOnlyDueConcepts(t *testing.T) {
@@ -154,12 +154,12 @@ func TestRetryDoesNotChangeSchedule(t *testing.T) {
 	s.Answer("víz")
 	s.Next()
 
-	before := s.concepts[s.run[s.pos].concept]
+	before := s.lib.Concepts[s.run[s.pos].concept]
 	fb, err := s.Answer("kávé")
 	if err != nil {
 		t.Fatal(err)
 	}
-	after := s.concepts[s.run[s.pos].concept]
+	after := s.lib.Concepts[s.run[s.pos].concept]
 	if !fb.Correct || !fb.Retry || fb.WillRetry {
 		t.Errorf("verwacht een goede herhaling zonder nieuwe herhaling, kreeg %+v", fb)
 	}
@@ -222,7 +222,7 @@ func időData(t *testing.T) *Session {
 		{ID: "c_nl_weer", SourceWordID: "w_nl_weer", TargetWordIDs: []string{"w_hu_idő"},
 			Example: "Milyen lesz az idő holnap?", ExampleLang: "hu", StepIndex: 3, NextReview: past},
 	}
-	return New(words, concepts, filepath.Join(t.TempDir(), "voortgang.json"), 10)
+	return New(&storage.Library{Words: words, Concepts: concepts}, filepath.Join(t.TempDir(), "voortgang.json"), 10)
 }
 
 func TestOtherMeaningIsWrongWithExplanation(t *testing.T) {

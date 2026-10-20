@@ -21,12 +21,12 @@ const (
 var webFiles embed.FS
 
 func main() {
-	wordsPool, conceptsDB, err := storage.LoadData(WordsPath, ProgressPath)
+	lib, err := storage.LoadLibrary(WordsPath, ProgressPath)
 	if err != nil {
 		log.Fatalf("Fout bij laden data: %v", err)
 	}
 
-	s := &server{session: quiz.New(wordsPool, conceptsDB, ProgressPath, RunSize)}
+	s := &server{lib: lib, session: quiz.New(lib, ProgressPath, RunSize)}
 
 	static, _ := fs.Sub(webFiles, "web")
 	http.Handle("/", http.FileServer(http.FS(static)))
