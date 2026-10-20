@@ -10,7 +10,7 @@ import (
 // config komt uit omgevingsvariabelen, zodat dezelfde binary lokaal en in productie draait.
 //
 //	ADDR           adres om op te luisteren (standaard 127.0.0.1:8080, alleen deze computer)
-//	DATA_DIR       map met woorden.json en voortgang.json (standaard de huidige map)
+//	DATA_DIR       map met woorden.json, voortgang.json en antwoorden.jsonl (standaard de huidige map)
 //	AUTH_USER      gebruikersnaam voor basic auth (optioneel, samen met AUTH_PASSWORD)
 //	AUTH_PASSWORD  wachtwoord voor basic auth
 //	TZ             tijdzone voor de dagindeling van herhalingen (bijv. Europe/Amsterdam)
@@ -36,6 +36,7 @@ func loadConfig() (config, error) {
 
 func (c config) wordsPath() string    { return filepath.Join(c.DataDir, "woorden.json") }
 func (c config) progressPath() string { return filepath.Join(c.DataDir, "voortgang.json") }
+func (c config) reviewsPath() string  { return filepath.Join(c.DataDir, "antwoorden.jsonl") }
 func (c config) authEnabled() bool    { return c.AuthUser != "" }
 
 // localOnly is true als de server alleen vanaf deze computer bereikbaar is

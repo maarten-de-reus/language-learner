@@ -32,7 +32,9 @@ func main() {
 		log.Fatalf("Fout bij laden data: %v", err)
 	}
 
-	s := &server{lib: lib, wordsPath: cfg.wordsPath(), session: quiz.New(lib, cfg.progressPath(), RunSize)}
+	session := quiz.New(lib, cfg.progressPath(), RunSize)
+	session.LogReviewsTo(storage.NewReviewLog(cfg.reviewsPath()))
+	s := &server{lib: lib, wordsPath: cfg.wordsPath(), session: session}
 	srv := &http.Server{
 		Addr:              cfg.Addr,
 		Handler:           withSecurity(s.routes(), cfg),

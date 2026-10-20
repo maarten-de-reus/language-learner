@@ -45,7 +45,7 @@ func (s *server) handleAnswer(w http.ResponseWriter, r *http.Request) {
 	fb, err := s.session.Answer(body.Input)
 	switch {
 	case err != nil:
-		s.saveError = "Voortgang kon niet worden opgeslagen: " + err.Error()
+		s.saveError = "Voortgang of antwoordenlog kon niet worden opgeslagen: " + err.Error()
 		log.Print(s.saveError)
 	case fb != nil:
 		s.saveError = ""

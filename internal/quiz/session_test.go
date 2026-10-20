@@ -1,6 +1,7 @@
 package quiz
 
 import (
+	"os"
 	"path/filepath"
 	"testing"
 	"time"
@@ -276,5 +277,51 @@ func TestExampleShownBeforeOnlyWhenItDoesNotGiveAwayTheAnswer(t *testing.T) {
 	}
 	if fb, _ := s.Answer("idő"); fb.Example != "Milyen lesz az idő holnap?" {
 		t.Errorf("NL->HU: verwacht de voorbeeldzin in de feedback, kreeg %q", fb.Example)
+	}
+}
+
+func TestAnswersAreLogged(t *testing.T) {
+	s, path := newTestSession(t)
+	logPath := filepath.Join(filepath.Dir(path), "antwoorden.jsonl")
+	s.LogReviewsTo(storage.NewReviewLog(logPath))
+
+	first := s.Current().ID
+	stepBefore := s.Current().Step
+	answer := correctAnswer(s)
+	s.Answer("fout") // komt terug als oefenherhaling
+	s.Next()
+	s.Answer(correctAnswer(s))
+	s.Next()
+	s.Answer(answer) // de herhaling, nu goed
+
+	reviews, skipped, err := storage.ReadReviews(logPath)
+	if err != nil || skipped != 0 {
+		t.Fatalf("lezen: %v (%d overgeslagen)", err, skipped)
+	}
+	if len(reviews) != 3 {
+		t.Fatalf("verwacht 3 antwoorden in het log, kreeg %d", len(reviews))
+	}
+	wrong, retry := reviews[0], reviews[2]
+	if wrong.ConceptID != first || wrong.Correct || wrong.Retry || wrong.Input != "fout" || wrong.StepBefore != stepBefore || wrong.StepAfter != 0 {
+		t.Errorf("eerste antwoord: %+v", wrong)
+	}
+	if retry.ConceptID != first || !retry.Correct || !retry.Retry || retry.StepBefore != 0 || retry.StepAfter != 0 {
+		t.Errorf("oefenherhaling moet als retry gelogd worden zonder stapwijziging: %+v", retry)
+	}
+}
+
+func TestBrokenLogDoesNotBlockPractice(t *testing.T) {
+	s, path := newTestSession(t)
+	s.LogReviewsTo(storage.NewReviewLog(filepath.Join(filepath.Dir(path), "bestaat-niet", "antwoorden.jsonl")))
+
+	fb, err := s.Answer(correctAnswer(s))
+	if err == nil {
+		t.Error("een mislukt log moet als fout gemeld worden")
+	}
+	if fb == nil || !fb.Correct {
+		t.Fatalf("het antwoord moet gewoon nagekeken zijn, kreeg %+v", fb)
+	}
+	if _, err := os.Stat(path); err != nil {
+		t.Errorf("de voortgang moet wel opgeslagen zijn: %v", err)
 	}
 }

@@ -3,6 +3,7 @@
 package quiz
 
 import (
+	"errors"
 	"strings"
 	"time"
 
@@ -85,6 +86,12 @@ type Session struct {
 	results      []Result
 	progressPath string
 	runSize      int
+	reviewLog    *storage.ReviewLog // optioneel: elk antwoord wordt hierin bijgehouden
+}
+
+// LogReviewsTo laat de sessie elk antwoord, ook oefenherhalingen, in het antwoordenlog schrijven
+func (s *Session) LogReviewsTo(l *storage.ReviewLog) {
+	s.reviewLog = l
 }
 
 // New maakt een sessie en start meteen de eerste run
@@ -133,7 +140,7 @@ func (s *Session) Current() *Card {
 // Bij een eerste poging wordt de voortgang bijgewerkt en opgeslagen; bij een oefenherhaling niet.
 // Een fout antwoord zet het concept (maximaal MaxRetries keer) achteraan de run.
 // Geeft nil terug als er niets na te kijken valt (run klaar, of al beantwoord).
-// Een fout betekent dat opslaan mislukte; de voortgang is in het geheugen wel bijgewerkt.
+// Een fout betekent dat opslaan of het antwoordenlog mislukte; de voortgang is in het geheugen wel bijgewerkt.
 func (s *Session) Answer(input string) (*Feedback, error) {
 	if s.Done() || s.feedback != nil {
 		return nil, nil
@@ -143,6 +150,7 @@ func (s *Session) Answer(input string) (*Feedback, error) {
 	concept := &s.lib.Concepts[item.concept]
 	expected := s.targetTexts(concept)
 	correct, accentOnly := engine.CheckAnswer(input, expected)
+	stepBefore := concept.StepIndex
 
 	var saveErr error
 	if item.retry == 0 {
@@ -180,7 +188,27 @@ func (s *Session) Answer(input string) (*Feedback, error) {
 	if !correct {
 		s.feedback.OtherMeaning = s.otherMeaning(item.concept, input)
 	}
-	return s.feedback, saveErr
+	return s.feedback, errors.Join(saveErr, s.logReview(concept, input, stepBefore))
+}
+
+// logReview schrijft het zojuist gegeven antwoord in het antwoordenlog (als dat ingesteld is)
+func (s *Session) logReview(c *storage.TranslationConcept, input string, stepBefore int) error {
+	if s.reviewLog == nil {
+		return nil
+	}
+	fb := s.feedback
+	return s.reviewLog.Append(storage.Review{
+		Time:         time.Now(),
+		ConceptID:    c.ID,
+		Input:        input,
+		Correct:      fb.Correct,
+		AccentOnly:   fb.AccentOnly,
+		OtherMeaning: fb.OtherMeaning != nil,
+		Retry:        fb.Retry,
+		StepBefore:   stepBefore,
+		StepAfter:    c.StepIndex,
+		NextReview:   c.NextReview,
+	})
 }
 
 // otherMeaning zoekt een ander concept met hetzelfde bronwoord (taal + tekst, niet het ID)
