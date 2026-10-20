@@ -311,4 +311,4 @@ function render() {
 }
 
 app.innerHTML = `<div class="skeleton"></div>`;
-act("/api/state");
+// De start (en het wisselen tussen Oefenen en Beheer) regelt manage.js
