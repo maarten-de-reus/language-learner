@@ -3,7 +3,12 @@ package storage
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
+	"io/fs"
 	"os"
+	"path/filepath"
+	"slices"
+	"strings"
 	"time"
 )
 
@@ -38,11 +43,19 @@ func LoadData(wordsFile, progressFile string) (map[string]Word, []TranslationCon
 		wordsPool[w.ID] = w
 	}
 
-	// 2. Probeer voortgang.json te lezen (als deze bestaat)
+	// 2. Lees voortgang.json. Ontbreekt het bestand, dan starten we zonder voortgang.
+	// Is het onleesbaar of corrupt, dan stoppen we: anders overschrijft de volgende save alle voortgang.
 	progressMap := make(map[string]ProgressState)
 	progressData, err := os.ReadFile(progressFile)
-	if err == nil {
-		_ = json.Unmarshal(progressData, &progressMap)
+	switch {
+	case errors.Is(err, fs.ErrNotExist):
+		// eerste keer opstarten
+	case err != nil:
+		return nil, nil, err
+	default:
+		if err := json.Unmarshal(progressData, &progressMap); err != nil {
+			return nil, nil, fmt.Errorf("%s is corrupt: %w", progressFile, err)
+		}
 	}
 
 	// 3. Vlecht de voortgang in de concepten. Bestaat er geen voortgang? Dan starten we op NU.
@@ -82,8 +95,7 @@ func SaveProgress(progressFile string, concepts []TranslationConcept) error {
 		return err
 	}
 
-	// Schrijf (of overschrijf) het bestand met de juiste Unix permissies
-	return os.WriteFile(progressFile, data, 0644)
+	return writeFileAtomic(progressFile, data)
 }
 
 // SaveWords schrijft de geüpdatete woorden-pool en concepten terug naar woorden.json
@@ -93,6 +105,8 @@ func SaveWords(wordsFile string, wordsPool map[string]Word, concepts []Translati
 	for _, w := range wordsPool {
 		wordsSlice = append(wordsSlice, w)
 	}
+	// Vaste volgorde, zodat woorden.json niet bij elke save door elkaar wordt gegooid
+	slices.SortFunc(wordsSlice, func(a, b Word) int { return strings.Compare(a.ID, b.ID) })
 
 	// Filter de runtime Spaced Repetition data eruit, zodat woorden.json schoon blijft
 	cleanConcepts := make([]TranslationConcept, len(concepts))
@@ -115,5 +129,31 @@ func SaveWords(wordsFile string, wordsPool map[string]Word, concepts []Translati
 		return err
 	}
 
-	return os.WriteFile(wordsFile, jsonData, 0644)
+	return writeFileAtomic(wordsFile, jsonData)
+}
+
+// writeFileAtomic schrijft eerst naar een tijdelijk bestand in dezelfde map en hernoemt dat daarna.
+// Een crash halverwege laat zo altijd het oude of het nieuwe bestand achter, nooit een half bestand.
+func writeFileAtomic(path string, data []byte) error {
+	tmp, err := os.CreateTemp(filepath.Dir(path), filepath.Base(path)+".tmp-*")
+	if err != nil {
+		return err
+	}
+	defer os.Remove(tmp.Name()) // no-op na een geslaagde rename
+
+	if _, err := tmp.Write(data); err != nil {
+		tmp.Close()
+		return err
+	}
+	if err := tmp.Sync(); err != nil {
+		tmp.Close()
+		return err
+	}
+	if err := tmp.Close(); err != nil {
+		return err
+	}
+	if err := os.Chmod(tmp.Name(), 0644); err != nil {
+		return err
+	}
+	return os.Rename(tmp.Name(), path)
 }
