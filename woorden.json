@@ -1,369 +1,9 @@
 {
   "words": [
     {
-      "id": "w_hu_11",
-      "language": "hu",
-      "text": "te"
-    },
-    {
-      "id": "w_nl_15",
-      "language": "nl",
-      "text": "zij"
-    },
-    {
-      "id": "w_hu_32",
-      "language": "hu",
-      "text": "vonat"
-    },
-    {
-      "id": "w_hu_35",
-      "language": "hu",
-      "text": "barát"
-    },
-    {
-      "id": "w_hu_37",
-      "language": "hu",
-      "text": "férfi"
-    },
-    {
-      "id": "w_hu_kedvenc",
-      "language": "hu",
-      "text": "kedvenc"
-    },
-    {
-      "id": "w_nl_13",
-      "language": "nl",
-      "text": "wij"
-    },
-    {
-      "id": "w_nl_17",
-      "language": "nl",
-      "text": "twee"
-    },
-    {
-      "id": "w_nl_27",
-      "language": "nl",
-      "text": "brood"
-    },
-    {
-      "id": "w_hu_47",
-      "language": "hu",
-      "text": "alszik"
-    },
-    {
-      "id": "w_nl_weer",
-      "language": "nl",
-      "text": "weer"
-    },
-    {
-      "id": "w_hu_idő",
-      "language": "hu",
-      "text": "idő"
-    },
-    {
-      "id": "w_hu_8",
-      "language": "hu",
-      "text": "igen"
-    },
-    {
-      "id": "w_nl_12",
-      "language": "nl",
-      "text": "hij"
-    },
-    {
-      "id": "w_nl_praten",
-      "language": "nl",
-      "text": "praten"
-    },
-    {
-      "id": "w_nl_warmte",
-      "language": "nl",
-      "text": "warmte"
-    },
-    {
-      "id": "w_nl_6",
-      "language": "nl",
-      "text": "dank je"
-    },
-    {
-      "id": "w_nl_42",
-      "language": "nl",
-      "text": "lezen"
-    },
-    {
-      "id": "w_nl_49",
-      "language": "nl",
-      "text": "goed"
-    },
-    {
-      "id": "w_hu_51",
-      "language": "hu",
-      "text": "nagy"
-    },
-    {
-      "id": "w_nl_9",
-      "language": "nl",
-      "text": "nee"
-    },
-    {
-      "id": "w_hu_13",
-      "language": "hu",
-      "text": "mi"
-    },
-    {
-      "id": "w_nl_14",
-      "language": "nl",
-      "text": "jullie"
-    },
-    {
-      "id": "w_nl_18",
-      "language": "nl",
-      "text": "drie"
-    },
-    {
-      "id": "w_nl_24",
-      "language": "nl",
-      "text": "negen"
-    },
-    {
-      "id": "w_hu_38",
-      "language": "hu",
-      "text": "gyerek"
-    },
-    {
-      "id": "w_nl_44",
-      "language": "nl",
-      "text": "komen"
-    },
-    {
-      "id": "w_hu_45",
-      "language": "hu",
-      "text": "eszik"
-    },
-    {
-      "id": "w_nl_7",
-      "language": "nl",
-      "text": "alstublieft"
-    },
-    {
-      "id": "w_nl_4",
-      "language": "nl",
-      "text": "goedenavond"
-    },
-    {
-      "id": "w_hu_5",
-      "language": "hu",
-      "text": "jó éjszakát"
-    },
-    {
-      "id": "w_nl_38",
-      "language": "nl",
-      "text": "kind"
-    },
-    {
-      "id": "w_hu_54",
-      "language": "hu",
-      "text": "új"
-    },
-    {
-      "id": "w_hu_46",
-      "language": "hu",
-      "text": "iszik"
-    },
-    {
-      "id": "w_nl_54",
-      "language": "nl",
-      "text": "nieuw"
-    },
-    {
-      "id": "w_hu_szobahőmérséklet",
-      "language": "hu",
-      "text": "szobahőmérséklet"
-    },
-    {
       "id": "w_hu_1",
       "language": "hu",
       "text": "szia"
-    },
-    {
-      "id": "w_nl_11",
-      "language": "nl",
-      "text": "jij"
-    },
-    {
-      "id": "w_hu_33",
-      "language": "hu",
-      "text": "bolt"
-    },
-    {
-      "id": "w_nl_55",
-      "language": "nl",
-      "text": "oud"
-    },
-    {
-      "id": "w_nl_1",
-      "language": "nl",
-      "text": "hallo"
-    },
-    {
-      "id": "w_hu_29",
-      "language": "hu",
-      "text": "sör"
-    },
-    {
-      "id": "w_nl_39",
-      "language": "nl",
-      "text": "studeren"
-    },
-    {
-      "id": "w_hu_39",
-      "language": "hu",
-      "text": "tanul"
-    },
-    {
-      "id": "w_nl_40",
-      "language": "nl",
-      "text": "spreken"
-    },
-    {
-      "id": "w_nl_mate",
-      "language": "nl",
-      "text": "mate"
-    },
-    {
-      "id": "w_hu_meleg",
-      "language": "hu",
-      "text": "meleg"
-    },
-    {
-      "id": "w_nl_12_f",
-      "language": "nl",
-      "text": "zij"
-    },
-    {
-      "id": "w_hu_12",
-      "language": "hu",
-      "text": "ő"
-    },
-    {
-      "id": "w_nl_28",
-      "language": "nl",
-      "text": "koffie"
-    },
-    {
-      "id": "w_hu_36",
-      "language": "hu",
-      "text": "nő"
-    },
-    {
-      "id": "w_hu_55",
-      "language": "hu",
-      "text": "régi"
-    },
-    {
-      "id": "w_nl_23",
-      "language": "nl",
-      "text": "acht"
-    },
-    {
-      "id": "w_hu_23",
-      "language": "hu",
-      "text": "nyolc"
-    },
-    {
-      "id": "w_nl_32",
-      "language": "nl",
-      "text": "trein"
-    },
-    {
-      "id": "w_nl_34",
-      "language": "nl",
-      "text": "school"
-    },
-    {
-      "id": "w_nl_57",
-      "language": "nl",
-      "text": "morgen"
-    },
-    {
-      "id": "w_nl_temperatuur",
-      "language": "nl",
-      "text": "temperatuur"
-    },
-    {
-      "id": "w_hu_hőmérséklet",
-      "language": "hu",
-      "text": "hőmérséklet"
-    },
-    {
-      "id": "w_nl_25",
-      "language": "nl",
-      "text": "tien"
-    },
-    {
-      "id": "w_nl_43",
-      "language": "nl",
-      "text": "gaan"
-    },
-    {
-      "id": "w_hu_normális",
-      "language": "hu",
-      "text": "normális"
-    },
-    {
-      "id": "w_nl_2",
-      "language": "nl",
-      "text": "goedemorgen"
-    },
-    {
-      "id": "w_nl_10",
-      "language": "nl",
-      "text": "ik"
-    },
-    {
-      "id": "w_hu_19",
-      "language": "hu",
-      "text": "négy"
-    },
-    {
-      "id": "w_nl_30",
-      "language": "nl",
-      "text": "huis"
-    },
-    {
-      "id": "w_hu_beszélni",
-      "language": "hu",
-      "text": "beszélni"
-    },
-    {
-      "id": "w_hu_hő",
-      "language": "hu",
-      "text": "hő"
-    },
-    {
-      "id": "w_hu_17",
-      "language": "hu",
-      "text": "kettő"
-    },
-    {
-      "id": "w_nl_19",
-      "language": "nl",
-      "text": "vier"
-    },
-    {
-      "id": "w_hu_20",
-      "language": "hu",
-      "text": "öt"
-    },
-    {
-      "id": "w_hu_40",
-      "language": "hu",
-      "text": "beszél"
-    },
-    {
-      "id": "w_hu_3",
-      "language": "hu",
-      "text": "jó napot"
     },
     {
       "id": "w_hu_10",
@@ -371,159 +11,19 @@
       "text": "én"
     },
     {
-      "id": "w_nl_16",
-      "language": "nl",
-      "text": "een"
-    },
-    {
-      "id": "w_hu_16",
+      "id": "w_hu_11",
       "language": "hu",
-      "text": "egy"
+      "text": "te"
     },
     {
-      "id": "w_nl_29",
-      "language": "nl",
-      "text": "bier"
-    },
-    {
-      "id": "w_nl_8",
-      "language": "nl",
-      "text": "ja"
-    },
-    {
-      "id": "w_nl_36",
-      "language": "nl",
-      "text": "vrouw"
-    },
-    {
-      "id": "w_nl_51",
-      "language": "nl",
-      "text": "groot"
-    },
-    {
-      "id": "w_nl_kamertemperatuur",
-      "language": "nl",
-      "text": "kamertemperatuur"
-    },
-    {
-      "id": "w_nl_favoriet",
-      "language": "nl",
-      "text": "favoriet"
-    },
-    {
-      "id": "w_nl_21",
-      "language": "nl",
-      "text": "zes"
-    },
-    {
-      "id": "w_hu_31",
+      "id": "w_hu_12",
       "language": "hu",
-      "text": "autó"
+      "text": "ő"
     },
     {
-      "id": "w_hu_50",
+      "id": "w_hu_13",
       "language": "hu",
-      "text": "rossz"
-    },
-    {
-      "id": "w_hu_52",
-      "language": "hu",
-      "text": "kicsi"
-    },
-    {
-      "id": "w_hu_milyen",
-      "language": "hu",
-      "text": "milyen"
-    },
-    {
-      "id": "w_hu_melyik",
-      "language": "hu",
-      "text": "melyik"
-    },
-    {
-      "id": "w_nl_5",
-      "language": "nl",
-      "text": "goedenacht"
-    },
-    {
-      "id": "w_nl_37",
-      "language": "nl",
-      "text": "man"
-    },
-    {
-      "id": "w_hu_53",
-      "language": "hu",
-      "text": "szép"
-    },
-    {
-      "id": "w_hu_56",
-      "language": "hu",
-      "text": "ma"
-    },
-    {
-      "id": "w_hu_58",
-      "language": "hu",
-      "text": "tegnap"
-    },
-    {
-      "id": "w_hu_forró",
-      "language": "hu",
-      "text": "forró"
-    },
-    {
-      "id": "w_nl_45",
-      "language": "nl",
-      "text": "eten"
-    },
-    {
-      "id": "w_nl_47",
-      "language": "nl",
-      "text": "slapen"
-    },
-    {
-      "id": "w_hu_57",
-      "language": "hu",
-      "text": "holnap"
-    },
-    {
-      "id": "w_nl_58",
-      "language": "nl",
-      "text": "gisteren"
-    },
-    {
-      "id": "w_nl_normaal",
-      "language": "nl",
-      "text": "normaal"
-    },
-    {
-      "id": "w_nl_22",
-      "language": "nl",
-      "text": "zeven"
-    },
-    {
-      "id": "w_hu_42",
-      "language": "hu",
-      "text": "olvas"
-    },
-    {
-      "id": "w_nl_welke",
-      "language": "nl",
-      "text": "welke"
-    },
-    {
-      "id": "w_hu_26",
-      "language": "hu",
-      "text": "víz"
-    },
-    {
-      "id": "w_nl_41",
-      "language": "nl",
-      "text": "schrijven"
-    },
-    {
-      "id": "w_nl_48",
-      "language": "nl",
-      "text": "zien"
+      "text": "mi"
     },
     {
       "id": "w_hu_14",
@@ -531,94 +31,19 @@
       "text": "ti"
     },
     {
-      "id": "w_hu_30",
-      "language": "hu",
-      "text": "ház"
-    },
-    {
-      "id": "w_hu_44",
-      "language": "hu",
-      "text": "jön"
-    },
-    {
-      "id": "w_hu_mérséklet",
-      "language": "hu",
-      "text": "mérséklet"
-    },
-    {
-      "id": "w_hu_4",
-      "language": "hu",
-      "text": "jó estét"
-    },
-    {
       "id": "w_hu_15",
       "language": "hu",
       "text": "ők"
     },
     {
-      "id": "w_nl_35",
-      "language": "nl",
-      "text": "vriend"
-    },
-    {
-      "id": "w_hu_25",
+      "id": "w_hu_16",
       "language": "hu",
-      "text": "tíz"
+      "text": "egy"
     },
     {
-      "id": "w_nl_warm",
-      "language": "nl",
-      "text": "warm"
-    },
-    {
-      "id": "w_hu_34",
+      "id": "w_hu_17",
       "language": "hu",
-      "text": "iskola"
-    },
-    {
-      "id": "w_nl_56",
-      "language": "nl",
-      "text": "vandaag"
-    },
-    {
-      "id": "w_nl_20",
-      "language": "nl",
-      "text": "vijf"
-    },
-    {
-      "id": "w_hu_21",
-      "language": "hu",
-      "text": "hat"
-    },
-    {
-      "id": "w_hu_7",
-      "language": "hu",
-      "text": "kérem"
-    },
-    {
-      "id": "w_hu_28",
-      "language": "hu",
-      "text": "kávé"
-    },
-    {
-      "id": "w_hu_43",
-      "language": "hu",
-      "text": "megy"
-    },
-    {
-      "id": "w_hu_49",
-      "language": "hu",
-      "text": "jó"
-    },
-    {
-      "id": "w_nl_50",
-      "language": "nl",
-      "text": "slecht"
-    },
-    {
-      "id": "w_nl_heet",
-      "language": "nl",
-      "text": "heet"
+      "text": "kettő"
     },
     {
       "id": "w_hu_18",
@@ -626,24 +51,9 @@
       "text": "három"
     },
     {
-      "id": "w_nl_26",
-      "language": "nl",
-      "text": "water"
-    },
-    {
-      "id": "w_hu_48",
+      "id": "w_hu_19",
       "language": "hu",
-      "text": "lát"
-    },
-    {
-      "id": "w_nl_52",
-      "language": "nl",
-      "text": "klein"
-    },
-    {
-      "id": "w_hu_22",
-      "language": "hu",
-      "text": "hét"
+      "text": "négy"
     },
     {
       "id": "w_hu_2",
@@ -651,9 +61,24 @@
       "text": "jó reggelt"
     },
     {
-      "id": "w_nl_3",
-      "language": "nl",
-      "text": "goedendag"
+      "id": "w_hu_20",
+      "language": "hu",
+      "text": "öt"
+    },
+    {
+      "id": "w_hu_21",
+      "language": "hu",
+      "text": "hat"
+    },
+    {
+      "id": "w_hu_22",
+      "language": "hu",
+      "text": "hét"
+    },
+    {
+      "id": "w_hu_23",
+      "language": "hu",
+      "text": "nyolc"
     },
     {
       "id": "w_hu_24",
@@ -661,34 +86,94 @@
       "text": "kilenc"
     },
     {
+      "id": "w_hu_25",
+      "language": "hu",
+      "text": "tíz"
+    },
+    {
+      "id": "w_hu_26",
+      "language": "hu",
+      "text": "víz"
+    },
+    {
       "id": "w_hu_27",
       "language": "hu",
       "text": "kenyér"
     },
     {
-      "id": "w_nl_53",
-      "language": "nl",
-      "text": "mooi"
-    },
-    {
-      "id": "w_nl_wat_voor",
-      "language": "nl",
-      "text": "wat voor"
-    },
-    {
-      "id": "w_nl_31",
-      "language": "nl",
-      "text": "auto"
-    },
-    {
-      "id": "w_hu_6",
+      "id": "w_hu_28",
       "language": "hu",
-      "text": "köszönöm"
+      "text": "kávé"
     },
     {
-      "id": "w_nl_33",
-      "language": "nl",
-      "text": "winkel"
+      "id": "w_hu_29",
+      "language": "hu",
+      "text": "sör"
+    },
+    {
+      "id": "w_hu_3",
+      "language": "hu",
+      "text": "jó napot"
+    },
+    {
+      "id": "w_hu_30",
+      "language": "hu",
+      "text": "ház"
+    },
+    {
+      "id": "w_hu_31",
+      "language": "hu",
+      "text": "autó"
+    },
+    {
+      "id": "w_hu_32",
+      "language": "hu",
+      "text": "vonat"
+    },
+    {
+      "id": "w_hu_33",
+      "language": "hu",
+      "text": "bolt"
+    },
+    {
+      "id": "w_hu_34",
+      "language": "hu",
+      "text": "iskola"
+    },
+    {
+      "id": "w_hu_35",
+      "language": "hu",
+      "text": "barát"
+    },
+    {
+      "id": "w_hu_36",
+      "language": "hu",
+      "text": "nő"
+    },
+    {
+      "id": "w_hu_37",
+      "language": "hu",
+      "text": "férfi"
+    },
+    {
+      "id": "w_hu_38",
+      "language": "hu",
+      "text": "gyerek"
+    },
+    {
+      "id": "w_hu_39",
+      "language": "hu",
+      "text": "tanul"
+    },
+    {
+      "id": "w_hu_4",
+      "language": "hu",
+      "text": "jó estét"
+    },
+    {
+      "id": "w_hu_40",
+      "language": "hu",
+      "text": "beszél"
     },
     {
       "id": "w_hu_41",
@@ -696,14 +181,529 @@
       "text": "ír"
     },
     {
-      "id": "w_nl_46",
-      "language": "nl",
-      "text": "drinken"
+      "id": "w_hu_42",
+      "language": "hu",
+      "text": "olvas"
+    },
+    {
+      "id": "w_hu_43",
+      "language": "hu",
+      "text": "megy"
+    },
+    {
+      "id": "w_hu_44",
+      "language": "hu",
+      "text": "jön"
+    },
+    {
+      "id": "w_hu_45",
+      "language": "hu",
+      "text": "eszik"
+    },
+    {
+      "id": "w_hu_46",
+      "language": "hu",
+      "text": "iszik"
+    },
+    {
+      "id": "w_hu_47",
+      "language": "hu",
+      "text": "alszik"
+    },
+    {
+      "id": "w_hu_48",
+      "language": "hu",
+      "text": "lát"
+    },
+    {
+      "id": "w_hu_49",
+      "language": "hu",
+      "text": "jó"
+    },
+    {
+      "id": "w_hu_5",
+      "language": "hu",
+      "text": "jó éjszakát"
+    },
+    {
+      "id": "w_hu_50",
+      "language": "hu",
+      "text": "rossz"
+    },
+    {
+      "id": "w_hu_51",
+      "language": "hu",
+      "text": "nagy"
+    },
+    {
+      "id": "w_hu_52",
+      "language": "hu",
+      "text": "kicsi"
+    },
+    {
+      "id": "w_hu_53",
+      "language": "hu",
+      "text": "szép"
+    },
+    {
+      "id": "w_hu_54",
+      "language": "hu",
+      "text": "új"
+    },
+    {
+      "id": "w_hu_55",
+      "language": "hu",
+      "text": "régi"
+    },
+    {
+      "id": "w_hu_56",
+      "language": "hu",
+      "text": "ma"
+    },
+    {
+      "id": "w_hu_57",
+      "language": "hu",
+      "text": "holnap"
+    },
+    {
+      "id": "w_hu_58",
+      "language": "hu",
+      "text": "tegnap"
+    },
+    {
+      "id": "w_hu_6",
+      "language": "hu",
+      "text": "köszönöm"
+    },
+    {
+      "id": "w_hu_7",
+      "language": "hu",
+      "text": "kérem"
+    },
+    {
+      "id": "w_hu_8",
+      "language": "hu",
+      "text": "igen"
     },
     {
       "id": "w_hu_9",
       "language": "hu",
       "text": "nem"
+    },
+    {
+      "id": "w_hu_beszélni",
+      "language": "hu",
+      "text": "beszélni"
+    },
+    {
+      "id": "w_hu_forró",
+      "language": "hu",
+      "text": "forró"
+    },
+    {
+      "id": "w_hu_hő",
+      "language": "hu",
+      "text": "hő"
+    },
+    {
+      "id": "w_hu_hőmérséklet",
+      "language": "hu",
+      "text": "hőmérséklet"
+    },
+    {
+      "id": "w_hu_idő",
+      "language": "hu",
+      "text": "idő"
+    },
+    {
+      "id": "w_hu_kedvenc",
+      "language": "hu",
+      "text": "kedvenc"
+    },
+    {
+      "id": "w_hu_meleg",
+      "language": "hu",
+      "text": "meleg"
+    },
+    {
+      "id": "w_hu_melyik",
+      "language": "hu",
+      "text": "melyik"
+    },
+    {
+      "id": "w_hu_milyen",
+      "language": "hu",
+      "text": "milyen"
+    },
+    {
+      "id": "w_hu_mérséklet",
+      "language": "hu",
+      "text": "mérséklet"
+    },
+    {
+      "id": "w_hu_normális",
+      "language": "hu",
+      "text": "normális"
+    },
+    {
+      "id": "w_hu_szobahőmérséklet",
+      "language": "hu",
+      "text": "szobahőmérséklet"
+    },
+    {
+      "id": "w_nl_1",
+      "language": "nl",
+      "text": "hallo"
+    },
+    {
+      "id": "w_nl_10",
+      "language": "nl",
+      "text": "ik"
+    },
+    {
+      "id": "w_nl_11",
+      "language": "nl",
+      "text": "jij"
+    },
+    {
+      "id": "w_nl_12",
+      "language": "nl",
+      "text": "hij"
+    },
+    {
+      "id": "w_nl_12_f",
+      "language": "nl",
+      "text": "zij"
+    },
+    {
+      "id": "w_nl_13",
+      "language": "nl",
+      "text": "wij"
+    },
+    {
+      "id": "w_nl_14",
+      "language": "nl",
+      "text": "jullie"
+    },
+    {
+      "id": "w_nl_15",
+      "language": "nl",
+      "text": "zij"
+    },
+    {
+      "id": "w_nl_16",
+      "language": "nl",
+      "text": "een"
+    },
+    {
+      "id": "w_nl_17",
+      "language": "nl",
+      "text": "twee"
+    },
+    {
+      "id": "w_nl_18",
+      "language": "nl",
+      "text": "drie"
+    },
+    {
+      "id": "w_nl_19",
+      "language": "nl",
+      "text": "vier"
+    },
+    {
+      "id": "w_nl_2",
+      "language": "nl",
+      "text": "goedemorgen"
+    },
+    {
+      "id": "w_nl_20",
+      "language": "nl",
+      "text": "vijf"
+    },
+    {
+      "id": "w_nl_21",
+      "language": "nl",
+      "text": "zes"
+    },
+    {
+      "id": "w_nl_22",
+      "language": "nl",
+      "text": "zeven"
+    },
+    {
+      "id": "w_nl_23",
+      "language": "nl",
+      "text": "acht"
+    },
+    {
+      "id": "w_nl_24",
+      "language": "nl",
+      "text": "negen"
+    },
+    {
+      "id": "w_nl_25",
+      "language": "nl",
+      "text": "tien"
+    },
+    {
+      "id": "w_nl_26",
+      "language": "nl",
+      "text": "water"
+    },
+    {
+      "id": "w_nl_27",
+      "language": "nl",
+      "text": "brood"
+    },
+    {
+      "id": "w_nl_28",
+      "language": "nl",
+      "text": "koffie"
+    },
+    {
+      "id": "w_nl_29",
+      "language": "nl",
+      "text": "bier"
+    },
+    {
+      "id": "w_nl_3",
+      "language": "nl",
+      "text": "goedendag"
+    },
+    {
+      "id": "w_nl_30",
+      "language": "nl",
+      "text": "huis"
+    },
+    {
+      "id": "w_nl_31",
+      "language": "nl",
+      "text": "auto"
+    },
+    {
+      "id": "w_nl_32",
+      "language": "nl",
+      "text": "trein"
+    },
+    {
+      "id": "w_nl_33",
+      "language": "nl",
+      "text": "winkel"
+    },
+    {
+      "id": "w_nl_34",
+      "language": "nl",
+      "text": "school"
+    },
+    {
+      "id": "w_nl_35",
+      "language": "nl",
+      "text": "vriend"
+    },
+    {
+      "id": "w_nl_36",
+      "language": "nl",
+      "text": "vrouw"
+    },
+    {
+      "id": "w_nl_37",
+      "language": "nl",
+      "text": "man"
+    },
+    {
+      "id": "w_nl_38",
+      "language": "nl",
+      "text": "kind"
+    },
+    {
+      "id": "w_nl_39",
+      "language": "nl",
+      "text": "studeren"
+    },
+    {
+      "id": "w_nl_4",
+      "language": "nl",
+      "text": "goedenavond"
+    },
+    {
+      "id": "w_nl_40",
+      "language": "nl",
+      "text": "spreken"
+    },
+    {
+      "id": "w_nl_41",
+      "language": "nl",
+      "text": "schrijven"
+    },
+    {
+      "id": "w_nl_42",
+      "language": "nl",
+      "text": "lezen"
+    },
+    {
+      "id": "w_nl_43",
+      "language": "nl",
+      "text": "gaan"
+    },
+    {
+      "id": "w_nl_44",
+      "language": "nl",
+      "text": "komen"
+    },
+    {
+      "id": "w_nl_45",
+      "language": "nl",
+      "text": "eten"
+    },
+    {
+      "id": "w_nl_46",
+      "language": "nl",
+      "text": "drinken"
+    },
+    {
+      "id": "w_nl_47",
+      "language": "nl",
+      "text": "slapen"
+    },
+    {
+      "id": "w_nl_48",
+      "language": "nl",
+      "text": "zien"
+    },
+    {
+      "id": "w_nl_49",
+      "language": "nl",
+      "text": "goed"
+    },
+    {
+      "id": "w_nl_5",
+      "language": "nl",
+      "text": "goedenacht"
+    },
+    {
+      "id": "w_nl_50",
+      "language": "nl",
+      "text": "slecht"
+    },
+    {
+      "id": "w_nl_51",
+      "language": "nl",
+      "text": "groot"
+    },
+    {
+      "id": "w_nl_52",
+      "language": "nl",
+      "text": "klein"
+    },
+    {
+      "id": "w_nl_53",
+      "language": "nl",
+      "text": "mooi"
+    },
+    {
+      "id": "w_nl_54",
+      "language": "nl",
+      "text": "nieuw"
+    },
+    {
+      "id": "w_nl_55",
+      "language": "nl",
+      "text": "oud"
+    },
+    {
+      "id": "w_nl_56",
+      "language": "nl",
+      "text": "vandaag"
+    },
+    {
+      "id": "w_nl_57",
+      "language": "nl",
+      "text": "morgen"
+    },
+    {
+      "id": "w_nl_58",
+      "language": "nl",
+      "text": "gisteren"
+    },
+    {
+      "id": "w_nl_6",
+      "language": "nl",
+      "text": "dank je"
+    },
+    {
+      "id": "w_nl_7",
+      "language": "nl",
+      "text": "alstublieft"
+    },
+    {
+      "id": "w_nl_8",
+      "language": "nl",
+      "text": "ja"
+    },
+    {
+      "id": "w_nl_9",
+      "language": "nl",
+      "text": "nee"
+    },
+    {
+      "id": "w_nl_favoriet",
+      "language": "nl",
+      "text": "favoriet"
+    },
+    {
+      "id": "w_nl_heet",
+      "language": "nl",
+      "text": "heet"
+    },
+    {
+      "id": "w_nl_kamertemperatuur",
+      "language": "nl",
+      "text": "kamertemperatuur"
+    },
+    {
+      "id": "w_nl_mate",
+      "language": "nl",
+      "text": "mate"
+    },
+    {
+      "id": "w_nl_normaal",
+      "language": "nl",
+      "text": "normaal"
+    },
+    {
+      "id": "w_nl_praten",
+      "language": "nl",
+      "text": "praten"
+    },
+    {
+      "id": "w_nl_temperatuur",
+      "language": "nl",
+      "text": "temperatuur"
+    },
+    {
+      "id": "w_nl_warm",
+      "language": "nl",
+      "text": "warm"
+    },
+    {
+      "id": "w_nl_warmte",
+      "language": "nl",
+      "text": "warmte"
+    },
+    {
+      "id": "w_nl_wat_voor",
+      "language": "nl",
+      "text": "wat voor"
+    },
+    {
+      "id": "w_nl_weer",
+      "language": "nl",
+      "text": "weer"
+    },
+    {
+      "id": "w_nl_welke",
+      "language": "nl",
+      "text": "welke"
     }
   ],
   "concepts": [
