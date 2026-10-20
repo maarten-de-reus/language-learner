@@ -9,17 +9,7 @@ import (
 	"hungarian-language-learner/internal/storage"
 )
 
-// Constanten voor de Anki stappen via iota
-const (
-	Step1Day = iota
-	Step3Days
-	Step7Days
-	Step16Days
-	Step40Days
-	Step90Days
-)
-
-// Rotsvast array in het geheugen voor maximale snelheid (geen slice overhead)
+// AnkiIntervals zijn de intervallen in dagen per stap (StepIndex 0 t/m 5)
 var AnkiIntervals = [6]int{1, 3, 7, 16, 40, 90}
 
 // DayStartHour is het uur waarop een nieuwe herhaaldag begint (zoals in Anki). Wie om 01:00

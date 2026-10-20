@@ -157,3 +157,51 @@ func TestUpdateProgressSchedulesAtStartOfDay(t *testing.T) {
 		t.Errorf("goed: verwacht stap 1 en %v, kreeg %+v", want, right)
 	}
 }
+
+func TestIntervalFuzzStaysWithinBounds(t *testing.T) {
+	bounds := map[int][2]int{0: {1, 1}, 1: {3, 3}, 2: {6, 8}, 3: {14, 18}, 4: {38, 42}, 5: {86, 95}}
+	for step, b := range bounds {
+		for range 500 {
+			if got := CalculateIntervalWithFuzz(step); got < b[0] || got > b[1] {
+				t.Fatalf("stap %d: interval %d buiten [%d, %d]", step, got, b[0], b[1])
+			}
+		}
+	}
+}
+
+func TestCorruptStepDoesNotCrash(t *testing.T) {
+	for _, step := range []int{-3, 6, 99} {
+		_ = CalculateIntervalWithFuzz(step) // mag niet panieken
+
+		c := storage.TranslationConcept{StepIndex: step, NextReview: past}
+		updateProgress(&c, true, time.Now())
+		if c.StepIndex < 0 || c.StepIndex >= len(AnkiIntervals) {
+			t.Errorf("stap %d: na een antwoord moet de stap geldig zijn, kreeg %d", step, c.StepIndex)
+		}
+	}
+}
+
+func TestUpdateProgressEdgeCases(t *testing.T) {
+	now := time.Now()
+
+	// Te vroeg en goed: niets verandert
+	early := storage.TranslationConcept{StepIndex: 2, NextReview: now.Add(48 * time.Hour)}
+	before := early
+	updateProgress(&early, true, now)
+	if early.StepIndex != before.StepIndex || !early.NextReview.Equal(before.NextReview) {
+		t.Errorf("te vroeg goed mag niets veranderen: %+v -> %+v", before, early)
+	}
+
+	// Te vroeg en fout: toch terug naar stap 0
+	updateProgress(&early, false, now)
+	if early.StepIndex != 0 {
+		t.Errorf("te vroeg fout moet terug naar stap 0, kreeg %d", early.StepIndex)
+	}
+
+	// Op de hoogste stap blijft het bij de hoogste stap
+	top := storage.TranslationConcept{StepIndex: len(AnkiIntervals) - 1, NextReview: past}
+	updateProgress(&top, true, now)
+	if top.StepIndex != len(AnkiIntervals)-1 {
+		t.Errorf("hoogste stap moet blijven, kreeg %d", top.StepIndex)
+	}
+}

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 )
@@ -118,5 +119,22 @@ func TestSaveWordsKeepsExample(t *testing.T) {
 	}
 	if loaded[0].Example != "Milyen az idő?" || loaded[0].ExampleLang != "hu" {
 		t.Errorf("voorbeeldzin niet bewaard: %+v", loaded[0])
+	}
+}
+
+func TestWoordenJSONContainsNoProgress(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "woorden.json")
+	concepts := []TranslationConcept{{ID: "c_1", StepIndex: 4, NextReview: time.Now()}}
+	if err := SaveWords(path, map[string]Word{}, concepts); err != nil {
+		t.Fatal(err)
+	}
+	data, _ := os.ReadFile(path)
+	for _, field := range []string{"step_index", "next_review"} {
+		if strings.Contains(string(data), field) {
+			t.Errorf("woorden.json mag geen %q bevatten; voortgang hoort in voortgang.json:\n%s", field, data)
+		}
+	}
+	if concepts[0].StepIndex != 4 {
+		t.Error("SaveWords mag de voortgang in het geheugen niet aanpassen")
 	}
 }

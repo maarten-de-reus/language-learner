@@ -108,22 +108,10 @@ func SaveWords(wordsFile string, wordsPool map[string]Word, concepts []Translati
 	// Vaste volgorde, zodat woorden.json niet bij elke save door elkaar wordt gegooid
 	slices.SortFunc(wordsSlice, func(a, b Word) int { return strings.Compare(a.ID, b.ID) })
 
-	// Filter de runtime Spaced Repetition data eruit, zodat woorden.json schoon blijft
-	cleanConcepts := make([]TranslationConcept, len(concepts))
-	for i, c := range concepts {
-		cleanConcepts[i] = TranslationConcept{
-			ID:            c.ID,
-			SourceWordID:  c.SourceWordID,
-			ContextSource: c.ContextSource,
-			TargetWordIDs: c.TargetWordIDs,
-			Example:       c.Example,
-			ExampleLang:   c.ExampleLang,
-		}
-	}
-
+	// De voortgangsvelden van een concept hebben json:"-", dus woorden.json blijft schoon
 	data := InputData{
 		Words:    wordsSlice,
-		Concepts: cleanConcepts,
+		Concepts: concepts,
 	}
 
 	jsonData, err := json.MarshalIndent(data, "", "  ")
