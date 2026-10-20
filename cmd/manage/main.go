@@ -62,20 +62,31 @@ func main() {
 			fmt.Print("Voer de Hongaarse vertaling in (meerdere scheiden met een komma): ")
 			hungarianInput, _ := readLine(reader)
 
-			var res addResult
-			conceptsDB, res, err = addConceptPair(wordsPool, conceptsDB, dutchText, contextText, hungarianInput)
+			nc, err := parseInput(dutchText, contextText, hungarianInput)
 			if err != nil {
-				fmt.Printf("❌ %s.\n", strings.ToUpper(err.Error()[:1])+err.Error()[1:])
+				printError(err)
+				continue
+			}
+			if isDuplicate(wordsPool, conceptsDB, nc) {
+				printError(ErrDuplicate)
+				continue
+			}
+			askReverse(reader, wordsPool, conceptsDB, &nc)
+
+			var res addResult
+			conceptsDB, res, err = addConceptPair(wordsPool, conceptsDB, nc)
+			if err != nil {
+				printError(err)
 				continue
 			}
 			unsaved++
 
 			fmt.Printf("🎉 Toegevoegd:\n")
-			fmt.Printf("   👉 🇳🇱 ➔ 🇭🇺 : '%s' (%s) ➔ %s\n", dutchText, contextText, strings.Join(res.Hungarian, ", "))
+			fmt.Printf("   👉 🇳🇱 ➔ 🇭🇺 : '%s'%s ➔ %s\n", nc.Dutch, hintSuffix(nc.Context), strings.Join(nc.Hungarian, ", "))
 			if res.ReverseMerged {
-				fmt.Printf("   👉 🇭🇺 ➔ 🇳🇱 : '%s' bestond al, '%s' is toegevoegd als extra goed antwoord\n", res.ReverseSource, dutchText)
+				fmt.Printf("   👉 🇭🇺 ➔ 🇳🇱 : '%s' bestond al, '%s' is toegevoegd als extra goed antwoord\n", res.ReverseSource, nc.Dutch)
 			} else {
-				fmt.Printf("   👉 🇭🇺 ➔ 🇳🇱 : '%s' ➔ '%s'\n", res.ReverseSource, dutchText)
+				fmt.Printf("   👉 🇭🇺 ➔ 🇳🇱 : '%s'%s ➔ '%s'\n", res.ReverseSource, hintSuffix(nc.ReverseContext), nc.Dutch)
 			}
 
 		case "2":
@@ -98,6 +109,79 @@ func main() {
 			fmt.Println("❌ Ongeldige keuze, probeer opnieuw.")
 		}
 	}
+}
+
+// askReverse bepaalt hoe het HU->NL concept eruitziet. Bestaat het Hongaarse woord al als HU->NL,
+// dan vragen we of het dezelfde betekenis is (extra goed antwoord, zoals ő -> hij/zij)
+// of een andere (apart concept met eigen hint, zoals idő -> weer / tijd).
+func askReverse(reader *bufio.Reader, words map[string]storage.Word, concepts []storage.TranslationConcept, nc *newConcept) {
+	hu := nc.Hungarian[0]
+	candidates := reverseCandidates(words, concepts, hu)
+
+	if len(candidates) > 0 {
+		fmt.Printf("\n'%s' bestaat al als HU->NL. Is '%s' dezelfde betekenis of een andere?\n", hu, nc.Dutch)
+		for n, i := range candidates {
+			c := concepts[i]
+			fmt.Printf("  %d) Zelfde betekenis als '%s'%s ➔ %s (extra goed antwoord)\n", n+1, hu, hintSuffix(c.ContextSource), targetTexts(words, c))
+		}
+		newOption := len(candidates) + 1
+		fmt.Printf("  %d) Andere betekenis (apart concept met eigen hint)\n", newOption)
+
+		for {
+			fmt.Printf("Kies (1-%d): ", newOption)
+			line, eof := readLine(reader)
+			var n int
+			if _, err := fmt.Sscan(line, &n); err == nil && n >= 1 && n < newOption {
+				nc.MergeReverseInto = concepts[candidates[n-1]].ID
+				return
+			}
+			if n == newOption || eof {
+				break
+			}
+		}
+
+		// Bestaande concepten zonder hint zijn na deze toevoeging niet meer te onderscheiden
+		nc.ExistingHints = map[string]string{}
+		for _, i := range candidates {
+			c := concepts[i]
+			if strings.TrimSpace(c.ContextSource) != "" {
+				continue
+			}
+			for {
+				fmt.Printf("Het bestaande '%s' ➔ %s heeft nog geen hint. Hint (bijv. 'buiten, ☀️'): ", hu, targetTexts(words, c))
+				hint, eof := readLine(reader)
+				if hint != "" || eof {
+					nc.ExistingHints[c.ID] = hint
+					break
+				}
+			}
+		}
+	}
+
+	for {
+		fmt.Printf("Hint voor HU->NL, zodat duidelijk is welke betekenis bedoeld wordt [Enter = '%s']: ", nc.Context)
+		hint, eof := readLine(reader)
+		if hint == "" {
+			hint = nc.Context
+		}
+		if eof || len(candidates) == 0 || (hint != "" && !reverseHintTaken(words, concepts, *nc, hint)) {
+			nc.ReverseContext = hint
+			return
+		}
+		fmt.Println("❌ Die hint onderscheidt deze betekenis niet van de bestaande; kies een andere.")
+	}
+}
+
+func hintSuffix(hint string) string {
+	if hint == "" {
+		return ""
+	}
+	return " (" + hint + ")"
+}
+
+func printError(err error) {
+	msg := err.Error()
+	fmt.Printf("❌ %s.\n", strings.ToUpper(msg[:1])+msg[1:])
 }
 
 // readLine leest één regel zonder witruimte; eof is true als de invoer gesloten is (Ctrl+D)
