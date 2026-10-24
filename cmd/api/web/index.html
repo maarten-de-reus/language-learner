@@ -24,6 +24,7 @@
 
     <nav class="tabs" aria-label="Onderdelen">
       <a href="#oefenen" id="tab-oefenen">Oefenen</a>
+      <a href="#statistiek" id="tab-statistiek">Statistiek</a>
       <a href="#beheer" id="tab-beheer">Beheer</a>
     </nav>
 
@@ -39,6 +40,8 @@
 
     <main id="app" class="stage" aria-live="polite"></main>
 
+    <section id="stats" class="stats" hidden aria-label="Statistiek"></section>
+
     <section id="manage" class="manage" hidden aria-label="Beheer van concepten"></section>
 
     <p class="error" id="error" hidden></p>
@@ -49,6 +52,7 @@
   </div>
   <div class="toast" id="toast" role="status" hidden></div>
   <script src="app.js"></script>
+  <script src="stats.js"></script>
   <script src="manage.js"></script>
 </body>
 </html>

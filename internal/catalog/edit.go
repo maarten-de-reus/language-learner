@@ -27,6 +27,8 @@ type Entry struct {
 	Example    string    `json:"example,omitempty"`
 	Meanings   int       `json:"meanings"`          // aantal concepten met hetzelfde bronwoord en dezelfde richting
 	Reverse    []string  `json:"reverse,omitempty"` // ID's van de omgekeerde richting(en), bijv. kávé -> koffie bij koffie -> kávé
+	Attempts   int       `json:"attempts"`          // eerste pogingen volgens het antwoordenlog (ingevuld door de API)
+	Wrong      int       `json:"wrong"`             // waarvan fout
 	Step       int       `json:"step"`
 	Interval   int       `json:"interval"` // dagen bij de huidige stap
 	NextReview time.Time `json:"nextReview"`

@@ -205,3 +205,21 @@ func TestUpdateProgressEdgeCases(t *testing.T) {
 		t.Errorf("hoogste stap moet blijven, kreeg %d", top.StepIndex)
 	}
 }
+
+func TestDayOfAndDaysBetween(t *testing.T) {
+	ams, err := time.LoadLocation("Europe/Amsterdam")
+	if err != nil {
+		t.Skip("tijdzonedata niet beschikbaar")
+	}
+	at := func(day, hour int) time.Time { return time.Date(2026, 10, day, hour, 0, 0, 0, ams) }
+	if got := DayOf(at(24, 1)); !got.Equal(time.Date(2026, 10, 23, 0, 0, 0, 0, ams)) {
+		t.Errorf("01:00 hoort bij de vorige dag, kreeg %v", got)
+	}
+	if got := DayOf(at(24, 4)); !got.Equal(time.Date(2026, 10, 24, 0, 0, 0, 0, ams)) {
+		t.Errorf("04:00 is de nieuwe dag, kreeg %v", got)
+	}
+	// Over de overgang naar wintertijd (25 oktober) heen
+	if got := DaysBetween(DayOf(at(24, 12)), DayOf(at(27, 12))); got != 3 {
+		t.Errorf("verwacht 3 dagen, kreeg %d", got)
+	}
+}

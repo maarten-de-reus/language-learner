@@ -9,7 +9,8 @@ A small spaced-repetition trainer for learning Hungarian from Dutch (and back), 
 - **Helpful feedback**: a hint when only the accents are wrong (*kave* → *kávé*), and an explanation when you gave another meaning of the word (*idő* can mean *tijd*, but *weer* was meant here).
 - **Hints and example sentences** to tell meanings apart (*idő* ☀️ vs *idő* ⏰).
 - **Management tab** (*Beheer*): search (accent-insensitive), browse, filter, add, edit and delete concepts. When a Hungarian word already exists, you are asked whether the new word is the same meaning (an extra accepted answer, like *ő* → *hij / zij*) or a different one (a separate concept with its own hint).
-- **Answer log**: every answer is appended to `antwoorden.jsonl`, the basis for statistics.
+- **Statistics tab** (*Statistiek*): streak, today's progress and first-attempt score, activity over the last 30 days, a 14-day forecast of upcoming reviews, the hardest words (click through to edit them), types of mistakes, and whether re-asking within a round actually helps the next day.
+- **Answer log**: every answer is appended to `antwoorden.jsonl`; the statistics are computed from it.
 
 ## Running locally
 
@@ -80,6 +81,7 @@ cmd/api/            HTTP server, configuration, security middleware, embedded we
 internal/quiz/      a practice session: rounds, re-asks, feedback, answer log
 internal/engine/    scheduling (intervals, day boundary, round selection) and answer checking
 internal/catalog/   adding, editing and deleting concepts, with duplicate and meaning checks
+internal/stats/     statistics computed from the answer log and current progress
 internal/storage/   JSON files, progress and the answer log
 ```
 

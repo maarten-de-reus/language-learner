@@ -23,6 +23,19 @@ func ReviewDate(now time.Time, days int) time.Time {
 	return time.Date(day.Year(), day.Month(), day.Day()+days, DayStartHour, 0, 0, 0, now.Location())
 }
 
+// DayOf geeft de herhaaldag waar een moment bij hoort (00:00 van die dag), met dezelfde
+// grens van DayStartHour als de planning: 01:30 hoort nog bij de vorige dag
+func DayOf(t time.Time) time.Time {
+	d := t.Add(-DayStartHour * time.Hour)
+	return time.Date(d.Year(), d.Month(), d.Day(), 0, 0, 0, 0, t.Location())
+}
+
+// DaysBetween telt het aantal kalenderdagen tussen twee dagen van DayOf (ook over zomer- en wintertijd)
+func DaysBetween(from, to time.Time) int {
+	utc := func(d time.Time) time.Time { return time.Date(d.Year(), d.Month(), d.Day(), 0, 0, 0, 0, time.UTC) }
+	return int(utc(to).Sub(utc(from)).Hours() / 24)
+}
+
 // clampStep houdt een stap binnen de bekende intervallen, ook bij beschadigde voortgang
 func clampStep(step int) int {
 	return max(0, min(step, len(AnkiIntervals)-1))

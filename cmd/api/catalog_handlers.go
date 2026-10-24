@@ -36,7 +36,7 @@ type entriesResponse struct {
 func (s *server) handleListConcepts(w http.ResponseWriter, r *http.Request) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	writeJSON(w, http.StatusOK, entriesResponse{catalog.Entries(s.lib)})
+	writeJSON(w, http.StatusOK, entriesResponse{s.entries()})
 }
 
 func (s *server) handleCheckConcept(w http.ResponseWriter, r *http.Request) {
@@ -137,7 +137,7 @@ func (s *server) mutate(w http.ResponseWriter, okStatus int, change func() error
 	for _, f := range onSaved {
 		f()
 	}
-	writeJSON(w, okStatus, entriesResponse{catalog.Entries(s.lib)})
+	writeJSON(w, okStatus, entriesResponse{s.entries()})
 }
 
 func statusFor(err error) int {

@@ -12,6 +12,7 @@ const view = {
   direction: "all", // all | nl-hu | hu-nl
   onlyMeanings: false,
   onlyNoExample: false,
+  onlyWrong: false, // alleen woorden die je ooit fout had (volgens het antwoordenlog)
   openId: null, // concept dat nu bewerkt wordt
   adding: false,
   flash: new Set(), // net toegevoegde/bewerkte concepten, kort gemarkeerd
@@ -95,7 +96,8 @@ function filtered() {
     matchesQuery(e, q) &&
     (view.direction === "all" || `${e.from}-${e.to}` === view.direction) &&
     (!view.onlyMeanings || e.meanings > 1) &&
-    (!view.onlyNoExample || !e.example));
+    (!view.onlyNoExample || !e.example) &&
+    (!view.onlyWrong || e.wrong > 0));
 }
 
 function count(pred) {
@@ -129,6 +131,7 @@ function renderManage() {
       <span class="sep" aria-hidden="true"></span>
       ${toggle("onlyMeanings", "Meerdere betekenissen", count((e) => e.meanings > 1))}
       ${toggle("onlyNoExample", "Zonder voorbeeldzin", count((e) => !e.example))}
+      ${toggle("onlyWrong", "Fout gehad", count((e) => e.wrong > 0))}
     </div>
 
     <div id="m-new-slot">${view.adding ? newFormHTML() : ""}</div>
@@ -160,6 +163,7 @@ function rowHTML(e) {
         <span class="m-meta">
           <span class="m-dir">${e.from.toUpperCase()} → ${e.to.toUpperCase()}</span>
           ${e.meanings > 1 ? `<span class="m-badge">${e.meanings} betekenissen</span>` : ""}
+          ${e.wrong ? `<span class="m-wrong" title="${e.wrong} van ${e.attempts} keer fout bij de eerste poging">✕ ${e.wrong}/${e.attempts}</span>` : ""}
           <span class="m-due"><span class="dot" style="background:var(--s${e.step})"></span>${due ? "nu te herhalen" : esc(relative(e.nextReview))}</span>
         </span>
         ${e.example ? `<span class="m-example" lang="hu">“${markFold(e.example, q)}”</span>` : ""}
@@ -472,23 +476,29 @@ document.addEventListener("keydown", (e) => {
 // ---------- Tabs ----------
 
 async function showTab() {
-  const manage = location.hash === "#beheer";
-  manageEl.hidden = !manage;
-  app.hidden = manage;
-  document.getElementById("quiz-foot").hidden = manage;
-  document.body.classList.toggle("mode-manage", manage);
-  document.getElementById("tab-oefenen").setAttribute("aria-current", manage ? "false" : "page");
-  document.getElementById("tab-beheer").setAttribute("aria-current", manage ? "page" : "false");
+  const tab = { "#beheer": "beheer", "#statistiek": "statistiek" }[location.hash] ?? "oefenen";
+  manageEl.hidden = tab !== "beheer";
+  statsEl.hidden = tab !== "statistiek";
+  app.hidden = tab !== "oefenen";
+  document.getElementById("quiz-foot").hidden = tab !== "oefenen";
+  document.body.classList.toggle("mode-manage", tab !== "oefenen");
+  for (const t of ["oefenen", "statistiek", "beheer"]) {
+    document.getElementById(`tab-${t}`).setAttribute("aria-current", t === tab ? "page" : "false");
+  }
 
-  if (manage) {
+  if (tab === "beheer") {
     manageEl.innerHTML = `<div class="skeleton"></div>`;
     try {
       view.entries = (await api("GET", "/api/concepts")).entries;
       renderManage();
       refreshStats();
+      // Komend vanuit de statistiek: het gekozen woord openklappen
+      manageEl.querySelector(".m-row.open")?.scrollIntoView({ block: "center" });
     } catch (err) {
       manageEl.innerHTML = `<p class="error">Kon de concepten niet laden: ${esc(err.message)}</p>`;
     }
+  } else if (tab === "statistiek") {
+    showStatistics();
   } else {
     renderedCardId = null; // kaart opnieuw opbouwen, er kunnen concepten bijgekomen zijn
     act("/api/state");

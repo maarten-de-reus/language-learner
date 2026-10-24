@@ -34,7 +34,7 @@ func main() {
 
 	session := quiz.New(lib, cfg.progressPath(), RunSize)
 	session.LogReviewsTo(storage.NewReviewLog(cfg.reviewsPath()))
-	s := &server{lib: lib, wordsPath: cfg.wordsPath(), session: session}
+	s := &server{lib: lib, wordsPath: cfg.wordsPath(), reviewsPath: cfg.reviewsPath(), session: session}
 	srv := &http.Server{
 		Addr:              cfg.Addr,
 		Handler:           withSecurity(s.routes(), cfg),
@@ -82,6 +82,7 @@ func (s *server) routes() *http.ServeMux {
 	mux.HandleFunc("POST /api/answer", s.handleAnswer)
 	mux.HandleFunc("POST /api/next", s.handle(func() { s.session.Next() }))
 	mux.HandleFunc("POST /api/run", s.handle(func() { s.session.NewRun() }))
+	mux.HandleFunc("GET /api/stats", s.handleStats)
 
 	// Beheer
 	mux.HandleFunc("GET /api/concepts", s.handleListConcepts)

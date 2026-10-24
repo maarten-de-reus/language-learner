@@ -13,11 +13,12 @@ import (
 // server is de HTTP-laag rond de woordenschat en één quiz-sessie;
 // mu beschermt beide tegen gelijktijdige requests
 type server struct {
-	mu        sync.Mutex
-	lib       *storage.Library
-	wordsPath string
-	session   *quiz.Session
-	saveError string
+	mu          sync.Mutex
+	lib         *storage.Library
+	wordsPath   string
+	reviewsPath string
+	session     *quiz.Session
+	saveError   string
 }
 
 // handle voert een actie uit onder de lock en stuurt daarna de actuele staat terug

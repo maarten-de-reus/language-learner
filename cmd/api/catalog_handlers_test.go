@@ -38,7 +38,10 @@ func newTestServer(t *testing.T) (*server, http.Handler) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	s := &server{lib: lib, wordsPath: wordsPath, session: quiz.New(lib, progressPath, 10)}
+	session := quiz.New(lib, progressPath, 10)
+	reviewsPath := filepath.Join(dir, "antwoorden.jsonl")
+	session.LogReviewsTo(storage.NewReviewLog(reviewsPath))
+	s := &server{lib: lib, wordsPath: wordsPath, reviewsPath: reviewsPath, session: session}
 	return s, s.routes()
 }
 
