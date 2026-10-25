@@ -99,10 +99,11 @@ type ImportResult struct {
 // Import voegt de regels in volgorde toe aan lib. Elke regel ziet de regels erboven, zodat
 // twee regels met hetzelfde Hongaarse woord ook herkend worden. Gebruik een kloon van de
 // woordenschat om alleen te controleren. ok is true als er geen fouten of open keuzes zijn.
-func Import(lib *storage.Library, lines []ImportLine, choices map[int]ImportChoice) (results []ImportResult, ok bool) {
+// groups gaan naar alle woorden uit de import.
+func Import(lib *storage.Library, lines []ImportLine, choices map[int]ImportChoice, groups []string) (results []ImportResult, ok bool) {
 	ok = true
 	for _, line := range lines {
-		res := importLine(lib, line, choices)
+		res := importLine(lib, line, choices, groups)
 		if res.Status == StatusError || res.Status == StatusChoice {
 			ok = false
 		}
@@ -111,7 +112,7 @@ func Import(lib *storage.Library, lines []ImportLine, choices map[int]ImportChoi
 	return results, ok
 }
 
-func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportChoice) ImportResult {
+func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportChoice, groups []string) ImportResult {
 	res := ImportResult{ImportLine: line}
 	fail := func(status, msg string) ImportResult {
 		res.Status, res.Message = status, msg
@@ -126,6 +127,7 @@ func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportCho
 		return fail(StatusError, err.Error())
 	}
 	nc.Example = line.Example
+	nc.Groups = groups
 	if IsDuplicate(lib, nc) {
 		return fail(StatusDuplicate, "bestaat al met deze context en vertaling")
 	}

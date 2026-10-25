@@ -16,6 +16,7 @@ type conceptRequest struct {
 	Context          string            `json:"context"`
 	Hungarian        string            `json:"hungarian"`
 	Example          string            `json:"example"`
+	Groups           []string          `json:"groups"`
 	ExtendForward    string            `json:"extendForward"` // bestaand NL->HU concept aanvullen; leeg = nieuwe betekenis
 	ForwardHints     map[string]string `json:"forwardHints"`
 	MergeReverseInto string            `json:"mergeReverseInto"`
@@ -34,6 +35,12 @@ type checkResponse struct {
 
 type entriesResponse struct {
 	Entries []catalog.Entry `json:"entries"`
+}
+
+func (s *server) handleListGroups(w http.ResponseWriter, r *http.Request) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	writeJSON(w, http.StatusOK, map[string][]catalog.Group{"groups": catalog.Groups(s.lib)})
 }
 
 func (s *server) handleListConcepts(w http.ResponseWriter, r *http.Request) {
@@ -92,6 +99,7 @@ func (s *server) handleAddConcept(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	nc.Example = req.Example
+	nc.Groups = req.Groups
 	nc.ExtendForward = req.ExtendForward
 	nc.ForwardHints = req.ForwardHints
 	nc.MergeReverseInto = req.MergeReverseInto

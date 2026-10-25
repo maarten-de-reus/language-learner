@@ -28,8 +28,9 @@ type Entry struct {
 	Meanings   int       `json:"meanings"`          // aantal concepten met hetzelfde bronwoord en dezelfde richting
 	Reverse    []string  `json:"reverse,omitempty"` // ID's van de omgekeerde richting(en), bijv. kávé -> koffie bij koffie -> kávé
 	New        bool      `json:"new"`               // nog nooit gevraagd: staat in de wachtrij
-	Attempts   int       `json:"attempts"`          // eerste pogingen volgens het antwoordenlog (ingevuld door de API)
-	Wrong      int       `json:"wrong"`             // waarvan fout
+	Groups     []string  `json:"groups"`
+	Attempts   int       `json:"attempts"` // eerste pogingen volgens het antwoordenlog (ingevuld door de API)
+	Wrong      int       `json:"wrong"`    // waarvan fout
 	Step       int       `json:"step"`
 	Interval   int       `json:"interval"` // dagen bij de huidige stap
 	NextReview time.Time `json:"nextReview"`
@@ -56,6 +57,7 @@ func Entries(lib *storage.Library) []Entry {
 			Meanings:   meanings[meaningKey(lib, c)],
 			Reverse:    reverseIDs(lib, c),
 			New:        c.FirstReview.IsZero(),
+			Groups:     append([]string{}, c.Groups...),
 			Step:       c.StepIndex,
 			NextReview: c.NextReview,
 		}
@@ -79,6 +81,9 @@ type Edit struct {
 	Context string   `json:"context"`
 	Answers []string `json:"answers"`
 	Example string   `json:"example"`
+	// Groups vervangt de groepen (nil = ongewijzigd). Wat erbij komt of eraf gaat, geldt ook
+	// voor de omgekeerde richting: een groep hoort bij het woord, niet bij één richting.
+	Groups []string `json:"groups"`
 }
 
 // Update past een concept aan. Alle controles gebeuren vóór er iets aangepast wordt.
@@ -128,6 +133,14 @@ func Update(lib *storage.Library, id string, e Edit) error {
 		}
 	}
 
+	var groups []string
+	if e.Groups != nil {
+		var err error
+		if groups, err = NormalizeGroups(lib, e.Groups); err != nil {
+			return err
+		}
+	}
+
 	example := strings.TrimSpace(e.Example)
 	exampleLanguage := c.ExampleLang
 	if example == "" {
@@ -139,6 +152,26 @@ func Update(lib *storage.Library, id string, e Edit) error {
 	c.ContextSource = context
 	c.TargetWordIDs = targetIDs
 	c.Example, c.ExampleLang = example, exampleLanguage
+	if e.Groups != nil {
+		var added, removed []string
+		for _, g := range groups {
+			if !slices.Contains(c.Groups, g) {
+				added = append(added, g)
+			}
+		}
+		for _, g := range c.Groups {
+			if !slices.Contains(groups, g) {
+				removed = append(removed, g)
+			}
+		}
+		for _, rid := range reverseIDs(lib, c) {
+			r := &lib.Concepts[lib.Index(rid)]
+			addGroups(r, added)
+			removeGroups(r, removed)
+		}
+		c.Groups = nil
+		addGroups(&c, groups)
+	}
 	lib.Concepts[i] = c
 	return nil
 }

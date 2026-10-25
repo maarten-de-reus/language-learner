@@ -25,6 +25,7 @@ type NewPair struct {
 	Context   string   // hint bij NL->HU, bijv. "Meubel"
 	Hungarian []string // geaccepteerde Hongaarse vertalingen; de eerste nieuwe is de bron van HU->NL
 	Example   string   // optionele Hongaarse voorbeeldzin, voor beide richtingen
+	Groups    []string // groepen voor beide richtingen; een nieuwe naam maakt de groep aan
 
 	// NL->HU, als het Nederlandse woord al bestaat: óf de Hongaarse woorden toevoegen als extra goede
 	// antwoorden bij een bestaande betekenis (echte synoniemen, bijv. bank (meubel) -> pad, kanapé),
@@ -186,6 +187,10 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 	if IsDuplicate(lib, nc) {
 		return res, ErrDuplicate
 	}
+	groups, err := NormalizeGroups(lib, nc.Groups)
+	if err != nil {
+		return res, err
+	}
 	extendIdx, err := checkForward(lib, nc)
 	if err != nil {
 		return res, err
@@ -227,6 +232,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 		if c.Example == "" && nc.Example != "" {
 			c.Example, c.ExampleLang = nc.Example, exampleLang(nc.Example)
 		}
+		addGroups(c, groups)
 	} else {
 		for id, hint := range nc.ForwardHints {
 			if i := lib.Index(id); i >= 0 {
@@ -244,6 +250,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 			TargetWordIDs: huIDs,
 			Example:       nc.Example,
 			ExampleLang:   exampleLang(nc.Example),
+			Groups:        slices.Clone(groups),
 			NextReview:    now,
 		})
 	}
@@ -257,6 +264,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 		if merged.Example == "" && nc.Example != "" {
 			merged.Example, merged.ExampleLang = nc.Example, exampleLang(nc.Example)
 		}
+		addGroups(merged, groups)
 		return res, nil
 	}
 	for id, hint := range nc.ExistingHints {
@@ -275,6 +283,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 		TargetWordIDs: []string{dutchID},
 		Example:       nc.Example,
 		ExampleLang:   exampleLang(nc.Example),
+		Groups:        slices.Clone(groups),
 		NextReview:    now,
 	})
 	return res, nil

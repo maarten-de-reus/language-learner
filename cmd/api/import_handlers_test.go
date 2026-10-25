@@ -60,3 +60,39 @@ func TestImportWithChoice(t *testing.T) {
 		t.Errorf("bestaand idő moet hint 'buiten' krijgen, kreeg %q", c.ContextSource)
 	}
 }
+
+func TestGroupsViaAPI(t *testing.T) {
+	_, h := newTestServer(t)
+	code, _ := call(t, h, "POST", "/api/concepts", `{"dutch":"thee","hungarian":"tea","groups":["Drinken","Week 1"]}`)
+	if code != http.StatusCreated {
+		t.Fatalf("toevoegen met groepen: %d", code)
+	}
+	b, _ := json.Marshal(map[string]any{"text": "kávé;koffie", "groups": []string{"drinken"}})
+	if code, out := call(t, h, "POST", "/api/import", string(b)); code != http.StatusOK {
+		t.Fatalf("import met groep: %d %s", code, out)
+	}
+	_, out := call(t, h, "GET", "/api/groups", "")
+	var groups []struct {
+		Name  string `json:"name"`
+		Count int    `json:"count"`
+	}
+	json.Unmarshal(out["groups"], &groups)
+	if len(groups) != 2 || groups[0].Name != "Drinken" || groups[0].Count != 4 || groups[1].Name != "Week 1" {
+		t.Errorf("groepen: %+v", groups)
+	}
+
+	// Bewerken: groep eraf, ook in de andere richting
+	code, out = call(t, h, "PUT", "/api/concepts/c_nl_hu_thee", `{"context":"","answers":["tea"],"groups":["Drinken"]}`)
+	if code != http.StatusOK {
+		t.Fatalf("bewerken: %d %s", code, out)
+	}
+	_, out = call(t, h, "GET", "/api/groups", "")
+	json.Unmarshal(out["groups"], &groups)
+	if len(groups) != 1 {
+		t.Errorf("Week 1 moet weg zijn (beide richtingen), kreeg %+v", groups)
+	}
+
+	if code, _ := call(t, h, "POST", "/api/concepts", `{"dutch":"bier","hungarian":"sör","groups":["a, b"]}`); code != http.StatusBadRequest {
+		t.Errorf("ongeldige groepsnaam: verwacht 400, kreeg %d", code)
+	}
+}

@@ -17,6 +17,7 @@ type TranslationConcept struct {
 	TargetWordIDs []string `json:"target_word_ids"`        // Slice van geaccepteerde synoniem-IDs ["w_pad", "w_kanape"]
 	Example       string   `json:"example,omitempty"`      // Voorbeeldzin, bijv. "Milyen lesz az idő holnap?"
 	ExampleLang   string   `json:"example_lang,omitempty"` // Taal van de voorbeeldzin, bijv. "hu"
+	Groups        []string `json:"groups,omitempty"`       // Groepen waar het woord in zit, bijv. ["Getallen", "Week 1"]
 	// Voortgang: wordt in voortgang.json bewaard (zie ProgressState), nooit in woorden.json
 	StepIndex  int       `json:"-"` // Index voor engine.AnkiIntervals (0 t/m 5)
 	NextReview time.Time `json:"-"`

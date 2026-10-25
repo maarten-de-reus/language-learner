@@ -101,6 +101,7 @@ func (s *server) routes() *http.ServeMux {
 
 	// Beheer
 	mux.HandleFunc("GET /api/concepts", s.handleListConcepts)
+	mux.HandleFunc("GET /api/groups", s.handleListGroups)
 	mux.HandleFunc("POST /api/concepts/check", s.handleCheckConcept)
 	mux.HandleFunc("POST /api/concepts", s.handleAddConcept)
 	mux.HandleFunc("PUT /api/concepts/{id}", s.handleUpdateConcept)
