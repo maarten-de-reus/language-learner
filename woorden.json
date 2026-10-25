@@ -291,9 +291,39 @@
       "text": "nem"
     },
     {
+      "id": "w_hu_alacsony",
+      "language": "hu",
+      "text": "alacsony"
+    },
+    {
       "id": "w_hu_aludni",
       "language": "hu",
       "text": "aludni"
+    },
+    {
+      "id": "w_hu_antipatikus",
+      "language": "hu",
+      "text": "antipatikus"
+    },
+    {
+      "id": "w_hu_aranyos",
+      "language": "hu",
+      "text": "aranyos"
+    },
+    {
+      "id": "w_hu_barátságtalan",
+      "language": "hu",
+      "text": "barátságtalan"
+    },
+    {
+      "id": "w_hu_belső",
+      "language": "hu",
+      "text": "belső"
+    },
+    {
+      "id": "w_hu_belváros",
+      "language": "hu",
+      "text": "belváros"
     },
     {
       "id": "w_hu_beszélni",
@@ -301,14 +331,84 @@
       "text": "beszélni"
     },
     {
+      "id": "w_hu_bájos",
+      "language": "hu",
+      "text": "bájos"
+    },
+    {
+      "id": "w_hu_bűvész",
+      "language": "hu",
+      "text": "bűvész"
+    },
+    {
+      "id": "w_hu_bűvös_kocka",
+      "language": "hu",
+      "text": "bűvös kocka"
+    },
+    {
+      "id": "w_hu_cuki",
+      "language": "hu",
+      "text": "cuki"
+    },
+    {
+      "id": "w_hu_elegáns",
+      "language": "hu",
+      "text": "elegáns"
+    },
+    {
+      "id": "w_hu_ellen",
+      "language": "hu",
+      "text": "ellen"
+    },
+    {
+      "id": "w_hu_ellenszenves",
+      "language": "hu",
+      "text": "ellenszenves"
+    },
+    {
       "id": "w_hu_enni",
       "language": "hu",
       "text": "enni"
     },
     {
+      "id": "w_hu_evő",
+      "language": "hu",
+      "text": "evő"
+    },
+    {
+      "id": "w_hu_evőkanál",
+      "language": "hu",
+      "text": "evőkanál"
+    },
+    {
+      "id": "w_hu_fakanál",
+      "language": "hu",
+      "text": "fakanál"
+    },
+    {
+      "id": "w_hu_fodrász",
+      "language": "hu",
+      "text": "fodrász"
+    },
+    {
       "id": "w_hu_forró",
       "language": "hu",
       "text": "forró"
+    },
+    {
+      "id": "w_hu_gyakran",
+      "language": "hu",
+      "text": "Gyakran"
+    },
+    {
+      "id": "w_hu_hosszú",
+      "language": "hu",
+      "text": "hosszú"
+    },
+    {
+      "id": "w_hu_hónap",
+      "language": "hu",
+      "text": "hónap"
     },
     {
       "id": "w_hu_hő",
@@ -341,9 +441,49 @@
       "text": "kedvenc"
     },
     {
+      "id": "w_hu_kiskanál",
+      "language": "hu",
+      "text": "kiskanál"
+    },
+    {
+      "id": "w_hu_külföld",
+      "language": "hu",
+      "text": "külföld"
+    },
+    {
+      "id": "w_hu_külső",
+      "language": "hu",
+      "text": "külső"
+    },
+    {
+      "id": "w_hu_külváros",
+      "language": "hu",
+      "text": "külváros"
+    },
+    {
+      "id": "w_hu_külön",
+      "language": "hu",
+      "text": "külön"
+    },
+    {
       "id": "w_hu_látni",
       "language": "hu",
       "text": "látni"
+    },
+    {
+      "id": "w_hu_madarász",
+      "language": "hu",
+      "text": "madarász"
+    },
+    {
+      "id": "w_hu_madár",
+      "language": "hu",
+      "text": "madár"
+    },
+    {
+      "id": "w_hu_magas",
+      "language": "hu",
+      "text": "magas"
     },
     {
       "id": "w_hu_meleg",
@@ -361,9 +501,34 @@
       "text": "menni"
     },
     {
+      "id": "w_hu_meríteni",
+      "language": "hu",
+      "text": "meríteni"
+    },
+    {
+      "id": "w_hu_merőkanál",
+      "language": "hu",
+      "text": "merőkanál"
+    },
+    {
       "id": "w_hu_milyen",
       "language": "hu",
       "text": "milyen"
+    },
+    {
+      "id": "w_hu_mindkettő",
+      "language": "hu",
+      "text": "mindkettő"
+    },
+    {
+      "id": "w_hu_minimum",
+      "language": "hu",
+      "text": "Minimum"
+    },
+    {
+      "id": "w_hu_mokkáskanál",
+      "language": "hu",
+      "text": "mokkáskanál"
     },
     {
       "id": "w_hu_mérséklet",
@@ -371,9 +536,19 @@
       "text": "mérséklet"
     },
     {
+      "id": "w_hu_művész",
+      "language": "hu",
+      "text": "művész"
+    },
+    {
       "id": "w_hu_normális",
       "language": "hu",
       "text": "normális"
+    },
+    {
+      "id": "w_hu_néha",
+      "language": "hu",
+      "text": "Néha"
     },
     {
       "id": "w_hu_olvasni",
@@ -381,14 +556,134 @@
       "text": "olvasni"
     },
     {
+      "id": "w_hu_rokonszenves",
+      "language": "hu",
+      "text": "rokonszenves"
+    },
+    {
+      "id": "w_hu_rövid",
+      "language": "hu",
+      "text": "rövid"
+    },
+    {
+      "id": "w_hu_soha",
+      "language": "hu",
+      "text": "Soha"
+    },
+    {
+      "id": "w_hu_sokszor",
+      "language": "hu",
+      "text": "Sokszor"
+    },
+    {
+      "id": "w_hu_szedni",
+      "language": "hu",
+      "text": "szedni"
+    },
+    {
+      "id": "w_hu_szedőkanál",
+      "language": "hu",
+      "text": "szedőkanál"
+    },
+    {
+      "id": "w_hu_szenv",
+      "language": "hu",
+      "text": "szenv"
+    },
+    {
+      "id": "w_hu_szimpatikus",
+      "language": "hu",
+      "text": "szimpatikus"
+    },
+    {
       "id": "w_hu_szobahőmérséklet",
       "language": "hu",
       "text": "szobahőmérséklet"
     },
     {
+      "id": "w_hu_színes",
+      "language": "hu",
+      "text": "színes"
+    },
+    {
+      "id": "w_hu_színész",
+      "language": "hu",
+      "text": "színész"
+    },
+    {
+      "id": "w_hu_sötétkék",
+      "language": "hu",
+      "text": "sötétkék"
+    },
+    {
       "id": "w_hu_tanulni",
       "language": "hu",
       "text": "tanulni"
+    },
+    {
+      "id": "w_hu_teáskanál",
+      "language": "hu",
+      "text": "teáskanál"
+    },
+    {
+      "id": "w_hu_vicc",
+      "language": "hu",
+      "text": "vicc"
+    },
+    {
+      "id": "w_hu_vicces",
+      "language": "hu",
+      "text": "vicces"
+    },
+    {
+      "id": "w_hu_világosbarna",
+      "language": "hu",
+      "text": "világosbarna"
+    },
+    {
+      "id": "w_hu_vékony",
+      "language": "hu",
+      "text": "vékony"
+    },
+    {
+      "id": "w_hu_zene",
+      "language": "hu",
+      "text": "zene"
+    },
+    {
+      "id": "w_hu_zenész",
+      "language": "hu",
+      "text": "zenész"
+    },
+    {
+      "id": "w_hu_ápolni",
+      "language": "hu",
+      "text": "ápolni"
+    },
+    {
+      "id": "w_hu_ápolt",
+      "language": "hu",
+      "text": "ápolt"
+    },
+    {
+      "id": "w_hu_ápoló",
+      "language": "hu",
+      "text": "ápoló"
+    },
+    {
+      "id": "w_hu_ápolónő",
+      "language": "hu",
+      "text": "ápolónő"
+    },
+    {
+      "id": "w_hu_édes",
+      "language": "hu",
+      "text": "édes"
+    },
+    {
+      "id": "w_hu_édesem",
+      "language": "hu",
+      "text": "édesem"
     },
     {
       "id": "w_hu_írni",
@@ -686,9 +981,89 @@
       "text": "nee"
     },
     {
+      "id": "w_nl_acteur",
+      "language": "nl",
+      "text": "acteur"
+    },
+    {
+      "id": "w_nl_allebei",
+      "language": "nl",
+      "text": "allebei"
+    },
+    {
+      "id": "w_nl_apart",
+      "language": "nl",
+      "text": "apart"
+    },
+    {
+      "id": "w_nl_binnenstadcentrum",
+      "language": "nl",
+      "text": "binnenstadcentrum"
+    },
+    {
+      "id": "w_nl_buitenland",
+      "language": "nl",
+      "text": "buitenland"
+    },
+    {
+      "id": "w_nl_buitenwijk",
+      "language": "nl",
+      "text": "buitenwijk"
+    },
+    {
+      "id": "w_nl_charmant",
+      "language": "nl",
+      "text": "charmant"
+    },
+    {
+      "id": "w_nl_donkerblauw",
+      "language": "nl",
+      "text": "donkerblauw"
+    },
+    {
+      "id": "w_nl_dun",
+      "language": "nl",
+      "text": "dun"
+    },
+    {
+      "id": "w_nl_eetlepel",
+      "language": "nl",
+      "text": "eetlepel"
+    },
+    {
+      "id": "w_nl_elegant",
+      "language": "nl",
+      "text": "elegant"
+    },
+    {
+      "id": "w_nl_etend",
+      "language": "nl",
+      "text": "etend"
+    },
+    {
       "id": "w_nl_favoriet",
       "language": "nl",
       "text": "favoriet"
+    },
+    {
+      "id": "w_nl_gevoel",
+      "language": "nl",
+      "text": "gevoel"
+    },
+    {
+      "id": "w_nl_goochelaar",
+      "language": "nl",
+      "text": "goochelaar"
+    },
+    {
+      "id": "w_nl_grap",
+      "language": "nl",
+      "text": "grap"
+    },
+    {
+      "id": "w_nl_grappig",
+      "language": "nl",
+      "text": "grappig"
     },
     {
       "id": "w_nl_heet",
@@ -751,9 +1126,74 @@
       "text": "ziet"
     },
     {
+      "id": "w_nl_houten_lepel",
+      "language": "nl",
+      "text": "houten lepel"
+    },
+    {
+      "id": "w_nl_innerlijkbinnenkant",
+      "language": "nl",
+      "text": "innerlijkbinnenkant"
+    },
+    {
       "id": "w_nl_kamertemperatuur",
       "language": "nl",
       "text": "kamertemperatuur"
+    },
+    {
+      "id": "w_nl_kapper",
+      "language": "nl",
+      "text": "kapper"
+    },
+    {
+      "id": "w_nl_kleurrijk",
+      "language": "nl",
+      "text": "kleurrijk"
+    },
+    {
+      "id": "w_nl_korthoriyontaal",
+      "language": "nl",
+      "text": "korthoriyontaal"
+    },
+    {
+      "id": "w_nl_kortlaag",
+      "language": "nl",
+      "text": "kortlaag"
+    },
+    {
+      "id": "w_nl_kunstenaar",
+      "language": "nl",
+      "text": "kunstenaar"
+    },
+    {
+      "id": "w_nl_lang)horiyontaal",
+      "language": "nl",
+      "text": "lang)horiyontaal"
+    },
+    {
+      "id": "w_nl_langverticaal",
+      "language": "nl",
+      "text": "langverticaal"
+    },
+    {
+      "id": "w_nl_lichtbruin",
+      "language": "nl",
+      "text": "lichtbruin"
+    },
+    {
+      "id": "w_nl_lieverd",
+      "language": "nl",
+      "text": "lieverd"
+    },
+    {
+      "id": "w_nl_maand",
+      "language": "nl",
+      "text": "maand"
+    },
+    {
+      "id": "w_nl_magische_kubus",
+      "language": "nl",
+      "text": "magische kubus"
     },
     {
       "id": "w_nl_mate",
@@ -761,9 +1201,49 @@
       "text": "mate"
     },
     {
+      "id": "w_nl_moccalepel",
+      "language": "nl",
+      "text": "moccalepel"
+    },
+    {
+      "id": "w_nl_muziek",
+      "language": "nl",
+      "text": "muziek"
+    },
+    {
+      "id": "w_nl_muzikant",
+      "language": "nl",
+      "text": "muzikant"
+    },
+    {
+      "id": "w_nl_nooit",
+      "language": "nl",
+      "text": "nooit"
+    },
+    {
       "id": "w_nl_normaal",
       "language": "nl",
       "text": "normaal"
+    },
+    {
+      "id": "w_nl_onplezant",
+      "language": "nl",
+      "text": "onplezant"
+    },
+    {
+      "id": "w_nl_onvriendelijk",
+      "language": "nl",
+      "text": "onvriendelijk"
+    },
+    {
+      "id": "w_nl_opscheplepel",
+      "language": "nl",
+      "text": "opscheplepel"
+    },
+    {
+      "id": "w_nl_plukkenverzamelen",
+      "language": "nl",
+      "text": "plukkenverzamelen"
     },
     {
       "id": "w_nl_praten",
@@ -771,9 +1251,99 @@
       "text": "praten"
     },
     {
+      "id": "w_nl_regelmatig",
+      "language": "nl",
+      "text": "regelmatig"
+    },
+    {
+      "id": "w_nl_schattig",
+      "language": "nl",
+      "text": "schattig"
+    },
+    {
+      "id": "w_nl_scheppen",
+      "language": "nl",
+      "text": "scheppen"
+    },
+    {
+      "id": "w_nl_soeplepel",
+      "language": "nl",
+      "text": "soeplepel"
+    },
+    {
+      "id": "w_nl_soms",
+      "language": "nl",
+      "text": "soms"
+    },
+    {
+      "id": "w_nl_symphatiek",
+      "language": "nl",
+      "text": "symphatiek"
+    },
+    {
+      "id": "w_nl_tegen",
+      "language": "nl",
+      "text": "tegen"
+    },
+    {
       "id": "w_nl_temperatuur",
       "language": "nl",
       "text": "temperatuur"
+    },
+    {
+      "id": "w_nl_ten_minste",
+      "language": "nl",
+      "text": "ten minste"
+    },
+    {
+      "id": "w_nl_theelepel",
+      "language": "nl",
+      "text": "theelepel"
+    },
+    {
+      "id": "w_nl_tijd",
+      "language": "nl",
+      "text": "tijd"
+    },
+    {
+      "id": "w_nl_uiterlijkbuitenkant",
+      "language": "nl",
+      "text": "uiterlijkbuitenkant"
+    },
+    {
+      "id": "w_nl_vaak",
+      "language": "nl",
+      "text": "vaak"
+    },
+    {
+      "id": "w_nl_verpleegster",
+      "language": "nl",
+      "text": "verpleegster"
+    },
+    {
+      "id": "w_nl_verpleger",
+      "language": "nl",
+      "text": "verpleger"
+    },
+    {
+      "id": "w_nl_verzorgd",
+      "language": "nl",
+      "text": "verzorgd"
+    },
+    {
+      "id": "w_nl_verzorgen",
+      "language": "nl",
+      "text": "verzorgen"
+    },
+    {
+      "id": "w_nl_vogel",
+      "language": "nl",
+      "text": "vogel"
+    },
+    {
+      "id": "w_nl_vogelaar",
+      "language": "nl",
+      "text": "vogelaar"
     },
     {
       "id": "w_nl_warm",
@@ -799,6 +1369,11 @@
       "id": "w_nl_welke",
       "language": "nl",
       "text": "welke"
+    },
+    {
+      "id": "w_nl_zoet",
+      "language": "nl",
+      "text": "zoet"
     }
   ],
   "concepts": [
@@ -1156,7 +1731,7 @@
     {
       "id": "c_hu_nl_idő",
       "source_word_id": "w_hu_idő",
-      "context_source": "",
+      "context_source": "klok",
       "target_word_ids": [
         "w_nl_weer"
       ],
@@ -2415,6 +2990,1300 @@
       ],
       "example": "Ő Anna.",
       "example_lang": "hu"
+    },
+    {
+      "id": "c_nl_hu_acteur",
+      "source_word_id": "w_nl_acteur",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_színész"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_színész",
+      "source_word_id": "w_hu_színész",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_acteur"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_muziek",
+      "source_word_id": "w_nl_muziek",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_zene"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_zene",
+      "source_word_id": "w_hu_zene",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_muziek"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_muzikant",
+      "source_word_id": "w_nl_muzikant",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_zenész"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_zenész",
+      "source_word_id": "w_hu_zenész",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_muzikant"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_kapper",
+      "source_word_id": "w_nl_kapper",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_fodrász"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_fodrász",
+      "source_word_id": "w_hu_fodrász",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_kapper"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_vogelaar",
+      "source_word_id": "w_nl_vogelaar",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_madarász"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_madarász",
+      "source_word_id": "w_hu_madarász",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_vogelaar"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_vogel",
+      "source_word_id": "w_nl_vogel",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_madár"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_madár",
+      "source_word_id": "w_hu_madár",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_vogel"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_magische_kubus",
+      "source_word_id": "w_nl_magische_kubus",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_bűvös_kocka"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_bűvös_kocka",
+      "source_word_id": "w_hu_bűvös_kocka",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_magische_kubus"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_goochelaar",
+      "source_word_id": "w_nl_goochelaar",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_bűvész"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_bűvész",
+      "source_word_id": "w_hu_bűvész",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_goochelaar"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_kunstenaar",
+      "source_word_id": "w_nl_kunstenaar",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_művész"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_művész",
+      "source_word_id": "w_hu_művész",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_kunstenaar"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_onvriendelijk",
+      "source_word_id": "w_nl_onvriendelijk",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_barátságtalan"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_barátságtalan",
+      "source_word_id": "w_hu_barátságtalan",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_onvriendelijk"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_onplezant",
+      "source_word_id": "w_nl_onplezant",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_ellenszenves",
+        "w_hu_antipatikus"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_ellenszenves",
+      "source_word_id": "w_hu_ellenszenves",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_onplezant"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_tegen",
+      "source_word_id": "w_nl_tegen",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_ellen"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_ellen",
+      "source_word_id": "w_hu_ellen",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_tegen"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_gevoel",
+      "source_word_id": "w_nl_gevoel",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_szenv"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_szenv",
+      "source_word_id": "w_hu_szenv",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_gevoel"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_symphatiek",
+      "source_word_id": "w_nl_symphatiek",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_rokonszenves",
+        "w_hu_szimpatikus"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_rokonszenves",
+      "source_word_id": "w_hu_rokonszenves",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_symphatiek"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_antipatikus",
+      "source_word_id": "w_hu_antipatikus",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_onplezant"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_szimpatikus",
+      "source_word_id": "w_hu_szimpatikus",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_symphatiek"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_charmant",
+      "source_word_id": "w_nl_charmant",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_bájos"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_bájos",
+      "source_word_id": "w_hu_bájos",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_charmant"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_schattig",
+      "source_word_id": "w_nl_schattig",
+      "context_source": "lief",
+      "target_word_ids": [
+        "w_hu_aranyos"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_aranyos",
+      "source_word_id": "w_hu_aranyos",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_schattig"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_cuki",
+      "source_word_id": "w_hu_cuki",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_schattig"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_lieverd",
+      "source_word_id": "w_nl_lieverd",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_édesem"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_édesem",
+      "source_word_id": "w_hu_édesem",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_lieverd"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_zoet",
+      "source_word_id": "w_nl_zoet",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_édes"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_édes",
+      "source_word_id": "w_hu_édes",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_zoet"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_lichtbruin",
+      "source_word_id": "w_nl_lichtbruin",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_világosbarna"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_világosbarna",
+      "source_word_id": "w_hu_világosbarna",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_lichtbruin"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_donkerblauw",
+      "source_word_id": "w_nl_donkerblauw",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_sötétkék"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_sötétkék",
+      "source_word_id": "w_hu_sötétkék",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_donkerblauw"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_allebei",
+      "source_word_id": "w_nl_allebei",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_mindkettő"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_mindkettő",
+      "source_word_id": "w_hu_mindkettő",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_allebei"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_kleurrijk",
+      "source_word_id": "w_nl_kleurrijk",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_színes"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_színes",
+      "source_word_id": "w_hu_színes",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_kleurrijk"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_apart",
+      "source_word_id": "w_nl_apart",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_külön"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_külön",
+      "source_word_id": "w_hu_külön",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_apart"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_grappig",
+      "source_word_id": "w_nl_grappig",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_vicces"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_vicces",
+      "source_word_id": "w_hu_vicces",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_grappig"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_grap",
+      "source_word_id": "w_nl_grap",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_vicc"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_vicc",
+      "source_word_id": "w_hu_vicc",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_grap"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_theelepel",
+      "source_word_id": "w_nl_theelepel",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_kiskanál",
+        "w_hu_teáskanál"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_kiskanál",
+      "source_word_id": "w_hu_kiskanál",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_theelepel"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_moccalepel",
+      "source_word_id": "w_nl_moccalepel",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_mokkáskanál"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_mokkáskanál",
+      "source_word_id": "w_hu_mokkáskanál",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_moccalepel"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_teáskanál",
+      "source_word_id": "w_hu_teáskanál",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_theelepel"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_eetlepel",
+      "source_word_id": "w_nl_eetlepel",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_evőkanál"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_evőkanál",
+      "source_word_id": "w_hu_evőkanál",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_eetlepel"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_etend",
+      "source_word_id": "w_nl_etend",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_evő"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_evő",
+      "source_word_id": "w_hu_evő",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_etend"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_soeplepel",
+      "source_word_id": "w_nl_soeplepel",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_merőkanál"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_merőkanál",
+      "source_word_id": "w_hu_merőkanál",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_soeplepel"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_scheppen",
+      "source_word_id": "w_nl_scheppen",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_meríteni"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_meríteni",
+      "source_word_id": "w_hu_meríteni",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_scheppen"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_opscheplepel",
+      "source_word_id": "w_nl_opscheplepel",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_szedőkanál"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_szedőkanál",
+      "source_word_id": "w_hu_szedőkanál",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_opscheplepel"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_plukkenverzamelen_nemen",
+      "source_word_id": "w_nl_plukkenverzamelen",
+      "context_source": "nemen",
+      "target_word_ids": [
+        "w_hu_szedni"
+      ],
+      "example": "opscheppen",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_szedni_nemen",
+      "source_word_id": "w_hu_szedni",
+      "context_source": "nemen",
+      "target_word_ids": [
+        "w_nl_plukkenverzamelen"
+      ],
+      "example": "opscheppen",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_houten_lepel",
+      "source_word_id": "w_nl_houten_lepel",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_fakanál"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_fakanál",
+      "source_word_id": "w_hu_fakanál",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_houten_lepel"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_regelmatig",
+      "source_word_id": "w_nl_regelmatig",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_gyakran"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_gyakran",
+      "source_word_id": "w_hu_gyakran",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_regelmatig"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_vaak",
+      "source_word_id": "w_nl_vaak",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_sokszor"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_sokszor",
+      "source_word_id": "w_hu_sokszor",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_vaak"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_soms",
+      "source_word_id": "w_nl_soms",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_néha"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_néha",
+      "source_word_id": "w_hu_néha",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_soms"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_ten_minste",
+      "source_word_id": "w_nl_ten_minste",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_minimum"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_minimum",
+      "source_word_id": "w_hu_minimum",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_ten_minste"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_maand",
+      "source_word_id": "w_nl_maand",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_hónap"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_hónap",
+      "source_word_id": "w_hu_hónap",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_maand"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_nooit",
+      "source_word_id": "w_nl_nooit",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_soha"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_soha",
+      "source_word_id": "w_hu_soha",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_nooit"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_uiterlijkbuitenkant",
+      "source_word_id": "w_nl_uiterlijkbuitenkant",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_külső"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_külső",
+      "source_word_id": "w_hu_külső",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_uiterlijkbuitenkant"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_buitenland",
+      "source_word_id": "w_nl_buitenland",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_külföld"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_külföld",
+      "source_word_id": "w_hu_külföld",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_buitenland"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_innerlijkbinnenkant",
+      "source_word_id": "w_nl_innerlijkbinnenkant",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_belső"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_belső",
+      "source_word_id": "w_hu_belső",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_innerlijkbinnenkant"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_binnenstadcentrum",
+      "source_word_id": "w_nl_binnenstadcentrum",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_belváros"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_belváros",
+      "source_word_id": "w_hu_belváros",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_binnenstadcentrum"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_buitenwijk",
+      "source_word_id": "w_nl_buitenwijk",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_külváros"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_külváros",
+      "source_word_id": "w_hu_külváros",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_buitenwijk"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_tijd",
+      "source_word_id": "w_nl_tijd",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_idő"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_idő_2",
+      "source_word_id": "w_hu_idő",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_tijd"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_verzorgd",
+      "source_word_id": "w_nl_verzorgd",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_ápolt"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_ápolt",
+      "source_word_id": "w_hu_ápolt",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_verzorgd"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_verzorgen",
+      "source_word_id": "w_nl_verzorgen",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_ápolni"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_ápolni",
+      "source_word_id": "w_hu_ápolni",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_verzorgen"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_verpleegster",
+      "source_word_id": "w_nl_verpleegster",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_ápolónő"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_ápolónő",
+      "source_word_id": "w_hu_ápolónő",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_verpleegster"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_verpleger",
+      "source_word_id": "w_nl_verpleger",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_ápoló"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_ápoló",
+      "source_word_id": "w_hu_ápoló",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_verpleger"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_elegant",
+      "source_word_id": "w_nl_elegant",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_elegáns"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_elegáns",
+      "source_word_id": "w_hu_elegáns",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_elegant"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_lang)horiyontaal",
+      "source_word_id": "w_nl_lang)horiyontaal",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_hosszú"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_hosszú",
+      "source_word_id": "w_hu_hosszú",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_lang)horiyontaal"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_langverticaal",
+      "source_word_id": "w_nl_langverticaal",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_magas"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_magas",
+      "source_word_id": "w_hu_magas",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_langverticaal"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_korthoriyontaal",
+      "source_word_id": "w_nl_korthoriyontaal",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_rövid"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_rövid",
+      "source_word_id": "w_hu_rövid",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_korthoriyontaal"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_kortlaag_verticaal",
+      "source_word_id": "w_nl_kortlaag",
+      "context_source": "verticaal",
+      "target_word_ids": [
+        "w_hu_alacsony"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_alacsony_verticaal",
+      "source_word_id": "w_hu_alacsony",
+      "context_source": "verticaal",
+      "target_word_ids": [
+        "w_nl_kortlaag"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_dun",
+      "source_word_id": "w_nl_dun",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_vékony"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_hu_nl_vékony",
+      "source_word_id": "w_hu_vékony",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_dun"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_schattig_spreektaal",
+      "source_word_id": "w_nl_schattig",
+      "context_source": "spreektaal",
+      "target_word_ids": [
+        "w_hu_cuki"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
+      ]
     }
   ]
 }
