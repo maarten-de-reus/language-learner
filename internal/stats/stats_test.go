@@ -1,6 +1,7 @@
 package stats
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -29,8 +30,8 @@ func testLib() *storage.Library {
 			"w_hu_viz":    {ID: "w_hu_viz", Language: "hu", Text: "víz"},
 		},
 		Concepts: []storage.TranslationConcept{
-			{ID: "c_koffie", SourceWordID: "w_nl_koffie", TargetWordIDs: []string{"w_hu_kave"}, StepIndex: 1, NextReview: at(20, 4)}, // te laat
-			{ID: "c_water", SourceWordID: "w_nl_water", ContextSource: "drinken", TargetWordIDs: []string{"w_hu_viz"}, NextReview: at(26, 4)},
+			{ID: "c_koffie", SourceWordID: "w_nl_koffie", TargetWordIDs: []string{"w_hu_kave"}, StepIndex: 1, NextReview: at(20, 4), FirstReview: at(1, 9)}, // te laat
+			{ID: "c_water", SourceWordID: "w_nl_water", ContextSource: "drinken", TargetWordIDs: []string{"w_hu_viz"}, NextReview: at(26, 4), FirstReview: at(1, 9)},
 		},
 	}
 }
@@ -53,7 +54,7 @@ func TestTotalsAndMistakes(t *testing.T) {
 		review(at(23, 21), "c_water", true),
 		review(at(24, 9), "c_water", false),
 	}
-	rep := Compute(testLib(), reviews, at(24, 12))
+	rep := Compute(testLib(), reviews, at(24, 12), 20)
 
 	if rep.Answers != 4 || rep.FirstAttempts != 3 || rep.FirstCorrect != 1 || rep.WordsPracticed != 2 {
 		t.Errorf("totalen: %+v", rep)
@@ -92,7 +93,7 @@ func TestStreaks(t *testing.T) {
 		{"na middernacht telt als de vorige dag", append(days(22), review(at(24, 1), "c_water", true)), at(24, 2), 2, 2},
 	}
 	for _, c := range cases {
-		rep := Compute(testLib(), c.reviews, c.now)
+		rep := Compute(testLib(), c.reviews, c.now, 20)
 		if rep.Streak != c.current || rep.LongestStreak != c.longest {
 			t.Errorf("%s: reeks %d / langste %d, verwacht %d / %d", c.name, rep.Streak, rep.LongestStreak, c.current, c.longest)
 		}
@@ -101,7 +102,7 @@ func TestStreaks(t *testing.T) {
 
 func TestActivityAndForecast(t *testing.T) {
 	reviews := []storage.Review{review(at(24, 9), "c_water", true), review(at(20, 9), "c_koffie", false)}
-	rep := Compute(testLib(), reviews, at(24, 12))
+	rep := Compute(testLib(), reviews, at(24, 12), 20)
 
 	if len(rep.Activity) != ActivityDays || rep.Activity[ActivityDays-1].Date != "2026-10-24" {
 		t.Fatalf("activiteit moet %d dagen tot vandaag bevatten, kreeg %d (laatste %v)", ActivityDays, len(rep.Activity), rep.Activity[len(rep.Activity)-1])
@@ -127,7 +128,7 @@ func TestHardest(t *testing.T) {
 		review(at(22, 9), "c_koffie", true, retry), // herhalingen tellen niet
 		review(at(22, 9), "c_verwijderd", false),   // bestaat niet meer
 	}
-	rep := Compute(testLib(), reviews, at(24, 12))
+	rep := Compute(testLib(), reviews, at(24, 12), 20)
 	if len(rep.Hardest) != 2 {
 		t.Fatalf("verwacht 2 moeilijke woorden, kreeg %+v", rep.Hardest)
 	}
@@ -151,7 +152,7 @@ func TestRetryEffect(t *testing.T) {
 		// Fout, goed bij herhaling, nog niet opnieuw getoetst: telt (nog) niet
 		review(at(24, 9), "c_water", false), review(at(24, 9), "c_water", true, retry),
 	}
-	rep := Compute(testLib(), reviews, at(24, 12))
+	rep := Compute(testLib(), reviews, at(24, 12), 20)
 	if rep.Retry.Cases != 2 || rep.Retry.NextCorrect != 1 || rep.Retry.Enough {
 		t.Errorf("herhaaleffect: %+v", rep.Retry)
 	}
@@ -165,5 +166,22 @@ func TestPerConcept(t *testing.T) {
 	})
 	if counts["c_water"] != (Counts{Attempts: 2, Wrong: 1}) {
 		t.Errorf("tellingen: %+v", counts)
+	}
+}
+
+func TestQueue(t *testing.T) {
+	lib := testLib()
+	for i := range 45 {
+		lib.Concepts = append(lib.Concepts, storage.TranslationConcept{ID: fmt.Sprintf("c_new_%d", i), SourceWordID: "w_nl_water", TargetWordIDs: []string{"w_hu_viz"}, NextReview: at(24, 9)})
+	}
+	rep := Compute(lib, nil, at(24, 12), 20)
+	if rep.Queue != (Queue{Waiting: 45, PerDay: 20, Days: 3}) {
+		t.Errorf("wachtrij: %+v", rep.Queue)
+	}
+	if rep.Forecast[0].Due != 1 {
+		t.Errorf("nieuwe woorden horen niet in de planning; vandaag alleen koffie, kreeg %d", rep.Forecast[0].Due)
+	}
+	if q := Compute(lib, nil, at(24, 12), 0).Queue; q.Days != 0 || q.Waiting != 45 {
+		t.Errorf("zonder limiet: %+v", q)
 	}
 }

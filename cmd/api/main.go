@@ -16,7 +16,10 @@ import (
 	"hungarian-language-learner/internal/storage"
 )
 
-const RunSize = 10
+const (
+	RunSize       = 10
+	ExtraNewWords = 10 // per klik op "Nog 10 nieuwe woorden"
+)
 
 //go:embed web
 var webFiles embed.FS
@@ -32,9 +35,18 @@ func main() {
 		log.Fatalf("Fout bij laden data: %v", err)
 	}
 
+	settings, err := storage.LoadSettings(cfg.settingsPath())
+	if err != nil {
+		log.Fatalf("Fout bij laden instellingen: %v", err)
+	}
+
 	session := quiz.New(lib, cfg.progressPath(), RunSize)
 	session.LogReviewsTo(storage.NewReviewLog(cfg.reviewsPath()))
-	s := &server{lib: lib, wordsPath: cfg.wordsPath(), reviewsPath: cfg.reviewsPath(), session: session}
+	session.SetNewPerDay(settings.NewPerDay)
+	s := &server{
+		lib: lib, session: session, settings: settings,
+		wordsPath: cfg.wordsPath(), reviewsPath: cfg.reviewsPath(), settingsPath: cfg.settingsPath(),
+	}
 	srv := &http.Server{
 		Addr:              cfg.Addr,
 		Handler:           withSecurity(s.routes(), cfg),
@@ -82,7 +94,10 @@ func (s *server) routes() *http.ServeMux {
 	mux.HandleFunc("POST /api/answer", s.handleAnswer)
 	mux.HandleFunc("POST /api/next", s.handle(func() { s.session.Next() }))
 	mux.HandleFunc("POST /api/run", s.handle(func() { s.session.NewRun() }))
+	mux.HandleFunc("POST /api/new/extra", s.handle(func() { s.session.AddExtraNew(ExtraNewWords) }))
 	mux.HandleFunc("GET /api/stats", s.handleStats)
+	mux.HandleFunc("GET /api/settings", s.handleGetSettings)
+	mux.HandleFunc("PUT /api/settings", s.handlePutSettings)
 
 	// Beheer
 	mux.HandleFunc("GET /api/concepts", s.handleListConcepts)

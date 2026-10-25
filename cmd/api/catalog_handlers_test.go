@@ -41,7 +41,8 @@ func newTestServer(t *testing.T) (*server, http.Handler) {
 	session := quiz.New(lib, progressPath, 10)
 	reviewsPath := filepath.Join(dir, "antwoorden.jsonl")
 	session.LogReviewsTo(storage.NewReviewLog(reviewsPath))
-	s := &server{lib: lib, wordsPath: wordsPath, reviewsPath: reviewsPath, session: session}
+	s := &server{lib: lib, wordsPath: wordsPath, reviewsPath: reviewsPath, session: session,
+		settings: storage.DefaultSettings(), settingsPath: filepath.Join(dir, "instellingen.json")}
 	return s, s.routes()
 }
 

@@ -104,6 +104,12 @@ type Stats struct {
 	Steps     [len(engine.AnkiIntervals)]int `json:"steps"`
 	Intervals [len(engine.AnkiIntervals)]int `json:"intervals"`
 	NextDue   *time.Time                     `json:"nextDue"`
+
+	// Nieuwe woorden: wachtrij en dagelijkse limiet
+	NewQueue  int `json:"newQueue"`  // nieuwe woorden die nog nooit gevraagd zijn
+	NewToday  int `json:"newToday"`  // vandaag voor het eerst gevraagd
+	NewPerDay int `json:"newPerDay"` // ingestelde limiet; 0 = geen limiet
+	NewLeft   int `json:"newLeft"`   // vandaag nog toegestaan, inclusief extra; -1 = geen limiet
 }
 
 // Session is niet veilig voor gelijktijdig gebruik; de aanroeper zorgt voor locking.
@@ -116,6 +122,10 @@ type Session struct {
 	progressPath string
 	runSize      int
 	reviewLog    *storage.ReviewLog // optioneel: elk antwoord wordt hierin bijgehouden
+
+	newPerDay int       // nieuwe woorden per dag; 0 = geen limiet
+	extraNew  int       // extra nieuwe woorden vandaag ("Nog 10 nieuwe woorden")
+	extraDay  time.Time // herhaaldag waarop extraNew geldt
 }
 
 // LogReviewsTo laat de sessie elk antwoord, ook oefenherhalingen, in het antwoordenlog schrijven
@@ -125,9 +135,70 @@ func (s *Session) LogReviewsTo(l *storage.ReviewLog) {
 
 // New maakt een sessie en start meteen de eerste run
 func New(lib *storage.Library, progressPath string, runSize int) *Session {
-	s := &Session{lib: lib, progressPath: progressPath, runSize: runSize}
+	s := &Session{lib: lib, progressPath: progressPath, runSize: runSize, newPerDay: storage.DefaultNewPerDay}
 	s.startRun()
 	return s
+}
+
+// SetNewPerDay stelt de dagelijkse limiet voor nieuwe woorden in (0 = geen limiet).
+// Is er in de huidige run nog niets beantwoord, dan wordt die opnieuw samengesteld.
+func (s *Session) SetNewPerDay(n int) {
+	s.newPerDay = n
+	if s.pos == 0 && s.feedback == nil && len(s.results) == 0 {
+		s.startRun()
+	}
+}
+
+// AddExtraNew staat vandaag n extra nieuwe woorden toe. Is de run klaar, dan begint er
+// meteen een nieuwe met die woorden.
+func (s *Session) AddExtraNew(n int) {
+	today := engine.DayOf(time.Now())
+	if !s.extraDay.Equal(today) {
+		s.extraNew, s.extraDay = 0, today
+	}
+	// Altijd n méér dan wat er nu al geïntroduceerd is, ook als je vandaag al over de limiet zit
+	if used := s.introducedOn(today); s.newPerDay+s.extraNew < used {
+		s.extraNew = used - s.newPerDay
+	}
+	s.extraNew += n
+	if s.Done() {
+		s.startRun()
+	}
+}
+
+// newAllowance is het aantal nieuwe woorden dat vandaag nog mag; engine.Unlimited zonder limiet
+func (s *Session) newAllowance(now time.Time) int {
+	if s.newPerDay == 0 {
+		return engine.Unlimited
+	}
+	today := engine.DayOf(now)
+	allowed := s.newPerDay
+	if s.extraDay.Equal(today) {
+		allowed += s.extraNew
+	}
+	return max(0, allowed-s.introducedOn(today))
+}
+
+// introducedOn telt de concepten die op deze herhaaldag voor het eerst gevraagd zijn
+func (s *Session) introducedOn(day time.Time) int {
+	n := 0
+	for _, c := range s.lib.Concepts {
+		if !engine.IsNew(c) && engine.DayOf(c.FirstReview.In(day.Location())).Equal(day) {
+			n++
+		}
+	}
+	return n
+}
+
+// load telt per herhaaldag hoeveel concepten er gepland staan, voor de spreiding van herhalingen
+func (s *Session) load(except string) engine.Load {
+	counts := map[time.Time]int{}
+	for _, c := range s.lib.Concepts {
+		if c.ID != except && !engine.IsNew(c) {
+			counts[engine.DayOf(c.NextReview.In(time.Local))]++
+		}
+	}
+	return func(day time.Time) int { return counts[day] }
 }
 
 // Done is true als de run klaar is (of leeg was omdat er niets te herhalen viel)
@@ -183,7 +254,10 @@ func (s *Session) Answer(input string) (*Feedback, error) {
 
 	var saveErr error
 	if item.retry == 0 {
-		engine.UpdateProgressSmart(concept, correct)
+		if engine.IsNew(*concept) {
+			concept.FirstReview = time.Now() // uit de wachtrij: telt mee voor de daglimiet
+		}
+		engine.UpdateProgressSmart(concept, correct, s.load(concept.ID))
 		saveErr = s.Save()
 		item.result = len(s.results)
 		s.results = append(s.results, Result{
@@ -284,8 +358,19 @@ func (s *Session) Save() error {
 // Stats telt per stap en bepaalt hoeveel er nu klaarstaan en wanneer de volgende herhaling is
 func (s *Session) Stats() Stats {
 	now := time.Now()
-	st := Stats{Total: len(s.lib.Concepts), Intervals: engine.AnkiIntervals}
+	st := Stats{Total: len(s.lib.Concepts), Intervals: engine.AnkiIntervals, NewPerDay: s.newPerDay}
+	st.NewLeft = s.newAllowance(now)
+	st.NewToday = s.introducedOn(engine.DayOf(now))
+	newDue := 0
 	for _, c := range s.lib.Concepts {
+		if engine.IsNew(c) {
+			// Nieuwe woorden staan in de wachtrij; ze tellen niet mee als stap of geplande herhaling
+			st.NewQueue++
+			if c.NextReview.Before(now) {
+				newDue++
+			}
+			continue
+		}
 		if c.StepIndex >= 0 && c.StepIndex < len(st.Steps) {
 			st.Steps[c.StepIndex]++
 		}
@@ -296,11 +381,17 @@ func (s *Session) Stats() Stats {
 			st.NextDue = &t
 		}
 	}
+	// Te doen vandaag: alle herhalingen plus de nieuwe woorden die vandaag nog mogen
+	if st.NewLeft == engine.Unlimited {
+		st.Due += newDue
+	} else {
+		st.Due += min(newDue, st.NewLeft)
+	}
 	return st
 }
 
 func (s *Session) startRun() {
-	chunk, _ := engine.GetNextChunk(s.lib.Concepts, s.runSize)
+	chunk, _ := engine.GetNextChunk(s.lib.Concepts, s.runSize, s.newAllowance(time.Now()))
 	s.run = s.run[:0]
 	for _, c := range chunk {
 		s.run = append(s.run, runItem{conceptID: c.ID})

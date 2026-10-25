@@ -15,7 +15,7 @@ func (s *server) handleStats(w http.ResponseWriter, r *http.Request) {
 	defer s.mu.Unlock()
 
 	reviews, skipped := s.readReviews()
-	rep := stats.Compute(s.lib, reviews, time.Now())
+	rep := stats.Compute(s.lib, reviews, time.Now(), s.settings.NewPerDay)
 	rep.Skipped = skipped
 	writeJSON(w, http.StatusOK, rep)
 }

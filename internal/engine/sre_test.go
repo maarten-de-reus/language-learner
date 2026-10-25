@@ -35,7 +35,7 @@ func ids(cs []storage.TranslationConcept) []string {
 
 func TestChunkNeverContainsBothDirections(t *testing.T) {
 	for range 50 {
-		chunk, remaining := GetNextChunk(pairs(15, 0), 10)
+		chunk, remaining := GetNextChunk(pairs(15, 0), 10, Unlimited)
 		if len(chunk) != 10 || remaining != 20 {
 			t.Fatalf("verwacht 10 in de run en 20 over, kreeg %d / %d", len(chunk), remaining)
 		}
@@ -61,7 +61,7 @@ func TestChunkIsRandomised(t *testing.T) {
 
 func mustChunk(t *testing.T) []storage.TranslationConcept {
 	t.Helper()
-	chunk, _ := GetNextChunk(pairs(15, 0), 10)
+	chunk, _ := GetNextChunk(pairs(15, 0), 10, Unlimited)
 	return chunk
 }
 
@@ -73,7 +73,7 @@ func TestLowerStepsComeFirst(t *testing.T) {
 		})
 	}
 	for range 20 {
-		chunk, _ := GetNextChunk(cs, 5)
+		chunk, _ := GetNextChunk(cs, 5, Unlimited)
 		urgent := 0
 		for _, c := range chunk {
 			if strings.HasPrefix(c.ID, "c_urgent_") {
@@ -88,7 +88,7 @@ func TestLowerStepsComeFirst(t *testing.T) {
 
 func TestDeferredDirectionComesInLaterRun(t *testing.T) {
 	cs := pairs(1, 0) // alleen koffie -> kávé en kávé -> koffie
-	chunk, remaining := GetNextChunk(cs, 10)
+	chunk, remaining := GetNextChunk(cs, 10, Unlimited)
 	if len(chunk) != 1 || remaining != 1 {
 		t.Fatalf("verwacht 1 in de run en 1 uitgesteld, kreeg %d / %d", len(chunk), remaining)
 	}
@@ -99,7 +99,7 @@ func TestDeferredDirectionComesInLaterRun(t *testing.T) {
 			cs[i].NextReview = time.Now().Add(24 * time.Hour)
 		}
 	}
-	next, remaining := GetNextChunk(cs, 10)
+	next, remaining := GetNextChunk(cs, 10, Unlimited)
 	if len(next) != 1 || next[0].ID == chunk[0].ID || remaining != 0 {
 		t.Errorf("verwacht de andere richting, kreeg %v (over: %d)", ids(next), remaining)
 	}
@@ -108,7 +108,7 @@ func TestDeferredDirectionComesInLaterRun(t *testing.T) {
 func TestNotDueIsExcluded(t *testing.T) {
 	cs := pairs(3, 0)
 	cs[0].NextReview = time.Now().Add(time.Hour)
-	chunk, _ := GetNextChunk(cs, 10)
+	chunk, _ := GetNextChunk(cs, 10, Unlimited)
 	if slices.Contains(ids(chunk), cs[0].ID) {
 		t.Error("concept dat nog niet due is mag niet in de run")
 	}
@@ -145,13 +145,13 @@ func TestUpdateProgressSchedulesAtStartOfDay(t *testing.T) {
 	tomorrow := time.Date(2026, 10, 21, DayStartHour, 0, 0, 0, time.Local)
 
 	wrong := storage.TranslationConcept{StepIndex: 3, NextReview: now.Add(-time.Hour)}
-	updateProgress(&wrong, false, now)
+	updateProgress(&wrong, false, now, nil)
 	if wrong.StepIndex != 0 || !wrong.NextReview.Equal(tomorrow) {
 		t.Errorf("fout: verwacht stap 0 en morgen %02d:00, kreeg %+v", DayStartHour, wrong)
 	}
 
 	right := storage.TranslationConcept{StepIndex: 0, NextReview: now.Add(-time.Hour)}
-	updateProgress(&right, true, now)
+	updateProgress(&right, true, now, nil)
 	want := time.Date(2026, 10, 23, DayStartHour, 0, 0, 0, time.Local) // stap 1 = 3 dagen
 	if right.StepIndex != 1 || !right.NextReview.Equal(want) {
 		t.Errorf("goed: verwacht stap 1 en %v, kreeg %+v", want, right)
@@ -174,7 +174,7 @@ func TestCorruptStepDoesNotCrash(t *testing.T) {
 		_ = CalculateIntervalWithFuzz(step) // mag niet panieken
 
 		c := storage.TranslationConcept{StepIndex: step, NextReview: past}
-		updateProgress(&c, true, time.Now())
+		updateProgress(&c, true, time.Now(), nil)
 		if c.StepIndex < 0 || c.StepIndex >= len(AnkiIntervals) {
 			t.Errorf("stap %d: na een antwoord moet de stap geldig zijn, kreeg %d", step, c.StepIndex)
 		}
@@ -187,20 +187,20 @@ func TestUpdateProgressEdgeCases(t *testing.T) {
 	// Te vroeg en goed: niets verandert
 	early := storage.TranslationConcept{StepIndex: 2, NextReview: now.Add(48 * time.Hour)}
 	before := early
-	updateProgress(&early, true, now)
+	updateProgress(&early, true, now, nil)
 	if early.StepIndex != before.StepIndex || !early.NextReview.Equal(before.NextReview) {
 		t.Errorf("te vroeg goed mag niets veranderen: %+v -> %+v", before, early)
 	}
 
 	// Te vroeg en fout: toch terug naar stap 0
-	updateProgress(&early, false, now)
+	updateProgress(&early, false, now, nil)
 	if early.StepIndex != 0 {
 		t.Errorf("te vroeg fout moet terug naar stap 0, kreeg %d", early.StepIndex)
 	}
 
 	// Op de hoogste stap blijft het bij de hoogste stap
 	top := storage.TranslationConcept{StepIndex: len(AnkiIntervals) - 1, NextReview: past}
-	updateProgress(&top, true, now)
+	updateProgress(&top, true, now, nil)
 	if top.StepIndex != len(AnkiIntervals)-1 {
 		t.Errorf("hoogste stap moet blijven, kreeg %d", top.StepIndex)
 	}
@@ -221,5 +221,89 @@ func TestDayOfAndDaysBetween(t *testing.T) {
 	// Over de overgang naar wintertijd (25 oktober) heen
 	if got := DaysBetween(DayOf(at(24, 12)), DayOf(at(27, 12))); got != 3 {
 		t.Errorf("verwacht 3 dagen, kreeg %d", got)
+	}
+}
+
+// seen markeert concepten als al eens gevraagd (geen nieuwe woorden meer)
+func seen(cs []storage.TranslationConcept) []storage.TranslationConcept {
+	for i := range cs {
+		cs[i].FirstReview = past
+	}
+	return cs
+}
+
+func newWords(n int) []storage.TranslationConcept {
+	var cs []storage.TranslationConcept
+	for i := range n {
+		cs = append(cs, storage.TranslationConcept{
+			ID: fmt.Sprintf("c_new_%02d", i), SourceWordID: fmt.Sprintf("w_a_%d", i), TargetWordIDs: []string{fmt.Sprintf("w_b_%d", i)}, NextReview: past,
+		})
+	}
+	return cs
+}
+
+func TestNewWordsAreLimited(t *testing.T) {
+	cs := append(seen(pairs(3, 1)), newWords(20)...) // 6 bekende herhalingen + 20 nieuwe woorden
+
+	chunk, remaining := GetNextChunk(cs, 50, 5)
+	var news []string
+	for _, c := range chunk {
+		if IsNew(c) {
+			news = append(news, c.ID)
+		}
+	}
+	slices.Sort(news)
+	if want := []string{"c_new_00", "c_new_01", "c_new_02", "c_new_03", "c_new_04"}; !slices.Equal(news, want) {
+		t.Errorf("verwacht de eerste 5 nieuwe woorden (volgorde van toevoegen), kreeg %v", news)
+	}
+	if len(chunk) != 3+5 || remaining != 3 { // 3 van de 6 herhalingen zijn de andere richting
+		t.Errorf("verwacht 8 in de run en 3 uitgesteld, kreeg %d / %d", len(chunk), remaining)
+	}
+
+	if chunk, _ := GetNextChunk(cs, 50, 0); slices.ContainsFunc(chunk, IsNew) {
+		t.Error("met 0 toegestaan mogen er geen nieuwe woorden in de run")
+	}
+	if chunk, _ := GetNextChunk(cs, 50, Unlimited); len(chunk) != 3+20 {
+		t.Errorf("zonder limiet verwacht 23 in de run, kreeg %d", len(chunk))
+	}
+}
+
+func TestIntervalRangeMatchesFuzz(t *testing.T) {
+	want := map[int][2]int{0: {1, 1}, 1: {3, 3}, 2: {6, 8}, 3: {14, 18}, 4: {38, 42}, 5: {86, 95}}
+	for step, w := range want {
+		if lo, hi := IntervalRange(step); lo != w[0] || hi != w[1] {
+			t.Errorf("stap %d: [%d, %d], verwacht %v", step, lo, hi, w)
+		}
+	}
+}
+
+func TestLoadBalancingPicksQuietestDay(t *testing.T) {
+	now := time.Date(2026, 10, 25, 12, 0, 0, 0, time.Local)
+	day := func(d int) time.Time { return DayOf(ReviewDate(now, d)) }
+
+	// Stap 2 (7 dagen, 6 tot 8): dag 7 is druk, dag 6 en 8 zijn even rustig
+	busy := map[time.Time]int{day(6): 3, day(7): 40, day(8): 3}
+	load := func(d time.Time) int { return busy[d] }
+	counts := map[int]int{}
+	for range 200 {
+		counts[balancedInterval(2, now, load)]++
+	}
+	if counts[7] != 0 || counts[6] == 0 || counts[8] == 0 {
+		t.Errorf("verwacht nooit de drukke dag 7 en willekeurig 6 of 8, kreeg %v", counts)
+	}
+
+	// Gelijke drukte: het basis-interval wint
+	if got := balancedInterval(2, now, func(time.Time) int { return 5 }); got != 7 {
+		t.Errorf("bij gelijke drukte verwacht 7 dagen, kreeg %d", got)
+	}
+	// Korte intervallen liggen vast, ook als die dag druk is
+	if got := balancedInterval(1, now, load); got != 3 {
+		t.Errorf("3 dagen heeft geen speling, kreeg %d", got)
+	}
+	// Zonder load: willekeurig binnen de grenzen, zoals voorheen
+	for range 100 {
+		if got := balancedInterval(3, now, nil); got < 14 || got > 18 {
+			t.Fatalf("zonder load buiten [14, 18]: %d", got)
+		}
 	}
 }

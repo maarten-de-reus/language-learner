@@ -37,6 +37,7 @@ type Report struct {
 	Forecast []DueDay    `json:"forecast"` // vandaag (inclusief achterstand) en de dagen erna
 	Hardest  []Hard      `json:"hardest"`
 	Retry    RetryEffect `json:"retry"`
+	Queue    Queue       `json:"queue"`
 	Skipped  int         `json:"skipped,omitempty"` // onleesbare regels in het log
 }
 
@@ -80,6 +81,13 @@ type RetryEffect struct {
 	Enough      bool `json:"enough"`      // genoeg gevallen om iets te zeggen
 }
 
+// Queue is de wachtrij met nieuwe woorden die nog nooit gevraagd zijn
+type Queue struct {
+	Waiting int `json:"waiting"`
+	PerDay  int `json:"perDay"` // ingestelde limiet; 0 = geen limiet
+	Days    int `json:"days"`   // dagen tot de wachtrij leeg is bij deze limiet (0 bij geen limiet of lege wachtrij)
+}
+
 // Counts zijn de tellingen per concept, ook gebruikt in het beheer
 type Counts struct {
 	Attempts int // eerste pogingen
@@ -103,8 +111,9 @@ func PerConcept(reviews []storage.Review) map[string]Counts {
 	return out
 }
 
-// Compute maakt het volledige rapport. now bepaalt wat "vandaag" is.
-func Compute(lib *storage.Library, reviews []storage.Review, now time.Time) Report {
+// Compute maakt het volledige rapport. now bepaalt wat "vandaag" is; newPerDay is de
+// dagelijkse limiet voor nieuwe woorden (0 = geen limiet).
+func Compute(lib *storage.Library, reviews []storage.Review, now time.Time, newPerDay int) Report {
 	reviews = slices.Clone(reviews)
 	sort.SliceStable(reviews, func(i, j int) bool { return reviews[i].Time.Before(reviews[j].Time) })
 
@@ -166,6 +175,15 @@ func Compute(lib *storage.Library, reviews []storage.Review, now time.Time) Repo
 	rep.Forecast = forecast(lib, today)
 	rep.Hardest = hardest(lib, reviews)
 	rep.Retry = retryEffect(reviews, now.Location())
+	rep.Queue = Queue{PerDay: newPerDay}
+	for _, c := range lib.Concepts {
+		if engine.IsNew(c) {
+			rep.Queue.Waiting++
+		}
+	}
+	if newPerDay > 0 {
+		rep.Queue.Days = (rep.Queue.Waiting + newPerDay - 1) / newPerDay
+	}
 	return rep
 }
 
@@ -203,6 +221,9 @@ func forecast(lib *storage.Library, today time.Time) []DueDay {
 		out[i].Date = today.AddDate(0, 0, i).Format(time.DateOnly)
 	}
 	for _, c := range lib.Concepts {
+		if engine.IsNew(c) {
+			continue // nieuwe woorden staan in de wachtrij, nog niet ingepland
+		}
 		i := max(0, engine.DaysBetween(today, engine.DayOf(c.NextReview.In(today.Location()))))
 		if i < ForecastDays {
 			out[i].Due++

@@ -1,6 +1,7 @@
 package quiz
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"testing"
@@ -9,6 +10,9 @@ import (
 	"hungarian-language-learner/internal/engine"
 	"hungarian-language-learner/internal/storage"
 )
+
+// longAgo: voor al eerder geoefende woorden, zodat ze niet meetellen als "vandaag geïntroduceerd"
+var longAgo = time.Now().AddDate(0, -1, 0)
 
 func testData() (map[string]storage.Word, []storage.TranslationConcept) {
 	words := map[string]storage.Word{
@@ -22,6 +26,9 @@ func testData() (map[string]storage.Word, []storage.TranslationConcept) {
 		{ID: "c_koffie", SourceWordID: "w_nl_koffie", TargetWordIDs: []string{"w_hu_kave"}, StepIndex: 1, NextReview: past},
 		{ID: "c_water", SourceWordID: "w_nl_water", TargetWordIDs: []string{"w_hu_viz"}, StepIndex: 2, NextReview: past},
 		{ID: "c_later", SourceWordID: "w_nl_water", TargetWordIDs: []string{"w_hu_viz"}, NextReview: time.Now().Add(48 * time.Hour)},
+	}
+	for i := range concepts {
+		concepts[i].FirstReview = longAgo // al eerder geoefend: geen nieuwe woorden
 	}
 	return words, concepts
 }
@@ -232,6 +239,9 @@ func időData(t *testing.T) *Session {
 		{ID: "c_nl_weer", SourceWordID: "w_nl_weer", TargetWordIDs: []string{"w_hu_idő"},
 			Example: "Milyen lesz az idő holnap?", ExampleLang: "hu", StepIndex: 3, NextReview: past},
 	}
+	for i := range concepts {
+		concepts[i].FirstReview = longAgo
+	}
 	return New(&storage.Library{Words: words, Concepts: concepts}, filepath.Join(t.TempDir(), "voortgang.json"), 10)
 }
 
@@ -346,5 +356,102 @@ func TestForgetRemovesDeletedConceptsFromRun(t *testing.T) {
 	}
 	if len(s.Results()) != 1 {
 		t.Errorf("resultaten van al gegeven antwoorden blijven bewaard, kreeg %d", len(s.Results()))
+	}
+}
+
+// queueSession: 2 bekende woorden die aan de beurt zijn en 30 nieuwe woorden in de wachtrij
+func queueSession(t *testing.T, perDay int) *Session {
+	t.Helper()
+	words, concepts := testData()
+	past := time.Now().Add(-time.Hour)
+	for i := range 30 {
+		nl, hu := fmt.Sprintf("w_nl_%d", i), fmt.Sprintf("w_hu_%d", i)
+		words[nl] = storage.Word{ID: nl, Language: "nl", Text: fmt.Sprintf("woord%d", i)}
+		words[hu] = storage.Word{ID: hu, Language: "hu", Text: fmt.Sprintf("szó%d", i)}
+		concepts = append(concepts, storage.TranslationConcept{
+			ID: fmt.Sprintf("c_new_%d", i), SourceWordID: nl, TargetWordIDs: []string{hu}, NextReview: past,
+		})
+	}
+	s := New(&storage.Library{Words: words, Concepts: concepts}, filepath.Join(t.TempDir(), "voortgang.json"), 100)
+	s.SetNewPerDay(perDay)
+	return s
+}
+
+func countNew(s *Session) (newInRun int) {
+	for _, item := range s.run {
+		if engine.IsNew(*s.conceptOf(item)) {
+			newInRun++
+		}
+	}
+	return newInRun
+}
+
+func TestDailyNewWordLimit(t *testing.T) {
+	s := queueSession(t, 5)
+	if got := countNew(s); got != 5 {
+		t.Fatalf("verwacht 5 nieuwe woorden in de run, kreeg %d", got)
+	}
+	st := s.Stats()
+	if st.NewQueue != 30 || st.NewLeft != 5 || st.Due != 2+5 {
+		t.Errorf("stats vooraf: %+v", st)
+	}
+
+	// Alles beantwoorden: 5 nieuwe woorden zijn nu geïntroduceerd, de limiet is op
+	for !s.Done() {
+		s.Answer(correctAnswer(s))
+		s.Next()
+	}
+	st = s.Stats()
+	if st.NewQueue != 25 || st.NewToday != 5 || st.NewLeft != 0 {
+		t.Errorf("stats na de run: %+v", st)
+	}
+	s.NewRun()
+	if !s.Done() {
+		t.Error("de daglimiet is bereikt: er mogen geen nieuwe woorden meer komen")
+	}
+
+	// "Nog 10 nieuwe woorden": er begint meteen een run met 10 nieuwe woorden
+	s.AddExtraNew(10)
+	if got := countNew(s); got != 10 || s.Done() {
+		t.Errorf("verwacht een nieuwe run met 10 nieuwe woorden, kreeg %d", got)
+	}
+}
+
+func TestNoLimit(t *testing.T) {
+	s := queueSession(t, 0)
+	if got := countNew(s); got != 30 {
+		t.Errorf("zonder limiet verwacht alle 30 nieuwe woorden, kreeg %d", got)
+	}
+	if st := s.Stats(); st.NewLeft != engine.Unlimited || st.Due != 32 {
+		t.Errorf("stats zonder limiet: %+v", st)
+	}
+}
+
+func TestFirstAnswerMarksWordAsSeen(t *testing.T) {
+	s := queueSession(t, 1)
+	for !s.Done() && !engine.IsNew(*s.conceptOf(s.run[s.pos])) {
+		s.Answer(correctAnswer(s))
+		s.Next()
+	}
+	c := s.conceptOf(s.run[s.pos])
+	s.Answer("fout") // ook een fout antwoord haalt het woord uit de wachtrij
+	if engine.IsNew(*c) || time.Since(c.FirstReview) > time.Minute {
+		t.Errorf("na het eerste antwoord is het woord niet meer nieuw: %+v", c)
+	}
+}
+
+func TestExtraNewWordsAboveTheLimit(t *testing.T) {
+	s := queueSession(t, 2)
+	// Vandaag al ruim boven de limiet (bijv. de limiet net verlaagd): 5 woorden geïntroduceerd
+	for i := range 5 {
+		s.lib.Concepts[s.lib.Index(fmt.Sprintf("c_new_%d", i))].FirstReview = time.Now()
+	}
+	s.SetNewPerDay(2)
+	if st := s.Stats(); st.NewLeft != 0 {
+		t.Fatalf("boven de limiet: verwacht 0 over, kreeg %d", st.NewLeft)
+	}
+	s.AddExtraNew(10)
+	if st := s.Stats(); st.NewLeft != 10 {
+		t.Errorf("Nog 10 nieuwe woorden moet er echt 10 geven, kreeg %d", st.NewLeft)
 	}
 }

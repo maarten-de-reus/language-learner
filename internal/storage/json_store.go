@@ -20,8 +20,9 @@ type InputData struct {
 
 // ProgressState is de structuur waarin we de voortgang per concept opslaan in voortgang.json
 type ProgressState struct {
-	StepIndex  int       `json:"step_index"`
-	NextReview time.Time `json:"next_review"`
+	StepIndex   int       `json:"step_index"`
+	NextReview  time.Time `json:"next_review"`
+	FirstReview time.Time `json:"first_review,omitzero"` // leeg = nog nooit gevraagd (een nieuw woord)
 }
 
 // LoadData laadt de woorden in en vlecht de opgeslagen voortgang er doorheen
@@ -64,6 +65,7 @@ func LoadData(wordsFile, progressFile string) (map[string]Word, []TranslationCon
 		if state, exists := progressMap[conceptID]; exists {
 			input.Concepts[i].StepIndex = state.StepIndex
 			input.Concepts[i].NextReview = state.NextReview
+			input.Concepts[i].FirstReview = state.FirstReview
 		} else {
 			input.Concepts[i].StepIndex = 0
 			input.Concepts[i].NextReview = time.Now()
@@ -84,8 +86,9 @@ func SaveProgress(progressFile string, concepts []TranslationConcept) error {
 	// Extraheer alleen de statistieken die we willen opslaan
 	for _, c := range concepts {
 		progressMap[c.ID] = ProgressState{
-			StepIndex:  c.StepIndex,
-			NextReview: c.NextReview,
+			StepIndex:   c.StepIndex,
+			NextReview:  c.NextReview,
+			FirstReview: c.FirstReview,
 		}
 	}
 

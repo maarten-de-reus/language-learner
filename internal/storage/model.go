@@ -20,4 +20,6 @@ type TranslationConcept struct {
 	// Voortgang: wordt in voortgang.json bewaard (zie ProgressState), nooit in woorden.json
 	StepIndex  int       `json:"-"` // Index voor engine.AnkiIntervals (0 t/m 5)
 	NextReview time.Time `json:"-"`
+	// Moment van het eerste antwoord; leeg betekent een nieuw woord dat nog in de wachtrij staat
+	FirstReview time.Time `json:"-"`
 }
