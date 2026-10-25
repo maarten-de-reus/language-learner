@@ -291,9 +291,19 @@
       "text": "nem"
     },
     {
+      "id": "w_hu_aludni",
+      "language": "hu",
+      "text": "aludni"
+    },
+    {
       "id": "w_hu_beszélni",
       "language": "hu",
       "text": "beszélni"
+    },
+    {
+      "id": "w_hu_enni",
+      "language": "hu",
+      "text": "enni"
     },
     {
       "id": "w_hu_forró",
@@ -316,9 +326,24 @@
       "text": "idő"
     },
     {
+      "id": "w_hu_inni",
+      "language": "hu",
+      "text": "inni"
+    },
+    {
+      "id": "w_hu_jönni",
+      "language": "hu",
+      "text": "jönni"
+    },
+    {
       "id": "w_hu_kedvenc",
       "language": "hu",
       "text": "kedvenc"
+    },
+    {
+      "id": "w_hu_látni",
+      "language": "hu",
+      "text": "látni"
     },
     {
       "id": "w_hu_meleg",
@@ -329,6 +354,11 @@
       "id": "w_hu_melyik",
       "language": "hu",
       "text": "melyik"
+    },
+    {
+      "id": "w_hu_menni",
+      "language": "hu",
+      "text": "menni"
     },
     {
       "id": "w_hu_milyen",
@@ -346,9 +376,24 @@
       "text": "normális"
     },
     {
+      "id": "w_hu_olvasni",
+      "language": "hu",
+      "text": "olvasni"
+    },
+    {
       "id": "w_hu_szobahőmérséklet",
       "language": "hu",
       "text": "szobahőmérséklet"
+    },
+    {
+      "id": "w_hu_tanulni",
+      "language": "hu",
+      "text": "tanulni"
+    },
+    {
+      "id": "w_hu_írni",
+      "language": "hu",
+      "text": "írni"
     },
     {
       "id": "w_nl_1",
@@ -656,6 +701,61 @@
       "text": "heet"
     },
     {
+      "id": "w_nl_hij_zij_drinkt",
+      "language": "nl",
+      "text": "drinkt"
+    },
+    {
+      "id": "w_nl_hij_zij_eet",
+      "language": "nl",
+      "text": "eet"
+    },
+    {
+      "id": "w_nl_hij_zij_gaat",
+      "language": "nl",
+      "text": "gaat"
+    },
+    {
+      "id": "w_nl_hij_zij_komt",
+      "language": "nl",
+      "text": "komt"
+    },
+    {
+      "id": "w_nl_hij_zij_leest",
+      "language": "nl",
+      "text": "leest"
+    },
+    {
+      "id": "w_nl_hij_zij_praat",
+      "language": "nl",
+      "text": "praat"
+    },
+    {
+      "id": "w_nl_hij_zij_schrijft",
+      "language": "nl",
+      "text": "schrijft"
+    },
+    {
+      "id": "w_nl_hij_zij_slaapt",
+      "language": "nl",
+      "text": "slaapt"
+    },
+    {
+      "id": "w_nl_hij_zij_spreekt",
+      "language": "nl",
+      "text": "spreekt"
+    },
+    {
+      "id": "w_nl_hij_zij_studeert",
+      "language": "nl",
+      "text": "studeert"
+    },
+    {
+      "id": "w_nl_hij_zij_ziet",
+      "language": "nl",
+      "text": "ziet"
+    },
+    {
       "id": "w_nl_kamertemperatuur",
       "language": "nl",
       "text": "kamertemperatuur"
@@ -934,7 +1034,7 @@
     {
       "id": "c_nl_hu_praten",
       "source_word_id": "w_nl_praten",
-      "context_source": "",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_beszélni"
       ]
@@ -942,9 +1042,10 @@
     {
       "id": "c_hu_nl_beszélni",
       "source_word_id": "w_hu_beszélni",
-      "context_source": "",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
-        "w_nl_praten"
+        "w_nl_praten",
+        "w_nl_40"
       ]
     },
     {
@@ -1518,8 +1619,8 @@
     },
     {
       "id": "c_nl_hu_studeren",
-      "source_word_id": "w_nl_39",
-      "context_source": "",
+      "source_word_id": "w_nl_hij_zij_studeert",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_39"
       ]
@@ -1527,15 +1628,15 @@
     {
       "id": "c_hu_nl_tanul",
       "source_word_id": "w_hu_39",
-      "context_source": "",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
-        "w_nl_39"
+        "w_nl_hij_zij_studeert"
       ]
     },
     {
       "id": "c_nl_hu_spreken",
-      "source_word_id": "w_nl_40",
-      "context_source": "",
+      "source_word_id": "w_nl_hij_zij_spreekt",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_40"
       ]
@@ -1543,15 +1644,16 @@
     {
       "id": "c_hu_nl_beszél",
       "source_word_id": "w_hu_40",
-      "context_source": "",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
-        "w_nl_40"
+        "w_nl_hij_zij_spreekt",
+        "w_nl_hij_zij_praat"
       ]
     },
     {
       "id": "c_nl_hu_schrijven",
-      "source_word_id": "w_nl_41",
-      "context_source": "",
+      "source_word_id": "w_nl_hij_zij_schrijft",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_41"
       ]
@@ -1559,15 +1661,15 @@
     {
       "id": "c_hu_nl_ír",
       "source_word_id": "w_hu_41",
-      "context_source": "",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
-        "w_nl_41"
+        "w_nl_hij_zij_schrijft"
       ]
     },
     {
       "id": "c_nl_hu_lezen",
-      "source_word_id": "w_nl_42",
-      "context_source": "",
+      "source_word_id": "w_nl_hij_zij_leest",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_42"
       ]
@@ -1575,15 +1677,15 @@
     {
       "id": "c_hu_nl_olvas",
       "source_word_id": "w_hu_42",
-      "context_source": "",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
-        "w_nl_42"
+        "w_nl_hij_zij_leest"
       ]
     },
     {
       "id": "c_nl_hu_gaan",
-      "source_word_id": "w_nl_43",
-      "context_source": "",
+      "source_word_id": "w_nl_hij_zij_gaat",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_43"
       ]
@@ -1591,15 +1693,15 @@
     {
       "id": "c_hu_nl_megy",
       "source_word_id": "w_hu_43",
-      "context_source": "",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
-        "w_nl_43"
+        "w_nl_hij_zij_gaat"
       ]
     },
     {
       "id": "c_nl_hu_komen",
-      "source_word_id": "w_nl_44",
-      "context_source": "",
+      "source_word_id": "w_nl_hij_zij_komt",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_44"
       ]
@@ -1607,15 +1709,15 @@
     {
       "id": "c_hu_nl_jön",
       "source_word_id": "w_hu_44",
-      "context_source": "",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
-        "w_nl_44"
+        "w_nl_hij_zij_komt"
       ]
     },
     {
       "id": "c_nl_hu_eten",
-      "source_word_id": "w_nl_45",
-      "context_source": "",
+      "source_word_id": "w_nl_hij_zij_eet",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_45"
       ]
@@ -1623,15 +1725,15 @@
     {
       "id": "c_hu_nl_eszik",
       "source_word_id": "w_hu_45",
-      "context_source": "",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
-        "w_nl_45"
+        "w_nl_hij_zij_eet"
       ]
     },
     {
       "id": "c_nl_hu_drinken",
-      "source_word_id": "w_nl_46",
-      "context_source": "",
+      "source_word_id": "w_nl_hij_zij_drinkt",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_46"
       ]
@@ -1639,15 +1741,15 @@
     {
       "id": "c_hu_nl_iszik",
       "source_word_id": "w_hu_46",
-      "context_source": "",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
-        "w_nl_46"
+        "w_nl_hij_zij_drinkt"
       ]
     },
     {
       "id": "c_nl_hu_slapen",
-      "source_word_id": "w_nl_47",
-      "context_source": "",
+      "source_word_id": "w_nl_hij_zij_slaapt",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_47"
       ]
@@ -1655,15 +1757,15 @@
     {
       "id": "c_hu_nl_alszik",
       "source_word_id": "w_hu_47",
-      "context_source": "",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
-        "w_nl_47"
+        "w_nl_hij_zij_slaapt"
       ]
     },
     {
       "id": "c_nl_hu_zien",
-      "source_word_id": "w_nl_48",
-      "context_source": "",
+      "source_word_id": "w_nl_hij_zij_ziet",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_48"
       ]
@@ -1671,9 +1773,9 @@
     {
       "id": "c_hu_nl_lát",
       "source_word_id": "w_hu_48",
-      "context_source": "",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
-        "w_nl_48"
+        "w_nl_hij_zij_ziet"
       ]
     },
     {
@@ -1834,6 +1936,166 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_58"
+      ]
+    },
+    {
+      "id": "c_nl_hu_studeren_infinitief",
+      "source_word_id": "w_nl_39",
+      "context_source": "werkwoord · infinitief",
+      "target_word_ids": [
+        "w_hu_tanulni"
+      ]
+    },
+    {
+      "id": "c_hu_nl_tanulni",
+      "source_word_id": "w_hu_tanulni",
+      "context_source": "werkwoord · infinitief",
+      "target_word_ids": [
+        "w_nl_39"
+      ]
+    },
+    {
+      "id": "c_nl_hu_spreken_infinitief",
+      "source_word_id": "w_nl_40",
+      "context_source": "werkwoord · infinitief",
+      "target_word_ids": [
+        "w_hu_beszélni"
+      ]
+    },
+    {
+      "id": "c_nl_hu_praat",
+      "source_word_id": "w_nl_hij_zij_praat",
+      "context_source": "werkwoord · 3e persoon enkelvoud",
+      "target_word_ids": [
+        "w_hu_40"
+      ]
+    },
+    {
+      "id": "c_nl_hu_schrijven_infinitief",
+      "source_word_id": "w_nl_41",
+      "context_source": "werkwoord · infinitief",
+      "target_word_ids": [
+        "w_hu_írni"
+      ]
+    },
+    {
+      "id": "c_hu_nl_írni",
+      "source_word_id": "w_hu_írni",
+      "context_source": "werkwoord · infinitief",
+      "target_word_ids": [
+        "w_nl_41"
+      ]
+    },
+    {
+      "id": "c_nl_hu_lezen_infinitief",
+      "source_word_id": "w_nl_42",
+      "context_source": "werkwoord · infinitief",
+      "target_word_ids": [
+        "w_hu_olvasni"
+      ]
+    },
+    {
+      "id": "c_hu_nl_olvasni",
+      "source_word_id": "w_hu_olvasni",
+      "context_source": "werkwoord · infinitief",
+      "target_word_ids": [
+        "w_nl_42"
+      ]
+    },
+    {
+      "id": "c_nl_hu_gaan_infinitief",
+      "source_word_id": "w_nl_43",
+      "context_source": "werkwoord · infinitief · onregelmatig",
+      "target_word_ids": [
+        "w_hu_menni"
+      ]
+    },
+    {
+      "id": "c_hu_nl_menni",
+      "source_word_id": "w_hu_menni",
+      "context_source": "werkwoord · infinitief · onregelmatig",
+      "target_word_ids": [
+        "w_nl_43"
+      ]
+    },
+    {
+      "id": "c_nl_hu_komen_infinitief",
+      "source_word_id": "w_nl_44",
+      "context_source": "werkwoord · infinitief",
+      "target_word_ids": [
+        "w_hu_jönni"
+      ]
+    },
+    {
+      "id": "c_hu_nl_jönni",
+      "source_word_id": "w_hu_jönni",
+      "context_source": "werkwoord · infinitief",
+      "target_word_ids": [
+        "w_nl_44"
+      ]
+    },
+    {
+      "id": "c_nl_hu_eten_infinitief",
+      "source_word_id": "w_nl_45",
+      "context_source": "werkwoord · infinitief · onregelmatig",
+      "target_word_ids": [
+        "w_hu_enni"
+      ]
+    },
+    {
+      "id": "c_hu_nl_enni",
+      "source_word_id": "w_hu_enni",
+      "context_source": "werkwoord · infinitief · onregelmatig",
+      "target_word_ids": [
+        "w_nl_45"
+      ]
+    },
+    {
+      "id": "c_nl_hu_drinken_infinitief",
+      "source_word_id": "w_nl_46",
+      "context_source": "werkwoord · infinitief · onregelmatig",
+      "target_word_ids": [
+        "w_hu_inni"
+      ]
+    },
+    {
+      "id": "c_hu_nl_inni",
+      "source_word_id": "w_hu_inni",
+      "context_source": "werkwoord · infinitief · onregelmatig",
+      "target_word_ids": [
+        "w_nl_46"
+      ]
+    },
+    {
+      "id": "c_nl_hu_slapen_infinitief",
+      "source_word_id": "w_nl_47",
+      "context_source": "werkwoord · infinitief · onregelmatig",
+      "target_word_ids": [
+        "w_hu_aludni"
+      ]
+    },
+    {
+      "id": "c_hu_nl_aludni",
+      "source_word_id": "w_hu_aludni",
+      "context_source": "werkwoord · infinitief · onregelmatig",
+      "target_word_ids": [
+        "w_nl_47"
+      ]
+    },
+    {
+      "id": "c_nl_hu_zien_infinitief",
+      "source_word_id": "w_nl_48",
+      "context_source": "werkwoord · infinitief",
+      "target_word_ids": [
+        "w_hu_látni"
+      ]
+    },
+    {
+      "id": "c_hu_nl_látni",
+      "source_word_id": "w_hu_látni",
+      "context_source": "werkwoord · infinitief",
+      "target_word_ids": [
+        "w_nl_48"
       ]
     }
   ]

@@ -44,3 +44,31 @@ func TestFold(t *testing.T) {
 		}
 	}
 }
+
+func TestOptionalParts(t *testing.T) {
+	accepted := []string{"(hij/zij) leest"}
+	for _, in := range []string{"leest", "hij leest", "zij leest", "hij/zij leest", "(hij/zij) leest", "  Hij   LEEST "} {
+		if ok, _ := CheckAnswer(in, accepted); !ok {
+			t.Errorf("%q moet goed zijn voor %v", in, accepted)
+		}
+	}
+	for _, in := range []string{"het leest", "hij", "lezen"} {
+		if ok, _ := CheckAnswer(in, accepted); ok {
+			t.Errorf("%q mag niet goed zijn voor %v", in, accepted)
+		}
+	}
+	if ok, accent := CheckAnswer("eszik", []string{"(ő) eszik"}); !ok || accent {
+		t.Error("optioneel deel werkt ook in het Hongaars")
+	}
+	if ok, accent := CheckAnswer("o eszik", []string{"(ő) eszik"}); ok || !accent {
+		t.Error("accent-hint werkt ook voor de varianten")
+	}
+	for _, in := range []string{"koffie", "de koffie", "koffie zwart", "de koffie zwart"} {
+		if ok, _ := CheckAnswer(in, []string{"(de) koffie (zwart)"}); !ok {
+			t.Errorf("%q moet goed zijn bij twee optionele delen", in)
+		}
+	}
+	if got := Variants("kávé"); len(got) != 1 || got[0] != "kávé" {
+		t.Errorf("zonder haakjes blijft het antwoord zoals het is, kreeg %v", got)
+	}
+}
