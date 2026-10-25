@@ -95,20 +95,20 @@ func TestAddPairDuplicate(t *testing.T) {
 	}
 }
 
-// ő -> hij / zij: Hongaars heeft geen geslacht, dus dezelfde betekenis met twee goede antwoorden
+// szia -> hallo / hoi: echte synoniemen, dus één concept met twee goede antwoorden
 func TestSameMeaningMergesReverse(t *testing.T) {
 	lib := newLib()
-	add(t, lib, "hij", "Pronomen", "ő")
+	add(t, lib, "hallo", "Groet", "szia")
 	revID := lib.Concepts[1].ID
 
-	res, err := add(t, lib, "zij", "Pronomen vrouw", "ő", func(nc *NewPair) { nc.MergeReverseInto = revID })
+	res, err := add(t, lib, "hoi", "Groet informeel", "szia", func(nc *NewPair) { nc.MergeReverseInto = revID })
 	if err != nil {
 		t.Fatal(err)
 	}
 	if !res.ReverseMerged || len(lib.Concepts) != 3 {
 		t.Fatalf("verwacht samenvoegen (3 concepten), kreeg %d", len(lib.Concepts))
 	}
-	if got := concept(t, lib, revID).TargetWordIDs; !slices.Equal(got, []string{"w_nl_hij", "w_nl_zij"}) {
+	if got := concept(t, lib, revID).TargetWordIDs; !slices.Equal(got, []string{"w_nl_hallo", "w_nl_hoi"}) {
 		t.Errorf("HU->NL targets: %v", got)
 	}
 }
@@ -174,13 +174,13 @@ func TestExampleStoredOnBothDirections(t *testing.T) {
 
 func TestMergeKeepsExistingExample(t *testing.T) {
 	lib := newLib()
-	add(t, lib, "hij", "", "ő", func(nc *NewPair) { nc.Example = "Ő a barátom." })
+	add(t, lib, "hallo", "", "szia", func(nc *NewPair) { nc.Example = "Szia, hogy vagy?" })
 	revID := lib.Concepts[1].ID
-	add(t, lib, "zij", "vrouw", "ő", func(nc *NewPair) {
+	add(t, lib, "hoi", "informeel", "szia", func(nc *NewPair) {
 		nc.MergeReverseInto = revID
-		nc.Example = "Ő a nővérem."
+		nc.Example = "Szia, Anna!"
 	})
-	if got := concept(t, lib, revID).Example; got != "Ő a barátom." {
+	if got := concept(t, lib, revID).Example; got != "Szia, hogy vagy?" {
 		t.Errorf("bestaande voorbeeldzin mag niet overschreven worden, kreeg %q", got)
 	}
 }
@@ -374,32 +374,54 @@ func TestDeleteWithReverse(t *testing.T) {
 	}
 }
 
-// ő -> hij, zij is de omgekeerde richting van zowel hij -> ő als zij -> ő
+// szia -> hallo, hoi is de omgekeerde richting van zowel hallo -> szia als hoi -> szia
 func TestDeleteKeepsSharedReverse(t *testing.T) {
 	lib := newLib()
-	add(t, lib, "hij", "man", "ő")
+	add(t, lib, "hallo", "Groet", "szia")
 	shared := lib.Concepts[1].ID
-	add(t, lib, "zij", "vrouw", "ő", func(nc *NewPair) { nc.MergeReverseInto = shared })
-	hij := lib.Concepts[0].ID
+	add(t, lib, "hoi", "informeel", "szia", func(nc *NewPair) { nc.MergeReverseInto = shared })
+	hallo := lib.Concepts[0].ID
 
 	if got := Entries(lib); len(got[0].Reverse) == 0 && len(got[1].Reverse) == 0 {
 		t.Error("Entries moet de omgekeerde richting aangeven")
 	}
 
-	res, err := Delete(lib, hij, true)
+	res, err := Delete(lib, hallo, true)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !slices.Equal(res.Deleted, []string{hij}) || !slices.Equal(res.Updated, []string{shared}) {
-		t.Errorf("verwacht alleen hij -> ő weg en ő bijgewerkt, kreeg %+v", res)
+	if !slices.Equal(res.Deleted, []string{hallo}) || !slices.Equal(res.Updated, []string{shared}) {
+		t.Errorf("verwacht alleen hallo -> szia weg en szia bijgewerkt, kreeg %+v", res)
 	}
-	if got := TargetTexts(lib, concept(t, lib, shared)); !slices.Equal(got, []string{"zij"}) {
-		t.Errorf("ő moet alleen nog 'zij' als antwoord hebben, kreeg %v", got)
+	if got := TargetTexts(lib, concept(t, lib, shared)); !slices.Equal(got, []string{"hoi"}) {
+		t.Errorf("szia moet alleen nog 'hoi' als antwoord hebben, kreeg %v", got)
 	}
 }
 
 func TestDeleteUnknown(t *testing.T) {
 	if _, err := Delete(newLib(), "bestaat-niet", true); !errors.Is(err, ErrNotFound) {
 		t.Errorf("verwacht ErrNotFound, kreeg %v", err)
+	}
+}
+
+// Twee woorden met dezelfde tekst (zoals "zij" = zij enkelvoud en zij meervoud in de oude data):
+// bewerken mag het antwoord niet naar het andere woord laten springen
+func TestUpdateKeepsExistingAnswerWords(t *testing.T) {
+	lib := &storage.Library{
+		Words: map[string]storage.Word{
+			"w_hu_ok":   {ID: "w_hu_ok", Language: "hu", Text: "ők"},
+			"w_nl_15":   {ID: "w_nl_15", Language: "nl", Text: "zij"},
+			"w_nl_12_f": {ID: "w_nl_12_f", Language: "nl", Text: "zij"}, // sorteert eerder
+		},
+		Concepts: []storage.TranslationConcept{
+			{ID: "c_hu_nl_ok", SourceWordID: "w_hu_ok", TargetWordIDs: []string{"w_nl_15"}},
+		},
+	}
+	if err := Update(lib, "c_hu_nl_ok", Edit{Answers: []string{"zij", "ze"}, Example: "Ők magyarok."}); err != nil {
+		t.Fatal(err)
+	}
+	got := lib.Concepts[0].TargetWordIDs
+	if len(got) != 2 || got[0] != "w_nl_15" || lib.Words[got[1]].Text != "ze" {
+		t.Errorf("bestaand antwoord moet w_nl_15 blijven en 'ze' moet erbij komen, kreeg %v", got)
 	}
 }

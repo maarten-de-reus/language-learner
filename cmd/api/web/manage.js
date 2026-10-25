@@ -451,7 +451,7 @@ function renderMeaningChoice(check, req) {
         <label class="m-radio">
           <input type="radio" name="meaning" value="${esc(c.id)}">
           <span>Zelfde betekenis als <b lang="hu">${hu}</b>${c.context ? ` (${esc(c.context)})` : ""} → ${esc(c.answers.join(", "))}
-          <small class="muted">${dutch} wordt een extra goed antwoord, zoals ő → hij / zij</small></span>
+          <small class="muted">${dutch} wordt een extra goed antwoord. Alleen voor echte synoniemen, zoals szia → hoi / hallo</small></span>
         </label>`).join("")}
       <label class="m-radio">
         <input type="radio" name="meaning" value="" checked>

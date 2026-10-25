@@ -25,8 +25,10 @@ type NewPair struct {
 	Hungarian []string // geaccepteerde Hongaarse vertalingen; de eerste is de bron van HU->NL
 	Example   string   // optionele Hongaarse voorbeeldzin, voor beide richtingen
 
-	// HU->NL: óf samenvoegen met een bestaand concept met dezelfde betekenis (bijv. ő -> hij/zij),
-	// óf een nieuw concept met een eigen hint die de betekenis aanwijst (bijv. idő -> weer / tijd)
+	// HU->NL: óf samenvoegen met een bestaand concept met dezelfde betekenis (echte synoniemen,
+	// bijv. szia -> hallo/hoi),
+	// óf een nieuw concept met een eigen hint die de betekenis aanwijst (bijv. idő -> weer / tijd, of
+	// ő -> hij / zij: Nederlands maakt onderscheid dat Hongaars niet maakt, dus allebei apart leren)
 	MergeReverseInto string            // ID van bestaand HU->NL concept; leeg = nieuw concept
 	ReverseContext   string            // hint voor het nieuwe HU->NL concept
 	ExistingHints    map[string]string // hints voor bestaande HU->NL concepten die er nog geen hadden

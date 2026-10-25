@@ -110,7 +110,20 @@ func Update(lib *storage.Library, id string, e Edit) error {
 	lang := targetLang(lib, c)
 	var targetIDs []string
 	for _, a := range answers {
-		if id := ensureWord(lib.Words, lang, a); !slices.Contains(targetIDs, id) {
+		// Een antwoord dat al bij dit concept hoort houdt zijn eigen woord. Alleen nieuwe antwoorden
+		// worden op tekst opgezocht: bij twee woorden met dezelfde tekst (bijv. "zij") zou dat
+		// anders ongemerkt naar het andere woord kunnen springen.
+		id := ""
+		for _, t := range c.TargetWordIDs {
+			if strings.EqualFold(strings.TrimSpace(lib.Words[t].Text), a) {
+				id = t
+				break
+			}
+		}
+		if id == "" {
+			id = ensureWord(lib.Words, lang, a)
+		}
+		if !slices.Contains(targetIDs, id) {
 			targetIDs = append(targetIDs, id)
 		}
 	}
@@ -150,7 +163,7 @@ type DeleteResult struct {
 }
 
 // Delete verwijdert een concept, en met withReverse ook de omgekeerde richting.
-// Een omgekeerd concept dat ook bij andere woorden hoort (ő -> hij, zij) wordt niet verwijderd;
+// Een omgekeerd concept dat ook bij andere woorden hoort (szia -> hallo, hoi) wordt niet verwijderd;
 // alleen dit woord gaat eruit als goed antwoord. Woorden die nergens meer gebruikt worden verdwijnen.
 // Verwijderde concepten moeten daarna ook uit de lopende quiz (quiz.Session.Forget).
 func Delete(lib *storage.Library, id string, withReverse bool) (DeleteResult, error) {

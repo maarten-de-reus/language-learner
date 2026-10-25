@@ -11,7 +11,7 @@ A small spaced-repetition trainer for learning Hungarian from Dutch (and back), 
 - **Rounds of 10 words**, shuffled, never containing both directions of the same word (one would give away the other). Wrong answers are asked again at the end of the round; those re-asks don't change the schedule.
 - **Helpful feedback**: a hint when only the accents are wrong (*kave* → *kávé*), and an explanation when you gave another meaning of the word (*idő* can mean *tijd*, but *weer* was meant here).
 - **Hints and example sentences** to tell meanings apart (*idő* ☀️ vs *idő* ⏰).
-- **Management tab** (*Beheer*): search (accent-insensitive), browse, filter, add, edit and delete concepts. When a Hungarian word already exists, you are asked whether the new word is the same meaning (an extra accepted answer, like *ő* → *hij / zij*) or a different one (a separate concept with its own hint).
+- **Management tab** (*Beheer*): search (accent-insensitive), browse, filter, add, edit and delete concepts. When a Hungarian word already exists, you are asked whether the new word is the same meaning (an extra accepted answer, only for true synonyms like *szia* → *hoi / hallo*) or a different one (a separate concept with its own hint, like *idő* → *weer* / *tijd*, or *ő* → *hij* / *zij*, so that each option is learned on its own).
 - **Statistics tab** (*Statistiek*): streak, today's progress and first-attempt score, activity over the last 30 days, a 14-day forecast of upcoming reviews, the hardest words (click through to edit them), types of mistakes, and whether re-asking within a round actually helps the next day.
 - **Answer log**: every answer is appended to `antwoorden.jsonl`; the statistics are computed from it.
 
