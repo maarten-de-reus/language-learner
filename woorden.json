@@ -431,11 +431,6 @@
       "text": "jullie"
     },
     {
-      "id": "w_nl_15",
-      "language": "nl",
-      "text": "zij"
-    },
-    {
       "id": "w_nl_16",
       "language": "nl",
       "text": "een"
@@ -959,7 +954,7 @@
     },
     {
       "id": "c_16",
-      "source_word_id": "w_nl_15",
+      "source_word_id": "w_nl_12_f",
       "context_source": "Pronomen (3e p. meerv.)",
       "target_word_ids": [
         "w_hu_15"
@@ -1433,10 +1428,9 @@
     {
       "id": "c_hu_nl_ő",
       "source_word_id": "w_hu_12",
-      "context_source": "Pronomen (3e p. enk.)",
+      "context_source": "Pronomen (3e p. enk. man)",
       "target_word_ids": [
-        "w_nl_12",
-        "w_nl_12_f"
+        "w_nl_12"
       ],
       "example": "Ő Péter.",
       "example_lang": "hu"
@@ -2410,6 +2404,16 @@
         "w_nl_48"
       ],
       "example": "Szeretném látni a házat.",
+      "example_lang": "hu"
+    },
+    {
+      "id": "c_hu_nl_ő_vrouw",
+      "source_word_id": "w_hu_12",
+      "context_source": "Pronomen (3e p. enk. vrouw)",
+      "target_word_ids": [
+        "w_nl_12_f"
+      ],
+      "example": "Ő Anna.",
       "example_lang": "hu"
     }
   ]
