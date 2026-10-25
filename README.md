@@ -5,6 +5,7 @@ A small spaced-repetition trainer for learning Hungarian from Dutch (and back), 
 ## Features
 
 - **Spaced repetition** with fixed steps of 1, 3, 7, 16, 40 and 90 days (with a little random spread on the longer intervals). A new review day starts at 04:00, so a word practised in the evening comes back the next morning.
+- **Bulk import** (*Beheer → Importeren*): paste one word per line as `hongaars;nederlands;context;voorbeeldzin` (context and example optional, spaces around `;` allowed, commas for several Hungarian answers). A preview marks each line as new, already present, an error, or needing a same/different-meaning choice; the import is all-or-nothing and new words enter the queue.
 - **A queue for new words**: newly added words are introduced at a daily limit (default 20, adjustable in *Beheer*, 0 = no limit), so adding 100 words at once doesn't create a peak. "Nog 10 nieuwe woorden" lets you learn more on a good day.
 - **Load balancing**: for intervals with some leeway (7 days and longer) the next review is put on the quietest day within that leeway.
 - **Rounds of 10 words**, shuffled, never containing both directions of the same word (one would give away the other). Wrong answers are asked again at the end of the round; those re-asks don't change the schedule.

@@ -131,7 +131,8 @@ function renderManage() {
         <input id="m-search" type="search" placeholder="Zoek op woord, antwoord, hint of zin…"
                value="${esc(view.query)}" autocomplete="off" spellcheck="false" aria-label="Zoeken">
       </label>
-      <button type="button" class="btn" id="m-add" ${view.adding ? "hidden" : ""}>+ Nieuw</button>
+      <button type="button" class="btn secondary" id="m-import-open" ${view.adding || imp.open ? "hidden" : ""}>Importeren</button>
+      <button type="button" class="btn" id="m-add" ${view.adding || imp.open ? "hidden" : ""}>+ Nieuw</button>
     </div>
 
     <div class="m-filters">
@@ -145,7 +146,7 @@ function renderManage() {
       ${toggle("onlyNew", "In wachtrij", count((e) => e.new))}
     </div>
 
-    <div id="m-new-slot">${view.adding ? newFormHTML() : ""}</div>
+    <div id="m-new-slot">${view.adding ? newFormHTML() : imp.open ? importPanelHTML() : ""}</div>
 
     <p class="m-count muted">${list.length === view.entries.length
       ? `${list.length} concepten`
@@ -176,7 +177,7 @@ function rowHTML(e) {
           ${e.meanings > 1 ? `<span class="m-badge">${e.meanings} betekenissen</span>` : ""}
           ${e.wrong ? `<span class="m-wrong" title="${e.wrong} van ${e.attempts} keer fout bij de eerste poging">✕ ${e.wrong}/${e.attempts}</span>` : ""}
           ${e.new
-            ? `<span class="m-new">nieuw · in wachtrij</span>`
+            ? `<span class="m-queued">nieuw · in wachtrij</span>`
             : `<span class="m-due"><span class="dot" style="background:var(--s${e.step})"></span>${due ? "nu te herhalen" : esc(relative(e.nextReview))}</span>`}
         </span>
         ${e.example ? `<span class="m-example" lang="hu">“${markFold(e.example, q)}”</span>` : ""}
@@ -284,7 +285,11 @@ function bindManage() {
     again.setSelectionRange(pos, pos);
   });
 
+  document.getElementById("m-import-open").addEventListener("click", openImport);
+  bindImport();
+
   document.getElementById("m-add").addEventListener("click", () => {
+    imp.open = false;
     view.adding = true;
     view.openId = null;
     renderManage();
@@ -493,7 +498,8 @@ function flash(ids) {
 }
 
 document.addEventListener("keydown", (e) => {
-  if (e.key !== "Escape" || manageEl.hidden || (!view.openId && !view.adding)) return;
+  if (e.key !== "Escape" || manageEl.hidden || (!view.openId && !view.adding && !imp.open)) return;
+  if (imp.open) return closeImport();
   view.openId = null;
   view.adding = false;
   renderManage();
