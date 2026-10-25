@@ -415,36 +415,100 @@ async function submitNew(form) {
     if (!form.dataset.checked) {
       const check = await api("POST", "/api/concepts/check", req);
       if (check.duplicate) {
-        showError(form, `“${req.dutch.trim()}”${req.context.trim() ? ` (${req.context.trim()})` : ""} bestaat al. Geef een andere hint als het een andere betekenis is.`);
+        showError(form, `“${req.dutch.trim()}”${req.context.trim() ? ` (${req.context.trim()})` : ""} → ${req.hungarian.trim()} bestaat al.`);
         return;
       }
-      if (check.candidates.length > 0) {
+      if (check.forwardCandidates.length > 0 || check.candidates.length > 0) {
         form.dataset.checked = "1";
         renderMeaningChoice(check, req);
         return;
       }
     }
 
-    Object.assign(req, meaningChoice());
+    Object.assign(req, forwardChoice(), meaningChoice());
     const res = await api("POST", "/api/concepts", req);
     view.entries = res.entries;
     view.adding = false;
-    const hu = splitList(req.hungarian)[0];
+    const hu = splitList(req.hungarian);
     flash(view.entries.filter((e) =>
-      (fold(e.prompt) === fold(req.dutch) && fold(e.context) === fold(req.context)) ||
-      (fold(e.prompt) === fold(hu) && e.answers.some((a) => fold(a) === fold(req.dutch)))).map((e) => e.id));
-    toast(`“${req.dutch.trim()}” toegevoegd, je kunt het meteen oefenen`);
+      (fold(e.prompt) === fold(req.dutch) && e.answers.some((a) => hu.some((h) => fold(h) === fold(a)))) ||
+      (hu.some((h) => fold(h) === fold(e.prompt)) && e.answers.some((a) => fold(a) === fold(req.dutch)))).map((e) => e.id));
+    toast(req.extendForward
+      ? `${hu.join(", ")} toegevoegd als extra goed antwoord bij “${req.dutch.trim()}”`
+      : `“${req.dutch.trim()}” toegevoegd; het komt via de wachtrij binnen`);
     refreshStats();
   } catch (err) {
     showError(form, err.message);
   }
 }
 
+// De keuzes als een woord al bestaat: eerst het Nederlandse woord (aanvullen of nieuwe betekenis),
+// dan het Hongaarse woord (zelfde of andere betekenis)
 function renderMeaningChoice(check, req) {
   const slot = document.getElementById("n-meaning");
+  slot.innerHTML = `<div id="n-forward-choice"></div><div id="n-reverse-choice"></div>`;
+  renderForwardChoice(check, req);
+  renderReverseChoice(check, req);
+  slot.querySelector("input[type=radio]")?.focus();
+  document.getElementById("n-submit").textContent = "Bevestigen en toevoegen";
+}
+
+function renderForwardChoice(check, req) {
+  const box = document.getElementById("n-forward-choice");
+  if (!check.forwardCandidates.length) return;
+  const dutch = esc(req.dutch.trim());
+  const hu = esc(splitList(req.hungarian).join(", "));
+  box.innerHTML = `
+    <fieldset class="m-meaning">
+      <legend><b>${dutch}</b> bestaat al in het Nederlands. Hoort <b lang="hu">${hu}</b> bij een bestaande betekenis, of is het een nieuwe betekenis?</legend>
+      ${check.forwardCandidates.map((c) => `
+        <label class="m-radio">
+          <input type="radio" name="forward" value="${esc(c.id)}">
+          <span>Extra goed antwoord bij <b>${dutch}</b>${c.context ? ` (${esc(c.context)})` : ""} → ${esc(c.answers.join(", "))}
+          <small class="muted">Alleen voor echte synoniemen in het Hongaars, zoals bank (meubel) → pad / kanapé</small></span>
+        </label>`).join("")}
+      <label class="m-radio">
+        <input type="radio" name="forward" value="">
+        <span>Nieuwe betekenis
+        <small class="muted">Apart concept; de hint hierboven moet de betekenis onderscheiden, zoals bank (meubel) / bank (geld)</small></span>
+      </label>
+      <div id="n-forward-hints" hidden>
+        ${req.context.trim() ? "" : `<p class="m-warn">Vul hierboven een hint in die deze nieuwe betekenis onderscheidt.</p>`}
+        ${check.forwardCandidates.filter((c) => !c.context).map((c) =>
+          `<label class="m-field">
+            <span>Hint voor het bestaande ${dutch} → ${esc(c.answers.join(", "))}</span>
+            <input data-forward-hint="${esc(c.id)}" placeholder="bijv. meubel" autocomplete="off">
+            <small class="muted">Dat concept heeft nog geen hint; zonder hint zijn de betekenissen niet uit elkaar te houden.</small>
+          </label>`).join("")}
+      </div>
+    </fieldset>`;
+
+  box.querySelectorAll('input[name="forward"]').forEach((r) =>
+    r.addEventListener("change", async () => {
+      document.getElementById("n-forward-hints").hidden = r.value !== "";
+      // Bij aanvullen kan een ander Hongaars woord de omgekeerde richting krijgen: opnieuw controleren
+      try {
+        const again = await api("POST", "/api/concepts/check", { ...req, extendForward: r.value });
+        renderReverseChoice(again, req);
+        showError(document.getElementById("m-new"), again.duplicate && r.value
+          ? "Deze Hongaarse woorden zijn al goede antwoorden bij die betekenis: er is niets nieuws om toe te voegen." : "");
+      } catch (err) {
+        showError(document.getElementById("m-new"), err.message);
+      }
+    }));
+}
+
+function renderReverseChoice(check, req) {
+  const box = document.getElementById("n-reverse-choice");
+  if (!check.candidates.length) {
+    box.innerHTML = "";
+    return;
+  }
   const dutch = esc(req.dutch.trim());
   const hu = esc(check.reverse);
-  slot.innerHTML = `
+  const extended = check.forwardCandidates.find((c) => c.id === forwardExtend());
+  const defaultHint = req.context.trim() || extended?.context || "";
+  box.innerHTML = `
     <fieldset class="m-meaning">
       <legend><b lang="hu">${hu}</b> bestaat al als Hongaars → Nederlands. Is <b>${dutch}</b> dezelfde betekenis of een andere?</legend>
       ${check.candidates.map((c) => `
@@ -463,16 +527,33 @@ function renderMeaningChoice(check, req) {
           field(`n-existing-${esc(c.id)}`, `Hint voor het bestaande ${hu} → ${esc(c.answers.join(", "))}`, "",
             { placeholder: "bijv. buiten ☀️", hint: "Dat concept heeft nog geen hint; zonder hint zijn de betekenissen niet uit elkaar te houden." })
         ).join("")}
-        ${field("n-reverse", `Hint voor ${hu} → ${dutch}`, req.context.trim(), { hint: "Standaard dezelfde hint als hierboven." })}
+        ${field("n-reverse", `Hint voor ${hu} → ${dutch}`, defaultHint, { hint: "Standaard dezelfde hint als hierboven." })}
       </div>
     </fieldset>`;
 
   const hints = document.getElementById("n-hints");
-  slot.querySelectorAll('input[name="meaning"]').forEach((r) =>
+  box.querySelectorAll('input[name="meaning"]').forEach((r) =>
     r.addEventListener("change", () => (hints.hidden = r.value !== "" && r.checked)));
-  slot.querySelectorAll('input[id^="n-existing-"]').forEach((i) => i.setAttribute("data-existing", i.id.slice("n-existing-".length)));
-  slot.querySelector('input[name="meaning"]').focus();
-  document.getElementById("n-submit").textContent = "Bevestigen en toevoegen";
+  box.querySelectorAll('input[id^="n-existing-"]').forEach((i) => i.setAttribute("data-existing", i.id.slice("n-existing-".length)));
+}
+
+// forwardExtend: het gekozen bestaande concept om aan te vullen ("" = nieuwe betekenis of nog niets gekozen)
+function forwardExtend() {
+  return document.querySelector('input[name="forward"]:checked')?.value ?? "";
+}
+
+function forwardChoice() {
+  if (!document.getElementById("n-forward-choice")?.innerHTML) return {};
+  const picked = document.querySelector('input[name="forward"]:checked');
+  if (!picked) throw new Error("Kies of het een extra goed antwoord bij een bestaande betekenis is, of een nieuwe betekenis.");
+  if (picked.value) return { extendForward: picked.value };
+
+  const forwardHints = {};
+  document.querySelectorAll("[data-forward-hint]").forEach((i) => (forwardHints[i.dataset.forwardHint] = i.value));
+  if (Object.values(forwardHints).some((v) => !v.trim())) {
+    throw new Error("Geef de bestaande betekenis ook een hint, anders zijn de betekenissen niet uit elkaar te houden.");
+  }
+  return { forwardHints };
 }
 
 function meaningChoice() {

@@ -62,27 +62,53 @@ function importRowHTML(r) {
         <div>${words}</div>
         ${r.example ? `<div class="imp-example" lang="hu">“${esc(r.example)}”</div>` : ""}
         ${r.message && r.status !== "added" ? `<div class="imp-msg">${esc(r.message)}</div>` : ""}
-        ${r.status === "choice" || imp.choices[r.no] ? importChoiceHTML(r) : ""}
+        ${r.forwardCandidates?.length ? forwardChoiceHTML(r) : ""}
+        ${r.candidates?.length || imp.choices[r.no]?.reverse ? importChoiceHTML(r) : ""}
       </div>
     </li>`;
 }
 
-// Zelfde of andere betekenis, zoals in het formulier voor één woord
+// Het Nederlandse woord bestaat al: extra goed antwoord bij een bestaande betekenis, of een nieuwe betekenis
+function forwardChoiceHTML(r) {
+  const ch = imp.choices[r.no]?.forward;
+  const name = `imp-fwd-${r.no}`;
+  const dutch = esc(r.dutch);
+  return `
+    <fieldset class="imp-choice" data-fwd-no="${r.no}">
+      <legend class="imp-legend"><b>${dutch}</b> bestaat al in het Nederlands:</legend>
+      ${r.forwardCandidates.map((c) => `
+        <label class="m-radio"><input type="radio" name="${name}" value="${esc(c.id)}" ${ch?.extend === c.id ? "checked" : ""}>
+          <span>Extra goed antwoord bij <b>${dutch}</b>${c.context ? ` (${esc(c.context)})` : ""} → ${esc(c.answers.join(", "))}
+          <small class="muted">alleen voor echte synoniemen in het Hongaars</small></span></label>`).join("")}
+      <label class="m-radio"><input type="radio" name="${name}" value="" ${ch && !ch.extend ? "checked" : ""}>
+        <span>Nieuwe betekenis, met de hint (context) van deze regel</span></label>
+      ${ch && !ch.extend ? r.forwardCandidates.filter((c) => !c.context).map((c) => `
+        <label class="m-field imp-hint">
+          <span>Hint voor het bestaande ${dutch} → ${esc(c.answers.join(", "))}</span>
+          <input data-fwd-hint="${esc(c.id)}" value="${esc(ch.hints?.[c.id] ?? "")}" placeholder="bijv. meubel">
+        </label>`).join("") : ""}
+    </fieldset>`;
+}
+
+// Het Hongaarse woord bestaat al: zelfde of andere betekenis, zoals in het formulier voor één woord
 function importChoiceHTML(r) {
   const cands = r.candidates || (imp.check._cands || {})[r.no] || [];
   if (!cands.length) return "";
   (imp.check._cands ??= {})[r.no] = cands; // bewaren: na de keuze komen ze niet meer mee
   const ch = imp.choices[r.no];
+  const decided = ch?.reverse;
   const name = `imp-choice-${r.no}`;
-  const hu = esc(r.hungarian.split(",")[0].trim());
+  const hu = esc(r.reverse || r.hungarian.split(",")[0].trim());
   return `
     <fieldset class="imp-choice" data-no="${r.no}">
+      <legend class="imp-legend"><b lang="hu">${hu}</b> bestaat al in het Hongaars:</legend>
       ${cands.map((c) => `
-        <label class="m-radio"><input type="radio" name="${name}" value="${esc(c.id)}" ${ch?.mergeInto === c.id ? "checked" : ""}>
-          <span>Zelfde betekenis als <b lang="hu">${hu}</b>${c.context ? ` (${esc(c.context)})` : ""} → ${esc(c.answers.join(", "))}</span></label>`).join("")}
-      <label class="m-radio"><input type="radio" name="${name}" value="" ${ch && !ch.mergeInto ? "checked" : ""}>
+        <label class="m-radio"><input type="radio" name="${name}" value="${esc(c.id)}" ${decided && ch.mergeInto === c.id ? "checked" : ""}>
+          <span>Zelfde betekenis als <b lang="hu">${hu}</b>${c.context ? ` (${esc(c.context)})` : ""} → ${esc(c.answers.join(", "))}
+          <small class="muted">alleen voor echte synoniemen, zoals szia → hoi / hallo</small></span></label>`).join("")}
+      <label class="m-radio"><input type="radio" name="${name}" value="" ${decided && !ch.mergeInto ? "checked" : ""}>
         <span>Andere betekenis, met de hint van deze regel</span></label>
-      ${ch && !ch.mergeInto ? cands.filter((c) => !c.context).map((c) => `
+      ${decided && !ch.mergeInto ? cands.filter((c) => !c.context).map((c) => `
         <label class="m-field imp-hint">
           <span>Hint voor het bestaande ${hu} → ${esc(c.answers.join(", "))}</span>
           <input data-existing-hint="${esc(c.id)}" value="${esc(ch.existingHints?.[c.id] ?? "")}" placeholder="bijv. buiten ☀️">
@@ -115,16 +141,37 @@ function bindImport() {
     imp.check?.ok && imp.check.added > 0 ? runImport() : checkImport();
   });
 
-  form.querySelectorAll(".imp-choice").forEach((fs) => {
-    const no = Number(fs.dataset.no);
+  // Keuzes voor het Nederlandse woord
+  form.querySelectorAll("[data-fwd-no]").forEach((fs) => {
+    const no = Number(fs.dataset.fwdNo);
+    const choice = () => (imp.choices[no] ??= {});
     fs.querySelectorAll('input[type="radio"]').forEach((radio) =>
       radio.addEventListener("change", () => {
-        imp.choices[no] = { mergeInto: radio.value, existingHints: imp.choices[no]?.existingHints ?? {} };
+        choice().forward = { extend: radio.value, hints: choice().forward?.hints ?? {} };
+        // Een andere keuze kan een ander Hongaars woord opleveren: de keuze daarvoor opnieuw laten maken
+        delete choice().reverse;
+        if (imp.check?._cands) delete imp.check._cands[no];
+        checkImport();
+      }));
+    fs.querySelectorAll("[data-fwd-hint]").forEach((input) =>
+      input.addEventListener("change", () => {
+        choice().forward.hints[input.dataset.fwdHint] = input.value;
+        checkImport();
+      }));
+  });
+
+  // Keuzes voor het Hongaarse woord
+  form.querySelectorAll("[data-no]").forEach((fs) => {
+    const no = Number(fs.dataset.no);
+    const choice = () => (imp.choices[no] ??= {});
+    fs.querySelectorAll('input[type="radio"]').forEach((radio) =>
+      radio.addEventListener("change", () => {
+        Object.assign(choice(), { reverse: true, mergeInto: radio.value, existingHints: choice().existingHints ?? {} });
         checkImport();
       }));
     fs.querySelectorAll("[data-existing-hint]").forEach((input) =>
       input.addEventListener("change", () => {
-        imp.choices[no].existingHints[input.dataset.existingHint] = input.value;
+        choice().existingHints[input.dataset.existingHint] = input.value;
         checkImport();
       }));
   });
