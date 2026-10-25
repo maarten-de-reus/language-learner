@@ -130,10 +130,16 @@ func TestImportAsksForDutchMeaning(t *testing.T) {
 		t.Errorf("bank (meubel) moet pad en kanapé accepteren, kreeg %v", got)
 	}
 
-	// Nieuwe betekenis met dezelfde hint: de context-kolom moet anders
+	// Nieuwe betekenis met dezelfde hint: een open keuze, op te lossen met een eigen hint in het voorbeeld
 	results, _ = Import(lib.Clone(), ParseImport(text), map[int]ImportChoice{1: {Forward: &ForwardChoice{}}}, nil)
-	if results[0].Status != StatusError {
-		t.Errorf("nieuwe betekenis met dezelfde hint moet een fout zijn, kreeg %+v", results[0])
+	if results[0].Status != StatusChoice {
+		t.Errorf("nieuwe betekenis met dezelfde hint moet een open keuze zijn, kreeg %+v", results[0])
+	}
+	hint := "zitbank"
+	clone = lib.Clone()
+	results, ok = Import(clone, ParseImport(text), map[int]ImportChoice{1: {Forward: &ForwardChoice{}, Context: &hint}}, nil)
+	if !ok || results[0].Context != "zitbank" || len(ForwardCandidates(clone, "bank")) != 2 {
+		t.Errorf("met een eigen hint in het voorbeeld moet het lukken: %+v", results[0])
 	}
 
 	// Nieuwe betekenis met een andere hint
@@ -150,5 +156,40 @@ func TestImportExtendWithNothingNewIsSkipped(t *testing.T) {
 	results, ok := Import(lib, ParseImport("kávé;koffie;drank"), map[int]ImportChoice{1: {Forward: &ForwardChoice{Extend: lib.Concepts[0].ID}}}, nil)
 	if !ok || results[0].Status != StatusDuplicate {
 		t.Errorf("niets nieuws om aan te vullen: verwacht overgeslagen, kreeg %+v", results[0])
+	}
+}
+
+// De situatie van cuki: schattig -> aranyos bestaat zonder hint, de regel heeft geen context
+func TestImportNewMeaningWithInlineHints(t *testing.T) {
+	lib := newLib()
+	add(t, lib, "schattig", "", "aranyos")
+	old := lib.Concepts[0].ID
+	text := "cuki;schattig"
+
+	results, _ := Import(lib.Clone(), ParseImport(text), map[int]ImportChoice{1: {Forward: &ForwardChoice{}}}, nil)
+	if results[0].Status != StatusChoice {
+		t.Fatalf("zonder hints: verwacht een open keuze (geen fout), kreeg %+v", results[0])
+	}
+
+	hint := "spreektaal"
+	clone := lib.Clone()
+	results, ok := Import(clone, ParseImport(text), map[int]ImportChoice{1: {
+		Forward: &ForwardChoice{Hints: map[string]string{old: "lief"}},
+		Context: &hint,
+	}}, nil)
+	if !ok {
+		t.Fatalf("met beide hints moet het lukken: %+v", results)
+	}
+	if c := clone.Concepts[clone.Index(old)]; c.ContextSource != "lief" || !slices.Equal(TargetTexts(clone, c), []string{"aranyos"}) {
+		t.Errorf("bestaand: verwacht schattig (lief) -> aranyos, kreeg %+v", c)
+	}
+	var cuki []string
+	for _, i := range ForwardCandidates(clone, "schattig") {
+		if c := clone.Concepts[i]; c.ContextSource == "spreektaal" {
+			cuki = TargetTexts(clone, c)
+		}
+	}
+	if !slices.Equal(cuki, []string{"cuki"}) {
+		t.Errorf("verwacht schattig (spreektaal) -> cuki, kreeg %v", cuki)
 	}
 }

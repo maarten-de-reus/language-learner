@@ -66,6 +66,7 @@ func isHeader(line string) bool {
 // ImportChoice zijn de keuzes voor een regel waarvan het Nederlandse en/of Hongaarse woord al bestaat
 type ImportChoice struct {
 	Forward *ForwardChoice `json:"forward,omitempty"` // het Nederlandse woord bestaat al; nil = nog niet gekozen
+	Context *string        `json:"context,omitempty"` // hint die de context-kolom van deze regel vervangt (in het voorbeeld ingevuld)
 
 	MergeInto     string            `json:"mergeInto"`     // bestaand HU->NL concept met dezelfde betekenis; leeg = andere betekenis
 	ExistingHints map[string]string `json:"existingHints"` // bij een andere betekenis: hints voor bestaande concepten zonder hint
@@ -113,6 +114,10 @@ func Import(lib *storage.Library, lines []ImportLine, choices map[int]ImportChoi
 }
 
 func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportChoice, groups []string) ImportResult {
+	choice := choices[line.No]
+	if choice.Context != nil {
+		line.Context = strings.TrimSpace(*choice.Context)
+	}
 	res := ImportResult{ImportLine: line}
 	fail := func(status, msg string) ImportResult {
 		res.Status, res.Message = status, msg
@@ -131,7 +136,6 @@ func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportCho
 	if IsDuplicate(lib, nc) {
 		return fail(StatusDuplicate, "bestaat al met deze context en vertaling")
 	}
-	choice := choices[line.No]
 
 	// Het Nederlandse woord bestaat al: aanvullen of nieuwe betekenis?
 	if fc := ForwardCandidates(lib, nc.Dutch); len(fc) > 0 {
@@ -145,7 +149,8 @@ func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportCho
 				return fail(StatusDuplicate, "alle Hongaarse woorden zijn al goede antwoorden bij die betekenis")
 			}
 			if errors.Is(err, ErrHintNeeded) || errors.Is(err, ErrContextTaken) {
-				return fail(StatusError, err.Error()+" (pas de context-kolom aan)")
+				// Op te lossen in het voorbeeld zelf: daar staat een veld voor de hint van deze regel
+				return fail(StatusChoice, fmt.Sprintf("geef deze nieuwe betekenis een hint die hem onderscheidt van de bestaande betekenis van %q", nc.Dutch))
 			}
 			return fail(StatusChoice, err.Error())
 		}

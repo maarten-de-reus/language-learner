@@ -82,7 +82,13 @@ function forwardChoiceHTML(r) {
           <span>Extra goed antwoord bij <b>${dutch}</b>${c.context ? ` (${esc(c.context)})` : ""} → ${esc(c.answers.join(", "))}
           <small class="muted">alleen voor echte synoniemen in het Hongaars</small></span></label>`).join("")}
       <label class="m-radio"><input type="radio" name="${name}" value="" ${ch && !ch.extend ? "checked" : ""}>
-        <span>Nieuwe betekenis, met de hint (context) van deze regel</span></label>
+        <span>Nieuwe betekenis, met een eigen hint</span></label>
+      ${ch && !ch.extend ? `
+        <label class="m-field imp-hint">
+          <span>Hint voor deze nieuwe betekenis: ${dutch} → ${esc(r.hungarian)}</span>
+          <input data-line-hint value="${esc(imp.choices[r.no]?.context ?? r.context)}" placeholder="bijv. spreektaal">
+          <small class="muted">Vervangt de context-kolom van deze regel.</small>
+        </label>` : ""}
       ${ch && !ch.extend ? r.forwardCandidates.filter((c) => !c.context).map((c) => `
         <label class="m-field imp-hint">
           <span>Hint voor het bestaande ${dutch} → ${esc(c.answers.join(", "))}</span>
@@ -157,6 +163,11 @@ function bindImport() {
     fs.querySelectorAll("[data-fwd-hint]").forEach((input) =>
       input.addEventListener("change", () => {
         choice().forward.hints[input.dataset.fwdHint] = input.value;
+        checkImport();
+      }));
+    fs.querySelectorAll("[data-line-hint]").forEach((input) =>
+      input.addEventListener("change", () => {
+        choice().context = input.value;
         checkImport();
       }));
   });
