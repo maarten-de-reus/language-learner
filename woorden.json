@@ -813,7 +813,9 @@
       "context_source": "Groet",
       "target_word_ids": [
         "w_hu_1"
-      ]
+      ],
+      "example": "Szia, hogy vagy?",
+      "example_lang": "hu"
     },
     {
       "id": "c_2",
@@ -821,7 +823,9 @@
       "context_source": "Groet (ochtend)",
       "target_word_ids": [
         "w_hu_2"
-      ]
+      ],
+      "example": "Jó reggelt! Kérsz kávét?",
+      "example_lang": "hu"
     },
     {
       "id": "c_3",
@@ -829,7 +833,9 @@
       "context_source": "Groet (overdag)",
       "target_word_ids": [
         "w_hu_3"
-      ]
+      ],
+      "example": "Jó napot! Egy kávét kérek.",
+      "example_lang": "hu"
     },
     {
       "id": "c_4",
@@ -837,7 +843,9 @@
       "context_source": "Groet (avond)",
       "target_word_ids": [
         "w_hu_4"
-      ]
+      ],
+      "example": "Jó estét kívánok!",
+      "example_lang": "hu"
     },
     {
       "id": "c_5",
@@ -845,7 +853,9 @@
       "context_source": "Groet (nacht)",
       "target_word_ids": [
         "w_hu_5"
-      ]
+      ],
+      "example": "Jó éjszakát, aludj jól!",
+      "example_lang": "hu"
     },
     {
       "id": "c_6",
@@ -853,7 +863,9 @@
       "context_source": "Beleefdheid",
       "target_word_ids": [
         "w_hu_6"
-      ]
+      ],
+      "example": "Köszönöm szépen!",
+      "example_lang": "hu"
     },
     {
       "id": "c_7",
@@ -861,7 +873,9 @@
       "context_source": "Beleefdheid",
       "target_word_ids": [
         "w_hu_7"
-      ]
+      ],
+      "example": "Egy kávét, kérem.",
+      "example_lang": "hu"
     },
     {
       "id": "c_8",
@@ -869,7 +883,9 @@
       "context_source": "Antwoord",
       "target_word_ids": [
         "w_hu_8"
-      ]
+      ],
+      "example": "Igen, köszönöm.",
+      "example_lang": "hu"
     },
     {
       "id": "c_9",
@@ -877,7 +893,9 @@
       "context_source": "Antwoord",
       "target_word_ids": [
         "w_hu_9"
-      ]
+      ],
+      "example": "Nem, köszönöm.",
+      "example_lang": "hu"
     },
     {
       "id": "c_10",
@@ -885,7 +903,9 @@
       "context_source": "Pronomen (1e p. enk.)",
       "target_word_ids": [
         "w_hu_10"
-      ]
+      ],
+      "example": "Én magyarul tanulok.",
+      "example_lang": "hu"
     },
     {
       "id": "c_11",
@@ -893,7 +913,9 @@
       "context_source": "Pronomen (2e p. enk. informeel)",
       "target_word_ids": [
         "w_hu_11"
-      ]
+      ],
+      "example": "Te is jössz?",
+      "example_lang": "hu"
     },
     {
       "id": "c_12",
@@ -901,7 +923,9 @@
       "context_source": "Pronomen (3e p. enk. man)",
       "target_word_ids": [
         "w_hu_12"
-      ]
+      ],
+      "example": "Ő Péter.",
+      "example_lang": "hu"
     },
     {
       "id": "c_13",
@@ -909,7 +933,9 @@
       "context_source": "Pronomen (3e p. enk. vrouw)",
       "target_word_ids": [
         "w_hu_12"
-      ]
+      ],
+      "example": "Ő Anna.",
+      "example_lang": "hu"
     },
     {
       "id": "c_14",
@@ -917,7 +943,9 @@
       "context_source": "Pronomen (1e p. meerv.)",
       "target_word_ids": [
         "w_hu_13"
-      ]
+      ],
+      "example": "Mi magyarul tanulunk.",
+      "example_lang": "hu"
     },
     {
       "id": "c_15",
@@ -925,7 +953,9 @@
       "context_source": "Pronomen (2e p. meerv.)",
       "target_word_ids": [
         "w_hu_14"
-      ]
+      ],
+      "example": "Ti is jöttök?",
+      "example_lang": "hu"
     },
     {
       "id": "c_16",
@@ -933,7 +963,9 @@
       "context_source": "Pronomen (3e p. meerv.)",
       "target_word_ids": [
         "w_hu_15"
-      ]
+      ],
+      "example": "Ők magyarok.",
+      "example_lang": "hu"
     },
     {
       "id": "c_17",
@@ -941,7 +973,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_hu_16"
-      ]
+      ],
+      "example": "Egy kávét kérek.",
+      "example_lang": "hu"
     },
     {
       "id": "c_18",
@@ -949,7 +983,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_hu_17"
-      ]
+      ],
+      "example": "Egy, kettő, három!",
+      "example_lang": "hu"
     },
     {
       "id": "c_19",
@@ -957,7 +993,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_hu_18"
-      ]
+      ],
+      "example": "Három sört kérek.",
+      "example_lang": "hu"
     },
     {
       "id": "c_20",
@@ -965,7 +1003,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_hu_19"
-      ]
+      ],
+      "example": "Négy gyerek van a házban.",
+      "example_lang": "hu"
     },
     {
       "id": "c_21",
@@ -973,7 +1013,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_hu_20"
-      ]
+      ],
+      "example": "Öt óra van.",
+      "example_lang": "hu"
     },
     {
       "id": "c_22",
@@ -981,7 +1023,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_hu_21"
-      ]
+      ],
+      "example": "Hat éves vagyok.",
+      "example_lang": "hu"
     },
     {
       "id": "c_23",
@@ -989,7 +1033,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_hu_22"
-      ]
+      ],
+      "example": "Hét óra van.",
+      "example_lang": "hu"
     },
     {
       "id": "c_24",
@@ -997,7 +1043,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_hu_23"
-      ]
+      ],
+      "example": "Nyolc órakor jön a vonat.",
+      "example_lang": "hu"
     },
     {
       "id": "c_25",
@@ -1005,7 +1053,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_hu_24"
-      ]
+      ],
+      "example": "A gyerek kilenc éves.",
+      "example_lang": "hu"
     },
     {
       "id": "c_26",
@@ -1013,7 +1063,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_hu_25"
-      ]
+      ],
+      "example": "Tíz óra van.",
+      "example_lang": "hu"
     },
     {
       "id": "c_27",
@@ -1021,7 +1073,9 @@
       "context_source": "Drank",
       "target_word_ids": [
         "w_hu_26"
-      ]
+      ],
+      "example": "A víz meleg.",
+      "example_lang": "hu"
     },
     {
       "id": "c_28",
@@ -1029,7 +1083,9 @@
       "context_source": "Voedsel",
       "target_word_ids": [
         "w_hu_27"
-      ]
+      ],
+      "example": "A kenyér friss.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_praten",
@@ -1037,7 +1093,9 @@
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_beszélni"
-      ]
+      ],
+      "example": "Most nem tudok beszélni.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_beszélni",
@@ -1046,7 +1104,9 @@
       "target_word_ids": [
         "w_nl_praten",
         "w_nl_40"
-      ]
+      ],
+      "example": "Most nem tudok beszélni.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_wat_voor",
@@ -1054,7 +1114,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_milyen"
-      ]
+      ],
+      "example": "Milyen idő van ma?",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_milyen",
@@ -1062,7 +1124,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_wat_voor"
-      ]
+      ],
+      "example": "Milyen idő van ma?",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_welke",
@@ -1070,7 +1134,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_melyik"
-      ]
+      ],
+      "example": "Melyik autó a tiéd?",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_melyik",
@@ -1078,7 +1144,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_welke"
-      ]
+      ],
+      "example": "Melyik autó a tiéd?",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_weer",
@@ -1086,7 +1154,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_idő"
-      ]
+      ],
+      "example": "Ma szép idő van.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_idő",
@@ -1094,7 +1164,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_weer"
-      ]
+      ],
+      "example": "Ma szép idő van.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_normaal",
@@ -1102,7 +1174,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_normális"
-      ]
+      ],
+      "example": "Ez normális.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_normális",
@@ -1110,7 +1184,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_normaal"
-      ]
+      ],
+      "example": "Ez normális.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_temperatuur",
@@ -1118,7 +1194,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_hőmérséklet"
-      ]
+      ],
+      "example": "Mennyi a hőmérséklet ma?",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_hőmérséklet",
@@ -1126,7 +1204,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_temperatuur"
-      ]
+      ],
+      "example": "Mennyi a hőmérséklet ma?",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_warmte",
@@ -1166,7 +1246,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_szobahőmérséklet"
-      ]
+      ],
+      "example": "A víz szobahőmérsékletű.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_szobahőmérséklet",
@@ -1174,7 +1256,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_kamertemperatuur"
-      ]
+      ],
+      "example": "A víz szobahőmérsékletű.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_warm",
@@ -1182,7 +1266,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_meleg"
-      ]
+      ],
+      "example": "Ma meleg van.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_meleg",
@@ -1190,7 +1276,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_warm"
-      ]
+      ],
+      "example": "Ma meleg van.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_heet",
@@ -1198,7 +1286,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_forró"
-      ]
+      ],
+      "example": "A kávé forró.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_forró",
@@ -1206,7 +1296,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_heet"
-      ]
+      ],
+      "example": "A kávé forró.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_favoriet",
@@ -1214,7 +1306,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_kedvenc"
-      ]
+      ],
+      "example": "A kedvenc italom a kávé.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_kedvenc",
@@ -1222,7 +1316,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_favoriet"
-      ]
+      ],
+      "example": "A kedvenc italom a kávé.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_szia",
@@ -1230,7 +1326,9 @@
       "context_source": "Groet",
       "target_word_ids": [
         "w_nl_1"
-      ]
+      ],
+      "example": "Szia, hogy vagy?",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_jó_reggelt",
@@ -1238,7 +1336,9 @@
       "context_source": "Groet (ochtend)",
       "target_word_ids": [
         "w_nl_2"
-      ]
+      ],
+      "example": "Jó reggelt! Kérsz kávét?",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_jó_napot",
@@ -1246,7 +1346,9 @@
       "context_source": "Groet (overdag)",
       "target_word_ids": [
         "w_nl_3"
-      ]
+      ],
+      "example": "Jó napot! Egy kávét kérek.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_jó_estét",
@@ -1254,7 +1356,9 @@
       "context_source": "Groet (avond)",
       "target_word_ids": [
         "w_nl_4"
-      ]
+      ],
+      "example": "Jó estét kívánok!",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_jó_éjszakát",
@@ -1262,7 +1366,9 @@
       "context_source": "Groet (nacht)",
       "target_word_ids": [
         "w_nl_5"
-      ]
+      ],
+      "example": "Jó éjszakát, aludj jól!",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_köszönöm",
@@ -1270,7 +1376,9 @@
       "context_source": "Beleefdheid",
       "target_word_ids": [
         "w_nl_6"
-      ]
+      ],
+      "example": "Köszönöm szépen!",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_kérem",
@@ -1278,7 +1386,9 @@
       "context_source": "Beleefdheid",
       "target_word_ids": [
         "w_nl_7"
-      ]
+      ],
+      "example": "Egy kávét, kérem.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_igen",
@@ -1286,7 +1396,9 @@
       "context_source": "Antwoord",
       "target_word_ids": [
         "w_nl_8"
-      ]
+      ],
+      "example": "Igen, köszönöm.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_nem",
@@ -1294,7 +1406,9 @@
       "context_source": "Antwoord",
       "target_word_ids": [
         "w_nl_9"
-      ]
+      ],
+      "example": "Nem, köszönöm.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_én",
@@ -1302,7 +1416,9 @@
       "context_source": "Pronomen (1e p. enk.)",
       "target_word_ids": [
         "w_nl_10"
-      ]
+      ],
+      "example": "Én magyarul tanulok.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_te",
@@ -1310,7 +1426,9 @@
       "context_source": "Pronomen (2e p. enk. informeel)",
       "target_word_ids": [
         "w_nl_11"
-      ]
+      ],
+      "example": "Te is jössz?",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_ő",
@@ -1319,7 +1437,9 @@
       "target_word_ids": [
         "w_nl_12",
         "w_nl_12_f"
-      ]
+      ],
+      "example": "Ő Péter.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_mi",
@@ -1327,7 +1447,9 @@
       "context_source": "Pronomen (1e p. meerv.)",
       "target_word_ids": [
         "w_nl_13"
-      ]
+      ],
+      "example": "Mi magyarul tanulunk.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_ti",
@@ -1335,15 +1457,19 @@
       "context_source": "Pronomen (2e p. meerv.)",
       "target_word_ids": [
         "w_nl_14"
-      ]
+      ],
+      "example": "Ti is jöttök?",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_ők",
       "source_word_id": "w_hu_15",
       "context_source": "Pronomen (3e p. meerv.)",
       "target_word_ids": [
-        "w_nl_15"
-      ]
+        "w_nl_12_f"
+      ],
+      "example": "Ők magyarok.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_egy",
@@ -1351,7 +1477,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_nl_16"
-      ]
+      ],
+      "example": "Egy kávét kérek.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_kettő",
@@ -1359,7 +1487,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_nl_17"
-      ]
+      ],
+      "example": "Egy, kettő, három!",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_három",
@@ -1367,7 +1497,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_nl_18"
-      ]
+      ],
+      "example": "Három sört kérek.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_négy",
@@ -1375,7 +1507,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_nl_19"
-      ]
+      ],
+      "example": "Négy gyerek van a házban.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_öt",
@@ -1383,7 +1517,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_nl_20"
-      ]
+      ],
+      "example": "Öt óra van.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_hat",
@@ -1391,7 +1527,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_nl_21"
-      ]
+      ],
+      "example": "Hat éves vagyok.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_hét",
@@ -1399,7 +1537,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_nl_22"
-      ]
+      ],
+      "example": "Hét óra van.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_nyolc",
@@ -1407,7 +1547,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_nl_23"
-      ]
+      ],
+      "example": "Nyolc órakor jön a vonat.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_kilenc",
@@ -1415,7 +1557,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_nl_24"
-      ]
+      ],
+      "example": "A gyerek kilenc éves.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_tíz",
@@ -1423,7 +1567,9 @@
       "context_source": "Getal",
       "target_word_ids": [
         "w_nl_25"
-      ]
+      ],
+      "example": "Tíz óra van.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_víz",
@@ -1431,7 +1577,9 @@
       "context_source": "Drank",
       "target_word_ids": [
         "w_nl_26"
-      ]
+      ],
+      "example": "A víz meleg.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_kenyér",
@@ -1439,7 +1587,9 @@
       "context_source": "Voedsel",
       "target_word_ids": [
         "w_nl_27"
-      ]
+      ],
+      "example": "A kenyér friss.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_koffie",
@@ -1447,7 +1597,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_28"
-      ]
+      ],
+      "example": "Kérek egy kávét.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_kávé",
@@ -1455,7 +1607,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_28"
-      ]
+      ],
+      "example": "Kérek egy kávét.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_bier",
@@ -1463,7 +1617,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_29"
-      ]
+      ],
+      "example": "Egy sört kérek.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_sör",
@@ -1471,7 +1627,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_29"
-      ]
+      ],
+      "example": "Egy sört kérek.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_huis",
@@ -1479,7 +1637,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_30"
-      ]
+      ],
+      "example": "A ház nagy és szép.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_ház",
@@ -1487,7 +1647,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_30"
-      ]
+      ],
+      "example": "A ház nagy és szép.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_auto",
@@ -1495,7 +1657,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_31"
-      ]
+      ],
+      "example": "Ez az én autóm.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_autó",
@@ -1503,7 +1667,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_31"
-      ]
+      ],
+      "example": "Ez az én autóm.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_trein",
@@ -1511,7 +1677,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_32"
-      ]
+      ],
+      "example": "A vonat ma nem jön.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_vonat",
@@ -1519,7 +1687,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_32"
-      ]
+      ],
+      "example": "A vonat ma nem jön.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_winkel",
@@ -1527,7 +1697,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_33"
-      ]
+      ],
+      "example": "Megyek a boltba.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_bolt",
@@ -1535,7 +1707,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_33"
-      ]
+      ],
+      "example": "Megyek a boltba.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_school",
@@ -1543,7 +1717,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_34"
-      ]
+      ],
+      "example": "Az iskola nagy és régi.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_iskola",
@@ -1551,7 +1727,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_34"
-      ]
+      ],
+      "example": "Az iskola nagy és régi.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_vriend",
@@ -1559,7 +1737,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_35"
-      ]
+      ],
+      "example": "Ő a barátom.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_barát",
@@ -1567,7 +1747,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_35"
-      ]
+      ],
+      "example": "Ő a barátom.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_vrouw",
@@ -1575,7 +1757,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_36"
-      ]
+      ],
+      "example": "A nő magyarul beszél.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_nő",
@@ -1583,7 +1767,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_36"
-      ]
+      ],
+      "example": "A nő magyarul beszél.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_man",
@@ -1591,7 +1777,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_37"
-      ]
+      ],
+      "example": "Az a férfi a barátom.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_férfi",
@@ -1599,7 +1787,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_37"
-      ]
+      ],
+      "example": "Az a férfi a barátom.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_kind",
@@ -1607,7 +1797,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_38"
-      ]
+      ],
+      "example": "A gyerek iskolába megy.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_gyerek",
@@ -1615,7 +1807,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_38"
-      ]
+      ],
+      "example": "A gyerek iskolába megy.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_studeren",
@@ -1623,7 +1817,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_39"
-      ]
+      ],
+      "example": "Ő magyarul tanul.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_tanul",
@@ -1631,7 +1827,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_nl_hij_zij_studeert"
-      ]
+      ],
+      "example": "Ő magyarul tanul.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_spreken",
@@ -1639,7 +1837,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_40"
-      ]
+      ],
+      "example": "Ő magyarul beszél.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_beszél",
@@ -1648,7 +1848,9 @@
       "target_word_ids": [
         "w_nl_hij_zij_spreekt",
         "w_nl_hij_zij_praat"
-      ]
+      ],
+      "example": "A gyerek sokat beszél.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_schrijven",
@@ -1656,7 +1858,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_41"
-      ]
+      ],
+      "example": "Ő levelet ír.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_ír",
@@ -1664,7 +1868,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_nl_hij_zij_schrijft"
-      ]
+      ],
+      "example": "Ő levelet ír.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_lezen",
@@ -1672,7 +1878,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_42"
-      ]
+      ],
+      "example": "Ő sokat olvas.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_olvas",
@@ -1680,7 +1888,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_nl_hij_zij_leest"
-      ]
+      ],
+      "example": "Ő sokat olvas.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_gaan",
@@ -1688,7 +1898,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_43"
-      ]
+      ],
+      "example": "A vonat Budapestre megy.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_megy",
@@ -1696,7 +1908,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_nl_hij_zij_gaat"
-      ]
+      ],
+      "example": "A vonat Budapestre megy.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_komen",
@@ -1704,7 +1918,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_44"
-      ]
+      ],
+      "example": "Holnap jön a barátom.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_jön",
@@ -1712,7 +1928,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_nl_hij_zij_komt"
-      ]
+      ],
+      "example": "Holnap jön a barátom.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_eten",
@@ -1720,7 +1938,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_45"
-      ]
+      ],
+      "example": "A gyerek kenyeret eszik.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_eszik",
@@ -1728,7 +1948,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_nl_hij_zij_eet"
-      ]
+      ],
+      "example": "A gyerek kenyeret eszik.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_drinken",
@@ -1736,7 +1958,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_46"
-      ]
+      ],
+      "example": "Ő kávét iszik.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_iszik",
@@ -1744,7 +1968,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_nl_hij_zij_drinkt"
-      ]
+      ],
+      "example": "Ő kávét iszik.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_slapen",
@@ -1752,7 +1978,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_47"
-      ]
+      ],
+      "example": "A gyerek alszik.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_alszik",
@@ -1760,7 +1988,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_nl_hij_zij_slaapt"
-      ]
+      ],
+      "example": "A gyerek alszik.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_zien",
@@ -1768,7 +1998,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_48"
-      ]
+      ],
+      "example": "A gyerek lát egy autót.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_lát",
@@ -1776,7 +2008,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_nl_hij_zij_ziet"
-      ]
+      ],
+      "example": "A gyerek lát egy autót.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_goed",
@@ -1784,7 +2018,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_49"
-      ]
+      ],
+      "example": "Ez nagyon jó!",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_jó",
@@ -1792,7 +2028,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_49"
-      ]
+      ],
+      "example": "Ez nagyon jó!",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_slecht",
@@ -1800,7 +2038,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_50"
-      ]
+      ],
+      "example": "Ma rossz idő van.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_rossz",
@@ -1808,7 +2048,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_50"
-      ]
+      ],
+      "example": "Ma rossz idő van.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_groot",
@@ -1816,7 +2058,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_51"
-      ]
+      ],
+      "example": "Budapest nagy város.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_nagy",
@@ -1824,7 +2068,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_51"
-      ]
+      ],
+      "example": "Budapest nagy város.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_klein",
@@ -1832,7 +2078,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_52"
-      ]
+      ],
+      "example": "A ház kicsi, de szép.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_kicsi",
@@ -1840,7 +2088,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_52"
-      ]
+      ],
+      "example": "A ház kicsi, de szép.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_mooi",
@@ -1848,7 +2098,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_53"
-      ]
+      ],
+      "example": "Budapest nagyon szép.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_szép",
@@ -1856,7 +2108,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_53"
-      ]
+      ],
+      "example": "Budapest nagyon szép.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_nieuw",
@@ -1864,7 +2118,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_54"
-      ]
+      ],
+      "example": "Az autó új.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_új",
@@ -1872,7 +2128,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_54"
-      ]
+      ],
+      "example": "Az autó új.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_oud",
@@ -1880,7 +2138,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_55"
-      ]
+      ],
+      "example": "Ez egy régi ház.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_régi",
@@ -1888,7 +2148,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_55"
-      ]
+      ],
+      "example": "Ez egy régi ház.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_vandaag",
@@ -1896,7 +2158,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_56"
-      ]
+      ],
+      "example": "Ma nem megyek iskolába.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_ma",
@@ -1904,7 +2168,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_56"
-      ]
+      ],
+      "example": "Ma nem megyek iskolába.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_morgen",
@@ -1912,7 +2178,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_57"
-      ]
+      ],
+      "example": "Holnap jövök.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_holnap",
@@ -1920,7 +2188,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_57"
-      ]
+      ],
+      "example": "Holnap jövök.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_gisteren",
@@ -1928,7 +2198,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_hu_58"
-      ]
+      ],
+      "example": "Tegnap szép idő volt.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_tegnap",
@@ -1936,7 +2208,9 @@
       "context_source": "",
       "target_word_ids": [
         "w_nl_58"
-      ]
+      ],
+      "example": "Tegnap szép idő volt.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_studeren_infinitief",
@@ -1944,7 +2218,9 @@
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_tanulni"
-      ]
+      ],
+      "example": "Szeretek tanulni.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_tanulni",
@@ -1952,7 +2228,9 @@
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_39"
-      ]
+      ],
+      "example": "Szeretek tanulni.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_spreken_infinitief",
@@ -1960,7 +2238,9 @@
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_beszélni"
-      ]
+      ],
+      "example": "Szeretnék magyarul beszélni.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_praat",
@@ -1968,7 +2248,9 @@
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
         "w_hu_40"
-      ]
+      ],
+      "example": "A gyerek sokat beszél.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_schrijven_infinitief",
@@ -1976,7 +2258,9 @@
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_írni"
-      ]
+      ],
+      "example": "Tudsz magyarul írni?",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_írni",
@@ -1984,7 +2268,9 @@
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_41"
-      ]
+      ],
+      "example": "Tudsz magyarul írni?",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_lezen_infinitief",
@@ -1992,7 +2278,9 @@
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_olvasni"
-      ]
+      ],
+      "example": "Szeretek olvasni.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_olvasni",
@@ -2000,7 +2288,9 @@
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_42"
-      ]
+      ],
+      "example": "Szeretek olvasni.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_gaan_infinitief",
@@ -2008,7 +2298,9 @@
       "context_source": "werkwoord · infinitief · onregelmatig",
       "target_word_ids": [
         "w_hu_menni"
-      ]
+      ],
+      "example": "Haza akarok menni.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_menni",
@@ -2016,7 +2308,9 @@
       "context_source": "werkwoord · infinitief · onregelmatig",
       "target_word_ids": [
         "w_nl_43"
-      ]
+      ],
+      "example": "Haza akarok menni.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_komen_infinitief",
@@ -2024,7 +2318,9 @@
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_jönni"
-      ]
+      ],
+      "example": "Holnap tudsz jönni?",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_jönni",
@@ -2032,7 +2328,9 @@
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_44"
-      ]
+      ],
+      "example": "Holnap tudsz jönni?",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_eten_infinitief",
@@ -2040,7 +2338,9 @@
       "context_source": "werkwoord · infinitief · onregelmatig",
       "target_word_ids": [
         "w_hu_enni"
-      ]
+      ],
+      "example": "Mit akarsz enni?",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_enni",
@@ -2048,7 +2348,9 @@
       "context_source": "werkwoord · infinitief · onregelmatig",
       "target_word_ids": [
         "w_nl_45"
-      ]
+      ],
+      "example": "Mit akarsz enni?",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_drinken_infinitief",
@@ -2056,7 +2358,9 @@
       "context_source": "werkwoord · infinitief · onregelmatig",
       "target_word_ids": [
         "w_hu_inni"
-      ]
+      ],
+      "example": "Mit akarsz inni?",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_inni",
@@ -2064,7 +2368,9 @@
       "context_source": "werkwoord · infinitief · onregelmatig",
       "target_word_ids": [
         "w_nl_46"
-      ]
+      ],
+      "example": "Mit akarsz inni?",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_slapen_infinitief",
@@ -2072,7 +2378,9 @@
       "context_source": "werkwoord · infinitief · onregelmatig",
       "target_word_ids": [
         "w_hu_aludni"
-      ]
+      ],
+      "example": "Jó éjszakát, megyek aludni.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_aludni",
@@ -2080,7 +2388,9 @@
       "context_source": "werkwoord · infinitief · onregelmatig",
       "target_word_ids": [
         "w_nl_47"
-      ]
+      ],
+      "example": "Jó éjszakát, megyek aludni.",
+      "example_lang": "hu"
     },
     {
       "id": "c_nl_hu_zien_infinitief",
@@ -2088,7 +2398,9 @@
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_látni"
-      ]
+      ],
+      "example": "Szeretném látni a házat.",
+      "example_lang": "hu"
     },
     {
       "id": "c_hu_nl_látni",
@@ -2096,7 +2408,9 @@
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_48"
-      ]
+      ],
+      "example": "Szeretném látni a házat.",
+      "example_lang": "hu"
     }
   ]
 }
