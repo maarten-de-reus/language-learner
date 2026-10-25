@@ -627,3 +627,23 @@ body.mode-manage .shell { max-width: 820px; }
 
 /* Beheer: tellingen per woord */
 .m-wrong { padding: 1px 8px; border-radius: 999px; background: var(--bad-bg); color: var(--bad); font-weight: 600; }
+
+/* Wachtrij nieuwe woorden */
+.queue-note { margin: 12px 0 0; font-size: 14px; color: var(--text-2); }
+.done-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+.m-new { padding: 1px 8px; border-radius: 999px; background: color-mix(in srgb, var(--s2) 16%, transparent); color: var(--s3); font-weight: 600; white-space: nowrap; }
+.m-settings {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  font-size: 14px;
+}
+.m-settings label { font-weight: 600; }
+.m-settings input {
+  width: 80px; font: inherit; font-size: 15px; padding: 6px 10px;
+  border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg); color: var(--text);
+}
+.m-settings input:focus { outline: none; border-color: var(--focus); }
+.m-settings .btn { min-height: 36px; padding: 0 14px; font-size: 14px; margin-left: auto; }

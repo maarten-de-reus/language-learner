@@ -13,6 +13,8 @@ const view = {
   onlyMeanings: false,
   onlyNoExample: false,
   onlyWrong: false, // alleen woorden die je ooit fout had (volgens het antwoordenlog)
+  onlyNew: false, // alleen woorden in de wachtrij
+  newPerDay: null, // instelling, geladen bij het openen van het beheer
   openId: null, // concept dat nu bewerkt wordt
   adding: false,
   flash: new Set(), // net toegevoegde/bewerkte concepten, kort gemarkeerd
@@ -97,7 +99,8 @@ function filtered() {
     (view.direction === "all" || `${e.from}-${e.to}` === view.direction) &&
     (!view.onlyMeanings || e.meanings > 1) &&
     (!view.onlyNoExample || !e.example) &&
-    (!view.onlyWrong || e.wrong > 0));
+    (!view.onlyWrong || e.wrong > 0) &&
+    (!view.onlyNew || e.new));
 }
 
 function count(pred) {
@@ -115,6 +118,13 @@ function renderManage() {
     `<button type="button" class="fchip" data-toggle="${key}" aria-pressed="${view[key]}">${label} <span>${n}</span></button>`;
 
   manageEl.innerHTML = `
+    <form class="m-settings" id="m-settings">
+      <label for="s-new">Nieuwe woorden per dag</label>
+      <input id="s-new" type="number" min="0" max="500" inputmode="numeric" value="${view.newPerDay ?? ""}">
+      <small class="muted">0 = geen limiet</small>
+      <button class="btn secondary" type="submit">Opslaan</button>
+    </form>
+
     <div class="m-toolbar">
       <label class="search">
         <span aria-hidden="true">⌕</span>
@@ -132,6 +142,7 @@ function renderManage() {
       ${toggle("onlyMeanings", "Meerdere betekenissen", count((e) => e.meanings > 1))}
       ${toggle("onlyNoExample", "Zonder voorbeeldzin", count((e) => !e.example))}
       ${toggle("onlyWrong", "Fout gehad", count((e) => e.wrong > 0))}
+      ${toggle("onlyNew", "In wachtrij", count((e) => e.new))}
     </div>
 
     <div id="m-new-slot">${view.adding ? newFormHTML() : ""}</div>
@@ -164,7 +175,9 @@ function rowHTML(e) {
           <span class="m-dir">${e.from.toUpperCase()} → ${e.to.toUpperCase()}</span>
           ${e.meanings > 1 ? `<span class="m-badge">${e.meanings} betekenissen</span>` : ""}
           ${e.wrong ? `<span class="m-wrong" title="${e.wrong} van ${e.attempts} keer fout bij de eerste poging">✕ ${e.wrong}/${e.attempts}</span>` : ""}
-          <span class="m-due"><span class="dot" style="background:var(--s${e.step})"></span>${due ? "nu te herhalen" : esc(relative(e.nextReview))}</span>
+          ${e.new
+            ? `<span class="m-new">nieuw · in wachtrij</span>`
+            : `<span class="m-due"><span class="dot" style="background:var(--s${e.step})"></span>${due ? "nu te herhalen" : esc(relative(e.nextReview))}</span>`}
         </span>
         ${e.example ? `<span class="m-example" lang="hu">“${markFold(e.example, q)}”</span>` : ""}
       </button>
@@ -248,6 +261,19 @@ function newFormHTML() {
 // ---------- Interactie ----------
 
 function bindManage() {
+  document.getElementById("m-settings").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const n = Number(document.getElementById("s-new").value);
+    try {
+      const res = await api("PUT", "/api/settings", { newPerDay: n });
+      view.newPerDay = res.newPerDay;
+      toast(res.newPerDay === 0 ? "Geen limiet meer op nieuwe woorden" : `Voortaan ${res.newPerDay} nieuwe woorden per dag`);
+      refreshStats();
+    } catch (err) {
+      toast(err.message);
+    }
+  });
+
   const search = document.getElementById("m-search");
   search.addEventListener("input", () => {
     view.query = search.value;
@@ -489,7 +515,9 @@ async function showTab() {
   if (tab === "beheer") {
     manageEl.innerHTML = `<div class="skeleton"></div>`;
     try {
-      view.entries = (await api("GET", "/api/concepts")).entries;
+      const [concepts, settings] = await Promise.all([api("GET", "/api/concepts"), api("GET", "/api/settings")]);
+      view.entries = concepts.entries;
+      view.newPerDay = settings.newPerDay;
       renderManage();
       refreshStats();
       // Komend vanuit de statistiek: het gekozen woord openklappen

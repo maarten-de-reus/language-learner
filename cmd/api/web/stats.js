@@ -15,15 +15,16 @@ const times = (n) => (n === 1 ? "1 keer" : `${n} keer`);
 async function showStatistics() {
   statsEl.innerHTML = `<div class="skeleton"></div>`;
   try {
-    renderStatistics(await api("GET", "/api/stats"));
-    refreshStats();
+    const [report, quiz] = await Promise.all([api("GET", "/api/stats"), api("GET", "/api/state")]);
+    renderStatistics(report, quiz.stats);
+    renderStats(quiz.stats);
   } catch (err) {
     statsEl.innerHTML = `<p class="error">Kon de statistiek niet laden: ${esc(err.message)}</p>`;
   }
 }
 
-function renderStatistics(r) {
-  if (r.answers === 0) {
+function renderStatistics(r, quiz) {
+  if (r.answers === 0 && r.queue.waiting === 0) {
     statsEl.innerHTML = `
       <article class="card center">
         <div class="big-emoji">📊</div>
@@ -79,6 +80,7 @@ function renderStatistics(r) {
       </section>
 
       <div class="sx-stack">
+        ${queueCard(r.queue, quiz)}
         <section class="sx-card">
           <h3>Soort fouten</h3>
           ${mistakes(r.mistakes)}
@@ -216,6 +218,25 @@ function bindCharts() {
       });
     });
   });
+}
+
+// ---------- Wachtrij ----------
+
+function queueCard(q, quiz) {
+  const unlimited = q.perDay === 0;
+  const today = quiz ? `<p class="muted">Vandaag ${quiz.newToday} ${quiz.newToday === 1 ? "nieuw woord" : "nieuwe woorden"} geleerd${unlimited ? "" : ` (limiet ${q.perDay} per dag)`}.</p>` : "";
+  let body;
+  if (q.waiting === 0) {
+    body = `<p class="sx-empty">De wachtrij is leeg: alle woorden zijn al eens gevraagd.</p>`;
+  } else if (unlimited) {
+    body = `<p class="sx-big">${q.waiting} <small>in de wachtrij</small></p>
+      <p class="muted">Geen daglimiet: ze komen allemaal meteen aan de beurt.</p>`;
+  } else {
+    body = `<p class="sx-big">${q.waiting} <small>in de wachtrij</small></p>
+      <p class="muted">Bij ${q.perDay} per dag ben je er over ongeveer <b>${q.days} ${q.days === 1 ? "dag" : "dagen"}</b> doorheen.
+      Wil je sneller? Verhoog de limiet in <a href="#beheer">Beheer</a>, of kies na een ronde voor "Nog 10 nieuwe woorden".</p>`;
+  }
+  return `<section class="sx-card"><h3>Nieuwe woorden</h3>${today}${body}</section>`;
 }
 
 // ---------- Lijsten ----------

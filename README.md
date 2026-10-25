@@ -5,6 +5,8 @@ A small spaced-repetition trainer for learning Hungarian from Dutch (and back), 
 ## Features
 
 - **Spaced repetition** with fixed steps of 1, 3, 7, 16, 40 and 90 days (with a little random spread on the longer intervals). A new review day starts at 04:00, so a word practised in the evening comes back the next morning.
+- **A queue for new words**: newly added words are introduced at a daily limit (default 20, adjustable in *Beheer*, 0 = no limit), so adding 100 words at once doesn't create a peak. "Nog 10 nieuwe woorden" lets you learn more on a good day.
+- **Load balancing**: for intervals with some leeway (7 days and longer) the next review is put on the quietest day within that leeway.
 - **Rounds of 10 words**, shuffled, never containing both directions of the same word (one would give away the other). Wrong answers are asked again at the end of the round; those re-asks don't change the schedule.
 - **Helpful feedback**: a hint when only the accents are wrong (*kave* → *kávé*), and an explanation when you gave another meaning of the word (*idő* can mean *tijd*, but *weer* was meant here).
 - **Hints and example sentences** to tell meanings apart (*idő* ☀️ vs *idő* ⏰).
@@ -46,6 +48,7 @@ All data lives in `DATA_DIR` as plain files:
 | `woorden.json` | Words and concepts (a concept is one direction, e.g. *koffie* → *kávé*, with hint and example). |
 | `voortgang.json` | Progress per concept: current step and next review. |
 | `antwoorden.jsonl` | Append-only log of every answer (one JSON object per line). |
+| `instellingen.json` | Settings changed in the interface, such as new words per day. |
 
 Files are written atomically (temporary file + rename), and the app refuses to start on a corrupt file instead of overwriting it.
 
@@ -55,7 +58,7 @@ The same binary runs in production; things to take care of:
 
 - **Authentication**: there are no user accounts yet. When the app is reachable from a network, set `AUTH_USER` and `AUTH_PASSWORD` (the app logs a warning otherwise), and serve it over **HTTPS** behind a reverse proxy (Caddy, nginx, Traefik) – basic auth sends the password with every request.
 - **Time zone**: servers often run in UTC; set `TZ` to the learner's time zone so reviews start at 04:00 local time.
-- **Data directory**: point `DATA_DIR` at persistent storage outside the code checkout, and back it up (it is three small files).
+- **Data directory**: point `DATA_DIR` at persistent storage outside the code checkout, and back it up (it is four small files).
 - **Single instance**: the app keeps its state in memory and in local files, so run exactly one instance.
 - **Health check**: `GET /healthz` returns `200 ok`.
 - **Shutdown**: on `SIGTERM` / `SIGINT` the server finishes running requests (and their writes) before exiting.

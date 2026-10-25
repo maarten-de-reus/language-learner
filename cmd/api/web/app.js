@@ -257,6 +257,15 @@ function retryNote(r) {
 function renderDone() {
   const { results, stats } = state;
   const nextDue = stats.nextDue ? `De volgende herhaling is ${esc(relative(stats.nextDue))}.` : "";
+  // Daglimiet voor nieuwe woorden bereikt, maar er staan er nog in de wachtrij: zelf meer doen kan altijd
+  const canAddNew = stats.due === 0 && stats.newQueue > 0 && stats.newLeft === 0;
+  const queueNote = canAddNew
+    ? `<p class="queue-note">Je hebt vandaag ${stats.newToday} nieuwe ${stats.newToday === 1 ? "woord" : "woorden"} geleerd.
+        Er ${stats.newQueue === 1 ? "staat" : "staan"} nog <b>${stats.newQueue}</b> in de wachtrij.</p>`
+    : "";
+  const extraButton = canAddNew
+    ? `<button class="btn" id="extra-new" type="button">Nog 10 nieuwe woorden</button>`
+    : "";
 
   if (!results || results.length === 0) {
     app.innerHTML = `
@@ -264,7 +273,11 @@ function renderDone() {
         <div class="big-emoji">🌿</div>
         <h2>Alles bijgewerkt</h2>
         <p class="muted">Er staan nu geen woorden klaar om te herhalen. ${nextDue}</p>
-        <button class="btn secondary" id="again" type="button">Opnieuw controleren</button>
+        ${queueNote}
+        <div class="done-actions">
+          ${extraButton}
+          <button class="btn secondary" id="again" type="button">Opnieuw controleren</button>
+        </div>
       </article>`;
   } else {
     const good = results.filter((r) => r.correct).length;
@@ -288,13 +301,18 @@ function renderDone() {
               ${r.retries > 0 ? `<span class="retry-note ${r.retryCorrect ? "ok" : "ko"}">${retryNote(r)}</span>` : ""}
             </li>`).join("")}
         </ul>
-        <button class="btn block" id="again" type="button">${stats.due > 0 ? "Nieuwe ronde" : "Opnieuw controleren"}</button>
+        ${queueNote}
+        <div class="done-actions">
+          ${extraButton}
+          <button class="btn ${canAddNew ? "secondary" : "block"}" id="again" type="button">${stats.due > 0 ? "Nieuwe ronde" : "Opnieuw controleren"}</button>
+        </div>
       </article>`;
   }
 
   const again = document.getElementById("again");
   again.addEventListener("click", () => act("/api/run"));
-  again.focus();
+  document.getElementById("extra-new")?.addEventListener("click", () => act("/api/new/extra"));
+  (document.getElementById("extra-new") ?? again).focus();
 }
 
 // ---------- Main render ----------
