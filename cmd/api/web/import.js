@@ -25,6 +25,7 @@ function importPanelHTML() {
       <textarea id="imp-text" rows="8" spellcheck="false" data-hu
         placeholder="${esc(IMPORT_EXAMPLE)}">${esc(imp.text)}</textarea>
       ${accentBar()}
+      ${groupPickerHTML("import", "Groepen voor alle woorden in deze import (optioneel)")}
       ${c ? importPreviewHTML(c) : ""}
       <div class="m-actions">
         <button type="button" class="btn secondary" data-import-cancel>Annuleren</button>
@@ -182,7 +183,7 @@ async function checkImport() {
   imp.busy = true;
   try {
     const cands = imp.check?._cands;
-    imp.check = await api("POST", "/api/import/check", { text: imp.text, choices: imp.choices });
+    imp.check = await api("POST", "/api/import/check", { text: imp.text, choices: imp.choices, groups: pendingGroups("import") });
     if (cands) imp.check._cands = cands;
     renderManage();
   } catch (err) {
@@ -196,7 +197,7 @@ async function runImport() {
   if (imp.busy) return;
   imp.busy = true;
   try {
-    const res = await api("POST", "/api/import", { text: imp.text, choices: imp.choices });
+    const res = await api("POST", "/api/import", { text: imp.text, choices: imp.choices, groups: pendingGroups("import") });
     view.entries = res.entries ?? view.entries;
     closeImport();
     toast(`${res.added} ${res.added === 1 ? "woord" : "woorden"} toegevoegd${res.duplicates ? `, ${res.duplicates} overgeslagen` : ""}. Ze komen via de wachtrij binnen.`);
@@ -212,6 +213,7 @@ async function runImport() {
 
 function openImport() {
   imp.open = true;
+  groupState.import = [];
   view.adding = false;
   view.openId = null;
   renderManage();

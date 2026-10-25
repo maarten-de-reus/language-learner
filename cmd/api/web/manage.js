@@ -14,6 +14,7 @@ const view = {
   onlyNoExample: false,
   onlyWrong: false, // alleen woorden die je ooit fout had (volgens het antwoordenlog)
   onlyNew: false, // alleen woorden in de wachtrij
+  groupFilter: new Set(), // alleen woorden uit (een van) deze groepen
   newPerDay: null, // instelling, geladen bij het openen van het beheer
   openId: null, // concept dat nu bewerkt wordt
   adding: false,
@@ -89,18 +90,22 @@ function markFold(text, query) {
 
 function matchesQuery(e, q) {
   if (!q) return true;
-  return [e.prompt, e.context, e.example, ...e.answers].some((f) => fold(f).includes(q));
+  return [e.prompt, e.context, e.example, ...e.answers, ...(e.groups || [])].some((f) => fold(f).includes(q));
 }
 
 function filtered() {
   const q = fold(view.query);
+  // Een groep die niet meer bestaat (laatste woord eruit gehaald) kan ook niet meer filteren
+  const existing = new Set(knownGroups().map((g) => g.name));
+  for (const g of view.groupFilter) if (!existing.has(g)) view.groupFilter.delete(g);
   return view.entries.filter((e) =>
     matchesQuery(e, q) &&
     (view.direction === "all" || `${e.from}-${e.to}` === view.direction) &&
     (!view.onlyMeanings || e.meanings > 1) &&
     (!view.onlyNoExample || !e.example) &&
     (!view.onlyWrong || e.wrong > 0) &&
-    (!view.onlyNew || e.new));
+    (!view.onlyNew || e.new) &&
+    (!view.groupFilter.size || (e.groups || []).some((g) => view.groupFilter.has(g))));
 }
 
 function count(pred) {
@@ -145,6 +150,8 @@ function renderManage() {
       ${toggle("onlyWrong", "Fout gehad", count((e) => e.wrong > 0))}
       ${toggle("onlyNew", "In wachtrij", count((e) => e.new))}
     </div>
+    ${groupFilterHTML()}
+    ${groupDatalistHTML()}
 
     <div id="m-new-slot">${view.adding ? newFormHTML() : imp.open ? importPanelHTML() : ""}</div>
 
@@ -159,6 +166,17 @@ function renderManage() {
   bindManage();
 }
 
+// groupFilterHTML: een rij met alle groepen om op te filteren (meerdere tegelijk: woorden uit één ervan)
+function groupFilterHTML() {
+  const groups = knownGroups();
+  if (!groups.length) return "";
+  return `<div class="m-filters m-groupfilter" aria-label="Filter op groep">
+    <span class="muted">Groepen:</span>
+    ${groups.map((g) => `<button type="button" class="fchip" data-group-filter="${esc(g.name)}"
+      aria-pressed="${view.groupFilter.has(g.name)}">${esc(g.name)} <span>${g.count}</span></button>`).join("")}
+  </div>`;
+}
+
 function rowHTML(e) {
   const q = view.query;
   const due = new Date(e.nextReview) <= new Date();
@@ -171,6 +189,7 @@ function rowHTML(e) {
           ${e.context ? `<span class="chip">${markFold(e.context, q)}</span>` : ""}
           <span class="m-arrow" aria-hidden="true">→</span>
           <span class="m-answers" lang="${esc(e.to)}">${markFold(e.answers.join(", "), q)}</span>
+          ${(e.groups || []).map((g) => `<span class="m-group">${markFold(g, q)}</span>`).join("")}
         </span>
         <span class="m-meta">
           <span class="m-dir">${e.from.toUpperCase()} → ${e.to.toUpperCase()}</span>
@@ -209,6 +228,7 @@ function editFormHTML(e) {
       ${field("e-answers", `Goede antwoorden (${esc(LANG[e.to] || e.to)})`, e.answers.join(", "),
         { hu: toHu, hint: "Meerdere antwoorden scheiden met een komma." })}
       ${field("e-example", "Voorbeeldzin (Hongaars)", e.example || "", { hu: true, placeholder: "bijv. Milyen lesz az idő holnap?" })}
+      ${groupPickerHTML("edit", "Groepen (geldt ook voor de andere richting)")}
       ${accentBar()}
       <p class="m-error" hidden></p>
       <div class="m-actions">
@@ -249,6 +269,7 @@ function newFormHTML() {
         ${field("n-hungarian", "Hongaarse vertaling(en)", "", { hu: true, placeholder: "bijv. idő", hint: "Meerdere: scheiden met een komma." })}
         ${field("n-example", "Voorbeeldzin (Hongaars, optioneel)", "", { hu: true, placeholder: "bijv. Nincs elég időm." })}
       </div>
+      ${groupPickerHTML("new", "Groepen (optioneel)")}
       ${accentBar()}
       <div id="n-meaning"></div>
       <p class="m-error" hidden></p>
@@ -287,10 +308,18 @@ function bindManage() {
 
   document.getElementById("m-import-open").addEventListener("click", openImport);
   bindImport();
+  for (const id of ["new", "edit", "import"]) bindGroupPicker(id);
+  manageEl.querySelectorAll("[data-group-filter]").forEach((b) =>
+    b.addEventListener("click", () => {
+      const g = b.dataset.groupFilter;
+      view.groupFilter.has(g) ? view.groupFilter.delete(g) : view.groupFilter.add(g);
+      renderManage();
+    }));
 
   document.getElementById("m-add").addEventListener("click", () => {
     imp.open = false;
     view.adding = true;
+    groupState.new = [];
     view.openId = null;
     renderManage();
     document.getElementById("n-dutch").focus();
@@ -311,6 +340,7 @@ function bindManage() {
     head.addEventListener("click", () => {
       const id = head.closest(".m-row").dataset.id;
       view.openId = view.openId === id ? null : id;
+      groupState.edit = [...(view.entries.find((x) => x.id === id)?.groups || [])];
       view.adding = false;
       renderManage();
       document.getElementById("e-context")?.focus();
@@ -377,6 +407,7 @@ async function saveEdit(form) {
     const res = await api("PUT", `/api/concepts/${encodeURIComponent(id)}`, {
       context: form.querySelector("#e-context").value,
       answers: splitList(form.querySelector("#e-answers").value),
+      groups: pendingGroups("edit"),
       example: form.querySelector("#e-example").value,
     });
     view.entries = res.entries;
@@ -408,7 +439,7 @@ async function deleteConcept(form) {
 // met een andere betekenis?), dan pas opslaan met de gemaakte keuze.
 async function submitNew(form) {
   const val = (id) => document.getElementById(id).value;
-  const req = { dutch: val("n-dutch"), context: val("n-context"), hungarian: val("n-hungarian"), example: val("n-example") };
+  const req = { dutch: val("n-dutch"), context: val("n-context"), hungarian: val("n-hungarian"), example: val("n-example"), groups: pendingGroups("new") };
   showError(form, "");
 
   try {
