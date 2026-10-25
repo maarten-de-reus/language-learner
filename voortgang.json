@@ -4,20 +4,20 @@
     "next_review": "2026-10-28T19:14:31.136987007+01:00"
   },
   "c_10": {
-    "step_index": 2,
-    "next_review": "2026-10-24T22:00:58.917919657+02:00"
+    "step_index": 3,
+    "next_review": "2026-11-09T04:00:00+01:00"
   },
   "c_11": {
-    "step_index": 2,
-    "next_review": "2026-10-24T21:59:35.966081359+02:00"
+    "step_index": 3,
+    "next_review": "2026-11-10T04:00:00+01:00"
   },
   "c_12": {
-    "step_index": 2,
-    "next_review": "2026-10-24T22:01:54.089440084+02:00"
+    "step_index": 3,
+    "next_review": "2026-11-11T04:00:00+01:00"
   },
   "c_13": {
-    "step_index": 2,
-    "next_review": "2026-10-24T22:02:23.905954957+02:00"
+    "step_index": 3,
+    "next_review": "2026-11-11T04:00:00+01:00"
   },
   "c_14": {
     "step_index": 2,
@@ -32,44 +32,44 @@
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_17": {
-    "step_index": 2,
-    "next_review": "2026-10-24T21:59:29.222554844+02:00"
+    "step_index": 3,
+    "next_review": "2026-11-10T04:00:00+01:00"
   },
   "c_18": {
-    "step_index": 2,
-    "next_review": "2026-10-24T22:02:46.108824747+02:00"
+    "step_index": 3,
+    "next_review": "2026-11-11T04:00:00+01:00"
   },
   "c_19": {
-    "step_index": 2,
-    "next_review": "2026-10-24T22:02:51.946803476+02:00"
+    "step_index": 3,
+    "next_review": "2026-11-09T04:00:00+01:00"
   },
   "c_2": {
-    "step_index": 2,
-    "next_review": "2026-10-24T22:00:00.263225059+02:00"
+    "step_index": 3,
+    "next_review": "2026-11-09T04:00:00+01:00"
   },
   "c_20": {
-    "step_index": 0,
-    "next_review": "2026-10-25T04:00:00+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_21": {
-    "step_index": 2,
-    "next_review": "2026-10-24T21:59:33.033292941+02:00"
+    "step_index": 3,
+    "next_review": "2026-11-10T04:00:00+01:00"
   },
   "c_22": {
-    "step_index": 2,
-    "next_review": "2026-10-24T22:03:05.235469599+02:00"
+    "step_index": 3,
+    "next_review": "2026-11-11T04:00:00+01:00"
   },
   "c_23": {
     "step_index": 3,
     "next_review": "2026-11-10T04:00:00+01:00"
   },
   "c_24": {
-    "step_index": 2,
-    "next_review": "2026-10-24T22:03:15.679900606+02:00"
+    "step_index": 3,
+    "next_review": "2026-11-10T04:00:00+01:00"
   },
   "c_25": {
-    "step_index": 2,
-    "next_review": "2026-10-24T22:03:21.868530602+02:00"
+    "step_index": 3,
+    "next_review": "2026-11-09T04:00:00+01:00"
   },
   "c_26": {
     "step_index": 2,
@@ -84,28 +84,28 @@
     "next_review": "2026-10-25T22:03:31.555684582+01:00"
   },
   "c_3": {
-    "step_index": 2,
-    "next_review": "2026-10-24T22:00:06.404898719+02:00"
+    "step_index": 3,
+    "next_review": "2026-11-10T04:00:00+01:00"
   },
   "c_4": {
     "step_index": 2,
     "next_review": "2026-10-25T22:00:14.378333794+01:00"
   },
   "c_5": {
-    "step_index": 2,
-    "next_review": "2026-10-24T22:00:31.323230269+02:00"
+    "step_index": 3,
+    "next_review": "2026-11-09T04:00:00+01:00"
   },
   "c_6": {
-    "step_index": 2,
-    "next_review": "2026-10-24T22:00:44.586856178+02:00"
+    "step_index": 3,
+    "next_review": "2026-11-11T04:00:00+01:00"
   },
   "c_7": {
     "step_index": 1,
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_8": {
-    "step_index": 2,
-    "next_review": "2026-10-24T22:00:47.042349282+02:00"
+    "step_index": 3,
+    "next_review": "2026-11-10T04:00:00+01:00"
   },
   "c_9": {
     "step_index": 2,
@@ -116,8 +116,8 @@
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_hu_nl_aludni": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_hu_nl_autó": {
     "step_index": 1,
@@ -144,8 +144,8 @@
     "next_review": "2026-10-31T04:00:00+01:00"
   },
   "c_hu_nl_enni": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_hu_nl_eszik": {
     "step_index": 2,
@@ -184,8 +184,8 @@
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_hu_nl_hő": {
-    "step_index": 0,
-    "next_review": "2026-10-25T04:00:00+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_hu_nl_hőmérséklet": {
     "step_index": 2,
@@ -200,8 +200,8 @@
     "next_review": "2026-10-30T04:00:00+01:00"
   },
   "c_hu_nl_inni": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_hu_nl_iskola": {
     "step_index": 1,
@@ -216,8 +216,8 @@
     "next_review": "2026-11-01T04:00:00+01:00"
   },
   "c_hu_nl_jó_estét": {
-    "step_index": 0,
-    "next_review": "2026-10-25T04:00:00+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_hu_nl_jó_napot": {
     "step_index": 2,
@@ -236,8 +236,8 @@
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_hu_nl_jönni": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_hu_nl_kedvenc": {
     "step_index": 2,
@@ -276,16 +276,16 @@
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_hu_nl_látni": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_hu_nl_ma": {
     "step_index": 1,
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_hu_nl_megy": {
-    "step_index": 0,
-    "next_review": "2026-10-25T04:00:00+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_hu_nl_meleg": {
     "step_index": 2,
@@ -296,8 +296,8 @@
     "next_review": "2026-10-27T13:42:14.250658434+01:00"
   },
   "c_hu_nl_menni": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_hu_nl_mi": {
     "step_index": 2,
@@ -340,8 +340,8 @@
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_hu_nl_olvasni": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_hu_nl_rossz": {
     "step_index": 1,
@@ -368,12 +368,12 @@
     "next_review": "2026-10-31T04:00:00+01:00"
   },
   "c_hu_nl_tanul": {
-    "step_index": 0,
-    "next_review": "2026-10-25T04:00:00+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_hu_nl_tanulni": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_hu_nl_te": {
     "step_index": 2,
@@ -400,16 +400,16 @@
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_hu_nl_én": {
-    "step_index": 0,
-    "next_review": "2026-10-25T04:00:00+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_hu_nl_ír": {
     "step_index": 1,
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_hu_nl_írni": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_hu_nl_öt": {
     "step_index": 2,
@@ -420,12 +420,12 @@
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_hu_nl_ő": {
-    "step_index": 0,
-    "next_review": "2026-10-25T04:00:00+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_hu_nl_ők": {
     "step_index": 0,
-    "next_review": "2026-10-25T04:00:00+01:00"
+    "next_review": "2026-10-26T04:00:00+01:00"
   },
   "c_nl_hu_auto": {
     "step_index": 1,
@@ -440,16 +440,16 @@
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_nl_hu_drinken_infinitief": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_nl_hu_eten": {
     "step_index": 2,
     "next_review": "2026-10-31T04:00:00+01:00"
   },
   "c_nl_hu_eten_infinitief": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_nl_hu_favoriet": {
     "step_index": 2,
@@ -460,8 +460,8 @@
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_nl_hu_gaan_infinitief": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_nl_hu_gisteren": {
     "step_index": 1,
@@ -484,8 +484,8 @@
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_nl_hu_kamertemperatuur": {
-    "step_index": 0,
-    "next_review": "2026-10-25T04:00:00+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_nl_hu_kind": {
     "step_index": 2,
@@ -504,16 +504,16 @@
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_nl_hu_komen_infinitief": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_nl_hu_lezen": {
     "step_index": 1,
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_nl_hu_lezen_infinitief": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_nl_hu_man": {
     "step_index": 2,
@@ -545,7 +545,7 @@
   },
   "c_nl_hu_praat": {
     "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "next_review": "2026-10-26T04:00:00+01:00"
   },
   "c_nl_hu_praten": {
     "step_index": 2,
@@ -556,12 +556,12 @@
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_nl_hu_schrijven": {
-    "step_index": 0,
-    "next_review": "2026-10-25T04:00:00+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_nl_hu_schrijven_infinitief": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_nl_hu_slapen": {
     "step_index": 2,
@@ -569,7 +569,7 @@
   },
   "c_nl_hu_slapen_infinitief": {
     "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "next_review": "2026-10-26T04:00:00+01:00"
   },
   "c_nl_hu_slecht": {
     "step_index": 1,
@@ -580,20 +580,20 @@
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_nl_hu_spreken_infinitief": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_nl_hu_studeren": {
     "step_index": 2,
     "next_review": "2026-10-31T04:00:00+01:00"
   },
   "c_nl_hu_studeren_infinitief": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_nl_hu_temperatuur": {
-    "step_index": 0,
-    "next_review": "2026-10-25T04:00:00+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_nl_hu_trein": {
     "step_index": 1,
@@ -636,11 +636,11 @@
     "next_review": "2026-10-27T04:00:00+01:00"
   },
   "c_nl_hu_zien": {
-    "step_index": 0,
-    "next_review": "2026-10-25T04:00:00+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   },
   "c_nl_hu_zien_infinitief": {
-    "step_index": 0,
-    "next_review": "2026-10-25T06:13:31.105636286+01:00"
+    "step_index": 1,
+    "next_review": "2026-10-28T04:00:00+01:00"
   }
 }
