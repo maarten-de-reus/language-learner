@@ -1,6 +1,7 @@
 package catalog
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -62,10 +63,19 @@ func isHeader(line string) bool {
 	return strings.HasPrefix(l, "hongaars;nederlands")
 }
 
-// ImportChoice is de keuze voor een regel waarvan het Hongaarse woord al bestaat
+// ImportChoice zijn de keuzes voor een regel waarvan het Nederlandse en/of Hongaarse woord al bestaat
 type ImportChoice struct {
+	Forward *ForwardChoice `json:"forward,omitempty"` // het Nederlandse woord bestaat al; nil = nog niet gekozen
+
 	MergeInto     string            `json:"mergeInto"`     // bestaand HU->NL concept met dezelfde betekenis; leeg = andere betekenis
 	ExistingHints map[string]string `json:"existingHints"` // bij een andere betekenis: hints voor bestaande concepten zonder hint
+	Reverse       bool              `json:"reverse"`       // de keuze voor het Hongaarse woord is gemaakt
+}
+
+// ForwardChoice: Hongaarse woorden toevoegen aan een bestaande betekenis, of een nieuwe betekenis
+type ForwardChoice struct {
+	Extend string            `json:"extend"` // bestaand NL->HU concept om aan te vullen; leeg = nieuwe betekenis
+	Hints  map[string]string `json:"hints"`  // bij een nieuwe betekenis: hints voor bestaande concepten zonder hint
 }
 
 // Line-statussen
@@ -79,9 +89,11 @@ const (
 // ImportResult is de uitkomst per regel
 type ImportResult struct {
 	ImportLine
-	Status     string  `json:"status"`
-	Message    string  `json:"message,omitempty"`
-	Candidates []Entry `json:"candidates,omitempty"` // bij StatusChoice: de bestaande betekenissen
+	Status            string  `json:"status"`
+	Message           string  `json:"message,omitempty"`
+	Candidates        []Entry `json:"candidates,omitempty"`        // bij een keuze voor het Hongaarse woord: de bestaande HU->NL betekenissen
+	ForwardCandidates []Entry `json:"forwardCandidates,omitempty"` // bij een keuze voor het Nederlandse woord: de bestaande NL->HU betekenissen
+	Reverse           string  `json:"reverse,omitempty"`           // het Hongaarse woord waar de keuze over gaat
 }
 
 // Import voegt de regels in volgorde toe aan lib. Elke regel ziet de regels erboven, zodat
@@ -115,14 +127,34 @@ func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportCho
 	}
 	nc.Example = line.Example
 	if IsDuplicate(lib, nc) {
-		return fail(StatusDuplicate, "bestaat al met deze context")
+		return fail(StatusDuplicate, "bestaat al met deze context en vertaling")
+	}
+	choice := choices[line.No]
+
+	// Het Nederlandse woord bestaat al: aanvullen of nieuwe betekenis?
+	if fc := ForwardCandidates(lib, nc.Dutch); len(fc) > 0 {
+		res.ForwardCandidates = entriesFor(lib, fc)
+		if choice.Forward == nil {
+			return fail(StatusChoice, fmt.Sprintf("%q bestaat al: extra goed antwoord bij een bestaande betekenis, of een nieuwe betekenis?", nc.Dutch))
+		}
+		nc.ExtendForward, nc.ForwardHints = choice.Forward.Extend, choice.Forward.Hints
+		if _, err := checkForward(lib, nc); err != nil {
+			if errors.Is(err, ErrDuplicate) {
+				return fail(StatusDuplicate, "alle Hongaarse woorden zijn al goede antwoorden bij die betekenis")
+			}
+			if errors.Is(err, ErrHintNeeded) || errors.Is(err, ErrContextTaken) {
+				return fail(StatusError, err.Error()+" (pas de context-kolom aan)")
+			}
+			return fail(StatusChoice, err.Error())
+		}
 	}
 
-	if cands := ReverseCandidates(lib, nc.Hungarian[0]); len(cands) > 0 {
-		choice, chosen := choices[line.No]
-		if !chosen {
+	// Het Hongaarse woord bestaat al: zelfde of andere betekenis?
+	res.Reverse = ReverseSourceFor(lib, nc)
+	if cands := ReverseCandidates(lib, res.Reverse); len(cands) > 0 {
+		if !choice.Reverse {
 			res.Candidates = entriesFor(lib, cands)
-			return fail(StatusChoice, fmt.Sprintf("%q bestaat al: zelfde of andere betekenis?", nc.Hungarian[0]))
+			return fail(StatusChoice, fmt.Sprintf("%q bestaat al: zelfde of andere betekenis?", res.Reverse))
 		}
 		if choice.MergeInto != "" {
 			nc.MergeReverseInto = choice.MergeInto

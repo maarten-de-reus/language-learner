@@ -51,7 +51,7 @@ func TestImportWithChoice(t *testing.T) {
 	if code != http.StatusConflict || string(out["choices"]) != "1" {
 		t.Fatalf("verwacht een open keuze, kreeg %d %s", code, out)
 	}
-	choices := map[string]any{"1": map[string]any{"existingHints": map[string]string{"c_hu_nl_idő": "buiten"}}}
+	choices := map[string]any{"1": map[string]any{"reverse": true, "existingHints": map[string]string{"c_hu_nl_idő": "buiten"}}}
 	code, out = call(t, h, "POST", "/api/import", importBody(t, text, choices))
 	if code != http.StatusOK || string(out["added"]) != "1" {
 		t.Fatalf("met keuze: %d %s", code, out)

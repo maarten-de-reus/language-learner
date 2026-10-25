@@ -220,3 +220,27 @@ func TestDeleteSingleDirectionKeepsReverseQuizzable(t *testing.T) {
 		t.Error("het verwijderde concept mag niet meer gevraagd worden")
 	}
 }
+
+func TestCheckAndAddWithExistingDutchWord(t *testing.T) {
+	s, h := newTestServer(t)
+	// weer -> idő bestaat; idő is ook "tijd", maar hier: een Hongaars synoniem toevoegen aan weer
+	_, out := call(t, h, "POST", "/api/concepts/check", `{"dutch":"weer","context":"","hungarian":"időjárás"}`)
+	fwd := entriesFrom(t, out["forwardCandidates"])
+	if string(out["duplicate"]) != "false" || len(fwd) != 1 || fwd[0].ID != "c_nl_hu_weer" {
+		t.Fatalf("verwacht weer -> idő als bestaande betekenis, kreeg %s", out)
+	}
+
+	code, out := call(t, h, "POST", "/api/concepts", `{"dutch":"weer","context":"","hungarian":"időjárás","extendForward":"c_nl_hu_weer"}`)
+	if code != http.StatusCreated {
+		t.Fatalf("aanvullen: verwacht 201, kreeg %d %s", code, out)
+	}
+	if got := s.lib.Concepts[s.lib.Index("c_nl_hu_weer")].TargetWordIDs; len(got) != 2 {
+		t.Errorf("weer moet nu twee Hongaarse antwoorden hebben, kreeg %v", got)
+	}
+
+	// Nieuwe betekenis zonder hint: geweigerd met een duidelijke melding
+	code, out = call(t, h, "POST", "/api/concepts", `{"dutch":"weer","context":"","hungarian":"újra"}`)
+	if code != http.StatusConflict || out["error"] == nil {
+		t.Errorf("nieuwe betekenis zonder hint: verwacht 409, kreeg %d %s", code, out)
+	}
+}

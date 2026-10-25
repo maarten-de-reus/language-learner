@@ -16,17 +16,20 @@ type conceptRequest struct {
 	Context          string            `json:"context"`
 	Hungarian        string            `json:"hungarian"`
 	Example          string            `json:"example"`
+	ExtendForward    string            `json:"extendForward"` // bestaand NL->HU concept aanvullen; leeg = nieuwe betekenis
+	ForwardHints     map[string]string `json:"forwardHints"`
 	MergeReverseInto string            `json:"mergeReverseInto"`
 	ReverseContext   *string           `json:"reverseContext"` // nil = zelfde hint als NL->HU
 	ExistingHints    map[string]string `json:"existingHints"`
 }
 
-// checkResponse vertelt de frontend vóór het toevoegen of het een duplicaat is
-// en of het Hongaarse woord al andere betekenissen heeft
+// checkResponse vertelt de frontend vóór het toevoegen of het een duplicaat is, of het
+// Nederlandse woord al betekenissen heeft, en of het Hongaarse woord al betekenissen heeft
 type checkResponse struct {
-	Duplicate  bool            `json:"duplicate"`
-	Reverse    string          `json:"reverse"` // het Hongaarse woord dat de bron van HU->NL wordt
-	Candidates []catalog.Entry `json:"candidates"`
+	Duplicate         bool            `json:"duplicate"`
+	ForwardCandidates []catalog.Entry `json:"forwardCandidates"` // bestaande NL->HU betekenissen van het Nederlandse woord
+	Reverse           string          `json:"reverse"`           // het Hongaarse woord dat de bron van HU->NL wordt
+	Candidates        []catalog.Entry `json:"candidates"`        // bestaande HU->NL betekenissen daarvan
 }
 
 type entriesResponse struct {
@@ -53,13 +56,25 @@ func (s *server) handleCheckConcept(w http.ResponseWriter, r *http.Request) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	resp := checkResponse{Duplicate: catalog.IsDuplicate(s.lib, nc), Reverse: nc.Hungarian[0], Candidates: []catalog.Entry{}}
-	ids := map[string]bool{}
-	for _, i := range catalog.ReverseCandidates(s.lib, nc.Hungarian[0]) {
-		ids[s.lib.Concepts[i].ID] = true
+	nc.ExtendForward = req.ExtendForward // bepaalt welk Hongaars woord de omgekeerde richting krijgt
+	resp := checkResponse{
+		Duplicate:         catalog.IsDuplicate(s.lib, nc),
+		Reverse:           catalog.ReverseSourceFor(s.lib, nc),
+		ForwardCandidates: []catalog.Entry{},
+		Candidates:        []catalog.Entry{},
+	}
+	forward, reverse := map[string]bool{}, map[string]bool{}
+	for _, i := range catalog.ForwardCandidates(s.lib, nc.Dutch) {
+		forward[s.lib.Concepts[i].ID] = true
+	}
+	for _, i := range catalog.ReverseCandidates(s.lib, resp.Reverse) {
+		reverse[s.lib.Concepts[i].ID] = true
 	}
 	for _, e := range catalog.Entries(s.lib) {
-		if ids[e.ID] {
+		if forward[e.ID] {
+			resp.ForwardCandidates = append(resp.ForwardCandidates, e)
+		}
+		if reverse[e.ID] {
 			resp.Candidates = append(resp.Candidates, e)
 		}
 	}
@@ -77,6 +92,8 @@ func (s *server) handleAddConcept(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	nc.Example = req.Example
+	nc.ExtendForward = req.ExtendForward
+	nc.ForwardHints = req.ForwardHints
 	nc.MergeReverseInto = req.MergeReverseInto
 	nc.ExistingHints = req.ExistingHints
 	if req.ReverseContext != nil {
@@ -144,7 +161,7 @@ func statusFor(err error) int {
 	switch {
 	case errors.Is(err, catalog.ErrNotFound):
 		return http.StatusNotFound
-	case errors.Is(err, catalog.ErrDuplicate), errors.Is(err, catalog.ErrReverseAmbiguous), errors.Is(err, catalog.ErrContextTaken):
+	case errors.Is(err, catalog.ErrDuplicate), errors.Is(err, catalog.ErrReverseAmbiguous), errors.Is(err, catalog.ErrContextTaken), errors.Is(err, catalog.ErrHintNeeded):
 		return http.StatusConflict
 	default:
 		return http.StatusBadRequest

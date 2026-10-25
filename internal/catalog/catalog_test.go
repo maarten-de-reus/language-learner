@@ -86,12 +86,71 @@ func TestAddPairDuplicate(t *testing.T) {
 	lib := newLib()
 	add(t, lib, "bank", "Meubel", "pad")
 	before := len(lib.Concepts)
-	_, err := add(t, lib, "Bank", "meubel", "kanapé")
-	if !errors.Is(err, ErrDuplicate) {
-		t.Fatalf("verwacht ErrDuplicate, kreeg %v", err)
+
+	// Precies hetzelfde: niets nieuws
+	if _, err := add(t, lib, "Bank", "meubel", "PAD"); !errors.Is(err, ErrDuplicate) {
+		t.Errorf("verwacht ErrDuplicate, kreeg %v", err)
+	}
+	// Nieuw Hongaars woord bij dezelfde hint, zonder keuze: als nieuwe betekenis onderscheidt de hint niets
+	if _, err := add(t, lib, "Bank", "meubel", "kanapé"); !errors.Is(err, ErrContextTaken) {
+		t.Errorf("verwacht ErrContextTaken, kreeg %v", err)
 	}
 	if len(lib.Concepts) != before {
-		t.Error("bij een duplicaat mag er niets toegevoegd worden")
+		t.Error("bij een fout mag er niets toegevoegd worden")
+	}
+}
+
+// bank (meubel) -> pad bestaat; kanapé is een synoniem: extra goed antwoord bij die betekenis
+func TestExtendExistingMeaning(t *testing.T) {
+	lib := newLib()
+	add(t, lib, "bank", "meubel", "pad")
+	nlhu := lib.Concepts[0].ID
+
+	res, err := add(t, lib, "bank", "", "pad, kanapé", func(nc *NewPair) { nc.ExtendForward = nlhu })
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !res.Extended || res.ReverseSource != "kanapé" {
+		t.Errorf("verwacht aanvullen met kanapé als nieuwe omgekeerde bron, kreeg %+v", res)
+	}
+	if got := TargetTexts(lib, concept(t, lib, nlhu)); !slices.Equal(got, []string{"pad", "kanapé"}) {
+		t.Errorf("bank (meubel) moet pad en kanapé accepteren, kreeg %v", got)
+	}
+	if len(lib.Concepts) != 3 {
+		t.Fatalf("verwacht 3 concepten (geen nieuw NL->HU concept), kreeg %d", len(lib.Concepts))
+	}
+	if rev := lib.Concepts[2]; lib.Words[rev.SourceWordID].Text != "kanapé" || rev.ContextSource != "meubel" {
+		t.Errorf("kanapé -> bank moet de hint van de aangevulde betekenis krijgen: %+v", rev)
+	}
+
+	// Aanvullen zonder nieuw Hongaars woord heeft geen zin
+	if _, err := add(t, lib, "bank", "", "kanapé", func(nc *NewPair) { nc.ExtendForward = nlhu }); !errors.Is(err, ErrDuplicate) {
+		t.Errorf("niets nieuws: verwacht ErrDuplicate, kreeg %v", err)
+	}
+}
+
+// bank -> pad bestaat zonder hint; bank -> bank (geld) is een nieuwe betekenis
+func TestNewMeaningNeedsDistinctHints(t *testing.T) {
+	lib := newLib()
+	add(t, lib, "bank", "", "pad")
+	old := lib.Concepts[0].ID
+
+	if _, err := add(t, lib, "bank", "", "bank"); !errors.Is(err, ErrHintNeeded) {
+		t.Errorf("zonder hint: verwacht ErrHintNeeded, kreeg %v", err)
+	}
+	if _, err := add(t, lib, "bank", "geld", "bank"); err == nil {
+		t.Error("het bestaande bank -> pad heeft nog geen hint: dat moet geweigerd worden")
+	}
+	if _, err := add(t, lib, "bank", "geld", "bank", func(nc *NewPair) {
+		nc.ForwardHints = map[string]string{old: "meubel"}
+	}); err != nil {
+		t.Fatal(err)
+	}
+	if c := concept(t, lib, old); c.ContextSource != "meubel" {
+		t.Errorf("bestaand concept moet hint 'meubel' krijgen, kreeg %q", c.ContextSource)
+	}
+	if n := len(ForwardCandidates(lib, "bank")); n != 2 {
+		t.Errorf("verwacht 2 betekenissen van bank, kreeg %d", n)
 	}
 }
 
