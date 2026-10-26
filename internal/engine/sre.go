@@ -142,30 +142,74 @@ func IsNew(c storage.TranslationConcept) bool {
 	return c.FirstReview.IsZero()
 }
 
-// GetNextChunk haalt de eerstvolgende 'run' op en geeft aan hoeveel er overblijven.
-// Herhalingen van bekende woorden zijn altijd welkom; nieuwe woorden alleen tot newAllowance
-// (Unlimited = geen limiet), in de volgorde waarin ze zijn toegevoegd.
-// Laagste stappen (meest kritiek) gaan voor, binnen dezelfde stap in willekeurige volgorde.
-// Twee richtingen van hetzelfde woord komen nooit in dezelfde run: het antwoord van de ene
-// is de vraag van de andere. De tweede richting wacht op een volgende run.
-func GetNextChunk(allConcepts []storage.TranslationConcept, chunkSize, newAllowance int) (currentChunk []storage.TranslationConcept, remainingCount int) {
-	var dueWords, newWords []storage.TranslationConcept
-	now := time.Now()
-
-	for _, c := range allConcepts {
-		if !c.NextReview.Before(now) {
+// Buried geeft de concepten die vandaag moeten wachten omdat een andere richting van hetzelfde
+// woord vandaag al gevraagd is (in Anki: "bury siblings"). Wie net koffie -> kávé heeft gezien,
+// heeft niets aan kávé -> koffie een paar minuten later; die komt morgen.
+func Buried(all []storage.TranslationConcept, now time.Time) map[string]bool {
+	today := DayOf(now)
+	bySource := map[string][]int{}
+	byTarget := map[string][]int{}
+	for i, c := range all {
+		bySource[c.SourceWordID] = append(bySource[c.SourceWordID], i)
+		for _, t := range c.TargetWordIDs {
+			byTarget[t] = append(byTarget[t], i)
+		}
+	}
+	buried := map[string]bool{}
+	for _, r := range all {
+		if r.LastReview.IsZero() || !DayOf(r.LastReview.In(now.Location())).Equal(today) {
 			continue
 		}
-		if IsNew(c) {
-			newWords = append(newWords, c)
-		} else {
-			dueWords = append(dueWords, c)
+		mark := func(i int) {
+			if all[i].ID != r.ID {
+				buried[all[i].ID] = true
+			}
+		}
+		// Omgekeerde richtingen: hun bronwoord is een antwoord van r, of r's bronwoord is hun antwoord
+		for _, t := range r.TargetWordIDs {
+			for _, i := range bySource[t] {
+				mark(i)
+			}
+		}
+		for _, i := range byTarget[r.SourceWordID] {
+			mark(i)
 		}
 	}
-	if newAllowance != Unlimited && len(newWords) > newAllowance {
-		newWords = newWords[:max(0, newAllowance)]
+	return buried
+}
+
+// DueCandidates geeft alles wat vandaag gevraagd kan worden: herhalingen die aan de beurt zijn en
+// nieuwe woorden tot newAllowance (Unlimited = geen limiet), in de volgorde waarin ze zijn
+// toegevoegd. Concepten waarvan vandaag al een andere richting gevraagd is, wachten tot morgen,
+// en van een nieuw woord komt per dag één richting: "Nog 10" is zo ook echt 10 woorden.
+func DueCandidates(all []storage.TranslationConcept, now time.Time, newAllowance int) []storage.TranslationConcept {
+	buried := Buried(all, now)
+	var due, fresh []storage.TranslationConcept
+	for _, c := range all {
+		if !c.NextReview.Before(now) || buried[c.ID] {
+			continue
+		}
+		if !IsNew(c) {
+			due = append(due, c)
+			continue
+		}
+		if newAllowance != Unlimited && len(fresh) >= newAllowance {
+			continue
+		}
+		if slices.ContainsFunc(fresh, func(o storage.TranslationConcept) bool { return reverseOf(c, o) }) {
+			continue // andere richting van een woord dat vandaag al nieuw binnenkomt
+		}
+		fresh = append(fresh, c)
 	}
-	dueWords = append(dueWords, newWords...)
+	return append(due, fresh...)
+}
+
+// GetNextChunk haalt de eerstvolgende 'run' op en geeft aan hoeveel er vandaag nog overblijven.
+// Laagste stappen (meest kritiek) gaan voor, binnen dezelfde stap in willekeurige volgorde.
+// Twee richtingen van hetzelfde woord komen nooit in dezelfde run, en (zie DueCandidates)
+// ook niet op dezelfde dag.
+func GetNextChunk(allConcepts []storage.TranslationConcept, chunkSize, newAllowance int) (currentChunk []storage.TranslationConcept, remainingCount int) {
+	dueWords := DueCandidates(allConcepts, time.Now(), newAllowance)
 
 	rand.Shuffle(len(dueWords), func(i, j int) { dueWords[i], dueWords[j] = dueWords[j], dueWords[i] })
 	sort.SliceStable(dueWords, func(i, j int) bool {

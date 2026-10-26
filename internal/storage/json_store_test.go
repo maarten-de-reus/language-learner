@@ -138,3 +138,30 @@ func TestWoordenJSONContainsNoProgress(t *testing.T) {
 		t.Error("SaveWords mag de voortgang in het geheugen niet aanpassen")
 	}
 }
+
+func TestLastReviewStoredAndBackfilled(t *testing.T) {
+	dir := t.TempDir()
+	words := writeTestFile(t, dir, "woorden.json", testWords)
+	progress := filepath.Join(dir, "voortgang.json")
+	lib, _ := LoadLibrary(words, progress)
+
+	at := time.Date(2026, 10, 26, 20, 38, 0, 0, time.UTC)
+	n := lib.BackfillLastReview([]Review{
+		{Time: at.Add(-time.Hour), ConceptID: "c_1"},
+		{Time: at, ConceptID: "c_1"},
+		{Time: at.Add(time.Minute), ConceptID: "c_1", Retry: true}, // oefenherhaling telt niet
+	})
+	if n != 1 || !lib.Concepts[0].LastReview.Equal(at) {
+		t.Fatalf("verwacht laatste echte antwoord %v, kreeg %v (%d gevuld)", at, lib.Concepts[0].LastReview, n)
+	}
+	if err := SaveProgress(progress, lib.Concepts); err != nil {
+		t.Fatal(err)
+	}
+	reloaded, _ := LoadLibrary(words, progress)
+	if !reloaded.Concepts[0].LastReview.Equal(at) {
+		t.Errorf("laatste antwoord niet bewaard: %v", reloaded.Concepts[0].LastReview)
+	}
+	if n := reloaded.BackfillLastReview([]Review{{Time: at.Add(time.Hour), ConceptID: "c_1"}}); n != 0 {
+		t.Error("een bestaand laatste antwoord mag niet overschreven worden")
+	}
+}

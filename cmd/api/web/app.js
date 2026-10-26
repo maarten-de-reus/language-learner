@@ -258,7 +258,7 @@ function renderDone() {
   const { results, stats } = state;
   const nextDue = stats.nextDue ? `De volgende herhaling is ${esc(relative(stats.nextDue))}.` : "";
   // Daglimiet voor nieuwe woorden bereikt, maar er staan er nog in de wachtrij: zelf meer doen kan altijd
-  const canAddNew = stats.due === 0 && stats.newQueue > 0 && stats.newLeft === 0;
+  const canAddNew = stats.due === 0 && stats.newLeft === 0 && stats.newAvailable > 0;
   const queueNote = canAddNew
     ? `<p class="queue-note">Je hebt vandaag ${stats.newToday} nieuwe ${stats.newToday === 1 ? "woord" : "woorden"} geleerd.
         Er ${stats.newQueue === 1 ? "staat" : "staan"} nog <b>${stats.newQueue}</b> in de wachtrij.</p>`

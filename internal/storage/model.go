@@ -23,4 +23,6 @@ type TranslationConcept struct {
 	NextReview time.Time `json:"-"`
 	// Moment van het eerste antwoord; leeg betekent een nieuw woord dat nog in de wachtrij staat
 	FirstReview time.Time `json:"-"`
+	// Moment van het laatste echte antwoord (geen oefenherhaling); de andere richting wacht dan tot morgen
+	LastReview time.Time `json:"-"`
 }

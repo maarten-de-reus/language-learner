@@ -276,10 +276,12 @@ func TestExampleShownBeforeOnlyWhenItDoesNotGiveAwayTheAnswer(t *testing.T) {
 	s.Answer("weer")
 	s.Next()
 
-	// Beide richtingen van idő/weer komen nooit in dezelfde run; NL->HU volgt in de volgende run
-	if !s.Done() || !s.NewRun() {
-		t.Fatal("verwacht dat de run klaar is en een nieuwe run start")
+	// De andere richting van idő/weer wacht tot morgen: doen alsof idő -> weer gisteren gevraagd is
+	if !s.Done() {
+		t.Fatal("verwacht dat de run klaar is")
 	}
+	s.lib.Concepts[s.lib.Index("c_weer")].LastReview = time.Now().AddDate(0, 0, -1)
+	s.NewRun()
 
 	// NL->HU: de Hongaarse zin bevat het antwoord, dus pas na het antwoorden
 	if card := s.Current(); card.ID != "c_nl_weer" || card.Example != "" {
@@ -453,5 +455,33 @@ func TestExtraNewWordsAboveTheLimit(t *testing.T) {
 	s.AddExtraNew(10)
 	if st := s.Stats(); st.NewLeft != 10 {
 		t.Errorf("Nog 10 nieuwe woorden moet er echt 10 geven, kreeg %d", st.NewLeft)
+	}
+}
+
+// Na een fout antwoord komt de andere richting van dat woord niet in een volgende ronde, maar morgen
+func TestOtherDirectionNotInNextRunAfterAnswer(t *testing.T) {
+	words, concepts := testData()
+	words["w_hu_kave"] = storage.Word{ID: "w_hu_kave", Language: "hu", Text: "kávé"}
+	concepts = append(concepts, storage.TranslationConcept{
+		ID: "c_kave_koffie", SourceWordID: "w_hu_kave", TargetWordIDs: []string{"w_nl_koffie"},
+		StepIndex: 1, NextReview: time.Now().Add(-time.Hour), FirstReview: longAgo,
+	})
+	s := New(&storage.Library{Words: words, Concepts: concepts}, filepath.Join(t.TempDir(), "voortgang.json"), 1)
+
+	// Ronde 1: één kaart (rondes van 1), fout beantwoorden zonder herhalingen af te maken
+	first := s.Current().ID
+	for !s.Done() {
+		s.Answer("fout")
+		s.Next()
+	}
+	for range 5 { // alle volgende rondes van vandaag
+		s.NewRun()
+		for !s.Done() {
+			if id := s.Current().ID; (first == "c_koffie" && id == "c_kave_koffie") || (first == "c_kave_koffie" && id == "c_koffie") {
+				t.Fatalf("de andere richting van %s mag vandaag niet meer komen", first)
+			}
+			s.Answer(correctAnswer(s))
+			s.Next()
+		}
 	}
 }

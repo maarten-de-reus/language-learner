@@ -35,6 +35,14 @@ func main() {
 		log.Fatalf("Fout bij laden data: %v", err)
 	}
 
+	// Voortgang van voor het "laatste antwoord"-veld: aanvullen uit het antwoordenlog, zodat de
+	// andere richting van wat vandaag al gevraagd is meteen tot morgen wacht
+	if reviews, _, err := storage.ReadReviews(cfg.reviewsPath()); err != nil {
+		log.Printf("Antwoordenlog niet gelezen: %v", err)
+	} else if n := lib.BackfillLastReview(reviews); n > 0 {
+		log.Printf("Laatste antwoordmoment aangevuld voor %d concepten uit het antwoordenlog", n)
+	}
+
 	settings, err := storage.LoadSettings(cfg.settingsPath())
 	if err != nil {
 		log.Fatalf("Fout bij laden instellingen: %v", err)

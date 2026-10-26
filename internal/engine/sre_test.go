@@ -35,7 +35,7 @@ func ids(cs []storage.TranslationConcept) []string {
 
 func TestChunkNeverContainsBothDirections(t *testing.T) {
 	for range 50 {
-		chunk, remaining := GetNextChunk(pairs(15, 0), 10, Unlimited)
+		chunk, remaining := GetNextChunk(seen(pairs(15, 0)), 10, Unlimited)
 		if len(chunk) != 10 || remaining != 20 {
 			t.Fatalf("verwacht 10 in de run en 20 over, kreeg %d / %d", len(chunk), remaining)
 		}
@@ -86,22 +86,32 @@ func TestLowerStepsComeFirst(t *testing.T) {
 	}
 }
 
-func TestDeferredDirectionComesInLaterRun(t *testing.T) {
-	cs := pairs(1, 0) // alleen koffie -> kávé en kávé -> koffie
+func TestOtherDirectionWaitsUntilTomorrow(t *testing.T) {
+	cs := seen(pairs(1, 0)) // alleen koffie -> kávé en kávé -> koffie, allebei bekend en aan de beurt
 	chunk, remaining := GetNextChunk(cs, 10, Unlimited)
 	if len(chunk) != 1 || remaining != 1 {
 		t.Fatalf("verwacht 1 in de run en 1 uitgesteld, kreeg %d / %d", len(chunk), remaining)
 	}
 
-	// Na het oefenen is de eerste niet meer due; de andere richting komt nu aan de beurt
+	// De eerste richting is vandaag beantwoord (goed of fout): de andere wacht tot morgen
 	for i := range cs {
 		if cs[i].ID == chunk[0].ID {
 			cs[i].NextReview = time.Now().Add(24 * time.Hour)
+			cs[i].LastReview = time.Now()
 		}
 	}
-	next, remaining := GetNextChunk(cs, 10, Unlimited)
-	if len(next) != 1 || next[0].ID == chunk[0].ID || remaining != 0 {
-		t.Errorf("verwacht de andere richting, kreeg %v (over: %d)", ids(next), remaining)
+	if next, remaining := GetNextChunk(cs, 10, Unlimited); len(next) != 0 || remaining != 0 {
+		t.Errorf("de andere richting mag vandaag niet meer komen, kreeg %v (over: %d)", ids(next), remaining)
+	}
+
+	// Gisteren beantwoord: dan mag de andere richting vandaag wel
+	for i := range cs {
+		if cs[i].ID == chunk[0].ID {
+			cs[i].LastReview = time.Now().AddDate(0, 0, -1)
+		}
+	}
+	if next, _ := GetNextChunk(cs, 10, Unlimited); len(next) != 1 || next[0].ID == chunk[0].ID {
+		t.Errorf("verwacht de andere richting, kreeg %v", ids(next))
 	}
 }
 
@@ -305,5 +315,39 @@ func TestLoadBalancingPicksQuietestDay(t *testing.T) {
 		if got := balancedInterval(3, now, nil); got < 14 || got > 18 {
 			t.Fatalf("zonder load buiten [14, 18]: %d", got)
 		}
+	}
+}
+
+func TestNewWordsOneDirectionPerDay(t *testing.T) {
+	// 15 nieuwe woorden in beide richtingen, zoals na een import (NL->HU direct gevolgd door HU->NL)
+	cs := pairs(15, 0)
+	cands := DueCandidates(cs, time.Now(), 10)
+	if len(cands) != 10 {
+		t.Fatalf("verwacht 10 nieuwe kaarten, kreeg %d", len(cands))
+	}
+	for i, a := range cands {
+		for _, b := range cands[i+1:] {
+			if reverseOf(a, b) {
+				t.Fatalf("beide richtingen van een nieuw woord op één dag: %s en %s", a.ID, b.ID)
+			}
+		}
+	}
+	// "Nog 10" geeft dus 10 verschillende woorden, en die passen allemaal in één ronde
+	if chunk, _ := GetNextChunk(cs, 10, 10); len(chunk) != 10 {
+		t.Errorf("verwacht een ronde met 10 nieuwe woorden, kreeg %d", len(chunk))
+	}
+}
+
+func TestBuried(t *testing.T) {
+	now := time.Now()
+	cs := seen(pairs(2, 1))
+	cs[0].LastReview = now // koffie_0 NL->HU vandaag beantwoord
+	b := Buried(cs, now)
+	if !b["c_hu_nl_0"] || b["c_nl_hu_0"] || b["c_nl_hu_1"] || b["c_hu_nl_1"] {
+		t.Errorf("alleen de andere richting van woord 0 hoort te wachten, kreeg %v", b)
+	}
+	cs[0].LastReview = now.AddDate(0, 0, -1)
+	if b := Buried(cs, now); len(b) != 0 {
+		t.Errorf("een antwoord van gisteren laat niets wachten, kreeg %v", b)
 	}
 }

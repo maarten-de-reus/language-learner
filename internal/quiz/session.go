@@ -110,6 +110,9 @@ type Stats struct {
 	NewToday  int `json:"newToday"`  // vandaag voor het eerst gevraagd
 	NewPerDay int `json:"newPerDay"` // ingestelde limiet; 0 = geen limiet
 	NewLeft   int `json:"newLeft"`   // vandaag nog toegestaan, inclusief extra; -1 = geen limiet
+	// Nieuwe woorden die vandaag nog zouden kunnen komen als de limiet het toeliet (zonder de
+	// andere richting van woorden die vandaag al gevraagd zijn); bepaalt of "Nog 10" zin heeft
+	NewAvailable int `json:"newAvailable"`
 }
 
 // Session is niet veilig voor gelijktijdig gebruik; de aanroeper zorgt voor locking.
@@ -257,6 +260,7 @@ func (s *Session) Answer(input string) (*Feedback, error) {
 		if engine.IsNew(*concept) {
 			concept.FirstReview = time.Now() // uit de wachtrij: telt mee voor de daglimiet
 		}
+		concept.LastReview = time.Now() // de andere richting van dit woord wacht nu tot morgen
 		engine.UpdateProgressSmart(concept, correct, s.load(concept.ID))
 		saveErr = s.Save()
 		item.result = len(s.results)
@@ -361,31 +365,26 @@ func (s *Session) Stats() Stats {
 	st := Stats{Total: len(s.lib.Concepts), Intervals: engine.AnkiIntervals, NewPerDay: s.newPerDay}
 	st.NewLeft = s.newAllowance(now)
 	st.NewToday = s.introducedOn(engine.DayOf(now))
-	newDue := 0
 	for _, c := range s.lib.Concepts {
 		if engine.IsNew(c) {
 			// Nieuwe woorden staan in de wachtrij; ze tellen niet mee als stap of geplande herhaling
 			st.NewQueue++
-			if c.NextReview.Before(now) {
-				newDue++
-			}
 			continue
 		}
 		if c.StepIndex >= 0 && c.StepIndex < len(st.Steps) {
 			st.Steps[c.StepIndex]++
 		}
-		if c.NextReview.Before(now) {
-			st.Due++
-		} else if st.NextDue == nil || c.NextReview.Before(*st.NextDue) {
+		if !c.NextReview.Before(now) && (st.NextDue == nil || c.NextReview.Before(*st.NextDue)) {
 			t := c.NextReview
 			st.NextDue = &t
 		}
 	}
-	// Te doen vandaag: alle herhalingen plus de nieuwe woorden die vandaag nog mogen
-	if st.NewLeft == engine.Unlimited {
-		st.Due += newDue
-	} else {
-		st.Due += min(newDue, st.NewLeft)
+	// Te doen vandaag: precies wat de rondes nog kunnen geven (zelfde regels als GetNextChunk)
+	st.Due = len(engine.DueCandidates(s.lib.Concepts, now, st.NewLeft))
+	for _, c := range engine.DueCandidates(s.lib.Concepts, now, engine.Unlimited) {
+		if engine.IsNew(c) {
+			st.NewAvailable++
+		}
 	}
 	return st
 }

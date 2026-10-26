@@ -1,6 +1,9 @@
 package storage
 
-import "slices"
+import (
+	"slices"
+	"time"
+)
 
 // Library is de volledige woordenschat in het geheugen: woorden en concepten (inclusief voortgang).
 // De quiz en het beheer werken op dezelfde Library, zodat een nieuw concept meteen geoefend kan worden.
@@ -35,4 +38,22 @@ func (l *Library) Clone() *Library {
 		c.Concepts[i] = concept
 	}
 	return c
+}
+
+// BackfillLastReview vult het laatste antwoordmoment in vanuit het antwoordenlog, voor concepten
+// waar het nog ontbreekt (voortgang van voor dit veld bestond). Oefenherhalingen tellen niet mee.
+func (l *Library) BackfillLastReview(reviews []Review) (filled int) {
+	last := map[string]time.Time{}
+	for _, r := range reviews {
+		if !r.Retry && r.Time.After(last[r.ConceptID]) {
+			last[r.ConceptID] = r.Time
+		}
+	}
+	for i := range l.Concepts {
+		if t, ok := last[l.Concepts[i].ID]; ok && l.Concepts[i].LastReview.IsZero() {
+			l.Concepts[i].LastReview = t
+			filled++
+		}
+	}
+	return filled
 }
