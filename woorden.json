@@ -291,6 +291,16 @@
       "text": "nem"
     },
     {
+      "id": "w_hu_adni",
+      "language": "hu",
+      "text": "adni"
+    },
+    {
+      "id": "w_hu_akarni",
+      "language": "hu",
+      "text": "akarni"
+    },
+    {
       "id": "w_hu_alacsony",
       "language": "hu",
       "text": "alacsony"
@@ -326,6 +336,11 @@
       "text": "belváros"
     },
     {
+      "id": "w_hu_beszélgetni",
+      "language": "hu",
+      "text": "beszélgetni"
+    },
+    {
       "id": "w_hu_beszélni",
       "language": "hu",
       "text": "beszélni"
@@ -346,9 +361,19 @@
       "text": "bűvös kocka"
     },
     {
+      "id": "w_hu_csinálni",
+      "language": "hu",
+      "text": "csinálni"
+    },
+    {
       "id": "w_hu_cuki",
       "language": "hu",
       "text": "cuki"
+    },
+    {
+      "id": "w_hu_dolgozni",
+      "language": "hu",
+      "text": "dolgozni"
     },
     {
       "id": "w_hu_elegáns",
@@ -371,6 +396,11 @@
       "text": "enni"
     },
     {
+      "id": "w_hu_esni",
+      "language": "hu",
+      "text": "esni"
+    },
+    {
       "id": "w_hu_evő",
       "language": "hu",
       "text": "evő"
@@ -386,6 +416,21 @@
       "text": "fakanál"
     },
     {
+      "id": "w_hu_festeni",
+      "language": "hu",
+      "text": "festeni"
+    },
+    {
+      "id": "w_hu_fizetni",
+      "language": "hu",
+      "text": "fizetni"
+    },
+    {
+      "id": "w_hu_focizni",
+      "language": "hu",
+      "text": "focizni"
+    },
+    {
       "id": "w_hu_fodrász",
       "language": "hu",
       "text": "fodrász"
@@ -394,6 +439,16 @@
       "id": "w_hu_forró",
       "language": "hu",
       "text": "forró"
+    },
+    {
+      "id": "w_hu_futni",
+      "language": "hu",
+      "text": "futni"
+    },
+    {
+      "id": "w_hu_főzni",
+      "language": "hu",
+      "text": "főzni"
     },
     {
       "id": "w_hu_gyakran",
@@ -441,9 +496,24 @@
       "text": "kedvenc"
     },
     {
+      "id": "w_hu_kerülni",
+      "language": "hu",
+      "text": "kerülni"
+    },
+    {
       "id": "w_hu_kiskanál",
       "language": "hu",
       "text": "kiskanál"
+    },
+    {
+      "id": "w_hu_kérni",
+      "language": "hu",
+      "text": "kérni"
+    },
+    {
+      "id": "w_hu_kíváni",
+      "language": "hu",
+      "text": "kíváni"
     },
     {
       "id": "w_hu_külföld",
@@ -466,9 +536,19 @@
       "text": "külön"
     },
     {
+      "id": "w_hu_lenni",
+      "language": "hu",
+      "text": "lenni"
+    },
+    {
       "id": "w_hu_látni",
       "language": "hu",
       "text": "látni"
+    },
+    {
+      "id": "w_hu_lőni",
+      "language": "hu",
+      "text": "lőni"
     },
     {
       "id": "w_hu_madarász",
@@ -531,6 +611,16 @@
       "text": "mokkáskanál"
     },
     {
+      "id": "w_hu_mondani",
+      "language": "hu",
+      "text": "mondani"
+    },
+    {
+      "id": "w_hu_mosogatni",
+      "language": "hu",
+      "text": "mosogatni"
+    },
+    {
       "id": "w_hu_mérséklet",
       "language": "hu",
       "text": "mérséklet"
@@ -556,6 +646,16 @@
       "text": "olvasni"
     },
     {
+      "id": "w_hu_rajzolni",
+      "language": "hu",
+      "text": "rajzolni"
+    },
+    {
+      "id": "w_hu_reggelizni",
+      "language": "hu",
+      "text": "reggelizni"
+    },
+    {
       "id": "w_hu_rokonszenves",
       "language": "hu",
       "text": "rokonszenves"
@@ -576,6 +676,11 @@
       "text": "Sokszor"
     },
     {
+      "id": "w_hu_sportolni",
+      "language": "hu",
+      "text": "sportolni"
+    },
+    {
       "id": "w_hu_szedni",
       "language": "hu",
       "text": "szedni"
@@ -589,6 +694,11 @@
       "id": "w_hu_szenv",
       "language": "hu",
       "text": "szenv"
+    },
+    {
+      "id": "w_hu_szeretni",
+      "language": "hu",
+      "text": "szeretni"
     },
     {
       "id": "w_hu_szimpatikus",
@@ -611,9 +721,24 @@
       "text": "színész"
     },
     {
+      "id": "w_hu_sétálni",
+      "language": "hu",
+      "text": "sétálni"
+    },
+    {
       "id": "w_hu_sötétkék",
       "language": "hu",
       "text": "sötétkék"
+    },
+    {
+      "id": "w_hu_tajcsizni",
+      "language": "hu",
+      "text": "tajcsizni"
+    },
+    {
+      "id": "w_hu_takarítani",
+      "language": "hu",
+      "text": "takarítani"
     },
     {
       "id": "w_hu_tanulni",
@@ -624,6 +749,26 @@
       "id": "w_hu_teáskanál",
       "language": "hu",
       "text": "teáskanál"
+    },
+    {
+      "id": "w_hu_tudni",
+      "language": "hu",
+      "text": "tudni"
+    },
+    {
+      "id": "w_hu_táncolni",
+      "language": "hu",
+      "text": "táncolni"
+    },
+    {
+      "id": "w_hu_utazni",
+      "language": "hu",
+      "text": "utazni"
+    },
+    {
+      "id": "w_hu_venni",
+      "language": "hu",
+      "text": "venni"
     },
     {
       "id": "w_hu_vicc",
@@ -641,6 +786,11 @@
       "text": "világosbarna"
     },
     {
+      "id": "w_hu_várni",
+      "language": "hu",
+      "text": "várni"
+    },
+    {
       "id": "w_hu_vékony",
       "language": "hu",
       "text": "vékony"
@@ -654,6 +804,11 @@
       "id": "w_hu_zenész",
       "language": "hu",
       "text": "zenész"
+    },
+    {
+      "id": "w_hu_állni",
+      "language": "hu",
+      "text": "állni"
     },
     {
       "id": "w_hu_ápolni",
@@ -686,9 +841,34 @@
       "text": "édesem"
     },
     {
+      "id": "w_hu_élni",
+      "language": "hu",
+      "text": "élni"
+    },
+    {
+      "id": "w_hu_énekelni",
+      "language": "hu",
+      "text": "énekelni"
+    },
+    {
       "id": "w_hu_írni",
       "language": "hu",
       "text": "írni"
+    },
+    {
+      "id": "w_hu_örülni",
+      "language": "hu",
+      "text": "örülni"
+    },
+    {
+      "id": "w_hu_úzni",
+      "language": "hu",
+      "text": "úzni"
+    },
+    {
+      "id": "w_hu_ülni",
+      "language": "hu",
+      "text": "ülni"
     },
     {
       "id": "w_nl_1",
@@ -986,6 +1166,11 @@
       "text": "acteur"
     },
     {
+      "id": "w_nl_afwas_doen",
+      "language": "nl",
+      "text": "afwas doen"
+    },
+    {
       "id": "w_nl_allebei",
       "language": "nl",
       "text": "allebei"
@@ -996,9 +1181,19 @@
       "text": "apart"
     },
     {
+      "id": "w_nl_betalen",
+      "language": "nl",
+      "text": "betalen"
+    },
+    {
       "id": "w_nl_binnenstadcentrum",
       "language": "nl",
       "text": "binnenstadcentrum"
+    },
+    {
+      "id": "w_nl_blij_zijn",
+      "language": "nl",
+      "text": "blij zijn"
     },
     {
       "id": "w_nl_buitenland",
@@ -1014,6 +1209,16 @@
       "id": "w_nl_charmant",
       "language": "nl",
       "text": "charmant"
+    },
+    {
+      "id": "w_nl_dansen",
+      "language": "nl",
+      "text": "dansen"
+    },
+    {
+      "id": "w_nl_doen_/_maken",
+      "language": "nl",
+      "text": "doen / maken"
     },
     {
       "id": "w_nl_donkerblauw",
@@ -1044,6 +1249,11 @@
       "id": "w_nl_favoriet",
       "language": "nl",
       "text": "favoriet"
+    },
+    {
+      "id": "w_nl_geven",
+      "language": "nl",
+      "text": "geven"
     },
     {
       "id": "w_nl_gevoel",
@@ -1126,6 +1336,11 @@
       "text": "ziet"
     },
     {
+      "id": "w_nl_houden_van",
+      "language": "nl",
+      "text": "houden van"
+    },
+    {
       "id": "w_nl_houten_lepel",
       "language": "nl",
       "text": "houten lepel"
@@ -1146,9 +1361,24 @@
       "text": "kapper"
     },
     {
+      "id": "w_nl_kletsen",
+      "language": "nl",
+      "text": "kletsen"
+    },
+    {
       "id": "w_nl_kleurrijk",
       "language": "nl",
       "text": "kleurrijk"
+    },
+    {
+      "id": "w_nl_koken",
+      "language": "nl",
+      "text": "koken"
+    },
+    {
+      "id": "w_nl_kopen",
+      "language": "nl",
+      "text": "kopen"
     },
     {
       "id": "w_nl_korthoriyontaal",
@@ -1159,6 +1389,16 @@
       "id": "w_nl_kortlaag",
       "language": "nl",
       "text": "kortlaag"
+    },
+    {
+      "id": "w_nl_kosten_/_ontwijken",
+      "language": "nl",
+      "text": "kosten / ontwijken"
+    },
+    {
+      "id": "w_nl_kunnen_/_weten",
+      "language": "nl",
+      "text": "kunnen / weten"
     },
     {
       "id": "w_nl_kunstenaar",
@@ -1176,6 +1416,11 @@
       "text": "langverticaal"
     },
     {
+      "id": "w_nl_leven",
+      "language": "nl",
+      "text": "leven"
+    },
+    {
       "id": "w_nl_lichtbruin",
       "language": "nl",
       "text": "lichtbruin"
@@ -1184,6 +1429,11 @@
       "id": "w_nl_lieverd",
       "language": "nl",
       "text": "lieverd"
+    },
+    {
+      "id": "w_nl_lopen_/_wandelen",
+      "language": "nl",
+      "text": "lopen / wandelen"
     },
     {
       "id": "w_nl_maand",
@@ -1231,9 +1481,19 @@
       "text": "onplezant"
     },
     {
+      "id": "w_nl_ontbijten",
+      "language": "nl",
+      "text": "ontbijten"
+    },
+    {
       "id": "w_nl_onvriendelijk",
       "language": "nl",
       "text": "onvriendelijk"
+    },
+    {
+      "id": "w_nl_opruimen_/_schoonmaken",
+      "language": "nl",
+      "text": "opruimen / schoonmaken"
     },
     {
       "id": "w_nl_opscheplepel",
@@ -1256,6 +1516,16 @@
       "text": "regelmatig"
     },
     {
+      "id": "w_nl_reizen",
+      "language": "nl",
+      "text": "reizen"
+    },
+    {
+      "id": "w_nl_rennen",
+      "language": "nl",
+      "text": "rennen"
+    },
+    {
       "id": "w_nl_schattig",
       "language": "nl",
       "text": "schattig"
@@ -1264,6 +1534,16 @@
       "id": "w_nl_scheppen",
       "language": "nl",
       "text": "scheppen"
+    },
+    {
+      "id": "w_nl_schieten",
+      "language": "nl",
+      "text": "schieten"
+    },
+    {
+      "id": "w_nl_schilderen",
+      "language": "nl",
+      "text": "schilderen"
     },
     {
       "id": "w_nl_soeplepel",
@@ -1276,14 +1556,34 @@
       "text": "soms"
     },
     {
+      "id": "w_nl_sporten",
+      "language": "nl",
+      "text": "sporten"
+    },
+    {
+      "id": "w_nl_staan",
+      "language": "nl",
+      "text": "staan"
+    },
+    {
       "id": "w_nl_symphatiek",
       "language": "nl",
       "text": "symphatiek"
     },
     {
+      "id": "w_nl_tai–csi_doen",
+      "language": "nl",
+      "text": "tai–csi doen"
+    },
+    {
       "id": "w_nl_tegen",
       "language": "nl",
       "text": "tegen"
+    },
+    {
+      "id": "w_nl_tekenen",
+      "language": "nl",
+      "text": "tekenen"
     },
     {
       "id": "w_nl_temperatuur",
@@ -1316,6 +1616,11 @@
       "text": "vaak"
     },
     {
+      "id": "w_nl_vallen",
+      "language": "nl",
+      "text": "vallen"
+    },
+    {
       "id": "w_nl_verpleegster",
       "language": "nl",
       "text": "verpleegster"
@@ -1336,6 +1641,11 @@
       "text": "verzorgen"
     },
     {
+      "id": "w_nl_voetballen",
+      "language": "nl",
+      "text": "voetballen"
+    },
+    {
       "id": "w_nl_vogel",
       "language": "nl",
       "text": "vogel"
@@ -1344,6 +1654,16 @@
       "id": "w_nl_vogelaar",
       "language": "nl",
       "text": "vogelaar"
+    },
+    {
+      "id": "w_nl_vragen",
+      "language": "nl",
+      "text": "vragen"
+    },
+    {
+      "id": "w_nl_wachten",
+      "language": "nl",
+      "text": "wachten"
     },
     {
       "id": "w_nl_warm",
@@ -1371,9 +1691,49 @@
       "text": "welke"
     },
     {
+      "id": "w_nl_wensen",
+      "language": "nl",
+      "text": "wensen"
+    },
+    {
+      "id": "w_nl_werken",
+      "language": "nl",
+      "text": "werken"
+    },
+    {
+      "id": "w_nl_willen",
+      "language": "nl",
+      "text": "willen"
+    },
+    {
+      "id": "w_nl_zeggen",
+      "language": "nl",
+      "text": "zeggen"
+    },
+    {
+      "id": "w_nl_zijn",
+      "language": "nl",
+      "text": "zijn"
+    },
+    {
+      "id": "w_nl_zingen",
+      "language": "nl",
+      "text": "zingen"
+    },
+    {
+      "id": "w_nl_zitten",
+      "language": "nl",
+      "text": "zitten"
+    },
+    {
       "id": "w_nl_zoet",
       "language": "nl",
       "text": "zoet"
+    },
+    {
+      "id": "w_nl_zwemmen",
+      "language": "nl",
+      "text": "zwemmen"
     }
   ],
   "concepts": [
@@ -4283,6 +4643,798 @@
       ],
       "groups": [
         "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_zijn_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_zijn",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_lenni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_lenni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_lenni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_zijn"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_kletsen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_kletsen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_beszélgetni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_beszélgetni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_beszélgetni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_kletsen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_werken_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_werken",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_dolgozni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_dolgozni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_dolgozni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_werken"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_doen_/_maken_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_doen_/_maken",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_csinálni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_csinálni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_csinálni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_doen_/_maken"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_zingen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_zingen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_énekelni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_énekelni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_énekelni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_zingen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_betalen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_betalen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_fizetni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_fizetni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_fizetni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_betalen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_zeggen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_zeggen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_mondani"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_mondani_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_mondani",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_zeggen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_leven_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_leven",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_élni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_élni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_élni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_leven"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_sporten_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_sporten",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_sportolni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_sportolni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_sportolni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_sporten"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_tai–csi_doen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_tai–csi_doen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_tajcsizni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_tajcsizni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_tajcsizni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_tai–csi_doen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_kunnen_/_weten_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_kunnen_/_weten",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_tudni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_tudni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_tudni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_kunnen_/_weten"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_dansen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_dansen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_táncolni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_táncolni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_táncolni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_dansen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_houden_van_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_houden_van",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_szeretni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_szeretni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_szeretni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_houden_van"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_lopen_/_wandelen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_lopen_/_wandelen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_sétálni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_sétálni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_sétálni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_lopen_/_wandelen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_rennen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_rennen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_futni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_futni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_futni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_rennen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_geven_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_geven",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_adni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_adni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_adni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_geven"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_willen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_willen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_akarni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_akarni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_akarni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_willen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_kopen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_kopen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_venni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_venni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_venni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_kopen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_schieten_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_schieten",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_lőni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_lőni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_lőni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_schieten"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_blij_zijn_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_blij_zijn",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_örülni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_örülni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_örülni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_blij_zijn"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_reizen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_reizen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_utazni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_utazni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_utazni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_reizen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_schilderen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_schilderen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_festeni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_festeni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_festeni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_schilderen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_tekenen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_tekenen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_rajzolni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_rajzolni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_rajzolni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_tekenen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_zwemmen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_zwemmen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_úzni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_úzni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_úzni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_zwemmen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_afwas_doen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_afwas_doen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_mosogatni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_mosogatni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_mosogatni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_afwas_doen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_opruimen_/_schoonmaken_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_opruimen_/_schoonmaken",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_takarítani"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_takarítani_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_takarítani",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_opruimen_/_schoonmaken"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_voetballen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_voetballen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_focizni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_focizni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_focizni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_voetballen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_vragen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_vragen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_kérni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_kérni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_kérni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_vragen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_koken_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_koken",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_főzni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_főzni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_főzni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_koken"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_wachten_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_wachten",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_várni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_várni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_várni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_wachten"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_zitten_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_zitten",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_ülni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_ülni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_ülni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_zitten"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_staan_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_staan",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_állni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_állni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_állni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_staan"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_kosten_/_ontwijken_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_kosten_/_ontwijken",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_kerülni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_kerülni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_kerülni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_kosten_/_ontwijken"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_ontbijten_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_ontbijten",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_reggelizni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_reggelizni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_reggelizni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_ontbijten"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_wensen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_wensen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_kíváni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_kíváni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_kíváni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_wensen"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_vallen_werkwoord_-_infinitief",
+      "source_word_id": "w_nl_vallen",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_hu_esni"
+      ],
+      "groups": [
+        "werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_esni_werkwoord_-_infinitief",
+      "source_word_id": "w_hu_esni",
+      "context_source": "werkwoord - infinitief",
+      "target_word_ids": [
+        "w_nl_vallen"
+      ],
+      "groups": [
+        "werkwoorden"
       ]
     }
   ]
