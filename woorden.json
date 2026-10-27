@@ -321,6 +321,11 @@
       "text": "aranyos"
     },
     {
+      "id": "w_hu_az",
+      "language": "hu",
+      "text": "az"
+    },
+    {
       "id": "w_hu_barátságtalan",
       "language": "hu",
       "text": "barátságtalan"
@@ -509,6 +514,11 @@
       "id": "w_hu_kérni",
       "language": "hu",
       "text": "kérni"
+    },
+    {
+      "id": "w_hu_két",
+      "language": "hu",
+      "text": "két"
     },
     {
       "id": "w_hu_kíváni",
@@ -854,6 +864,11 @@
       "id": "w_hu_írni",
       "language": "hu",
       "text": "írni"
+    },
+    {
+      "id": "w_hu_öreg",
+      "language": "hu",
+      "text": "öreg"
     },
     {
       "id": "w_hu_örülni",
@@ -1229,6 +1244,16 @@
       "id": "w_nl_dansen",
       "language": "nl",
       "text": "dansen"
+    },
+    {
+      "id": "w_nl_dat",
+      "language": "nl",
+      "text": "dat"
+    },
+    {
+      "id": "w_nl_die",
+      "language": "nl",
+      "text": "die"
     },
     {
       "id": "w_nl_doen_/_maken",
@@ -1971,7 +1996,7 @@
     {
       "id": "c_18",
       "source_word_id": "w_nl_17",
-      "context_source": "Getal",
+      "context_source": "Getal · los",
       "target_word_ids": [
         "w_hu_17"
       ],
@@ -3325,7 +3350,7 @@
     {
       "id": "c_nl_hu_oud",
       "source_word_id": "w_nl_55",
-      "context_source": "",
+      "context_source": "dingen",
       "target_word_ids": [
         "w_hu_55"
       ],
@@ -5775,6 +5800,90 @@
       ],
       "groups": [
         "Werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_twee_getal_·_voor_een_zelfstandig_naamwoord",
+      "source_word_id": "w_nl_17",
+      "context_source": "Getal · voor een zelfstandig naamwoord",
+      "target_word_ids": [
+        "w_hu_két"
+      ],
+      "example": "Két kávét kérek.",
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
+    },
+    {
+      "id": "c_hu_nl_két_getal",
+      "source_word_id": "w_hu_két",
+      "context_source": "Getal",
+      "target_word_ids": [
+        "w_nl_17"
+      ],
+      "example": "Két kávét kérek.",
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
+    },
+    {
+      "id": "c_nl_hu_oud_mensen,_dieren",
+      "source_word_id": "w_nl_55",
+      "context_source": "mensen, dieren",
+      "target_word_ids": [
+        "w_hu_öreg"
+      ],
+      "example": "Az öreg ember a padon ül.",
+      "example_lang": "hu"
+    },
+    {
+      "id": "c_hu_nl_öreg",
+      "source_word_id": "w_hu_öreg",
+      "context_source": "",
+      "target_word_ids": [
+        "w_nl_55"
+      ],
+      "example": "Az öreg ember a padon ül.",
+      "example_lang": "hu"
+    },
+    {
+      "id": "c_nl_hu_dat_aanwijzend",
+      "source_word_id": "w_nl_dat",
+      "context_source": "aanwijzend",
+      "target_word_ids": [
+        "w_hu_az"
+      ],
+      "example": "Az a ház nagyon szép.",
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_az_aanwijzend",
+      "source_word_id": "w_hu_az",
+      "context_source": "aanwijzend",
+      "target_word_ids": [
+        "w_nl_dat",
+        "w_nl_die"
+      ],
+      "example": "Az a ház nagyon szép.",
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_kort_verticaal",
+      "source_word_id": "w_nl_kort",
+      "context_source": "verticaal",
+      "target_word_ids": [
+        "w_hu_alacsony"
+      ],
+      "groups": [
+        "Magyar Óra 2.5"
       ]
     }
   ]
