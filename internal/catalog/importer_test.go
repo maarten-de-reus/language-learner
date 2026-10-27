@@ -193,3 +193,21 @@ func TestImportNewMeaningWithInlineHints(t *testing.T) {
 		t.Errorf("verwacht schattig (spreektaal) -> cuki, kreeg %v", cuki)
 	}
 }
+
+func TestImportReportsSynonymCards(t *testing.T) {
+	lib := newLib()
+	add(t, lib, "tijd", "klok", "idő")
+	results, ok := Import(lib, ParseImport("pad,kanapé;bank;meubel\nóra,idő;uur"), nil, nil)
+	if !ok {
+		t.Fatalf("import mislukt: %+v", results)
+	}
+	if r := results[0]; !slices.Equal(r.ExtraReverse, []string{"kanapé"}) || r.SkippedReverse != nil {
+		t.Errorf("regel 1: verwacht een kaart voor kanapé, kreeg %+v", r)
+	}
+	if r := results[1]; r.ExtraReverse != nil || !slices.Equal(r.SkippedReverse, []string{"idő"}) {
+		t.Errorf("regel 2: idő heeft al een andere betekenis, kreeg %+v", r)
+	}
+	if len(ReverseCandidates(lib, "kanapé")) != 1 {
+		t.Error("kanapé -> bank moet bestaan")
+	}
+}

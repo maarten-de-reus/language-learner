@@ -63,6 +63,10 @@ function importRowHTML(r) {
         <div>${words}</div>
         ${r.example ? `<div class="imp-example" lang="hu">“${esc(r.example)}”</div>` : ""}
         ${r.message && r.status !== "added" ? `<div class="imp-msg">${esc(r.message)}</div>` : ""}
+        ${r.extraReverse?.length ? `<div class="imp-extra">Ook als vraag: ${r.extraReverse.map((h) => `<b lang="hu">${esc(h)}</b> → ${esc(r.dutch)}`).join(", ")}</div>` : ""}
+        ${r.skippedReverse?.length ? `<div class="imp-msg">${r.skippedReverse.map((h) => `<b lang="hu">${esc(h)}</b>`).join(", ")}
+          ${r.skippedReverse.length === 1 ? "heeft" : "hebben"} al een andere betekenis, dus er komt geen kaart
+          ${r.skippedReverse.map((h) => `${esc(h)} → ${esc(r.dutch)}`).join(", ")}. Betekent het hier hetzelfde, voeg die dan na de import zelf toe.</div>` : ""}
         ${r.forwardCandidates?.length ? forwardChoiceHTML(r) : ""}
         ${r.candidates?.length || imp.choices[r.no]?.reverse ? importChoiceHTML(r) : ""}
       </div>

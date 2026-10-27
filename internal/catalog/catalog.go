@@ -44,9 +44,14 @@ type NewPair struct {
 
 // AddResult beschrijft wat AddPair heeft gedaan, voor de melding aan de gebruiker
 type AddResult struct {
-	Extended      bool   // true als de Hongaarse woorden aan een bestaand NL->HU concept zijn toegevoegd
-	ReverseSource string // Hongaars woord dat de bron is van het HU->NL concept
-	ReverseMerged bool   // true als het NL-woord aan een bestaand HU->NL concept is toegevoegd
+	Extended      bool   `json:"extended"`      // true als de Hongaarse woorden aan een bestaand NL->HU concept zijn toegevoegd
+	ReverseSource string `json:"reverseSource"` // Hongaars woord dat de bron is van het HU->NL concept
+	ReverseMerged bool   `json:"reverseMerged"` // true als het NL-woord aan een bestaand HU->NL concept is toegevoegd
+	// De andere Hongaarse woorden (synoniemen, zoals kanapé bij pad,kanapé -> bank) krijgen ook een
+	// eigen HU->NL concept. Een woord dat al een andere betekenis heeft wordt overgeslagen: of het
+	// dezelfde betekenis is, kan alleen jij kiezen.
+	ExtraReverse   []string `json:"extraReverse,omitempty"`
+	SkippedReverse []string `json:"skippedReverse,omitempty"`
 }
 
 // ParseInput schoont de invoer op; meerdere Hongaarse vertalingen worden gescheiden door komma's
@@ -111,6 +116,34 @@ func ReverseSourceFor(lib *storage.Library, nc NewPair) string {
 		}
 	}
 	return nc.Hungarian[0]
+}
+
+// ExtraReverses verdeelt de nieuwe Hongaarse antwoorden naast ReverseSourceFor: create krijgt een
+// eigen HU->NL concept, skip bestaat al met een andere betekenis. Een woord dat al een HU->NL
+// concept met dit Nederlandse woord als antwoord heeft, hoeft niets.
+func ExtraReverses(lib *storage.Library, nc NewPair) (create, skip []string) {
+	fresh := nc.Hungarian
+	if i := lib.Index(nc.ExtendForward); i >= 0 {
+		fresh = newAnswers(lib, lib.Concepts[i], nc.Hungarian)
+	}
+	primary := ReverseSourceFor(lib, nc)
+	seen := map[string]bool{strings.ToLower(primary): true}
+	for _, hu := range fresh {
+		if seen[strings.ToLower(hu)] {
+			continue
+		}
+		seen[strings.ToLower(hu)] = true
+		cands := ReverseCandidates(lib, hu)
+		switch {
+		case len(cands) == 0:
+			create = append(create, hu)
+		case !slices.ContainsFunc(cands, func(i int) bool {
+			return slices.ContainsFunc(TargetTexts(lib, lib.Concepts[i]), func(t string) bool { return strings.EqualFold(t, nc.Dutch) })
+		}):
+			skip = append(skip, hu)
+		}
+	}
+	return create, skip
 }
 
 // ReverseCandidates geeft de bestaande HU->NL concepten met dit Hongaarse woord als bron
@@ -209,6 +242,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 	} else if ReverseHintTaken(lib, nc, nc.ReverseContext) {
 		return res, ErrReverseAmbiguous
 	}
+	res.ExtraReverse, res.SkippedReverse = ExtraReverses(lib, nc)
 	now := time.Now()
 
 	// --- VERWERK DE WOORDEN IN DE POOL (bestaande woorden worden hergebruikt) ---
@@ -265,27 +299,45 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 			merged.Example, merged.ExampleLang = nc.Example, exampleLang(nc.Example)
 		}
 		addGroups(merged, groups)
-		return res, nil
-	}
-	for id, hint := range nc.ExistingHints {
-		if i := lib.Index(id); i >= 0 {
-			lib.Concepts[i].ContextSource = strings.TrimSpace(hint)
+	} else {
+		for id, hint := range nc.ExistingHints {
+			if i := lib.Index(id); i >= 0 {
+				lib.Concepts[i].ContextSource = strings.TrimSpace(hint)
+			}
 		}
+		base := "c_hu_nl_" + safeID(res.ReverseSource)
+		if nc.ReverseContext != "" {
+			base += "_" + safeID(nc.ReverseContext)
+		}
+		lib.Concepts = append(lib.Concepts, storage.TranslationConcept{
+			ID:            uniqueConceptID(lib, base),
+			SourceWordID:  reverseSourceID,
+			ContextSource: strings.TrimSpace(nc.ReverseContext),
+			TargetWordIDs: []string{dutchID},
+			Example:       nc.Example,
+			ExampleLang:   exampleLang(nc.Example),
+			Groups:        slices.Clone(groups),
+			NextReview:    now,
+		})
 	}
-	base := "c_hu_nl_" + safeID(res.ReverseSource)
-	if nc.ReverseContext != "" {
-		base += "_" + safeID(nc.ReverseContext)
+
+	// --- SYNONIEMEN: elk ander nieuw Hongaars woord ook als vraag (kanapé -> bank) ---
+	// Zonder voorbeeldzin: die gaat over het eerste woord en zou bij een synoniem verwarren
+	for _, hu := range res.ExtraReverse {
+		base := "c_hu_nl_" + safeID(hu)
+		if nc.ReverseContext != "" {
+			base += "_" + safeID(nc.ReverseContext)
+		}
+		lib.Concepts = append(lib.Concepts, storage.TranslationConcept{
+			ID:            uniqueConceptID(lib, base),
+			SourceWordID:  ensureWord(words, "hu", hu),
+			ContextSource: strings.TrimSpace(nc.ReverseContext),
+			TargetWordIDs: []string{dutchID},
+			Groups:        slices.Clone(groups),
+			NextReview:    now,
+		})
 	}
-	lib.Concepts = append(lib.Concepts, storage.TranslationConcept{
-		ID:            uniqueConceptID(lib, base),
-		SourceWordID:  reverseSourceID,
-		ContextSource: strings.TrimSpace(nc.ReverseContext),
-		TargetWordIDs: []string{dutchID},
-		Example:       nc.Example,
-		ExampleLang:   exampleLang(nc.Example),
-		Groups:        slices.Clone(groups),
-		NextReview:    now,
-	})
+
 	return res, nil
 }
 

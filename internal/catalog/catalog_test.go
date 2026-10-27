@@ -41,8 +41,8 @@ func TestAddPairCreatesBothDirections(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(lib.Concepts) != 2 {
-		t.Fatalf("verwacht 2 concepten, kreeg %d", len(lib.Concepts))
+	if len(lib.Concepts) != 3 {
+		t.Fatalf("verwacht 3 concepten (bank -> pad, kanapé; pad -> bank; kanapé -> bank), kreeg %d", len(lib.Concepts))
 	}
 	if got := lib.Concepts[0].TargetWordIDs; !slices.Equal(got, []string{"w_hu_pad", "w_hu_kanapé"}) {
 		t.Errorf("NL->HU targets: %v", got)
@@ -53,6 +53,12 @@ func TestAddPairCreatesBothDirections(t *testing.T) {
 	}
 	if res.ReverseMerged {
 		t.Error("ReverseMerged zou false moeten zijn")
+	}
+	if syn := lib.Concepts[2]; syn.SourceWordID != "w_hu_kanapé" || syn.ContextSource != "Meubel" || !slices.Equal(syn.TargetWordIDs, []string{"w_nl_bank"}) {
+		t.Errorf("synoniem kanapé moet een eigen HU->NL concept met dezelfde hint krijgen: %+v", syn)
+	}
+	if !slices.Equal(res.ExtraReverse, []string{"kanapé"}) || res.SkippedReverse != nil {
+		t.Errorf("resultaat synoniemen: %+v", res)
 	}
 	for _, c := range lib.Concepts {
 		if time.Since(c.NextReview) > time.Minute || c.NextReview.After(time.Now()) {
@@ -539,5 +545,50 @@ func TestUpdateKeepsExistingAnswerWords(t *testing.T) {
 	got := lib.Concepts[0].TargetWordIDs
 	if len(got) != 2 || got[0] != "w_nl_15" || lib.Words[got[1]].Text != "ze" {
 		t.Errorf("bestaand antwoord moet w_nl_15 blijven en 'ze' moet erbij komen, kreeg %v", got)
+	}
+}
+
+func TestSynonymsGetTheirOwnReverse(t *testing.T) {
+	lib := newLib()
+	add(t, lib, "bank", "meubel", "pad")
+	add(t, lib, "hallo", "", "szia")
+	add(t, lib, "hoi", "", "szia", func(nc *NewPair) { nc.MergeReverseInto = lib.Concepts[3].ID })
+	add(t, lib, "tijd", "klok", "idő")
+	reverseOf := func(hu string) []string {
+		var out []string
+		for _, i := range ReverseCandidates(lib, hu) {
+			out = append(out, TargetTexts(lib, lib.Concepts[i])...)
+		}
+		return out
+	}
+
+	// Bestaande betekenis aanvullen: alleen de nieuwe synoniemen krijgen een kaart, met de hint van die betekenis
+	res, err := add(t, lib, "bank", "", "pad, kanapé, dívány", func(nc *NewPair) { nc.ExtendForward = lib.Concepts[0].ID })
+	if err != nil {
+		t.Fatal(err)
+	}
+	if res.ReverseSource != "kanapé" || !slices.Equal(res.ExtraReverse, []string{"dívány"}) {
+		t.Errorf("aanvullen: %+v", res)
+	}
+	if i := ReverseCandidates(lib, "dívány"); len(i) != 1 || lib.Concepts[i[0]].ContextSource != "meubel" {
+		t.Errorf("dívány -> bank moet de hint 'meubel' krijgen")
+	}
+
+	// Een synoniem met een andere betekenis wordt overgeslagen (idő -> tijd); een synoniem dat dit
+	// Nederlandse woord al als antwoord heeft hoeft niets (szia -> hallo, hoi). NL hoi -> szia halen
+	// we weg, zodat hoi als nieuw Nederlands woord binnenkomt.
+	lib.Concepts = slices.DeleteFunc(lib.Concepts, func(c storage.TranslationConcept) bool { return c.ID == lib.Concepts[4].ID })
+	res, err = add(t, lib, "hoi", "", "helló, idő, szia")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if res.ReverseSource != "helló" || !slices.Equal(res.SkippedReverse, []string{"idő"}) || res.ExtraReverse != nil {
+		t.Errorf("verwacht idő overgeslagen en niets voor szia: %+v", res)
+	}
+	if got := reverseOf("idő"); !slices.Equal(got, []string{"tijd"}) {
+		t.Errorf("idő mag niet veranderen, kreeg %v", got)
+	}
+	if got := reverseOf("szia"); !slices.Equal(got, []string{"hallo", "hoi"}) {
+		t.Errorf("szia mag niet veranderen, kreeg %v", got)
 	}
 }

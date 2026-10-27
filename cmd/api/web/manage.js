@@ -51,7 +51,7 @@ function toast(msg) {
   toastEl.textContent = msg;
   toastEl.hidden = false;
   clearTimeout(toast.timer);
-  toast.timer = setTimeout(() => (toastEl.hidden = true), 2600);
+  toast.timer = setTimeout(() => (toastEl.hidden = true), Math.max(2600, msg.length * 60)); // langere tekst blijft langer staan
 }
 
 // ---------- Zoeken & filteren ----------
@@ -468,13 +468,24 @@ async function submitNew(form) {
     flash(view.entries.filter((e) =>
       (fold(e.prompt) === fold(req.dutch) && e.answers.some((a) => hu.some((h) => fold(h) === fold(a)))) ||
       (hu.some((h) => fold(h) === fold(e.prompt)) && e.answers.some((a) => fold(a) === fold(req.dutch)))).map((e) => e.id));
-    toast(req.extendForward
+    toast((req.extendForward
       ? `${hu.join(", ")} toegevoegd als extra goed antwoord bij “${req.dutch.trim()}”`
-      : `“${req.dutch.trim()}” toegevoegd; het komt via de wachtrij binnen`);
+      : `“${req.dutch.trim()}” toegevoegd; het komt via de wachtrij binnen`) + synonymNote(res.added, req.dutch.trim()));
     refreshStats();
   } catch (err) {
     showError(form, err.message);
   }
+}
+
+// synonymNote vertelt welke Hongaarse synoniemen een eigen kaart kregen, en welke niet omdat ze
+// al een andere betekenis hebben (daar kies je zelf of het dezelfde betekenis is)
+function synonymNote(added, dutch) {
+  const extra = added?.extraReverse ?? [];
+  const skipped = added?.skippedReverse ?? [];
+  let note = "";
+  if (extra.length) note += `. Ook als vraag: ${extra.map((h) => `${h} → ${dutch}`).join(", ")}`;
+  if (skipped.length) note += `. ${skipped.join(", ")} ${skipped.length === 1 ? "heeft" : "hebben"} al een andere betekenis; voeg ${skipped.map((h) => `${h} → ${dutch}`).join(", ")} zelf toe als het hetzelfde betekent`;
+  return note;
 }
 
 // De keuzes als een woord al bestaat: eerst het Nederlandse woord (aanvullen of nieuwe betekenis),

@@ -95,6 +95,9 @@ type ImportResult struct {
 	Candidates        []Entry `json:"candidates,omitempty"`        // bij een keuze voor het Hongaarse woord: de bestaande HU->NL betekenissen
 	ForwardCandidates []Entry `json:"forwardCandidates,omitempty"` // bij een keuze voor het Nederlandse woord: de bestaande NL->HU betekenissen
 	Reverse           string  `json:"reverse,omitempty"`           // het Hongaarse woord waar de keuze over gaat
+	// Synoniemen op de regel: wie een eigen HU->NL kaart krijgt, en wie al een andere betekenis heeft
+	ExtraReverse   []string `json:"extraReverse,omitempty"`
+	SkippedReverse []string `json:"skippedReverse,omitempty"`
 }
 
 // Import voegt de regels in volgorde toe aan lib. Elke regel ziet de regels erboven, zodat
@@ -177,9 +180,11 @@ func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportCho
 		}
 	}
 
-	if _, err := AddPair(lib, nc); err != nil {
+	added, err := AddPair(lib, nc)
+	if err != nil {
 		return fail(StatusError, err.Error())
 	}
+	res.ExtraReverse, res.SkippedReverse = added.ExtraReverse, added.SkippedReverse
 	res.Status = StatusAdded
 	return res
 }

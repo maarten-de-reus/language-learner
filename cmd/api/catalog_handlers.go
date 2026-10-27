@@ -34,7 +34,8 @@ type checkResponse struct {
 }
 
 type entriesResponse struct {
-	Entries []catalog.Entry `json:"entries"`
+	Entries []catalog.Entry    `json:"entries"`
+	Added   *catalog.AddResult `json:"added,omitempty"` // na toevoegen: wat er precies is aangemaakt
 }
 
 func (s *server) handleListGroups(w http.ResponseWriter, r *http.Request) {
@@ -46,7 +47,7 @@ func (s *server) handleListGroups(w http.ResponseWriter, r *http.Request) {
 func (s *server) handleListConcepts(w http.ResponseWriter, r *http.Request) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	writeJSON(w, http.StatusOK, entriesResponse{s.entries()})
+	writeJSON(w, http.StatusOK, entriesResponse{Entries: s.entries()})
 }
 
 func (s *server) handleCheckConcept(w http.ResponseWriter, r *http.Request) {
@@ -108,10 +109,11 @@ func (s *server) handleAddConcept(w http.ResponseWriter, r *http.Request) {
 		nc.ReverseContext = *req.ReverseContext
 	}
 
-	s.mutate(w, http.StatusCreated, func() error {
-		_, err := catalog.AddPair(s.lib, nc)
+	var added catalog.AddResult
+	s.mutate(w, http.StatusCreated, func() (err error) {
+		added, err = catalog.AddPair(s.lib, nc)
 		return err
-	})
+	}, func(resp *entriesResponse) { resp.Added = &added })
 }
 
 func (s *server) handleUpdateConcept(w http.ResponseWriter, r *http.Request) {
@@ -130,7 +132,7 @@ func (s *server) handleDeleteConcept(w http.ResponseWriter, r *http.Request) {
 	s.mutate(w, http.StatusOK, func() (err error) {
 		res, err = catalog.Delete(s.lib, r.PathValue("id"), withReverse)
 		return err
-	}, func() {
+	}, func(*entriesResponse) {
 		// Pas na een geslaagde save: verwijderde concepten uit de lopende run halen
 		// en de voortgang opschonen (voortgang.json bevat dan geen verwijderde concepten meer)
 		s.session.Forget(res.Deleted...)
@@ -142,8 +144,8 @@ func (s *server) handleDeleteConcept(w http.ResponseWriter, r *http.Request) {
 
 // mutate voert een wijziging uit en slaat woorden.json op. Mislukt een van beide,
 // dan wordt de woordenschat in het geheugen teruggezet, zodat geheugen en bestand gelijk blijven.
-// onSaved draait alleen als de wijziging is opgeslagen.
-func (s *server) mutate(w http.ResponseWriter, okStatus int, change func() error, onSaved ...func()) {
+// onSaved draait alleen als de wijziging is opgeslagen, en kan iets aan het antwoord toevoegen.
+func (s *server) mutate(w http.ResponseWriter, okStatus int, change func() error, onSaved ...func(*entriesResponse)) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -159,10 +161,12 @@ func (s *server) mutate(w http.ResponseWriter, okStatus int, change func() error
 		writeError(w, http.StatusInternalServerError, errors.New("woorden konden niet worden opgeslagen: "+err.Error()))
 		return
 	}
+	var resp entriesResponse
 	for _, f := range onSaved {
-		f()
+		f(&resp)
 	}
-	writeJSON(w, okStatus, entriesResponse{s.entries()})
+	resp.Entries = s.entries()
+	writeJSON(w, okStatus, resp)
 }
 
 func statusFor(err error) int {
