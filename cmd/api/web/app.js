@@ -18,6 +18,7 @@ const esc = (s) =>
   String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
 // Een herhaaldag begint om 04:00, net als op de server (engine.DayStartHour)
+const EXTRA_NEW = 10; // zoveel nieuwe woorden geeft de knop "Nog … nieuwe woorden" (ExtraNewWords in main.go)
 const DAY_START_HOUR = 4;
 
 // relative toont wanneer een herhaling is, in herhaaldagen: "morgen", "over 3 dagen".
@@ -257,14 +258,24 @@ function retryNote(r) {
 function renderDone() {
   const { results, stats } = state;
   const nextDue = stats.nextDue ? `De volgende herhaling is ${esc(relative(stats.nextDue))}.` : "";
-  // Daglimiet voor nieuwe woorden bereikt, maar er staan er nog in de wachtrij: zelf meer doen kan altijd
+  // Daglimiet voor nieuwe woorden bereikt, maar er staan er nog in de wachtrij: zelf meer doen kan altijd.
+  // Niet alles in de wachtrij kan vandaag: van een woord waarvan je vandaag al een richting had,
+  // wacht de andere richting tot morgen. Tel dus apart wat nu kan en wat later komt.
   const canAddNew = stats.due === 0 && stats.newLeft === 0 && stats.newAvailable > 0;
-  const queueNote = canAddNew
-    ? `<p class="queue-note">Je hebt vandaag ${stats.newToday} nieuwe ${stats.newToday === 1 ? "woord" : "woorden"} geleerd.
-        Er ${stats.newQueue === 1 ? "staat" : "staan"} nog <b>${stats.newQueue}</b> in de wachtrij.</p>`
+  const now = canAddNew ? stats.newAvailable : 0;
+  const later = stats.newQueue - now;
+  const extra = Math.min(EXTRA_NEW, now);
+  const parts = [];
+  if (now) parts.push(stats.newToday
+    ? `Je kunt er nu nog <b>${now}</b> doen.`
+    : `Je kunt nu <b>${now}</b> ${now === 1 ? "nieuw woord" : "nieuwe woorden"} leren.`);
+  if (later) parts.push(`${now ? "De andere" : "Nog"} <b>${later}</b> ${later === 1 ? "komt" : "komen"} vanaf morgen${
+    stats.newPerDay ? `, ${stats.newPerDay} per dag` : ""}.`);
+  const queueNote = stats.due === 0 && stats.newQueue > 0
+    ? `<p class="queue-note">${stats.newToday ? `Je hebt vandaag ${stats.newToday} nieuwe ${stats.newToday === 1 ? "woord" : "woorden"} geleerd. ` : ""}${parts.join(" ")}</p>`
     : "";
   const extraButton = canAddNew
-    ? `<button class="btn" id="extra-new" type="button">Nog 10 nieuwe woorden</button>`
+    ? `<button class="btn" id="extra-new" type="button">Nog ${extra} ${extra === 1 ? "nieuw woord" : "nieuwe woorden"}</button>`
     : "";
 
   if (!results || results.length === 0) {
