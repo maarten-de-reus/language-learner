@@ -207,3 +207,30 @@ func TestDirectionsSplitNewFromReview(t *testing.T) {
 		t.Errorf("richtingen:\n kreeg   %+v\n verwacht %+v", got, want)
 	}
 }
+
+func TestLapsesFollowTheNextTwoReviews(t *testing.T) {
+	step := func(before, after int) func(*storage.Review) {
+		return func(r *storage.Review) { r.StepBefore, r.StepAfter = before, after }
+	}
+	reviews := []storage.Review{
+		// a: vergeten op 40 dagen (4 -> 2), morgen goed, daarna op 16 dagen weer goed
+		review(at(1, 9), "a", false, step(4, 2)),
+		review(at(1, 9), "a", true, retry), // oefenherhaling telt niet als volgende toets
+		review(at(2, 9), "a", true, step(2, 3)),
+		review(at(18, 9), "a", true, step(3, 4)),
+		// b: vergeten op 7 dagen (2 -> 0), morgen weer fout
+		review(at(3, 9), "b", false, step(2, 0)),
+		review(at(4, 9), "b", false, step(0, 0)),
+		// c: vergeten, nog niet opnieuw gevraagd
+		review(at(20, 9), "c", false, step(5, 3)),
+		// telt niet mee: volledige reset van vóór de regel, accentfout, nog aan het leren
+		review(at(5, 9), "d", false, step(4, 0)),
+		review(at(5, 9), "e", false, step(4, 3), accent),
+		review(at(5, 9), "f", false, step(1, 0)),
+	}
+	got := Compute(testLib(), reviews, at(24, 12), 20).Lapses
+	want := Lapses{Cases: 3, Retested: 2, NextCorrect: 1, Kept: 1, KeptCorrect: 1}
+	if got != want {
+		t.Errorf("vergeten woorden:\n kreeg    %+v\n verwacht %+v", got, want)
+	}
+}

@@ -93,6 +93,10 @@ function renderStatistics(r, quiz) {
           <h3>Helpt herhalen?</h3>
           ${retryEffect(r.retry)}
         </section>
+        <section class="sx-card">
+          <h3>Na een vergeten woord</h3>
+          ${lapseEffect(r.lapses)}
+        </section>
       </div>
     </div>
     ${r.skipped ? `<p class="muted sx-note">${r.skipped} onleesbare regel(s) in het antwoordenlog overgeslagen.</p>` : ""}`;
@@ -273,6 +277,8 @@ function mistakes(m) {
 
 // Minimaal aantal herhalingen per richting voordat een vergelijking iets zegt
 const MIN_DIRECTION_REVIEWS = 10;
+// Minimaal aantal vergeten woorden dat daarna nog eens gevraagd is, voor een oordeel over de regel
+const MIN_LAPSE_KEPT = 5;
 const DIRECTION_NOTE = { hu: "herkennen", nl: "zelf bedenken" };
 
 function directions(dirs) {
@@ -313,4 +319,29 @@ function retryEffect(e) {
       ? (share >= 0.6 ? "De herhaling lijkt te helpen: de meeste van deze woorden blijven hangen."
         : "Veel van deze woorden zijn een dag later weer weg: de herhaling helpt vooral op korte termijn.")
       : "Nog te weinig om iets te zeggen (minimaal 5 keer)."}</p>`;
+}
+
+// Effect van de regel "fout = 2 stappen terug": komt een vergeten woord terug, en blijft het hangen?
+function lapseEffect(l) {
+  const intro = `<p class="muted">Woorden die je al minstens een week kende en toch fout had. Ze gaan 2 stappen terug en komen de volgende dag terug.</p>`;
+  if (!l.cases) return `${intro}<p class="sx-empty">Nog geen gegevens. Die komen vanzelf als je woorden langere intervallen bereiken.</p>`;
+  if (!l.retested) return `${intro}<p class="sx-empty">${times(l.cases)} een woord vergeten; de volgende dag zie je hier of het terugkwam.</p>`;
+
+  const share = l.nextCorrect / l.retested;
+  const kept = l.kept ? l.keptCorrect / l.kept : 0;
+  let verdict;
+  if (l.kept >= MIN_LAPSE_KEPT) {
+    verdict = kept >= 0.8 ? "2 stappen terug lijkt goed: de meeste woorden blijven daarna hangen."
+      : kept < 0.6 ? "Veel woorden zakken op het lagere interval opnieuw weg: verder terugzetten zou dan beter werken."
+      : "Redelijk: de meeste woorden blijven hangen, houd het in de gaten.";
+  } else if (l.enough) {
+    verdict = "Of ze daarna ook blijven hangen, zie je zodra ze opnieuw aan de beurt zijn.";
+  } else {
+    verdict = `Nog te weinig om iets te zeggen (minimaal ${MIN_LAPSE_KEPT} keer).`;
+  }
+  return `${intro}
+    <p class="sx-big">${l.nextCorrect} <small>van de ${l.retested} keer weer goed</small></p>
+    <span class="sx-meter wide" aria-hidden="true"><span style="width:${share * 100}%"></span></span>
+    ${l.kept ? `<p class="muted">Daarna, op het lagere interval: <b>${l.keptCorrect} van ${l.kept}</b> goed.</p>` : ""}
+    <p class="muted">${verdict}</p>`;
 }

@@ -18,6 +18,7 @@ const (
 	ForecastDays  = 14 // dagen in de vooruitblik
 	HardestLimit  = 10 // aantal moeilijkste woorden
 	MinRetryCases = 5  // minimaal aantal gevallen voordat het effect van herhalen iets zegt
+	MinLapseStep  = 2  // een woord telt als vergeten vanaf deze stap (7 dagen): daarvoor ben je het nog aan het leren
 )
 
 type Report struct {
@@ -38,6 +39,7 @@ type Report struct {
 	Forecast   []DueDay    `json:"forecast"`   // vandaag (inclusief achterstand) en de dagen erna
 	Hardest    []Hard      `json:"hardest"`
 	Retry      RetryEffect `json:"retry"`
+	Lapses     Lapses      `json:"lapses"`
 	Queue      Queue       `json:"queue"`
 	Skipped    int         `json:"skipped,omitempty"` // onleesbare regels in het log
 }
@@ -94,6 +96,18 @@ type RetryEffect struct {
 	Cases       int  `json:"cases"`       // fout, daarna goed bij herhaling, en al opnieuw getoetst
 	NextCorrect int  `json:"nextCorrect"` // waarvan de volgende echte toets goed
 	Enough      bool `json:"enough"`      // genoeg gevallen om iets te zeggen
+}
+
+// Lapses volgt woorden die je al kende (minstens MinLapseStep) en toch fout had. Zo'n woord gaat
+// engine.LapseSteps stappen terug en komt de volgende dag terug: wist je het dan weer, en bleef het
+// daarna hangen op het lagere interval? Accentfouten tellen niet mee (die kosten maar één stap).
+type Lapses struct {
+	Cases       int  `json:"cases"`       // vergeten woorden
+	Retested    int  `json:"retested"`    // waarvan al opnieuw gevraagd
+	NextCorrect int  `json:"nextCorrect"` // waarvan die keer goed
+	Kept        int  `json:"kept"`        // goed teruggekomen en daarna nog eens gevraagd, op het lagere interval
+	KeptCorrect int  `json:"keptCorrect"` // waarvan goed
+	Enough      bool `json:"enough"`      // genoeg opnieuw gevraagd om iets te zeggen
 }
 
 // Queue is de wachtrij met nieuwe woorden die nog nooit gevraagd zijn
@@ -191,6 +205,7 @@ func Compute(lib *storage.Library, reviews []storage.Review, now time.Time, newP
 	rep.Directions = directions(lib, reviews)
 	rep.Hardest = hardest(lib, reviews)
 	rep.Retry = retryEffect(reviews, now.Location())
+	rep.Lapses = lapses(reviews, now.Location())
 	rep.Queue = Queue{PerDay: newPerDay}
 	for _, c := range lib.Concepts {
 		if engine.IsNew(c) {
@@ -377,4 +392,51 @@ func retryEffect(reviews []storage.Review, loc *time.Location) RetryEffect {
 	}
 	eff.Enough = eff.Cases >= MinRetryCases
 	return eff
+}
+
+// lapses zoekt fouten volgens de huidige regel (StepAfter = StepBefore - LapseSteps; een volledige
+// reset van vóór die regel telt niet mee) en volgt de twee echte toetsen op latere dagen
+func lapses(reviews []storage.Review, loc *time.Location) Lapses {
+	var l Lapses
+	byConcept := map[string][]storage.Review{}
+	for _, r := range reviews {
+		if !r.Retry {
+			byConcept[r.ConceptID] = append(byConcept[r.ConceptID], r)
+		}
+	}
+	day := func(r storage.Review) time.Time { return engine.DayOf(r.Time.In(loc)) }
+	// next geeft de eerste echte toets na rs[i] op een latere dag
+	next := func(rs []storage.Review, i int) int {
+		for j := i + 1; j < len(rs); j++ {
+			if engine.DaysBetween(day(rs[i]), day(rs[j])) >= 1 {
+				return j
+			}
+		}
+		return -1
+	}
+	for _, rs := range byConcept {
+		for i, r := range rs {
+			if r.Correct || r.AccentOnly || r.StepBefore < MinLapseStep || r.StepAfter != max(0, r.StepBefore-engine.LapseSteps) {
+				continue
+			}
+			l.Cases++
+			j := next(rs, i)
+			if j < 0 {
+				continue
+			}
+			l.Retested++
+			if !rs[j].Correct {
+				continue
+			}
+			l.NextCorrect++
+			if k := next(rs, j); k >= 0 {
+				l.Kept++
+				if rs[k].Correct {
+					l.KeptCorrect++
+				}
+			}
+		}
+	}
+	l.Enough = l.Retested >= MinRetryCases
+	return l
 }
