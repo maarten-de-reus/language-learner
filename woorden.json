@@ -416,6 +416,11 @@
       "text": "evőkanál"
     },
     {
+      "id": "w_hu_ez",
+      "language": "hu",
+      "text": "ez"
+    },
+    {
       "id": "w_hu_fakanál",
       "language": "hu",
       "text": "fakanál"
@@ -1251,9 +1256,19 @@
       "text": "dat"
     },
     {
+      "id": "w_nl_deze",
+      "language": "nl",
+      "text": "deze"
+    },
+    {
       "id": "w_nl_die",
       "language": "nl",
       "text": "die"
+    },
+    {
+      "id": "w_nl_dit",
+      "language": "nl",
+      "text": "dit"
     },
     {
       "id": "w_nl_doen_/_maken",
@@ -5884,6 +5899,33 @@
       ],
       "groups": [
         "Magyar Óra 2.5"
+      ]
+    },
+    {
+      "id": "c_nl_hu_dit_aanwijzend",
+      "source_word_id": "w_nl_dit",
+      "context_source": "aanwijzend",
+      "target_word_ids": [
+        "w_hu_ez"
+      ],
+      "example": "Ez a kávé nagyon jó.",
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_ez_aanwijzend",
+      "source_word_id": "w_hu_ez",
+      "context_source": "aanwijzend",
+      "target_word_ids": [
+        "w_nl_dit",
+        "w_nl_deze"
+      ],
+      "example": "Ez a kávé nagyon jó.",
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
       ]
     }
   ]
