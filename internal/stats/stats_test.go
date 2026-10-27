@@ -185,3 +185,25 @@ func TestQueue(t *testing.T) {
 		t.Errorf("zonder limiet: %+v", q)
 	}
 }
+
+func TestDirectionsSplitNewFromReview(t *testing.T) {
+	lib := testLib()
+	lib.Concepts = append(lib.Concepts, storage.TranslationConcept{ID: "c_kave", SourceWordID: "w_hu_kave", TargetWordIDs: []string{"w_nl_koffie"}})
+	reviews := []storage.Review{
+		review(at(20, 9), "c_koffie", false), // nl -> hu, eerste keer
+		review(at(20, 9), "c_koffie", true, retry),
+		review(at(21, 9), "c_koffie", true), // nl -> hu, herhaling
+		review(at(22, 9), "c_koffie", false),
+		review(at(20, 9), "c_kave", true), // hu -> nl, eerste keer
+		review(at(23, 9), "c_kave", true),
+		review(at(23, 9), "c_weg", true), // verwijderd concept telt niet mee
+	}
+	got := Compute(lib, reviews, at(24, 12), 20).Directions
+	want := []Direction{
+		{From: "hu", To: "nl", New: Score{1, 1}, Review: Score{1, 1}},
+		{From: "nl", To: "hu", New: Score{1, 0}, Review: Score{2, 1}},
+	}
+	if fmt.Sprint(got) != fmt.Sprint(want) {
+		t.Errorf("richtingen:\n kreeg   %+v\n verwacht %+v", got, want)
+	}
+}

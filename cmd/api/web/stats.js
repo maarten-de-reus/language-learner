@@ -82,6 +82,10 @@ function renderStatistics(r, quiz) {
       <div class="sx-stack">
         ${queueCard(r.queue, quiz)}
         <section class="sx-card">
+          <h3>Per richting</h3>
+          ${directions(r.directions)}
+        </section>
+        <section class="sx-card">
           <h3>Soort fouten</h3>
           ${mistakes(r.mistakes)}
         </section>
@@ -265,6 +269,37 @@ function mistakes(m) {
     ${row("Andere betekenis", m.otherMeaning, "bijv. tijd i.p.v. weer")}
     ${row("Anders fout", m.other, "")}
   </ul>`;
+}
+
+// Minimaal aantal herhalingen per richting voordat een vergelijking iets zegt
+const MIN_DIRECTION_REVIEWS = 10;
+const DIRECTION_NOTE = { hu: "herkennen", nl: "zelf bedenken" };
+
+function directions(dirs) {
+  if (!dirs.length) return `<p class="sx-empty">Nog geen antwoorden.</p>`;
+  const share = (s) => (s.attempts ? s.correct / s.attempts : 0);
+  const rows = dirs.map((d) => `
+    <li>
+      <span class="sx-dir-head"><span>${esc(LANG[d.from] || d.from)} → ${esc(LANG[d.to] || d.to)}
+        <small class="muted">${esc(DIRECTION_NOTE[d.from] || "")}</small></span>
+        <b>${d.review.attempts ? pct(share(d.review)) : "–"}</b></span>
+      <span class="sx-meter good"><span style="width:${share(d.review) * 100}%"></span></span>
+      <small class="muted">${d.review.correct} van ${d.review.attempts} herhalingen goed${
+        d.new.attempts ? ` · nieuw: ${d.new.correct} van ${d.new.attempts} meteen goed` : ""}</small>
+    </li>`).join("");
+
+  // Een conclusie pas als beide richtingen genoeg herhalingen hebben en duidelijk verschillen
+  let note = "";
+  const enough = dirs.filter((d) => d.review.attempts >= MIN_DIRECTION_REVIEWS);
+  if (enough.length >= 2) {
+    const [weak, strong] = [...enough].sort((a, b) => share(a.review) - share(b.review));
+    note = share(strong.review) - share(weak.review) >= 0.1
+      ? `${esc(LANG[weak.from])} → ${esc(LANG[weak.to])} blijft achter. Oefen die richting extra onder <a href="#kaarten">Kaarten</a>.`
+      : "Beide richtingen gaan ongeveer even goed.";
+  } else if (dirs.some((d) => d.review.attempts)) {
+    note = `Een vergelijking volgt bij minimaal ${MIN_DIRECTION_REVIEWS} herhalingen per richting.`;
+  }
+  return `<ul class="sx-dirs">${rows}</ul><p class="muted sx-dir-note">${note}</p>`;
 }
 
 function retryEffect(e) {

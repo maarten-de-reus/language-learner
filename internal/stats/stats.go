@@ -32,13 +32,14 @@ type Report struct {
 	PracticedToday bool    `json:"practicedToday"`
 	Today          Day     `json:"today"`
 
-	Mistakes Mistakes    `json:"mistakes"`
-	Activity []Day       `json:"activity"` // laatste ActivityDays dagen, oudste eerst
-	Forecast []DueDay    `json:"forecast"` // vandaag (inclusief achterstand) en de dagen erna
-	Hardest  []Hard      `json:"hardest"`
-	Retry    RetryEffect `json:"retry"`
-	Queue    Queue       `json:"queue"`
-	Skipped  int         `json:"skipped,omitempty"` // onleesbare regels in het log
+	Mistakes   Mistakes    `json:"mistakes"`
+	Directions []Direction `json:"directions"` // per leerrichting, bijv. hu -> nl en nl -> hu
+	Activity   []Day       `json:"activity"`   // laatste ActivityDays dagen, oudste eerst
+	Forecast   []DueDay    `json:"forecast"`   // vandaag (inclusief achterstand) en de dagen erna
+	Hardest    []Hard      `json:"hardest"`
+	Retry      RetryEffect `json:"retry"`
+	Queue      Queue       `json:"queue"`
+	Skipped    int         `json:"skipped,omitempty"` // onleesbare regels in het log
 }
 
 type Day struct {
@@ -51,6 +52,20 @@ type Day struct {
 type DueDay struct {
 	Date string `json:"date"`
 	Due  int    `json:"due"`
+}
+
+// Direction is de score van één leerrichting. Het allereerste antwoord op een woord is vaak
+// een gok (zeker naar het Hongaars) en staat daarom apart van de echte herhalingen.
+type Direction struct {
+	From   string `json:"from"`
+	To     string `json:"to"`
+	New    Score  `json:"new"`    // eerste keer gevraagd
+	Review Score  `json:"review"` // later gevraagd: wat je onthouden hebt
+}
+
+type Score struct {
+	Attempts int `json:"attempts"`
+	Correct  int `json:"correct"`
 }
 
 type Mistakes struct {
@@ -173,6 +188,7 @@ func Compute(lib *storage.Library, reviews []storage.Review, now time.Time, newP
 		}
 	}
 	rep.Forecast = forecast(lib, today)
+	rep.Directions = directions(lib, reviews)
 	rep.Hardest = hardest(lib, reviews)
 	rep.Retry = retryEffect(reviews, now.Location())
 	rep.Queue = Queue{PerDay: newPerDay}
@@ -229,6 +245,45 @@ func forecast(lib *storage.Library, today time.Time) []DueDay {
 			out[i].Due++
 		}
 	}
+	return out
+}
+
+// directions telt de eerste pogingen per leerrichting; verwijderde concepten tellen niet mee
+func directions(lib *storage.Library, reviews []storage.Review) []Direction {
+	byKey := map[string]*Direction{}
+	seen := map[string]bool{}
+	for _, r := range reviews {
+		if r.Retry {
+			continue
+		}
+		first := !seen[r.ConceptID]
+		seen[r.ConceptID] = true
+		i := lib.Index(r.ConceptID)
+		if i < 0 || len(lib.Concepts[i].TargetWordIDs) == 0 {
+			continue
+		}
+		c := lib.Concepts[i]
+		from, to := lib.Words[c.SourceWordID].Language, lib.Words[c.TargetWordIDs[0]].Language
+		d := byKey[from+"-"+to]
+		if d == nil {
+			d = &Direction{From: from, To: to}
+			byKey[from+"-"+to] = d
+		}
+		score := &d.Review
+		if first {
+			score = &d.New
+		}
+		score.Attempts++
+		if r.Correct {
+			score.Correct++
+		}
+	}
+	out := []Direction{}
+	for _, d := range byKey {
+		out = append(out, *d)
+	}
+	// Vaste volgorde, op brontaal: hu -> nl (herkennen) vóór nl -> hu (zelf bedenken)
+	slices.SortFunc(out, func(a, b Direction) int { return strings.Compare(a.From, b.From) })
 	return out
 }
 
