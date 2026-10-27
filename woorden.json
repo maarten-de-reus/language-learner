@@ -1186,19 +1186,24 @@
       "text": "betalen"
     },
     {
+      "id": "w_nl_binnenkant",
+      "language": "nl",
+      "text": "binnenkant"
+    },
+    {
       "id": "w_nl_binnenstad",
       "language": "nl",
       "text": "binnenstad"
     },
     {
-      "id": "w_nl_binnenstadcentrum",
-      "language": "nl",
-      "text": "binnenstadcentrum"
-    },
-    {
       "id": "w_nl_blij_zijn",
       "language": "nl",
       "text": "blij zijn"
+    },
+    {
+      "id": "w_nl_buitenkant",
+      "language": "nl",
+      "text": "buitenkant"
     },
     {
       "id": "w_nl_buitenland",
@@ -1356,9 +1361,9 @@
       "text": "houten lepel"
     },
     {
-      "id": "w_nl_innerlijkbinnenkant",
+      "id": "w_nl_innerlijk",
       "language": "nl",
-      "text": "innerlijkbinnenkant"
+      "text": "innerlijk"
     },
     {
       "id": "w_nl_kamertemperatuur",
@@ -1391,9 +1396,9 @@
       "text": "kopen"
     },
     {
-      "id": "w_nl_korthoriyontaal",
+      "id": "w_nl_kort",
       "language": "nl",
-      "text": "korthoriyontaal"
+      "text": "kort"
     },
     {
       "id": "w_nl_kortlaag",
@@ -1416,14 +1421,14 @@
       "text": "kunstenaar"
     },
     {
-      "id": "w_nl_lang)horiyontaal",
+      "id": "w_nl_laag",
       "language": "nl",
-      "text": "lang)horiyontaal"
+      "text": "laag"
     },
     {
-      "id": "w_nl_langverticaal",
+      "id": "w_nl_lang",
       "language": "nl",
-      "text": "langverticaal"
+      "text": "lang"
     },
     {
       "id": "w_nl_leven",
@@ -1511,9 +1516,9 @@
       "text": "opscheplepel"
     },
     {
-      "id": "w_nl_plukkenverzamelen",
+      "id": "w_nl_opscheppen",
       "language": "nl",
-      "text": "plukkenverzamelen"
+      "text": "opscheppen"
     },
     {
       "id": "w_nl_praten",
@@ -1616,9 +1621,9 @@
       "text": "tijd"
     },
     {
-      "id": "w_nl_uiterlijkbuitenkant",
+      "id": "w_nl_uiterlijk",
       "language": "nl",
-      "text": "uiterlijkbuitenkant"
+      "text": "uiterlijk"
     },
     {
       "id": "w_nl_vaak",
@@ -4114,13 +4119,11 @@
     },
     {
       "id": "c_nl_hu_plukkenverzamelen_nemen",
-      "source_word_id": "w_nl_plukkenverzamelen",
+      "source_word_id": "w_nl_opscheppen",
       "context_source": "nemen",
       "target_word_ids": [
         "w_hu_szedni"
       ],
-      "example": "opscheppen",
-      "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.5"
       ]
@@ -4130,10 +4133,8 @@
       "source_word_id": "w_hu_szedni",
       "context_source": "nemen",
       "target_word_ids": [
-        "w_nl_plukkenverzamelen"
+        "w_nl_opscheppen"
       ],
-      "example": "opscheppen",
-      "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.5"
       ]
@@ -4294,7 +4295,7 @@
     },
     {
       "id": "c_nl_hu_uiterlijkbuitenkant",
-      "source_word_id": "w_nl_uiterlijkbuitenkant",
+      "source_word_id": "w_nl_uiterlijk",
       "context_source": "",
       "target_word_ids": [
         "w_hu_külső"
@@ -4308,7 +4309,8 @@
       "source_word_id": "w_hu_külső",
       "context_source": "",
       "target_word_ids": [
-        "w_nl_uiterlijkbuitenkant"
+        "w_nl_uiterlijk",
+        "w_nl_buitenkant"
       ],
       "groups": [
         "Magyar Óra 2.5"
@@ -4338,7 +4340,7 @@
     },
     {
       "id": "c_nl_hu_innerlijkbinnenkant",
-      "source_word_id": "w_nl_innerlijkbinnenkant",
+      "source_word_id": "w_nl_innerlijk",
       "context_source": "",
       "target_word_ids": [
         "w_hu_belső"
@@ -4352,7 +4354,8 @@
       "source_word_id": "w_hu_belső",
       "context_source": "",
       "target_word_ids": [
-        "w_nl_innerlijkbinnenkant"
+        "w_nl_innerlijk",
+        "w_nl_binnenkant"
       ],
       "groups": [
         "Magyar Óra 2.5"
@@ -4360,7 +4363,7 @@
     },
     {
       "id": "c_nl_hu_binnenstadcentrum",
-      "source_word_id": "w_nl_binnenstadcentrum",
+      "source_word_id": "w_nl_binnenstad",
       "context_source": "",
       "target_word_ids": [
         "w_hu_belváros"
@@ -4537,8 +4540,8 @@
     },
     {
       "id": "c_nl_hu_lang)horiyontaal",
-      "source_word_id": "w_nl_lang)horiyontaal",
-      "context_source": "",
+      "source_word_id": "w_nl_lang",
+      "context_source": "horizontaal",
       "target_word_ids": [
         "w_hu_hosszú"
       ],
@@ -4549,9 +4552,9 @@
     {
       "id": "c_hu_nl_hosszú",
       "source_word_id": "w_hu_hosszú",
-      "context_source": "",
+      "context_source": "horizontaal",
       "target_word_ids": [
-        "w_nl_lang)horiyontaal"
+        "w_nl_lang"
       ],
       "groups": [
         "Magyar Óra 2.5"
@@ -4559,8 +4562,8 @@
     },
     {
       "id": "c_nl_hu_langverticaal",
-      "source_word_id": "w_nl_langverticaal",
-      "context_source": "",
+      "source_word_id": "w_nl_lang",
+      "context_source": "verticaal",
       "target_word_ids": [
         "w_hu_magas"
       ],
@@ -4573,7 +4576,7 @@
       "source_word_id": "w_hu_magas",
       "context_source": "",
       "target_word_ids": [
-        "w_nl_langverticaal"
+        "w_nl_lang"
       ],
       "groups": [
         "Magyar Óra 2.5"
@@ -4581,8 +4584,8 @@
     },
     {
       "id": "c_nl_hu_korthoriyontaal",
-      "source_word_id": "w_nl_korthoriyontaal",
-      "context_source": "",
+      "source_word_id": "w_nl_kort",
+      "context_source": "horizontaal",
       "target_word_ids": [
         "w_hu_rövid"
       ],
@@ -4595,7 +4598,7 @@
       "source_word_id": "w_hu_rövid",
       "context_source": "",
       "target_word_ids": [
-        "w_nl_korthoriyontaal"
+        "w_nl_kort"
       ],
       "groups": [
         "Magyar Óra 2.5"
@@ -4617,7 +4620,8 @@
       "source_word_id": "w_hu_alacsony",
       "context_source": "verticaal",
       "target_word_ids": [
-        "w_nl_kortlaag"
+        "w_nl_kort",
+        "w_nl_laag"
       ],
       "groups": [
         "Magyar Óra 2.5"
@@ -4648,7 +4652,7 @@
     {
       "id": "c_nl_hu_schattig_spreektaal",
       "source_word_id": "w_nl_schattig",
-      "context_source": "spreektaal",
+      "context_source": "babies, dieren",
       "target_word_ids": [
         "w_hu_cuki"
       ],
