@@ -91,7 +91,13 @@ func main() {
 func (s *server) routes() *http.ServeMux {
 	mux := http.NewServeMux()
 	static, _ := fs.Sub(webFiles, "web")
-	mux.Handle("/", http.FileServer(http.FS(static)))
+	files := http.FileServer(http.FS(static))
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		// Ingebedde bestanden hebben geen datum, dus de browser kan niet controleren of ze veranderd zijn:
+		// altijd opnieuw ophalen, anders draait na een update oude JavaScript bij nieuwe HTML
+		w.Header().Set("Cache-Control", "no-cache")
+		files.ServeHTTP(w, r)
+	})
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 		_, _ = w.Write([]byte("ok\n"))

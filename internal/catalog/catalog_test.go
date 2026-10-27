@@ -396,6 +396,63 @@ func TestUpdateValidation(t *testing.T) {
 	}
 }
 
+func TestUpdatePromptFollowsInReverse(t *testing.T) {
+	lib := newLib()
+	add(t, lib, "weer", "buiten", "ido")
+	add(t, lib, "tijd", "klok", "ido")
+	weer, idoWeer, idoTijd, tijd := lib.Concepts[0].ID, lib.Concepts[1].ID, lib.Concepts[3].ID, lib.Concepts[2].ID
+	step := concept(t, lib, idoWeer).StepIndex
+
+	// Typfout in het Hongaarse woord van één betekenis: de andere betekenis houdt het oude woord
+	if err := Update(lib, idoWeer, Edit{Prompt: " idő ", Context: "buiten", Answers: []string{"weer"}}); err != nil {
+		t.Fatal(err)
+	}
+	if c := concept(t, lib, idoWeer); lib.Words[c.SourceWordID].Text != "idő" || c.StepIndex != step {
+		t.Errorf("bronwoord niet aangepast of voortgang veranderd: %+v", c)
+	}
+	if got := TargetTexts(lib, concept(t, lib, weer)); !slices.Equal(got, []string{"idő"}) {
+		t.Errorf("omgekeerde richting moet het nieuwe woord als antwoord krijgen, kreeg %v", got)
+	}
+	if got := lib.Words[concept(t, lib, idoTijd).SourceWordID].Text; got != "ido" {
+		t.Errorf("andere betekenis mag niet mee veranderen, kreeg %q", got)
+	}
+	if got := TargetTexts(lib, concept(t, lib, tijd)); !slices.Equal(got, []string{"ido"}) {
+		t.Errorf("omgekeerde van de andere betekenis mag niet veranderen, kreeg %v", got)
+	}
+
+	// De tweede betekenis gaat naar hetzelfde (bestaande) woord; het oude woord verdwijnt
+	if err := Update(lib, idoTijd, Edit{Prompt: "IDŐ", Context: "klok", Answers: []string{"tijd"}}); err != nil {
+		t.Fatal(err)
+	}
+	if concept(t, lib, idoTijd).SourceWordID != concept(t, lib, idoWeer).SourceWordID {
+		t.Error("zelfde tekst (hoofdletters genegeerd) moet hetzelfde woord gebruiken")
+	}
+	for _, w := range lib.Words {
+		if w.Text == "ido" {
+			t.Error("ongebruikt woord moet verdwijnen")
+		}
+	}
+
+	// Alleen hoofdletters anders: het woord zelf wordt aangepast
+	if err := Update(lib, weer, Edit{Prompt: "Weer", Context: "buiten", Answers: []string{"idő"}}); err != nil {
+		t.Fatal(err)
+	}
+	if got := TargetTexts(lib, concept(t, lib, idoWeer)); !slices.Equal(got, []string{"Weer"}) {
+		t.Errorf("antwoord van de omgekeerde richting: %v", got)
+	}
+
+	// Leeg = ongewijzigd; een nieuwe tekst mag geen hint van een bestaande betekenis overnemen
+	if err := Update(lib, idoTijd, Edit{Context: "klok", Answers: []string{"tijd"}}); err != nil {
+		t.Fatal(err)
+	}
+	if err := Update(lib, tijd, Edit{Prompt: "Weer", Context: "buiten", Answers: []string{"idő"}}); !errors.Is(err, ErrContextTaken) {
+		t.Errorf("verwacht ErrContextTaken, kreeg %v", err)
+	}
+	if got := lib.Words[concept(t, lib, tijd).SourceWordID].Text; got != "tijd" {
+		t.Errorf("bij een fout mag er niets veranderen, kreeg %q", got)
+	}
+}
+
 func TestDeleteSingleDirection(t *testing.T) {
 	lib := newLib()
 	add(t, lib, "koffie", "", "kávé")

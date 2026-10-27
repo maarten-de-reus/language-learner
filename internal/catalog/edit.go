@@ -75,9 +75,12 @@ func Entries(lib *storage.Library) []Entry {
 	return entries
 }
 
-// Edit zijn de velden die je van een bestaand concept kunt aanpassen.
-// Het bronwoord zelf niet: dat kan door meerdere concepten gedeeld worden.
+// Edit zijn de velden die je van een bestaand concept kunt aanpassen
 type Edit struct {
+	// Prompt is het woord dat vertaald moet worden (leeg = ongewijzigd). Het woord kan gedeeld zijn
+	// met andere betekenissen (idő ☀️ / idő ⏰): alleen dit concept en zijn omgekeerde richting
+	// gaan naar de nieuwe tekst, de andere betekenissen houden het oude woord.
+	Prompt  string   `json:"prompt"`
 	Context string   `json:"context"`
 	Answers []string `json:"answers"`
 	Example string   `json:"example"`
@@ -104,8 +107,14 @@ func Update(lib *storage.Library, id string, e Edit) error {
 		return ErrNoAnswers
 	}
 
+	src := lib.Words[c.SourceWordID]
+	prompt := strings.TrimSpace(e.Prompt)
+	if prompt == "" {
+		prompt = src.Text
+	}
+
 	context := strings.TrimSpace(e.Context)
-	key := meaningKey(lib, c)
+	key := src.Language + "|" + targetLang(lib, c) + "|" + strings.ToLower(prompt)
 	for j, other := range lib.Concepts {
 		if j != i && meaningKey(lib, other) == key && strings.EqualFold(strings.TrimSpace(other.ContextSource), context) {
 			return ErrContextTaken
@@ -149,6 +158,9 @@ func Update(lib *storage.Library, id string, e Edit) error {
 		exampleLanguage = exampleLang(example)
 	}
 
+	if prompt != src.Text {
+		retarget(lib, &c, prompt)
+	}
 	c.ContextSource = context
 	c.TargetWordIDs = targetIDs
 	c.Example, c.ExampleLang = example, exampleLanguage
@@ -173,7 +185,35 @@ func Update(lib *storage.Library, id string, e Edit) error {
 		addGroups(&c, groups)
 	}
 	lib.Concepts[i] = c
+	removeUnusedWords(lib)
 	return nil
+}
+
+// retarget geeft c een bronwoord met de tekst prompt. Alleen hoofdletters anders: dan wordt het
+// woord zelf aangepast. Anders gaat c naar een (bestaand of nieuw) woord met die tekst, en krijgt
+// de omgekeerde richting dat woord als antwoord in plaats van het oude.
+func retarget(lib *storage.Library, c *storage.TranslationConcept, prompt string) {
+	old := lib.Words[c.SourceWordID]
+	if strings.EqualFold(strings.TrimSpace(old.Text), prompt) {
+		old.Text = prompt
+		lib.Words[old.ID] = old
+		return
+	}
+	reverse := reverseIDs(lib, *c)
+	c.SourceWordID = ensureWord(lib.Words, old.Language, prompt)
+	for _, rid := range reverse {
+		r := &lib.Concepts[lib.Index(rid)]
+		var targets []string
+		for _, t := range r.TargetWordIDs {
+			if t == old.ID {
+				t = c.SourceWordID
+			}
+			if !slices.Contains(targets, t) {
+				targets = append(targets, t)
+			}
+		}
+		r.TargetWordIDs = targets
+	}
 }
 
 // meaningKey groepeert concepten met hetzelfde bronwoord (taal + tekst) in dezelfde richting

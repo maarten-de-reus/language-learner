@@ -222,8 +222,11 @@ function field(id, label, value, { hu = false, placeholder = "", hint = "" } = {
 
 function editFormHTML(e) {
   const toHu = e.to === "hu";
+  const reverse = (e.reverse || []).length > 0;
   return `
     <form class="m-edit" data-id="${esc(e.id)}">
+      ${field("e-prompt", `Woord (${esc(LANG[e.from] || e.from)})`, e.prompt,
+        { hu: !toHu, hint: reverse ? "Een correctie geldt ook voor het antwoord in de andere richting." : "" })}
       ${field("e-context", "Hint", e.context, { placeholder: "bijv. buiten ☀️", hint: "Wijst aan welke betekenis bedoeld is." })}
       ${field("e-answers", `Goede antwoorden (${esc(LANG[e.to] || e.to)})`, e.answers.join(", "),
         { hu: toHu, hint: "Meerdere antwoorden scheiden met een komma." })}
@@ -405,6 +408,7 @@ async function saveEdit(form) {
   const id = form.dataset.id;
   try {
     const res = await api("PUT", `/api/concepts/${encodeURIComponent(id)}`, {
+      prompt: form.querySelector("#e-prompt").value,
       context: form.querySelector("#e-context").value,
       answers: splitList(form.querySelector("#e-answers").value),
       groups: pendingGroups("edit"),
