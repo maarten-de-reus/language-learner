@@ -1401,11 +1401,6 @@
       "text": "kort"
     },
     {
-      "id": "w_nl_kortlaag",
-      "language": "nl",
-      "text": "kortlaag"
-    },
-    {
       "id": "w_nl_kosten_/_ontwijken",
       "language": "nl",
       "text": "kosten / ontwijken"
@@ -1760,7 +1755,10 @@
         "w_hu_1"
       ],
       "example": "Szia, hogy vagy?",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Groeten"
+      ]
     },
     {
       "id": "c_2",
@@ -1770,7 +1768,10 @@
         "w_hu_2"
       ],
       "example": "Jó reggelt! Kérsz kávét?",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Groeten"
+      ]
     },
     {
       "id": "c_3",
@@ -1780,7 +1781,10 @@
         "w_hu_3"
       ],
       "example": "Jó napot! Egy kávét kérek.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Groeten"
+      ]
     },
     {
       "id": "c_4",
@@ -1790,7 +1794,10 @@
         "w_hu_4"
       ],
       "example": "Jó estét kívánok!",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Groeten"
+      ]
     },
     {
       "id": "c_5",
@@ -1800,7 +1807,10 @@
         "w_hu_5"
       ],
       "example": "Jó éjszakát, aludj jól!",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Groeten"
+      ]
     },
     {
       "id": "c_6",
@@ -1810,7 +1820,10 @@
         "w_hu_6"
       ],
       "example": "Köszönöm szépen!",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Basiswoorden"
+      ]
     },
     {
       "id": "c_7",
@@ -1820,7 +1833,10 @@
         "w_hu_7"
       ],
       "example": "Egy kávét, kérem.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Basiswoorden"
+      ]
     },
     {
       "id": "c_8",
@@ -1830,7 +1846,10 @@
         "w_hu_8"
       ],
       "example": "Igen, köszönöm.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Basiswoorden"
+      ]
     },
     {
       "id": "c_9",
@@ -1840,7 +1859,10 @@
         "w_hu_9"
       ],
       "example": "Nem, köszönöm.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Basiswoorden"
+      ]
     },
     {
       "id": "c_10",
@@ -1850,7 +1872,10 @@
         "w_hu_10"
       ],
       "example": "Én magyarul tanulok.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
     },
     {
       "id": "c_11",
@@ -1860,7 +1885,10 @@
         "w_hu_11"
       ],
       "example": "Te is jössz?",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
     },
     {
       "id": "c_12",
@@ -1870,7 +1898,10 @@
         "w_hu_12"
       ],
       "example": "Ő Péter.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
     },
     {
       "id": "c_13",
@@ -1880,7 +1911,10 @@
         "w_hu_12"
       ],
       "example": "Ő Anna.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
     },
     {
       "id": "c_14",
@@ -1890,7 +1924,10 @@
         "w_hu_13"
       ],
       "example": "Mi magyarul tanulunk.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
     },
     {
       "id": "c_15",
@@ -1900,7 +1937,10 @@
         "w_hu_14"
       ],
       "example": "Ti is jöttök?",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
     },
     {
       "id": "c_16",
@@ -1910,7 +1950,10 @@
         "w_hu_15"
       ],
       "example": "Ők magyarok.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
     },
     {
       "id": "c_17",
@@ -1920,7 +1963,10 @@
         "w_hu_16"
       ],
       "example": "Egy kávét kérek.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_18",
@@ -1930,7 +1976,10 @@
         "w_hu_17"
       ],
       "example": "Egy, kettő, három!",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_19",
@@ -1940,7 +1989,10 @@
         "w_hu_18"
       ],
       "example": "Három sört kérek.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_20",
@@ -1950,7 +2002,10 @@
         "w_hu_19"
       ],
       "example": "Négy gyerek van a házban.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_21",
@@ -1960,7 +2015,10 @@
         "w_hu_20"
       ],
       "example": "Öt óra van.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_22",
@@ -1970,7 +2028,10 @@
         "w_hu_21"
       ],
       "example": "Hat éves vagyok.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_23",
@@ -1980,7 +2041,10 @@
         "w_hu_22"
       ],
       "example": "Hét óra van.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_24",
@@ -1990,7 +2054,10 @@
         "w_hu_23"
       ],
       "example": "Nyolc órakor jön a vonat.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_25",
@@ -2000,7 +2067,10 @@
         "w_hu_24"
       ],
       "example": "A gyerek kilenc éves.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_26",
@@ -2010,7 +2080,10 @@
         "w_hu_25"
       ],
       "example": "Tíz óra van.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_27",
@@ -2020,7 +2093,10 @@
         "w_hu_26"
       ],
       "example": "A víz meleg.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Eten en drinken"
+      ]
     },
     {
       "id": "c_28",
@@ -2030,7 +2106,10 @@
         "w_hu_27"
       ],
       "example": "A kenyér friss.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Eten en drinken"
+      ]
     },
     {
       "id": "c_nl_hu_praten",
@@ -2040,7 +2119,10 @@
         "w_hu_beszélni"
       ],
       "example": "Most nem tudok beszélni.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_beszélni",
@@ -2051,7 +2133,10 @@
         "w_nl_40"
       ],
       "example": "Most nem tudok beszélni.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_wat_voor",
@@ -2106,7 +2191,7 @@
     {
       "id": "c_hu_nl_idő",
       "source_word_id": "w_hu_idő",
-      "context_source": "klok",
+      "context_source": "buiten ☀️",
       "target_word_ids": [
         "w_nl_weer"
       ],
@@ -2273,7 +2358,10 @@
         "w_nl_1"
       ],
       "example": "Szia, hogy vagy?",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Groeten"
+      ]
     },
     {
       "id": "c_hu_nl_jó_reggelt",
@@ -2283,7 +2371,10 @@
         "w_nl_2"
       ],
       "example": "Jó reggelt! Kérsz kávét?",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Groeten"
+      ]
     },
     {
       "id": "c_hu_nl_jó_napot",
@@ -2293,7 +2384,10 @@
         "w_nl_3"
       ],
       "example": "Jó napot! Egy kávét kérek.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Groeten"
+      ]
     },
     {
       "id": "c_hu_nl_jó_estét",
@@ -2303,7 +2397,10 @@
         "w_nl_4"
       ],
       "example": "Jó estét kívánok!",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Groeten"
+      ]
     },
     {
       "id": "c_hu_nl_jó_éjszakát",
@@ -2313,7 +2410,10 @@
         "w_nl_5"
       ],
       "example": "Jó éjszakát, aludj jól!",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Groeten"
+      ]
     },
     {
       "id": "c_hu_nl_köszönöm",
@@ -2323,7 +2423,10 @@
         "w_nl_6"
       ],
       "example": "Köszönöm szépen!",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Basiswoorden"
+      ]
     },
     {
       "id": "c_hu_nl_kérem",
@@ -2333,7 +2436,10 @@
         "w_nl_7"
       ],
       "example": "Egy kávét, kérem.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Basiswoorden"
+      ]
     },
     {
       "id": "c_hu_nl_igen",
@@ -2343,7 +2449,10 @@
         "w_nl_8"
       ],
       "example": "Igen, köszönöm.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Basiswoorden"
+      ]
     },
     {
       "id": "c_hu_nl_nem",
@@ -2353,7 +2462,10 @@
         "w_nl_9"
       ],
       "example": "Nem, köszönöm.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Basiswoorden"
+      ]
     },
     {
       "id": "c_hu_nl_én",
@@ -2363,7 +2475,10 @@
         "w_nl_10"
       ],
       "example": "Én magyarul tanulok.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_te",
@@ -2373,7 +2488,10 @@
         "w_nl_11"
       ],
       "example": "Te is jössz?",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_ő",
@@ -2383,7 +2501,10 @@
         "w_nl_12"
       ],
       "example": "Ő Péter.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_mi",
@@ -2393,7 +2514,10 @@
         "w_nl_13"
       ],
       "example": "Mi magyarul tanulunk.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_ti",
@@ -2403,7 +2527,10 @@
         "w_nl_14"
       ],
       "example": "Ti is jöttök?",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_ők",
@@ -2413,7 +2540,10 @@
         "w_nl_12_f"
       ],
       "example": "Ők magyarok.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_egy",
@@ -2423,7 +2553,10 @@
         "w_nl_16"
       ],
       "example": "Egy kávét kérek.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_hu_nl_kettő",
@@ -2433,7 +2566,10 @@
         "w_nl_17"
       ],
       "example": "Egy, kettő, három!",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_hu_nl_három",
@@ -2443,7 +2579,10 @@
         "w_nl_18"
       ],
       "example": "Három sört kérek.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_hu_nl_négy",
@@ -2453,7 +2592,10 @@
         "w_nl_19"
       ],
       "example": "Négy gyerek van a házban.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_hu_nl_öt",
@@ -2463,7 +2605,10 @@
         "w_nl_20"
       ],
       "example": "Öt óra van.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_hu_nl_hat",
@@ -2473,7 +2618,10 @@
         "w_nl_21"
       ],
       "example": "Hat éves vagyok.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_hu_nl_hét",
@@ -2483,7 +2631,10 @@
         "w_nl_22"
       ],
       "example": "Hét óra van.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_hu_nl_nyolc",
@@ -2493,7 +2644,10 @@
         "w_nl_23"
       ],
       "example": "Nyolc órakor jön a vonat.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_hu_nl_kilenc",
@@ -2503,7 +2657,10 @@
         "w_nl_24"
       ],
       "example": "A gyerek kilenc éves.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_hu_nl_tíz",
@@ -2513,7 +2670,10 @@
         "w_nl_25"
       ],
       "example": "Tíz óra van.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Getallen"
+      ]
     },
     {
       "id": "c_hu_nl_víz",
@@ -2523,7 +2683,10 @@
         "w_nl_26"
       ],
       "example": "A víz meleg.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Eten en drinken"
+      ]
     },
     {
       "id": "c_hu_nl_kenyér",
@@ -2533,7 +2696,10 @@
         "w_nl_27"
       ],
       "example": "A kenyér friss.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Eten en drinken"
+      ]
     },
     {
       "id": "c_nl_hu_koffie",
@@ -2543,7 +2709,10 @@
         "w_hu_28"
       ],
       "example": "Kérek egy kávét.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Eten en drinken"
+      ]
     },
     {
       "id": "c_hu_nl_kávé",
@@ -2553,7 +2722,10 @@
         "w_nl_28"
       ],
       "example": "Kérek egy kávét.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Eten en drinken"
+      ]
     },
     {
       "id": "c_nl_hu_bier",
@@ -2563,7 +2735,10 @@
         "w_hu_29"
       ],
       "example": "Egy sört kérek.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Eten en drinken"
+      ]
     },
     {
       "id": "c_hu_nl_sör",
@@ -2573,7 +2748,10 @@
         "w_nl_29"
       ],
       "example": "Egy sört kérek.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Eten en drinken"
+      ]
     },
     {
       "id": "c_nl_hu_huis",
@@ -2763,7 +2941,10 @@
         "w_hu_39"
       ],
       "example": "Ő magyarul tanul.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_tanul",
@@ -2773,7 +2954,10 @@
         "w_nl_hij_zij_studeert"
       ],
       "example": "Ő magyarul tanul.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_spreken",
@@ -2783,7 +2967,10 @@
         "w_hu_40"
       ],
       "example": "Ő magyarul beszél.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_beszél",
@@ -2794,7 +2981,10 @@
         "w_nl_hij_zij_praat"
       ],
       "example": "A gyerek sokat beszél.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_schrijven",
@@ -2804,7 +2994,10 @@
         "w_hu_41"
       ],
       "example": "Ő levelet ír.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_ír",
@@ -2814,7 +3007,10 @@
         "w_nl_hij_zij_schrijft"
       ],
       "example": "Ő levelet ír.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_lezen",
@@ -2824,7 +3020,10 @@
         "w_hu_42"
       ],
       "example": "Ő sokat olvas.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_olvas",
@@ -2834,7 +3033,10 @@
         "w_nl_hij_zij_leest"
       ],
       "example": "Ő sokat olvas.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_gaan",
@@ -2844,7 +3046,11 @@
         "w_hu_43"
       ],
       "example": "A vonat Budapestre megy.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_megy",
@@ -2854,7 +3060,11 @@
         "w_nl_hij_zij_gaat"
       ],
       "example": "A vonat Budapestre megy.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_komen",
@@ -2864,7 +3074,10 @@
         "w_hu_44"
       ],
       "example": "Holnap jön a barátom.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_jön",
@@ -2874,7 +3087,10 @@
         "w_nl_hij_zij_komt"
       ],
       "example": "Holnap jön a barátom.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_eten",
@@ -2884,7 +3100,11 @@
         "w_hu_45"
       ],
       "example": "A gyerek kenyeret eszik.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_eszik",
@@ -2894,7 +3114,11 @@
         "w_nl_hij_zij_eet"
       ],
       "example": "A gyerek kenyeret eszik.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_drinken",
@@ -2904,7 +3128,11 @@
         "w_hu_46"
       ],
       "example": "Ő kávét iszik.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_iszik",
@@ -2914,7 +3142,11 @@
         "w_nl_hij_zij_drinkt"
       ],
       "example": "Ő kávét iszik.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_slapen",
@@ -2924,7 +3156,11 @@
         "w_hu_47"
       ],
       "example": "A gyerek alszik.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_alszik",
@@ -2934,7 +3170,11 @@
         "w_nl_hij_zij_slaapt"
       ],
       "example": "A gyerek alszik.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_zien",
@@ -2944,7 +3184,10 @@
         "w_hu_48"
       ],
       "example": "A gyerek lát egy autót.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_lát",
@@ -2954,7 +3197,10 @@
         "w_nl_hij_zij_ziet"
       ],
       "example": "A gyerek lát egy autót.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_goed",
@@ -3164,7 +3410,10 @@
         "w_hu_tanulni"
       ],
       "example": "Szeretek tanulni.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_tanulni",
@@ -3174,7 +3423,10 @@
         "w_nl_39"
       ],
       "example": "Szeretek tanulni.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_spreken_infinitief",
@@ -3184,7 +3436,10 @@
         "w_hu_beszélni"
       ],
       "example": "Szeretnék magyarul beszélni.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_praat",
@@ -3194,7 +3449,10 @@
         "w_hu_40"
       ],
       "example": "A gyerek sokat beszél.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_schrijven_infinitief",
@@ -3204,7 +3462,10 @@
         "w_hu_írni"
       ],
       "example": "Tudsz magyarul írni?",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_írni",
@@ -3214,7 +3475,10 @@
         "w_nl_41"
       ],
       "example": "Tudsz magyarul írni?",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_lezen_infinitief",
@@ -3224,7 +3488,10 @@
         "w_hu_olvasni"
       ],
       "example": "Szeretek olvasni.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_olvasni",
@@ -3234,7 +3501,10 @@
         "w_nl_42"
       ],
       "example": "Szeretek olvasni.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_gaan_infinitief",
@@ -3244,7 +3514,11 @@
         "w_hu_menni"
       ],
       "example": "Haza akarok menni.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_menni",
@@ -3254,7 +3528,11 @@
         "w_nl_43"
       ],
       "example": "Haza akarok menni.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_komen_infinitief",
@@ -3264,7 +3542,10 @@
         "w_hu_jönni"
       ],
       "example": "Holnap tudsz jönni?",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_jönni",
@@ -3274,7 +3555,10 @@
         "w_nl_44"
       ],
       "example": "Holnap tudsz jönni?",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_eten_infinitief",
@@ -3284,7 +3568,11 @@
         "w_hu_enni"
       ],
       "example": "Mit akarsz enni?",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_enni",
@@ -3294,7 +3582,11 @@
         "w_nl_45"
       ],
       "example": "Mit akarsz enni?",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_drinken_infinitief",
@@ -3304,7 +3596,11 @@
         "w_hu_inni"
       ],
       "example": "Mit akarsz inni?",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_inni",
@@ -3314,7 +3610,11 @@
         "w_nl_46"
       ],
       "example": "Mit akarsz inni?",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_slapen_infinitief",
@@ -3324,7 +3624,11 @@
         "w_hu_aludni"
       ],
       "example": "Jó éjszakát, megyek aludni.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_aludni",
@@ -3334,7 +3638,11 @@
         "w_nl_47"
       ],
       "example": "Jó éjszakát, megyek aludni.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_zien_infinitief",
@@ -3344,7 +3652,10 @@
         "w_hu_látni"
       ],
       "example": "Szeretném látni a házat.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_látni",
@@ -3354,7 +3665,10 @@
         "w_nl_48"
       ],
       "example": "Szeretném látni a házat.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Werkwoorden"
+      ]
     },
     {
       "id": "c_hu_nl_ő_vrouw",
@@ -3364,7 +3678,10 @@
         "w_nl_12_f"
       ],
       "example": "Ő Anna.",
-      "example_lang": "hu"
+      "example_lang": "hu",
+      "groups": [
+        "Voornaamwoorden"
+      ]
     },
     {
       "id": "c_nl_hu_acteur",
@@ -4076,23 +4393,25 @@
     {
       "id": "c_nl_hu_scheppen",
       "source_word_id": "w_nl_scheppen",
-      "context_source": "",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_meríteni"
       ],
       "groups": [
-        "Magyar Óra 2.5"
+        "Magyar Óra 2.5",
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_meríteni",
       "source_word_id": "w_hu_meríteni",
-      "context_source": "",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_scheppen"
       ],
       "groups": [
-        "Magyar Óra 2.5"
+        "Magyar Óra 2.5",
+        "Werkwoorden"
       ]
     },
     {
@@ -4125,7 +4444,8 @@
         "w_hu_szedni"
       ],
       "groups": [
-        "Magyar Óra 2.5"
+        "Magyar Óra 2.5",
+        "Werkwoorden"
       ]
     },
     {
@@ -4136,7 +4456,8 @@
         "w_nl_opscheppen"
       ],
       "groups": [
-        "Magyar Óra 2.5"
+        "Magyar Óra 2.5",
+        "Werkwoorden"
       ]
     },
     {
@@ -4420,7 +4741,7 @@
     {
       "id": "c_hu_nl_idő_2",
       "source_word_id": "w_hu_idő",
-      "context_source": "",
+      "context_source": "klok ⏰",
       "target_word_ids": [
         "w_nl_tijd"
       ],
@@ -4453,23 +4774,25 @@
     {
       "id": "c_nl_hu_verzorgen",
       "source_word_id": "w_nl_verzorgen",
-      "context_source": "",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_ápolni"
       ],
       "groups": [
-        "Magyar Óra 2.5"
+        "Magyar Óra 2.5",
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_ápolni",
       "source_word_id": "w_hu_ápolni",
-      "context_source": "",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_verzorgen"
       ],
       "groups": [
-        "Magyar Óra 2.5"
+        "Magyar Óra 2.5",
+        "Werkwoorden"
       ]
     },
     {
@@ -4606,8 +4929,8 @@
     },
     {
       "id": "c_nl_hu_kortlaag_verticaal",
-      "source_word_id": "w_nl_kortlaag",
-      "context_source": "verticaal",
+      "source_word_id": "w_nl_laag",
+      "context_source": "",
       "target_word_ids": [
         "w_hu_alacsony"
       ],
@@ -4663,793 +4986,795 @@
     {
       "id": "c_nl_hu_zijn_werkwoord_-_infinitief",
       "source_word_id": "w_nl_zijn",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief · onregelmatig",
       "target_word_ids": [
         "w_hu_lenni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_lenni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_lenni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief · onregelmatig",
       "target_word_ids": [
         "w_nl_zijn"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden",
+        "Onregelmatige werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_kletsen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_kletsen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_beszélgetni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_beszélgetni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_beszélgetni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_kletsen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_werken_werkwoord_-_infinitief",
       "source_word_id": "w_nl_werken",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_dolgozni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_dolgozni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_dolgozni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_werken"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_doen_/_maken_werkwoord_-_infinitief",
       "source_word_id": "w_nl_doen_/_maken",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_csinálni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_csinálni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_csinálni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_doen_/_maken"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_zingen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_zingen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_énekelni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_énekelni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_énekelni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_zingen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_betalen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_betalen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_fizetni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_fizetni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_fizetni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_betalen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_zeggen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_zeggen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_mondani"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_mondani_werkwoord_-_infinitief",
       "source_word_id": "w_hu_mondani",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_zeggen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_leven_werkwoord_-_infinitief",
       "source_word_id": "w_nl_leven",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_élni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_élni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_élni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_leven"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_sporten_werkwoord_-_infinitief",
       "source_word_id": "w_nl_sporten",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_sportolni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_sportolni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_sportolni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_sporten"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_tai–csi_doen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_tai–csi_doen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_tajcsizni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_tajcsizni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_tajcsizni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_tai–csi_doen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_kunnen_/_weten_werkwoord_-_infinitief",
       "source_word_id": "w_nl_kunnen_/_weten",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_tudni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_tudni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_tudni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_kunnen_/_weten"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_dansen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_dansen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_táncolni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_táncolni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_táncolni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_dansen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_houden_van_werkwoord_-_infinitief",
       "source_word_id": "w_nl_houden_van",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_szeretni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_szeretni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_szeretni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_houden_van"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_lopen_/_wandelen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_lopen_/_wandelen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_sétálni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_sétálni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_sétálni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_lopen_/_wandelen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_rennen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_rennen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_futni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_futni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_futni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_rennen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_geven_werkwoord_-_infinitief",
       "source_word_id": "w_nl_geven",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_adni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_adni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_adni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_geven"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_willen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_willen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_akarni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_akarni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_akarni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_willen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_kopen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_kopen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_venni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_venni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_venni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_kopen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_schieten_werkwoord_-_infinitief",
       "source_word_id": "w_nl_schieten",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_lőni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_lőni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_lőni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_schieten"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_blij_zijn_werkwoord_-_infinitief",
       "source_word_id": "w_nl_blij_zijn",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_örülni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_örülni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_örülni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_blij_zijn"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_reizen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_reizen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_utazni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_utazni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_utazni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_reizen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_schilderen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_schilderen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_festeni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_festeni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_festeni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_schilderen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_tekenen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_tekenen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_rajzolni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_rajzolni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_rajzolni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_tekenen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_zwemmen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_zwemmen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_úzni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_úzni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_úzni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_zwemmen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_afwas_doen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_afwas_doen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_mosogatni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_mosogatni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_mosogatni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_afwas_doen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_opruimen_/_schoonmaken_werkwoord_-_infinitief",
       "source_word_id": "w_nl_opruimen_/_schoonmaken",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_takarítani"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_takarítani_werkwoord_-_infinitief",
       "source_word_id": "w_hu_takarítani",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_opruimen_/_schoonmaken"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_voetballen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_voetballen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_focizni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_focizni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_focizni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_voetballen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_vragen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_vragen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_kérni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_kérni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_kérni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_vragen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_koken_werkwoord_-_infinitief",
       "source_word_id": "w_nl_koken",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_főzni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_főzni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_főzni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_koken"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_wachten_werkwoord_-_infinitief",
       "source_word_id": "w_nl_wachten",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_várni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_várni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_várni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_wachten"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_zitten_werkwoord_-_infinitief",
       "source_word_id": "w_nl_zitten",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_ülni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_ülni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_ülni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_zitten"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_staan_werkwoord_-_infinitief",
       "source_word_id": "w_nl_staan",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_állni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_állni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_állni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_staan"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_kosten_/_ontwijken_werkwoord_-_infinitief",
       "source_word_id": "w_nl_kosten_/_ontwijken",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_kerülni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_kerülni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_kerülni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_kosten_/_ontwijken"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_ontbijten_werkwoord_-_infinitief",
       "source_word_id": "w_nl_ontbijten",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_reggelizni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_reggelizni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_reggelizni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_ontbijten"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_wensen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_wensen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_kíváni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_kíváni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_kíváni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_wensen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_nl_hu_vallen_werkwoord_-_infinitief",
       "source_word_id": "w_nl_vallen",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_esni"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     },
     {
       "id": "c_hu_nl_esni_werkwoord_-_infinitief",
       "source_word_id": "w_hu_esni",
-      "context_source": "werkwoord - infinitief",
+      "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_vallen"
       ],
       "groups": [
-        "werkwoorden"
+        "Werkwoorden"
       ]
     }
   ]
