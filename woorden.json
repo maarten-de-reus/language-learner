@@ -1186,6 +1186,11 @@
       "text": "betalen"
     },
     {
+      "id": "w_nl_binnenstad",
+      "language": "nl",
+      "text": "binnenstad"
+    },
+    {
       "id": "w_nl_binnenstadcentrum",
       "language": "nl",
       "text": "binnenstadcentrum"
@@ -1204,6 +1209,11 @@
       "id": "w_nl_buitenwijk",
       "language": "nl",
       "text": "buitenwijk"
+    },
+    {
+      "id": "w_nl_centrum",
+      "language": "nl",
+      "text": "centrum"
     },
     {
       "id": "w_nl_charmant",
@@ -4364,7 +4374,8 @@
       "source_word_id": "w_hu_belváros",
       "context_source": "",
       "target_word_ids": [
-        "w_nl_binnenstadcentrum"
+        "w_nl_binnenstad",
+        "w_nl_centrum"
       ],
       "groups": [
         "Magyar Óra 2.5"

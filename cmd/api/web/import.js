@@ -211,7 +211,7 @@ async function runImport() {
     const res = await api("POST", "/api/import", { text: imp.text, choices: imp.choices, groups: pendingGroups("import") });
     view.entries = res.entries ?? view.entries;
     closeImport();
-    toast(`${res.added} ${res.added === 1 ? "woord" : "woorden"} toegevoegd${res.duplicates ? `, ${res.duplicates} overgeslagen` : ""}. Ze komen via de wachtrij binnen.`);
+    toast(`${res.added} ${res.added === 1 ? "woord" : "woorden"} toegevoegd${res.duplicates ? `, ${res.duplicates} overgeslagen` : ""}. Ze komen via de wachtrij binnen; oefen ze vooraf onder Kaarten.`);
     refreshStats();
   } catch (err) {
     toast(err.message); // bijv. iets veranderd sinds het controleren: opnieuw controleren

@@ -620,13 +620,14 @@ document.addEventListener("keydown", (e) => {
 // ---------- Tabs ----------
 
 async function showTab() {
-  const tab = { "#beheer": "beheer", "#statistiek": "statistiek" }[location.hash] ?? "oefenen";
+  const tab = { "#beheer": "beheer", "#statistiek": "statistiek", "#kaarten": "kaarten" }[location.hash] ?? "oefenen";
   manageEl.hidden = tab !== "beheer";
   statsEl.hidden = tab !== "statistiek";
+  cardsEl.hidden = tab !== "kaarten";
   app.hidden = tab !== "oefenen";
   document.getElementById("quiz-foot").hidden = tab !== "oefenen";
   document.body.classList.toggle("mode-manage", tab !== "oefenen");
-  for (const t of ["oefenen", "statistiek", "beheer"]) {
+  for (const t of ["oefenen", "kaarten", "statistiek", "beheer"]) {
     document.getElementById(`tab-${t}`).setAttribute("aria-current", t === tab ? "page" : "false");
   }
 
@@ -645,6 +646,8 @@ async function showTab() {
     }
   } else if (tab === "statistiek") {
     showStatistics();
+  } else if (tab === "kaarten") {
+    showCards();
   } else {
     renderedCardId = null; // kaart opnieuw opbouwen, er kunnen concepten bijgekomen zijn
     act("/api/state");

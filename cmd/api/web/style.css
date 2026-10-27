@@ -711,3 +711,26 @@ body.mode-manage .shell { max-width: 820px; }
   flex: 1; min-width: 140px; border: 0; outline: none; background: none;
   font: inherit; font-size: 15px; font-weight: 400; color: var(--text); padding: 4px 2px;
 }
+
+/* Kaarten */
+.cards { min-height: 360px; }
+.fc-setup h3 { margin: 18px 0 8px; font-size: 14px; }
+.fc-setup > p { margin: 4px 0 0; }
+.fc-options { display: flex; flex-wrap: wrap; gap: 6px; }
+.fc-options .fchip[disabled] { opacity: .45; cursor: default; }
+.fc-options .fchip[aria-checked="true"] { background: var(--ink); color: var(--ink-text); border-color: var(--ink); }
+.fc-options .fchip[aria-checked="true"] span { color: inherit; opacity: .7; }
+.fc-dirs { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+.fc-card { animation: enter .25s ease; }
+.fc-card .prompt { margin-bottom: 10px; }
+.fc-back {
+  margin-top: 6px; padding-top: 16px;
+  border-top: 2px dashed var(--border);
+  animation: enter .2s ease;
+}
+.fc-answer { margin: 0 0 6px; font-size: clamp(26px, 6vw, 36px); font-weight: 700; letter-spacing: -0.02em; color: var(--good); }
+.fc-flip { margin-top: 18px; }
+.fc-flip kbd { background: none; border-color: color-mix(in srgb, var(--ink-text) 40%, transparent); color: inherit; opacity: .8; }
+.fc-rate { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
+.fc-foot { text-align: center; font-size: 12px; margin: 10px 0 0; }
+.linklike { border: 0; background: none; padding: 0; font: inherit; color: var(--focus); cursor: pointer; text-decoration: underline; }
