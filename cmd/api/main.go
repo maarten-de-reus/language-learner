@@ -109,6 +109,7 @@ func (s *server) routes() *http.ServeMux {
 	mux.HandleFunc("POST /api/next", s.handle(func() { s.session.Next() }))
 	mux.HandleFunc("POST /api/run", s.handle(func() { s.session.NewRun() }))
 	mux.HandleFunc("POST /api/new/extra", s.handle(func() { s.session.AddExtraNew(ExtraNewWords) }))
+	mux.HandleFunc("POST /api/practice/check", s.handlePracticeCheck)
 	mux.HandleFunc("GET /api/stats", s.handleStats)
 	mux.HandleFunc("GET /api/settings", s.handleGetSettings)
 	mux.HandleFunc("PUT /api/settings", s.handlePutSettings)

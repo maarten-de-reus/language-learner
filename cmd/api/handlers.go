@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"hungarian-language-learner/internal/catalog"
 	"log"
 	"net/http"
 	"sync"
@@ -54,4 +55,24 @@ func (s *server) handleAnswer(w http.ResponseWriter, r *http.Request) {
 		s.saveError = ""
 	}
 	s.writeState(w)
+}
+
+// handlePracticeCheck kijkt een antwoord uit Kaarten na, zonder iets op te slaan
+func (s *server) handlePracticeCheck(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		ID    string `json:"id"`
+		Input string `json:"input"`
+	}
+	if !decode(w, r, &body) {
+		return
+	}
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	res, ok := s.session.Practice(body.ID, body.Input)
+	if !ok {
+		writeError(w, http.StatusNotFound, catalog.ErrNotFound)
+		return
+	}
+	writeJSON(w, http.StatusOK, res)
 }

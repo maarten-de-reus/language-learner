@@ -244,3 +244,23 @@ func TestCheckAndAddWithExistingDutchWord(t *testing.T) {
 		t.Errorf("nieuwe betekenis zonder hint: verwacht 409, kreeg %d %s", code, out)
 	}
 }
+
+func TestPracticeCheckSavesNothing(t *testing.T) {
+	s, h := newTestServer(t)
+	code, out := call(t, h, "POST", "/api/practice/check", `{"id":"c_hu_nl_idő","input":"weer"}`)
+	if code != http.StatusOK || string(out["correct"]) != "true" {
+		t.Fatalf("verwacht goed, kreeg %d %v", code, out)
+	}
+	code, out = call(t, h, "POST", "/api/practice/check", `{"id":"c_nl_hu_weer","input":"ido"}`)
+	if code != http.StatusOK || string(out["correct"]) != "false" || string(out["accentOnly"]) != "true" {
+		t.Errorf("verwacht accentfout, kreeg %d %v", code, out)
+	}
+	if code, _ := call(t, h, "POST", "/api/practice/check", `{"id":"bestaat-niet","input":"x"}`); code != http.StatusNotFound {
+		t.Errorf("onbekend concept: verwacht 404, kreeg %d", code)
+	}
+	for _, name := range []string{s.reviewsPath, filepath.Join(filepath.Dir(s.reviewsPath), "voortgang.json")} {
+		if _, err := os.Stat(name); err == nil {
+			t.Errorf("oefenen in Kaarten mag niets opslaan, maar %s bestaat", filepath.Base(name))
+		}
+	}
+}

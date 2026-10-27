@@ -324,6 +324,30 @@ func (s *Session) logReview(c *storage.TranslationConcept, input string, stepBef
 	})
 }
 
+// PracticeResult is de uitslag van een oefenantwoord buiten de planning (Kaarten)
+type PracticeResult struct {
+	Correct      bool          `json:"correct"`
+	AccentOnly   bool          `json:"accentOnly"`
+	Expected     []string      `json:"expected"`
+	OtherMeaning *OtherMeaning `json:"otherMeaning,omitempty"`
+}
+
+// Practice kijkt een antwoord na zoals Answer, maar verandert niets: geen voortgang, geen log
+// en de lopende run blijft zoals hij is. ok is false als het concept niet bestaat.
+func (s *Session) Practice(conceptID, input string) (res PracticeResult, ok bool) {
+	i := s.lib.Index(conceptID)
+	if i < 0 {
+		return res, false
+	}
+	concept := &s.lib.Concepts[i]
+	res.Expected = s.targetTexts(concept)
+	res.Correct, res.AccentOnly = engine.CheckAnswer(input, res.Expected)
+	if !res.Correct {
+		res.OtherMeaning = s.otherMeaning(concept, input)
+	}
+	return res, true
+}
+
 // otherMeaning zoekt een ander concept met hetzelfde bronwoord (taal + tekst, niet het ID)
 // waarvoor de invoer wél het goede antwoord is
 func (s *Session) otherMeaning(current *storage.TranslationConcept, input string) *OtherMeaning {

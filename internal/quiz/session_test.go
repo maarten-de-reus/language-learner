@@ -486,3 +486,32 @@ func TestOtherDirectionNotInNextRunAfterAnswer(t *testing.T) {
 		}
 	}
 }
+
+func TestPracticeChecksWithoutChangingAnything(t *testing.T) {
+	s := időData(t)
+	before := s.lib.Clone()
+	card := *s.Current()
+
+	if res, ok := s.Practice("c_tijd", "tijd"); !ok || !res.Correct || res.Expected[0] != "tijd" {
+		t.Errorf("goed antwoord: %+v", res)
+	}
+	if res, _ := s.Practice("c_weer", "tijd"); res.Correct || res.OtherMeaning == nil || res.OtherMeaning.Context != "klok" {
+		t.Errorf("andere betekenis moet uitgelegd worden: %+v", res)
+	}
+	if res, _ := s.Practice("c_nl_weer", "ido"); res.Correct || !res.AccentOnly {
+		t.Errorf("accentfout: %+v", res)
+	}
+	if _, ok := s.Practice("bestaat-niet", "x"); ok {
+		t.Error("onbekend concept moet ok=false geven")
+	}
+
+	for i, c := range s.lib.Concepts {
+		b := before.Concepts[i]
+		if c.StepIndex != b.StepIndex || !c.NextReview.Equal(b.NextReview) || !c.LastReview.Equal(b.LastReview) || !c.FirstReview.Equal(b.FirstReview) {
+			t.Errorf("oefenen mag de voortgang van %s niet veranderen", c.ID)
+		}
+	}
+	if *s.Current() != card || s.Feedback() != nil {
+		t.Error("oefenen mag de lopende run niet veranderen")
+	}
+}
