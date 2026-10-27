@@ -108,18 +108,39 @@ func CalculateIntervalWithFuzz(stepIndex int) int {
 	return int(finalDays + 0.5)
 }
 
+// Outcome is de uitslag van een eerste poging
+type Outcome int
+
+const (
+	Wrong      Outcome = iota
+	AccentOnly         // goed woord, alleen de accenten fout
+	Correct
+)
+
+// Na een fout komt een woord morgen terug, een paar stappen lager. Is het morgen goed, dan gaat het
+// weer één stap omhoog: na een fout op 40 dagen volgen dus morgen, 16 en 40 dagen in plaats van
+// opnieuw 1, 3, 7, 16 en 40. Een accentfout kost één stap: na morgen geldt weer het oude interval.
+const (
+	LapseSteps       = 2
+	AccentLapseSteps = 1
+)
+
 // UpdateProgressSmart verwerkt het antwoord en houdt rekening met vroegtijdig studeren.
 // Met load wordt de volgende herhaling op de rustigste dag binnen de speling gepland.
-func UpdateProgressSmart(concept *storage.TranslationConcept, isCorrect bool, load Load) {
-	updateProgress(concept, isCorrect, time.Now(), load)
+func UpdateProgressSmart(concept *storage.TranslationConcept, outcome Outcome, load Load) {
+	updateProgress(concept, outcome, time.Now(), load)
 }
 
-func updateProgress(concept *storage.TranslationConcept, isCorrect bool, now time.Time, load Load) {
+func updateProgress(concept *storage.TranslationConcept, outcome Outcome, now time.Time, load Load) {
 	isEarly := now.Before(concept.NextReview)
 
-	if !isCorrect {
-		// Fout = Altijd harde reset, ook bij vroegtijdig oefenen
-		concept.StepIndex = 0
+	if outcome != Correct {
+		// Fout: stappen terug en morgen weer, ook bij vroegtijdig oefenen
+		lapse := LapseSteps
+		if outcome == AccentOnly {
+			lapse = AccentLapseSteps
+		}
+		concept.StepIndex = clampStep(clampStep(concept.StepIndex) - lapse)
 		concept.NextReview = ReviewDate(now, 1)
 		return
 	}

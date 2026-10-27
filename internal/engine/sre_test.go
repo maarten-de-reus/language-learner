@@ -155,13 +155,13 @@ func TestUpdateProgressSchedulesAtStartOfDay(t *testing.T) {
 	tomorrow := time.Date(2026, 10, 21, DayStartHour, 0, 0, 0, time.Local)
 
 	wrong := storage.TranslationConcept{StepIndex: 3, NextReview: now.Add(-time.Hour)}
-	updateProgress(&wrong, false, now, nil)
-	if wrong.StepIndex != 0 || !wrong.NextReview.Equal(tomorrow) {
-		t.Errorf("fout: verwacht stap 0 en morgen %02d:00, kreeg %+v", DayStartHour, wrong)
+	updateProgress(&wrong, Wrong, now, nil)
+	if wrong.StepIndex != 1 || !wrong.NextReview.Equal(tomorrow) {
+		t.Errorf("fout: verwacht stap 1 en morgen %02d:00, kreeg %+v", DayStartHour, wrong)
 	}
 
 	right := storage.TranslationConcept{StepIndex: 0, NextReview: now.Add(-time.Hour)}
-	updateProgress(&right, true, now, nil)
+	updateProgress(&right, Correct, now, nil)
 	want := time.Date(2026, 10, 23, DayStartHour, 0, 0, 0, time.Local) // stap 1 = 3 dagen
 	if right.StepIndex != 1 || !right.NextReview.Equal(want) {
 		t.Errorf("goed: verwacht stap 1 en %v, kreeg %+v", want, right)
@@ -184,7 +184,7 @@ func TestCorruptStepDoesNotCrash(t *testing.T) {
 		_ = CalculateIntervalWithFuzz(step) // mag niet panieken
 
 		c := storage.TranslationConcept{StepIndex: step, NextReview: past}
-		updateProgress(&c, true, time.Now(), nil)
+		updateProgress(&c, Correct, time.Now(), nil)
 		if c.StepIndex < 0 || c.StepIndex >= len(AnkiIntervals) {
 			t.Errorf("stap %d: na een antwoord moet de stap geldig zijn, kreeg %d", step, c.StepIndex)
 		}
@@ -197,22 +197,52 @@ func TestUpdateProgressEdgeCases(t *testing.T) {
 	// Te vroeg en goed: niets verandert
 	early := storage.TranslationConcept{StepIndex: 2, NextReview: now.Add(48 * time.Hour)}
 	before := early
-	updateProgress(&early, true, now, nil)
+	updateProgress(&early, Correct, now, nil)
 	if early.StepIndex != before.StepIndex || !early.NextReview.Equal(before.NextReview) {
 		t.Errorf("te vroeg goed mag niets veranderen: %+v -> %+v", before, early)
 	}
 
-	// Te vroeg en fout: toch terug naar stap 0
-	updateProgress(&early, false, now, nil)
+	// Te vroeg en fout: toch stappen terug
+	updateProgress(&early, Wrong, now, nil)
 	if early.StepIndex != 0 {
-		t.Errorf("te vroeg fout moet terug naar stap 0, kreeg %d", early.StepIndex)
+		t.Errorf("te vroeg fout moet twee stappen terug, kreeg %d", early.StepIndex)
 	}
 
 	// Op de hoogste stap blijft het bij de hoogste stap
 	top := storage.TranslationConcept{StepIndex: len(AnkiIntervals) - 1, NextReview: past}
-	updateProgress(&top, true, now, nil)
+	updateProgress(&top, Correct, now, nil)
 	if top.StepIndex != len(AnkiIntervals)-1 {
 		t.Errorf("hoogste stap moet blijven, kreeg %d", top.StepIndex)
+	}
+}
+
+func TestLapseStepsBackInsteadOfReset(t *testing.T) {
+	now := time.Date(2026, 10, 20, 21, 15, 0, 0, time.Local)
+	tomorrow := ReviewDate(now, 1)
+	cases := []struct {
+		name    string
+		step    int
+		outcome Outcome
+		after   int // stap direct na de fout
+		back    int // stap na een goed antwoord morgen
+	}{
+		{"fout op 40 dagen", 4, Wrong, 2, 3},
+		{"fout op 90 dagen", 5, Wrong, 3, 4},
+		{"fout op 3 dagen", 1, Wrong, 0, 1},
+		{"fout op 1 dag", 0, Wrong, 0, 1},
+		{"accentfout op 40 dagen", 4, AccentOnly, 3, 4},
+		{"accentfout op 1 dag", 0, AccentOnly, 0, 1},
+	}
+	for _, c := range cases {
+		concept := storage.TranslationConcept{StepIndex: c.step, NextReview: now.Add(-time.Hour)}
+		updateProgress(&concept, c.outcome, now, nil)
+		if concept.StepIndex != c.after || !concept.NextReview.Equal(tomorrow) {
+			t.Errorf("%s: verwacht stap %d en morgen, kreeg stap %d op %v", c.name, c.after, concept.StepIndex, concept.NextReview)
+		}
+		updateProgress(&concept, Correct, tomorrow.Add(time.Hour), nil)
+		if concept.StepIndex != c.back {
+			t.Errorf("%s: na goed morgen verwacht stap %d, kreeg %d", c.name, c.back, concept.StepIndex)
+		}
 	}
 }
 

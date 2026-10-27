@@ -100,9 +100,10 @@ func TestAnswerTwiceIsIgnored(t *testing.T) {
 
 func TestAccentOnlyIsWrongWithHint(t *testing.T) {
 	s, _ := newTestSession(t)
+	before := s.conceptOf(s.run[s.pos]).StepIndex
 	fb, _ := s.Answer(engine.Fold(correctAnswer(s))) // kávé -> kave, víz -> viz
-	if fb.Correct || !fb.AccentOnly || fb.Step != 0 {
-		t.Errorf("verwacht fout met accent-hint en reset naar stap 0, kreeg %+v", fb)
+	if fb.Correct || !fb.AccentOnly || fb.Step != max(0, before-engine.AccentLapseSteps) {
+		t.Errorf("verwacht fout met accent-hint, één stap terug vanaf %d, kreeg %+v", before, fb)
 	}
 }
 
@@ -166,7 +167,7 @@ func TestWrongAnswerIsRetriedAtEndOfRun(t *testing.T) {
 
 func TestRetryDoesNotChangeSchedule(t *testing.T) {
 	s, _ := newTestSession(t)
-	s.Answer("fout") // eerste woord: reset naar stap 0, morgen weer
+	s.Answer("fout") // eerste woord: stap 0, morgen weer
 	s.Next()
 	s.Answer(correctAnswer(s))
 	s.Next()

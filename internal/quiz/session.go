@@ -261,7 +261,13 @@ func (s *Session) Answer(input string) (*Feedback, error) {
 			concept.FirstReview = time.Now() // uit de wachtrij: telt mee voor de daglimiet
 		}
 		concept.LastReview = time.Now() // de andere richting van dit woord wacht nu tot morgen
-		engine.UpdateProgressSmart(concept, correct, s.load(concept.ID))
+		outcome := engine.Wrong
+		if correct {
+			outcome = engine.Correct
+		} else if accentOnly {
+			outcome = engine.AccentOnly
+		}
+		engine.UpdateProgressSmart(concept, outcome, s.load(concept.ID))
 		saveErr = s.Save()
 		item.result = len(s.results)
 		s.results = append(s.results, Result{
