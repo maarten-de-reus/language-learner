@@ -82,7 +82,7 @@ type ForwardChoice struct {
 // Line-statussen
 const (
 	StatusAdded     = "added"     // toegevoegd (of: wordt toegevoegd, bij controleren)
-	StatusDuplicate = "duplicate" // bestaat al: overgeslagen
+	StatusDuplicate = "duplicate" // bestaat al: niet opnieuw toegevoegd, wel in de groepen van de import
 	StatusChoice    = "choice"    // het Hongaarse woord bestaat al: kies zelfde of andere betekenis
 	StatusError     = "error"
 )
@@ -95,6 +95,9 @@ type ImportResult struct {
 	Candidates        []Entry `json:"candidates,omitempty"`        // bij een keuze voor het Hongaarse woord: de bestaande HU->NL betekenissen
 	ForwardCandidates []Entry `json:"forwardCandidates,omitempty"` // bij een keuze voor het Nederlandse woord: de bestaande NL->HU betekenissen
 	Reverse           string  `json:"reverse,omitempty"`           // het Hongaarse woord waar de keuze over gaat
+	// Bij een woord dat al bestaat: zo staat het er, en of het de groepen van de import erbij kreeg
+	Existing string `json:"existing,omitempty"`
+	Grouped  bool   `json:"grouped,omitempty"`
 	// Synoniemen op de regel: wie een eigen HU->NL kaart krijgt, en wie al een andere betekenis heeft
 	ExtraReverse   []string `json:"extraReverse,omitempty"`
 	SkippedReverse []string `json:"skippedReverse,omitempty"`
@@ -136,8 +139,23 @@ func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportCho
 	}
 	nc.Example = line.Example
 	nc.Groups = groups
-	if IsDuplicate(lib, nc) {
-		return fail(StatusDuplicate, "bestaat al met deze context en vertaling")
+	if existing := Existing(lib, nc); existing != nil {
+		gs, err := NormalizeGroups(lib, groups)
+		if err != nil {
+			return fail(StatusError, err.Error())
+		}
+		var names []string
+		for _, i := range existing {
+			c := lib.Concepts[i]
+			name := lib.Words[c.SourceWordID].Text
+			if c.ContextSource != "" {
+				name += " (" + c.ContextSource + ")"
+			}
+			names = append(names, name+" → "+strings.Join(TargetTexts(lib, c), ", "))
+			res.Grouped = GroupExisting(lib, i, gs) || res.Grouped
+		}
+		res.Existing = strings.Join(names, " en ")
+		return fail(StatusDuplicate, "bestaat al")
 	}
 
 	// Het Nederlandse woord bestaat al: aanvullen of nieuwe betekenis?

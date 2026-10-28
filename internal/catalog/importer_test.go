@@ -211,3 +211,35 @@ func TestImportReportsSynonymCards(t *testing.T) {
 		t.Error("kanapé -> bank moet bestaan")
 	}
 }
+
+func TestImportExistingWordGetsGroups(t *testing.T) {
+	lib := newLib()
+	add(t, lib, "oud", "dingen", "régi")
+	add(t, lib, "oud", "mensen, dieren", "öreg", func(nc *NewPair) { nc.ForwardHints = map[string]string{lib.Concepts[0].ID: "dingen"} })
+
+	// Zonder hint, met een andere hint of met precies de hint: allemaal het bestaande woord
+	results, ok := Import(lib, ParseImport("régi;oud\nöreg;oud;ouderwets\nrégi;oud;dingen\nfiatal;jong\nrégi,öreg;oud"), nil, []string{"Week 2"})
+	if !ok {
+		t.Fatalf("import mag niet blokkeren: %+v", results)
+	}
+	want := []struct {
+		status, existing string
+		grouped          bool
+	}{
+		{StatusDuplicate, "oud (dingen) → régi", true},
+		{StatusDuplicate, "oud (mensen, dieren) → öreg", true},
+		{StatusDuplicate, "oud (dingen) → régi", false}, // zat er net al in
+		{StatusAdded, "", false},
+		{StatusDuplicate, "oud (dingen) → régi en oud (mensen, dieren) → öreg", false}, // beide betekenissen samen
+	}
+	for i, w := range want {
+		if r := results[i]; r.Status != w.status || r.Existing != w.existing || r.Grouped != w.grouped {
+			t.Errorf("regel %d: verwacht %+v, kreeg %+v", i+1, w, r)
+		}
+	}
+	for _, c := range lib.Concepts {
+		if !slices.Contains(c.Groups, "Week 2") {
+			t.Errorf("%s moet in Week 2 zitten (beide richtingen), groepen %v", c.ID, c.Groups)
+		}
+	}
+}

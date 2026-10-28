@@ -72,6 +72,20 @@ func addGroups(c *storage.TranslationConcept, groups []string) {
 	}
 }
 
+// GroupExisting zet groepen op een bestaand concept en zijn omgekeerde richting(en): een groep
+// hoort bij het woord. Geeft true als er iets veranderd is.
+func GroupExisting(lib *storage.Library, i int, groups []string) bool {
+	ids := append([]string{lib.Concepts[i].ID}, reverseIDs(lib, lib.Concepts[i])...)
+	changed := false
+	for _, id := range ids {
+		c := &lib.Concepts[lib.Index(id)]
+		before := len(c.Groups)
+		addGroups(c, groups)
+		changed = changed || len(c.Groups) != before
+	}
+	return changed
+}
+
 // removeGroups haalt groepen weg uit een concept
 func removeGroups(c *storage.TranslationConcept, groups []string) {
 	c.Groups = slices.DeleteFunc(c.Groups, func(g string) bool { return slices.Contains(groups, g) })

@@ -83,16 +83,42 @@ func ForwardCandidates(lib *storage.Library, dutch string) []int {
 	return idx
 }
 
-// IsDuplicate is true als er niets nieuws is: een NL->HU concept met hetzelfde woord, dezelfde
-// context en al deze Hongaarse antwoorden bestaat al. Herkend op tekst, niet op ID.
-func IsDuplicate(lib *storage.Library, nc NewPair) bool {
-	for _, i := range ForwardCandidates(lib, nc.Dutch) {
-		c := lib.Concepts[i]
-		if strings.EqualFold(strings.TrimSpace(c.ContextSource), nc.Context) && len(newAnswers(lib, c, nc.Hungarian)) == 0 {
-			return true
+// Existing geeft de NL->HU concepten die al alles bevatten: elk Hongaars woord is al een goed
+// antwoord bij een betekenis van hetzelfde Nederlandse woord. nil als er iets nieuws in zit.
+// De hint telt alleen mee bij de keuze tussen betekenissen: oud -> régi is hetzelfde woord als
+// oud (dingen) -> régi, en oud -> régi, öreg zijn samen de twee betekenissen van oud. Hetzelfde
+// woordpaar met een andere hint overhoren heeft geen zin. Herkend op tekst, niet op ID.
+func Existing(lib *storage.Library, nc NewPair) []int {
+	cands := ForwardCandidates(lib, nc.Dutch)
+	// Zelfde hint gaat voor
+	slices.SortStableFunc(cands, func(a, b int) int {
+		same := func(i int) bool {
+			return strings.EqualFold(strings.TrimSpace(lib.Concepts[i].ContextSource), nc.Context)
+		}
+		switch {
+		case same(a) && !same(b):
+			return -1
+		case same(b) && !same(a):
+			return 1
+		}
+		return 0
+	})
+	var found []int
+	for _, hu := range nc.Hungarian {
+		i := slices.IndexFunc(cands, func(i int) bool { return len(newAnswers(lib, lib.Concepts[i], []string{hu})) == 0 })
+		if i < 0 {
+			return nil
+		}
+		if !slices.Contains(found, cands[i]) {
+			found = append(found, cands[i])
 		}
 	}
-	return false
+	return found
+}
+
+// IsDuplicate is true als er niets nieuws is (zie Existing)
+func IsDuplicate(lib *storage.Library, nc NewPair) bool {
+	return len(Existing(lib, nc)) > 0
 }
 
 // newAnswers geeft de Hongaarse woorden die nog geen antwoord van concept c zijn

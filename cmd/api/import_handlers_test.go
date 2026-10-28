@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"os"
+	"strings"
 	"testing"
 )
 
@@ -94,5 +96,20 @@ func TestGroupsViaAPI(t *testing.T) {
 
 	if code, _ := call(t, h, "POST", "/api/concepts", `{"dutch":"bier","hungarian":"sör","groups":["a, b"]}`); code != http.StatusBadRequest {
 		t.Errorf("ongeldige groepsnaam: verwacht 400, kreeg %d", code)
+	}
+}
+
+func TestImportOnlyGroupingExistingWordsIsSaved(t *testing.T) {
+	s, h := newTestServer(t)
+	code, out := call(t, h, "POST", "/api/import", `{"text":"idő;weer","groups":["Week 2"]}`)
+	if code != http.StatusOK || string(out["added"]) != "0" || string(out["grouped"]) != "1" {
+		t.Fatalf("verwacht 0 nieuw en 1 in een groep, kreeg %d %v", code, out)
+	}
+	if got := savedConcepts(t, s); got != 2 {
+		t.Errorf("woorden.json moet nog 2 concepten hebben, kreeg %d", got)
+	}
+	data, _ := os.ReadFile(s.wordsPath)
+	if !strings.Contains(string(data), "Week 2") {
+		t.Error("de nieuwe groep moet opgeslagen zijn")
 	}
 }

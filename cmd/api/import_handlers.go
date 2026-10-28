@@ -20,6 +20,7 @@ type importResponse struct {
 	OK         bool                   `json:"ok"` // geen fouten of open keuzes
 	Added      int                    `json:"added"`
 	Duplicates int                    `json:"duplicates"`
+	Grouped    int                    `json:"grouped"` // waarvan in de groepen van de import gezet
 	Errors     int                    `json:"errors"`
 	Choices    int                    `json:"choices"`
 	Entries    []catalog.Entry        `json:"entries,omitempty"` // na een geslaagde import
@@ -33,6 +34,9 @@ func summarize(results []catalog.ImportResult, ok bool) importResponse {
 			resp.Added++
 		case catalog.StatusDuplicate:
 			resp.Duplicates++
+			if r.Grouped {
+				resp.Grouped++
+			}
 		case catalog.StatusError:
 			resp.Errors++
 		case catalog.StatusChoice:
@@ -80,8 +84,8 @@ func (s *server) handleImport(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusConflict, resp)
 		return
 	}
-	if resp.Added == 0 {
-		writeJSON(w, http.StatusOK, resp) // alleen duplicaten: niets op te slaan
+	if resp.Added == 0 && resp.Grouped == 0 {
+		writeJSON(w, http.StatusOK, resp) // alleen duplicaten zonder nieuwe groep: niets op te slaan
 		return
 	}
 	if err := storage.SaveWords(s.wordsPath, s.lib.Words, s.lib.Concepts); err != nil {

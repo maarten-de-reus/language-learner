@@ -29,11 +29,20 @@ function importPanelHTML() {
       ${c ? importPreviewHTML(c) : ""}
       <div class="m-actions">
         <button type="button" class="btn secondary" data-import-cancel>Annuleren</button>
-        ${c && c.ok && c.added > 0
-          ? `<button type="submit" class="btn" id="imp-go">${c.added} ${c.added === 1 ? "woord" : "woorden"} importeren</button>`
+        ${importReady(c)
+          ? `<button type="submit" class="btn" id="imp-go">${importLabel(c)}</button>`
           : `<button type="submit" class="btn" id="imp-check" ${imp.text.trim() ? "" : "disabled"}>Controleren</button>`}
       </div>
     </form>`;
+}
+
+// Er valt iets op te slaan: nieuwe woorden, of bestaande woorden die in een groep komen
+const importReady = (c) => c && c.ok && (c.added > 0 || c.grouped > 0);
+
+function importLabel(c) {
+  const words = (n) => `${n} ${n === 1 ? "woord" : "woorden"}`;
+  if (!c.added) return `${words(c.grouped)} in de groep zetten`;
+  return `${words(c.added)} importeren${c.grouped ? ` en ${c.grouped} in de groep` : ""}`;
 }
 
 function importPreviewHTML(c) {
@@ -41,7 +50,8 @@ function importPreviewHTML(c) {
   return `
     <div class="imp-summary">
       ${chip(c.added, "ok", "nieuw")}
-      ${chip(c.duplicates, "dup", "bestaan al (worden overgeslagen)")}
+      ${chip(c.grouped, "dup", c.grouped === 1 ? "bestaat al, komt in de groep" : "bestaan al, komen in de groep")}
+      ${chip(c.duplicates - c.grouped, "dup", c.duplicates - c.grouped === 1 ? "bestaat al (niets te doen)" : "bestaan al (niets te doen)")}
       ${chip(c.choices, "choice", c.choices === 1 ? "keuze nodig" : "keuzes nodig")}
       ${chip(c.errors, "err", c.errors === 1 ? "fout" : "fouten")}
       ${!c.results.length ? `<span class="muted">Geen regels gevonden.</span>` : ""}
@@ -62,7 +72,9 @@ function importRowHTML(r) {
       <div class="imp-body">
         <div>${words}</div>
         ${r.example ? `<div class="imp-example" lang="hu">“${esc(r.example)}”</div>` : ""}
-        ${r.message && r.status !== "added" ? `<div class="imp-msg">${esc(r.message)}</div>` : ""}
+        ${r.status === "duplicate" ? `<div class="imp-msg">Bestaat al als <b>${esc(r.existing)}</b>${r.grouped
+          ? ` · komt in ${esc(pendingGroups("import").join(", "))}` : ""}</div>`
+          : r.message && r.status !== "added" ? `<div class="imp-msg">${esc(r.message)}</div>` : ""}
         ${r.extraReverse?.length ? `<div class="imp-extra">Ook als vraag: ${r.extraReverse.map((h) => `<b lang="hu">${esc(h)}</b> → ${esc(r.dutch)}`).join(", ")}</div>` : ""}
         ${r.skippedReverse?.length ? `<div class="imp-msg">${r.skippedReverse.map((h) => `<b lang="hu">${esc(h)}</b>`).join(", ")}
           ${r.skippedReverse.length === 1 ? "heeft" : "hebben"} al een andere betekenis, dus er komt geen kaart
@@ -149,7 +161,7 @@ function bindImport() {
   form.querySelector("[data-import-cancel]").addEventListener("click", closeImport);
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    imp.check?.ok && imp.check.added > 0 ? runImport() : checkImport();
+    importReady(imp.check) ? runImport() : checkImport();
   });
 
   // Keuzes voor het Nederlandse woord
@@ -215,7 +227,11 @@ async function runImport() {
     const res = await api("POST", "/api/import", { text: imp.text, choices: imp.choices, groups: pendingGroups("import") });
     view.entries = res.entries ?? view.entries;
     closeImport();
-    toast(`${res.added} ${res.added === 1 ? "woord" : "woorden"} toegevoegd${res.duplicates ? `, ${res.duplicates} overgeslagen` : ""}. Ze komen via de wachtrij binnen; oefen ze vooraf onder Kaarten.`);
+    const parts = [];
+    if (res.added) parts.push(`${res.added} ${res.added === 1 ? "woord" : "woorden"} toegevoegd`);
+    if (res.grouped) parts.push(`${res.grouped} bestaande in de groep gezet`);
+    if (res.duplicates - res.grouped) parts.push(`${res.duplicates - res.grouped} bestonden al`);
+    toast(`${parts.join(", ")}.${res.added ? " Nieuwe woorden komen via de wachtrij binnen; oefen ze vooraf onder Kaarten." : ""}`);
     refreshStats();
   } catch (err) {
     toast(err.message); // bijv. iets veranderd sinds het controleren: opnieuw controleren
