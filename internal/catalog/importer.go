@@ -48,7 +48,8 @@ func ParseImport(text string) []ImportLine {
 			case line.Dutch == "":
 				line.Err = "Nederlands woord ontbreekt"
 			case strings.Contains(line.Dutch, ","):
-				line.Err = "meerdere Nederlandse woorden: zet elk op een eigen regel"
+				line.Err = "meerdere Nederlandse woorden: zet elk op een eigen regel. Betekenen ze iets anders, " +
+					"geef dan elke regel een eigen hint (nem;nee;antwoord en nem;niet;ontkenning)"
 			}
 		} else {
 			line.Hungarian = fields[0]
