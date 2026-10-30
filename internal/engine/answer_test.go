@@ -72,3 +72,27 @@ func TestOptionalParts(t *testing.T) {
 		t.Errorf("zonder haakjes blijft het antwoord zoals het is, kreeg %v", got)
 	}
 }
+
+func TestPunctuationAndDashes(t *testing.T) {
+	cases := []struct {
+		input    string
+		accepted []string
+		correct  bool
+	}{
+		{"mi", []string{"mi?"}, true},                     // vraagteken aan het eind telt niet
+		{"Mi?", []string{"mi"}, true},                     // ook niet als je het wél typt
+		{"tessek", []string{"tessék?"}, false},            // accenten tellen nog wel
+		{"sorry", []string{"sorry? (wat zegt u?)"}, true}, // optioneel deel en vraagteken
+		{"tai-csi doen", []string{"tai–csi doen"}, true},  // lang streepje in het antwoord
+		{"tai–csi doen", []string{"tai-csi doen"}, true},  // lang streepje in de invoer
+		{"m", []string{"mi?"}, false},
+	}
+	for _, c := range cases {
+		if got, _ := CheckAnswer(c.input, c.accepted); got != c.correct {
+			t.Errorf("CheckAnswer(%q, %q) = %v, verwacht %v", c.input, c.accepted, got, c.correct)
+		}
+	}
+	if got := Clean("  tai—csi – doen "); got != "tai-csi - doen" {
+		t.Errorf("Clean: %q", got)
+	}
+}

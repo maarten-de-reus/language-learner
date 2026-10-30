@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"hungarian-language-learner/internal/engine"
 	"hungarian-language-learner/internal/storage"
 )
 
@@ -56,12 +57,12 @@ type AddResult struct {
 
 // ParseInput schoont de invoer op; meerdere Hongaarse vertalingen worden gescheiden door komma's
 func ParseInput(dutch, context, hungarianInput string) (NewPair, error) {
-	nc := NewPair{Dutch: strings.TrimSpace(dutch), Context: strings.TrimSpace(context)}
+	nc := NewPair{Dutch: engine.Clean(dutch), Context: engine.Clean(context)}
 	if nc.Dutch == "" {
 		return nc, errors.New("woord mag niet leeg zijn")
 	}
 	for _, hu := range strings.Split(hungarianInput, ",") {
-		if hu = strings.TrimSpace(hu); hu != "" {
+		if hu = engine.Clean(hu); hu != "" {
 			nc.Hungarian = append(nc.Hungarian, hu)
 		}
 	}

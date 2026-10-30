@@ -8,8 +8,20 @@ var accentReplacer = strings.NewReplacer(
 	"ë", "e", "ï", "i", "è", "e",
 )
 
+// dashReplacer maakt van elk soort streepje het gewone streepje van het toetsenbord
+var dashReplacer = strings.NewReplacer("–", "-", "—", "-", "‐", "-", "‑", "-", "−", "-")
+
+// Clean maakt ingevoerde tekst netjes: geen spaties eromheen, en lange streepjes (tai–csi)
+// worden een gewoon streepje (tai-csi), zodat je het antwoord met je toetsenbord kunt typen
+func Clean(s string) string {
+	return strings.TrimSpace(dashReplacer.Replace(s))
+}
+
+// normalize maakt een antwoord vergelijkbaar: kleine letters, enkele spaties, gewone streepjes
+// en zonder leestekens aan het eind (mi = mi?)
 func normalize(s string) string {
-	return strings.Join(strings.Fields(strings.ToLower(s)), " ")
+	s = strings.Join(strings.Fields(strings.ToLower(dashReplacer.Replace(s))), " ")
+	return strings.TrimRight(s, "?!.… ")
 }
 
 // Fold maakt tekst vergelijkbaar voor zoeken en sorteren: kleine letters, zonder accenten

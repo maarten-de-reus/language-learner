@@ -99,7 +99,7 @@ func Update(lib *storage.Library, id string, e Edit) error {
 
 	var answers []string
 	for _, a := range e.Answers {
-		if a = strings.TrimSpace(a); a != "" && !slices.ContainsFunc(answers, func(x string) bool { return strings.EqualFold(x, a) }) {
+		if a = engine.Clean(a); a != "" && !slices.ContainsFunc(answers, func(x string) bool { return strings.EqualFold(x, a) }) {
 			answers = append(answers, a)
 		}
 	}
@@ -108,12 +108,12 @@ func Update(lib *storage.Library, id string, e Edit) error {
 	}
 
 	src := lib.Words[c.SourceWordID]
-	prompt := strings.TrimSpace(e.Prompt)
+	prompt := engine.Clean(e.Prompt)
 	if prompt == "" {
 		prompt = src.Text
 	}
 
-	context := strings.TrimSpace(e.Context)
+	context := engine.Clean(e.Context)
 	key := src.Language + "|" + targetLang(lib, c) + "|" + strings.ToLower(prompt)
 	for j, other := range lib.Concepts {
 		if j != i && meaningKey(lib, other) == key && strings.EqualFold(strings.TrimSpace(other.ContextSource), context) {
