@@ -346,11 +346,6 @@
       "text": "anyuka"
     },
     {
-      "id": "w_hu_anyukám",
-      "language": "hu",
-      "text": "anyukám"
-    },
-    {
       "id": "w_hu_aranyos",
       "language": "hu",
       "text": "aranyos"
@@ -389,11 +384,6 @@
       "id": "w_hu_balra",
       "language": "hu",
       "text": "balra"
-    },
-    {
-      "id": "w_hu_barátom",
-      "language": "hu",
-      "text": "barátom"
     },
     {
       "id": "w_hu_barátságtalan",
@@ -611,19 +601,9 @@
       "text": "feleség"
     },
     {
-      "id": "w_hu_feleségem",
-      "language": "hu",
-      "text": "feleségem"
-    },
-    {
       "id": "w_hu_festeni",
       "language": "hu",
       "text": "festeni"
-    },
-    {
-      "id": "w_hu_fiam",
-      "language": "hu",
-      "text": "fiam"
     },
     {
       "id": "w_hu_fiatal",
@@ -634,6 +614,11 @@
       "id": "w_hu_fizetni",
       "language": "hu",
       "text": "fizetni"
+    },
+    {
+      "id": "w_hu_fiú",
+      "language": "hu",
+      "text": "fiú"
     },
     {
       "id": "w_hu_focizni",
@@ -704,11 +689,6 @@
       "id": "w_hu_fül",
       "language": "hu",
       "text": "fül"
-    },
-    {
-      "id": "w_hu_füled",
-      "language": "hu",
-      "text": "füled"
     },
     {
       "id": "w_hu_főnök",
@@ -946,11 +926,6 @@
       "text": "kolléga"
     },
     {
-      "id": "w_hu_kollégám",
-      "language": "hu",
-      "text": "kollégám"
-    },
-    {
       "id": "w_hu_kreatív",
       "language": "hu",
       "text": "kreatív"
@@ -1059,11 +1034,6 @@
       "id": "w_hu_lány",
       "language": "hu",
       "text": "lány"
-    },
-    {
-      "id": "w_hu_lányom",
-      "language": "hu",
-      "text": "lányom"
     },
     {
       "id": "w_hu_látni",
@@ -1246,11 +1216,6 @@
       "text": "munkatárs"
     },
     {
-      "id": "w_hu_munkatársam",
-      "language": "hu",
-      "text": "munkatársam"
-    },
-    {
       "id": "w_hu_már",
       "language": "hu",
       "text": "már"
@@ -1299,11 +1264,6 @@
       "id": "w_hu_nagymama",
       "language": "hu",
       "text": "nagymama"
-    },
-    {
-      "id": "w_hu_nagymamám",
-      "language": "hu",
-      "text": "nagymamám"
     },
     {
       "id": "w_hu_nagyon",
@@ -1541,11 +1501,6 @@
       "text": "szedőkanál"
     },
     {
-      "id": "w_hu_szedőkanállal",
-      "language": "hu",
-      "text": "szedőkanállal"
-    },
-    {
       "id": "w_hu_szenv",
       "language": "hu",
       "text": "szenv"
@@ -1574,11 +1529,6 @@
       "id": "w_hu_szomszéd",
       "language": "hu",
       "text": "szomszéd"
-    },
-    {
-      "id": "w_hu_szomszédod",
-      "language": "hu",
-      "text": "szomszédod"
     },
     {
       "id": "w_hu_szám",
@@ -1771,11 +1721,6 @@
       "text": "utca"
     },
     {
-      "id": "w_hu_utrechtben",
-      "language": "hu",
-      "text": "utrechtben"
-    },
-    {
       "id": "w_hu_vagy",
       "language": "hu",
       "text": "vagy"
@@ -1834,11 +1779,6 @@
       "id": "w_hu_város",
       "language": "hu",
       "text": "város"
-    },
-    {
-      "id": "w_hu_városban",
-      "language": "hu",
-      "text": "városban"
     },
     {
       "id": "w_hu_váza",
@@ -1936,11 +1876,6 @@
       "text": "édes"
     },
     {
-      "id": "w_hu_édesem",
-      "language": "hu",
-      "text": "édesem"
-    },
-    {
       "id": "w_hu_éjszaka",
       "language": "hu",
       "text": "éjszaka"
@@ -1994,11 +1929,6 @@
       "id": "w_hu_óra",
       "language": "hu",
       "text": "óra"
-    },
-    {
-      "id": "w_hu_órára",
-      "language": "hu",
-      "text": "órára"
     },
     {
       "id": "w_hu_ön",
@@ -2611,6 +2541,11 @@
       "text": "dit"
     },
     {
+      "id": "w_nl_dochter",
+      "language": "nl",
+      "text": "dochter"
+    },
+    {
       "id": "w_nl_document",
       "language": "nl",
       "text": "document"
@@ -2981,11 +2916,6 @@
       "text": "ik woon"
     },
     {
-      "id": "w_nl_in_de_stad",
-      "language": "nl",
-      "text": "in de stad"
-    },
-    {
       "id": "w_nl_in_het_hongaars",
       "language": "nl",
       "text": "in het hongaars"
@@ -2994,11 +2924,6 @@
       "id": "w_nl_in_orde",
       "language": "nl",
       "text": "in orde"
-    },
-    {
-      "id": "w_nl_in_utrecht",
-      "language": "nl",
-      "text": "in utrecht"
     },
     {
       "id": "w_nl_inleiding",
@@ -3059,16 +2984,6 @@
       "id": "w_nl_jong",
       "language": "nl",
       "text": "jong"
-    },
-    {
-      "id": "w_nl_jouw_buurman",
-      "language": "nl",
-      "text": "jouw buurman"
-    },
-    {
-      "id": "w_nl_jouw_oor",
-      "language": "nl",
-      "text": "jouw oor"
     },
     {
       "id": "w_nl_jullie_glimlachen",
@@ -3266,19 +3181,14 @@
       "text": "lief"
     },
     {
-      "id": "w_nl_lieverd",
-      "language": "nl",
-      "text": "lieverd"
-    },
-    {
       "id": "w_nl_links",
       "language": "nl",
       "text": "links"
     },
     {
-      "id": "w_nl_lopen_/_wandelen",
+      "id": "w_nl_lopen",
       "language": "nl",
-      "text": "lopen / wandelen"
+      "text": "lopen"
     },
     {
       "id": "w_nl_lucifer",
@@ -3351,46 +3261,6 @@
       "text": "meneer"
     },
     {
-      "id": "w_nl_met_de_opscheplepel",
-      "language": "nl",
-      "text": "met de opscheplepel"
-    },
-    {
-      "id": "w_nl_mijn_collega",
-      "language": "nl",
-      "text": "mijn collega"
-    },
-    {
-      "id": "w_nl_mijn_dochter",
-      "language": "nl",
-      "text": "mijn dochter"
-    },
-    {
-      "id": "w_nl_mijn_mama",
-      "language": "nl",
-      "text": "mijn mama"
-    },
-    {
-      "id": "w_nl_mijn_oma",
-      "language": "nl",
-      "text": "mijn oma"
-    },
-    {
-      "id": "w_nl_mijn_vriend",
-      "language": "nl",
-      "text": "mijn vriend"
-    },
-    {
-      "id": "w_nl_mijn_vrouw",
-      "language": "nl",
-      "text": "mijn vrouw"
-    },
-    {
-      "id": "w_nl_mijn_zoon",
-      "language": "nl",
-      "text": "mijn zoon"
-    },
-    {
       "id": "w_nl_minuut",
       "language": "nl",
       "text": "minuut"
@@ -3429,11 +3299,6 @@
       "id": "w_nl_naam",
       "language": "nl",
       "text": "naam"
-    },
-    {
-      "id": "w_nl_naar_de_les",
-      "language": "nl",
-      "text": "naar de les"
     },
     {
       "id": "w_nl_naar_links",
@@ -3606,9 +3471,9 @@
       "text": "opdracht"
     },
     {
-      "id": "w_nl_opruimen_/_schoonmaken",
+      "id": "w_nl_opruimen",
       "language": "nl",
-      "text": "opruimen / schoonmaken"
+      "text": "opruimen"
     },
     {
       "id": "w_nl_opscheplepel",
@@ -3734,6 +3599,11 @@
       "id": "w_nl_schoen",
       "language": "nl",
       "text": "schoen"
+    },
+    {
+      "id": "w_nl_schoonmaken",
+      "language": "nl",
+      "text": "schoonmaken"
     },
     {
       "id": "w_nl_sinterklaas",
@@ -4006,6 +3876,11 @@
       "text": "wachten"
     },
     {
+      "id": "w_nl_wandelen",
+      "language": "nl",
+      "text": "wandelen"
+    },
+    {
       "id": "w_nl_wanneer",
       "language": "nl",
       "text": "wanneer"
@@ -4194,6 +4069,11 @@
       "id": "w_nl_zomer",
       "language": "nl",
       "text": "zomer"
+    },
+    {
+      "id": "w_nl_zoon",
+      "language": "nl",
+      "text": "zoon"
     },
     {
       "id": "w_nl_zwemmen",
@@ -6647,28 +6527,6 @@
       ]
     },
     {
-      "id": "c_nl_hu_lieverd",
-      "source_word_id": "w_nl_lieverd",
-      "context_source": "",
-      "target_word_ids": [
-        "w_hu_édesem"
-      ],
-      "groups": [
-        "Magyar Óra 2.5"
-      ]
-    },
-    {
-      "id": "c_hu_nl_édesem",
-      "source_word_id": "w_hu_édesem",
-      "context_source": "",
-      "target_word_ids": [
-        "w_nl_lieverd"
-      ],
-      "groups": [
-        "Magyar Óra 2.5"
-      ]
-    },
-    {
       "id": "c_nl_hu_zoet",
       "source_word_id": "w_nl_zoet",
       "context_source": "",
@@ -7854,7 +7712,7 @@
     },
     {
       "id": "c_nl_hu_lopen_/_wandelen_werkwoord_-_infinitief",
-      "source_word_id": "w_nl_lopen_/_wandelen",
+      "source_word_id": "w_nl_lopen",
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_sétálni"
@@ -7868,7 +7726,8 @@
       "source_word_id": "w_hu_sétálni",
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
-        "w_nl_lopen_/_wandelen"
+        "w_nl_lopen",
+        "w_nl_wandelen"
       ],
       "groups": [
         "Werkwoorden"
@@ -8124,7 +7983,7 @@
     },
     {
       "id": "c_nl_hu_opruimen_/_schoonmaken_werkwoord_-_infinitief",
-      "source_word_id": "w_nl_opruimen_/_schoonmaken",
+      "source_word_id": "w_nl_opruimen",
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_hu_takarítani"
@@ -8138,7 +7997,8 @@
       "source_word_id": "w_hu_takarítani",
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
-        "w_nl_opruimen_/_schoonmaken"
+        "w_nl_opruimen",
+        "w_nl_schoonmaken"
       ],
       "groups": [
         "Werkwoorden"
@@ -8908,28 +8768,6 @@
       "context_source": "school",
       "target_word_ids": [
         "w_nl_les"
-      ],
-      "groups": [
-        "Magyar Óra 2.4"
-      ]
-    },
-    {
-      "id": "c_nl_hu_naar_de_les",
-      "source_word_id": "w_nl_naar_de_les",
-      "context_source": "",
-      "target_word_ids": [
-        "w_hu_órára"
-      ],
-      "groups": [
-        "Magyar Óra 2.4"
-      ]
-    },
-    {
-      "id": "c_hu_nl_órára",
-      "source_word_id": "w_hu_órára",
-      "context_source": "",
-      "target_word_ids": [
-        "w_nl_naar_de_les"
       ],
       "groups": [
         "Magyar Óra 2.4"
@@ -11610,32 +11448,6 @@
       ]
     },
     {
-      "id": "c_nl_hu_met_de_opscheplepel",
-      "source_word_id": "w_nl_met_de_opscheplepel",
-      "context_source": "",
-      "target_word_ids": [
-        "w_hu_szedőkanállal"
-      ],
-      "example": "Szedőkanállal szedem a levest.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_hu_nl_szedőkanállal",
-      "source_word_id": "w_hu_szedőkanállal",
-      "context_source": "",
-      "target_word_ids": [
-        "w_nl_met_de_opscheplepel"
-      ],
-      "example": "Szedőkanállal szedem a levest.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
       "id": "c_nl_hu_tafel",
       "source_word_id": "w_nl_tafel",
       "context_source": "",
@@ -11677,7 +11489,7 @@
     {
       "id": "c_hu_nl_lány",
       "source_word_id": "w_hu_lány",
-      "context_source": "",
+      "context_source": "jong persoon",
       "target_word_ids": [
         "w_nl_meisje"
       ],
@@ -12439,32 +12251,6 @@
       ]
     },
     {
-      "id": "c_nl_hu_in_de_stad",
-      "source_word_id": "w_nl_in_de_stad",
-      "context_source": "",
-      "target_word_ids": [
-        "w_hu_városban"
-      ],
-      "example": "Melyik városban élsz?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_hu_nl_városban",
-      "source_word_id": "w_hu_városban",
-      "context_source": "",
-      "target_word_ids": [
-        "w_nl_in_de_stad"
-      ],
-      "example": "Melyik városban élsz?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
       "id": "c_nl_hu_woont",
       "source_word_id": "w_nl_woont",
       "context_source": "werkwoord · 3e persoon enkelvoud",
@@ -12546,32 +12332,6 @@
       "groups": [
         "Magyar Óra 2.6",
         "Werkwoorden"
-      ]
-    },
-    {
-      "id": "c_nl_hu_in_utrecht",
-      "source_word_id": "w_nl_in_utrecht",
-      "context_source": "",
-      "target_word_ids": [
-        "w_hu_utrechtben"
-      ],
-      "example": "Utrechtben élek.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_hu_nl_utrechtben",
-      "source_word_id": "w_hu_utrechtben",
-      "context_source": "",
-      "target_word_ids": [
-        "w_nl_in_utrecht"
-      ],
-      "example": "Utrechtben élek.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
       ]
     },
     {
@@ -12697,32 +12457,6 @@
       ]
     },
     {
-      "id": "c_nl_hu_jouw_oor",
-      "source_word_id": "w_nl_jouw_oor",
-      "context_source": "",
-      "target_word_ids": [
-        "w_hu_füled"
-      ],
-      "example": "Hol a bal füled?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_hu_nl_füled",
-      "source_word_id": "w_hu_füled",
-      "context_source": "",
-      "target_word_ids": [
-        "w_nl_jouw_oor"
-      ],
-      "example": "Hol a bal füled?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
       "id": "c_nl_hu_hier",
       "source_word_id": "w_nl_hier",
       "context_source": "",
@@ -12783,32 +12517,6 @@
         "w_hu_szomszéd"
       ],
       "example": "A szomszéd néha rosszkedvű.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_nl_hu_jouw_buurman",
-      "source_word_id": "w_nl_jouw_buurman",
-      "context_source": "",
-      "target_word_ids": [
-        "w_hu_szomszédod"
-      ],
-      "example": "Hány szomszédod van?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_hu_nl_szomszédod",
-      "source_word_id": "w_hu_szomszédod",
-      "context_source": "",
-      "target_word_ids": [
-        "w_nl_jouw_buurman"
-      ],
-      "example": "Hány szomszédod van?",
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.6"
@@ -12893,32 +12601,6 @@
       ]
     },
     {
-      "id": "c_nl_hu_mijn_oma",
-      "source_word_id": "w_nl_mijn_oma",
-      "context_source": "",
-      "target_word_ids": [
-        "w_hu_nagymamám"
-      ],
-      "example": "A nagymamám általában vidám.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_hu_nl_nagymamám",
-      "source_word_id": "w_hu_nagymamám",
-      "context_source": "",
-      "target_word_ids": [
-        "w_nl_mijn_oma"
-      ],
-      "example": "A nagymamám általában vidám.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
       "id": "c_nl_hu_meestal",
       "source_word_id": "w_nl_meestal",
       "context_source": "",
@@ -12965,32 +12647,6 @@
         "w_nl_vrolijk"
       ],
       "example": "A nagymamám általában vidám.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_nl_hu_mijn_vriend",
-      "source_word_id": "w_nl_mijn_vriend",
-      "context_source": "",
-      "target_word_ids": [
-        "w_hu_barátom"
-      ],
-      "example": "A barátom gyakran türelmetlen.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_hu_nl_barátom",
-      "source_word_id": "w_hu_barátom",
-      "context_source": "",
-      "target_word_ids": [
-        "w_nl_mijn_vriend"
-      ],
-      "example": "A barátom gyakran türelmetlen.",
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.6"
@@ -13050,33 +12706,6 @@
       ]
     },
     {
-      "id": "c_nl_hu_mijn_collega",
-      "source_word_id": "w_nl_mijn_collega",
-      "context_source": "",
-      "target_word_ids": [
-        "w_hu_munkatársam",
-        "w_hu_kollégám"
-      ],
-      "example": "A munkatársam néha rosszkedvű.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_hu_nl_munkatársam",
-      "source_word_id": "w_hu_munkatársam",
-      "context_source": "",
-      "target_word_ids": [
-        "w_nl_mijn_collega"
-      ],
-      "example": "A munkatársam néha rosszkedvű.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
       "id": "c_hu_nl_kolléga",
       "source_word_id": "w_hu_kolléga",
       "context_source": "",
@@ -13084,19 +12713,6 @@
         "w_nl_collega"
       ],
       "example": "A kolléga pontos.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_hu_nl_kollégám",
-      "source_word_id": "w_hu_kollégám",
-      "context_source": "",
-      "target_word_ids": [
-        "w_nl_mijn_collega"
-      ],
-      "example": "A kollégám néha rosszkedvű.",
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.6"
@@ -13123,32 +12739,6 @@
         "w_nl_chagrijnig"
       ],
       "example": "A kollégám néha rosszkedvű.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_nl_hu_mijn_dochter",
-      "source_word_id": "w_nl_mijn_dochter",
-      "context_source": "",
-      "target_word_ids": [
-        "w_hu_lányom"
-      ],
-      "example": "A lányom elég fáradt.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_hu_nl_lányom",
-      "source_word_id": "w_hu_lányom",
-      "context_source": "",
-      "target_word_ids": [
-        "w_nl_mijn_dochter"
-      ],
-      "example": "A lányom elég fáradt.",
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.6"
@@ -13246,32 +12836,6 @@
       ]
     },
     {
-      "id": "c_nl_hu_mijn_mama",
-      "source_word_id": "w_nl_mijn_mama",
-      "context_source": "",
-      "target_word_ids": [
-        "w_hu_anyukám"
-      ],
-      "example": "Az anyukám ideges.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_hu_nl_anyukám",
-      "source_word_id": "w_hu_anyukám",
-      "context_source": "",
-      "target_word_ids": [
-        "w_nl_mijn_mama"
-      ],
-      "example": "Az anyukám ideges.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
       "id": "c_nl_hu_type",
       "source_word_id": "w_nl_type",
       "context_source": "",
@@ -13338,32 +12902,6 @@
       ]
     },
     {
-      "id": "c_nl_hu_mijn_vrouw",
-      "source_word_id": "w_nl_mijn_vrouw",
-      "context_source": "",
-      "target_word_ids": [
-        "w_hu_feleségem"
-      ],
-      "example": "A feleségem pontos.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_hu_nl_feleségem",
-      "source_word_id": "w_hu_feleségem",
-      "context_source": "",
-      "target_word_ids": [
-        "w_nl_mijn_vrouw"
-      ],
-      "example": "A feleségem pontos.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
       "id": "c_nl_hu_precies",
       "source_word_id": "w_nl_precies",
       "context_source": "",
@@ -13398,32 +12936,6 @@
         "w_hu_pontos"
       ],
       "example": "A feleségem pontos.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_nl_hu_mijn_zoon",
-      "source_word_id": "w_nl_mijn_zoon",
-      "context_source": "",
-      "target_word_ids": [
-        "w_hu_fiam"
-      ],
-      "example": "A fiam nagyon kreatív.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.6"
-      ]
-    },
-    {
-      "id": "c_hu_nl_fiam",
-      "source_word_id": "w_hu_fiam",
-      "context_source": "",
-      "target_word_ids": [
-        "w_nl_mijn_zoon"
-      ],
-      "example": "A fiam nagyon kreatív.",
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.6"
@@ -15073,6 +14585,80 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.1"
+      ]
+    },
+    {
+      "id": "c_nl_hu_wandelen_werkwoord_·_infinitief",
+      "source_word_id": "w_nl_wandelen",
+      "context_source": "werkwoord · infinitief",
+      "target_word_ids": [
+        "w_hu_sétálni"
+      ],
+      "groups": [
+        "Werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_schoonmaken_werkwoord_·_infinitief",
+      "source_word_id": "w_nl_schoonmaken",
+      "context_source": "werkwoord · infinitief",
+      "target_word_ids": [
+        "w_hu_takarítani"
+      ],
+      "groups": [
+        "Werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_dochter",
+      "source_word_id": "w_nl_dochter",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_lány"
+      ],
+      "example": "Annának két lánya van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.6"
+      ]
+    },
+    {
+      "id": "c_hu_nl_lány_familie",
+      "source_word_id": "w_hu_lány",
+      "context_source": "familie",
+      "target_word_ids": [
+        "w_nl_dochter"
+      ],
+      "example": "Annának két lánya van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.6"
+      ]
+    },
+    {
+      "id": "c_nl_hu_zoon",
+      "source_word_id": "w_nl_zoon",
+      "context_source": "",
+      "target_word_ids": [
+        "w_hu_fiú"
+      ],
+      "example": "Annának egy fia van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.6"
+      ]
+    },
+    {
+      "id": "c_hu_nl_fiú_familie",
+      "source_word_id": "w_hu_fiú",
+      "context_source": "familie",
+      "target_word_ids": [
+        "w_nl_zoon"
+      ],
+      "example": "Annának egy fia van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.6"
       ]
     }
   ]
