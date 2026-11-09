@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 	"testing"
 
 	"hungarian-language-learner/internal/stats"
@@ -46,5 +47,17 @@ func TestStatsWithoutLog(t *testing.T) {
 	code, out := call(t, h, "GET", "/api/stats", "")
 	if code != http.StatusOK || string(out["answers"]) != "0" || string(out["streak"]) != "0" {
 		t.Errorf("zonder antwoorden: verwacht een leeg rapport, kreeg %d %s", code, out)
+	}
+}
+
+func TestAnswerUnknownShowsAnswerAndCounts(t *testing.T) {
+	_, h := newTestServer(t)
+	code, out := call(t, h, "POST", "/api/answer", `{"unknown":true}`)
+	if code != http.StatusOK || !strings.Contains(string(out["feedback"]), `"unknown":true`) || !strings.Contains(string(out["feedback"]), `"correct":false`) {
+		t.Fatalf("verwacht feedback met unknown, kreeg %d %s", code, out["feedback"])
+	}
+	_, out = call(t, h, "GET", "/api/stats", "")
+	if !strings.Contains(string(out["mistakes"]), `"unknown":1`) {
+		t.Errorf("statistiek moet 1 'weet ik niet' tonen: %s", out["mistakes"])
 	}
 }

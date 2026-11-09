@@ -149,6 +149,7 @@ function renderCard(card) {
         ${card.to === "hu" ? `<div class="accents" aria-label="Hongaarse tekens">
           ${ACCENTS.map((a) => `<button type="button" data-char="${a}" tabindex="-1">${a}</button>`).join("")}
         </div>` : ""}
+        <button class="linklike dont-know" id="dont-know" type="button">Weet ik niet <kbd>Esc</kbd></button>
       </form>
 
       <div id="feedback-slot"></div>
@@ -162,6 +163,15 @@ function renderCard(card) {
       return;
     }
     act("/api/answer", { input: input.value });
+  });
+  // Weet ik niet: telt als fout, je ziet meteen het antwoord
+  const dontKnow = () => act("/api/answer", { unknown: true });
+  document.getElementById("dont-know").addEventListener("click", dontKnow);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      dontKnow();
+    }
   });
 
   app.querySelectorAll(".accents button").forEach((b) => {
@@ -186,10 +196,12 @@ function renderFeedback(fb) {
   const check = document.getElementById("check");
   const lockAccents = (on) => app.querySelectorAll(".accents button").forEach((b) => (b.disabled = on));
 
+  const dontKnow = document.getElementById("dont-know");
   if (!fb) {
     slot.innerHTML = "";
     input.disabled = false;
     check.hidden = false;
+    dontKnow.hidden = false;
     lockAccents(false);
     return;
   }
@@ -199,12 +211,14 @@ function renderFeedback(fb) {
   input.classList.toggle("is-good", fb.correct);
   input.classList.toggle("is-bad", !fb.correct);
   check.hidden = true;
+  dontKnow.hidden = true;
   lockAccents(true);
 
   const answers = fb.expected.map((x) => `<span class="answer">${esc(x)}</span>`).join(" of ");
   const isLast = state.card.position === state.card.runSize;
   const title = fb.correct
     ? (fb.retry ? "Goed! Morgen volgt de echte test." : "Goed zo!")
+    : fb.unknown ? "Geen probleem, nu weet je het"
     : (fb.retry ? "Nog niet goed" : "Helaas, niet goed");
 
   slot.innerHTML = `
@@ -308,7 +322,7 @@ function renderDone() {
             <li class="${r.correct ? "ok" : "ko"}">
               <span class="mark">${r.correct ? "✓" : "✕"}</span>
               <span class="src">${esc(r.prompt)}</span>
-              <span class="exp">${r.correct ? "" : `<span class="yours">${esc(r.input)}</span>`}${esc(r.expected.join(", "))}</span>
+              <span class="exp">${r.correct ? "" : r.input ? `<span class="yours">${esc(r.input)}</span>` : `<span class="muted">weet ik niet · </span>`}${esc(r.expected.join(", "))}</span>
               ${r.retries > 0 ? `<span class="retry-note ${r.retryCorrect ? "ok" : "ko"}">${retryNote(r)}</span>` : ""}
             </li>`).join("")}
         </ul>

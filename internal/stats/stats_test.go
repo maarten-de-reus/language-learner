@@ -234,3 +234,14 @@ func TestLapsesFollowTheNextTwoReviews(t *testing.T) {
 		t.Errorf("vergeten woorden:\n kreeg    %+v\n verwacht %+v", got, want)
 	}
 }
+
+func TestUnknownIsItsOwnMistake(t *testing.T) {
+	reviews := []storage.Review{
+		review(at(23, 9), "c_koffie", false, func(r *storage.Review) { r.Unknown = true }),
+		review(at(23, 9), "c_water", false, accent),
+	}
+	m := Compute(testLib(), reviews, at(24, 12), 20).Mistakes
+	if m.Unknown != 1 || m.AccentOnly != 1 || m.Other != 0 {
+		t.Errorf("soort fouten: %+v", m)
+	}
+}

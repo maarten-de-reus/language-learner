@@ -515,3 +515,28 @@ func TestPracticeChecksWithoutChangingAnything(t *testing.T) {
 		t.Error("oefenen mag de lopende run niet veranderen")
 	}
 }
+
+func TestDontKnowCountsAsWrongAndIsLogged(t *testing.T) {
+	s, _ := newTestSession(t)
+	logPath := filepath.Join(t.TempDir(), "antwoorden.jsonl")
+	s.LogReviewsTo(storage.NewReviewLog(logPath))
+	before := s.conceptOf(s.run[s.pos]).StepIndex
+
+	fb, err := s.DontKnow()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if fb.Correct || !fb.Unknown || fb.AccentOnly || fb.OtherMeaning != nil || !fb.WillRetry {
+		t.Errorf("verwacht fout, 'weet ik niet', met herhaling aan het eind: %+v", fb)
+	}
+	if fb.Step != max(0, before-engine.LapseSteps) {
+		t.Errorf("weet ik niet telt als fout voor de planning: stap %d -> %d", before, fb.Step)
+	}
+	reviews, _, err := storage.ReadReviews(logPath)
+	if err != nil || len(reviews) != 1 || !reviews[0].Unknown || reviews[0].Correct {
+		t.Errorf("log: %+v (%v)", reviews, err)
+	}
+	if again, _ := s.DontKnow(); again != nil {
+		t.Error("tweede keer op hetzelfde concept mag niets doen")
+	}
+}

@@ -19,6 +19,7 @@ type Review struct {
 	Correct      bool      `json:"correct"`
 	AccentOnly   bool      `json:"accent_only,omitempty"`   // fout, maar alleen in de accenten
 	OtherMeaning bool      `json:"other_meaning,omitempty"` // fout, maar wel een andere betekenis van het woord
+	Unknown      bool      `json:"unknown,omitempty"`       // fout via "Weet ik niet": geen antwoord gegeven
 	Retry        bool      `json:"retry,omitempty"`         // oefenherhaling in dezelfde run; telt niet mee voor de planning
 	StepBefore   int       `json:"step_before"`
 	StepAfter    int       `json:"step_after"`

@@ -40,6 +40,7 @@ type Feedback struct {
 	NextReview time.Time `json:"nextReview"`
 	Retry      bool      `json:"retry"`     // dit was een oefenherhaling
 	WillRetry  bool      `json:"willRetry"` // het concept komt aan het eind van de run nog een keer
+	Unknown    bool      `json:"unknown"`   // "Weet ik niet": geen antwoord gegeven
 	Example    string    `json:"example,omitempty"`
 	// OtherMeaning is gevuld als het antwoord een goede vertaling is van een ándere betekenis
 	// van hetzelfde woord (bijv. idő -> "tijd" terwijl "weer" bedoeld is). Het telt als fout.
@@ -245,6 +246,16 @@ func (s *Session) Current() *Card {
 // Geeft nil terug als er niets na te kijken valt (run klaar, of al beantwoord).
 // Een fout betekent dat opslaan of het antwoordenlog mislukte; de voortgang is in het geheugen wel bijgewerkt.
 func (s *Session) Answer(input string) (*Feedback, error) {
+	return s.answer(input, false)
+}
+
+// DontKnow is "Weet ik niet": het telt als fout (ook voor de planning), maar in het log staat
+// dat je het niet wist in plaats van een gok
+func (s *Session) DontKnow() (*Feedback, error) {
+	return s.answer("", true)
+}
+
+func (s *Session) answer(input string, unknown bool) (*Feedback, error) {
 	if s.Done() || s.feedback != nil {
 		return nil, nil
 	}
@@ -252,7 +263,10 @@ func (s *Session) Answer(input string) (*Feedback, error) {
 	item := s.run[s.pos]
 	concept := s.conceptOf(item)
 	expected := s.targetTexts(concept)
-	correct, accentOnly := engine.CheckAnswer(input, expected)
+	var correct, accentOnly bool
+	if !unknown {
+		correct, accentOnly = engine.CheckAnswer(input, expected)
+	}
 	stepBefore := concept.StepIndex
 
 	var saveErr error
@@ -296,9 +310,10 @@ func (s *Session) Answer(input string) (*Feedback, error) {
 		NextReview: concept.NextReview,
 		Retry:      item.retry > 0,
 		WillRetry:  willRetry,
+		Unknown:    unknown,
 		Example:    concept.Example,
 	}
-	if !correct {
+	if !correct && !unknown {
 		s.feedback.OtherMeaning = s.otherMeaning(concept, input)
 	}
 	return s.feedback, errors.Join(saveErr, s.logReview(concept, input, stepBefore))
@@ -317,6 +332,7 @@ func (s *Session) logReview(c *storage.TranslationConcept, input string, stepBef
 		Correct:      fb.Correct,
 		AccentOnly:   fb.AccentOnly,
 		OtherMeaning: fb.OtherMeaning != nil,
+		Unknown:      fb.Unknown,
 		Retry:        fb.Retry,
 		StepBefore:   stepBefore,
 		StepAfter:    c.StepIndex,

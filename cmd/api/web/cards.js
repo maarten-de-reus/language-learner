@@ -238,12 +238,13 @@ function fcTypeHTML(card) {
       ${card.to === "hu" ? `<div class="accents" aria-label="Hongaarse tekens">
         ${ACCENTS.map((a) => `<button type="button" data-char="${a}" tabindex="-1" ${r ? "disabled" : ""}>${a}</button>`).join("")}
       </div>` : ""}
+      ${r ? "" : `<button class="linklike dont-know" id="fc-dont-know" type="button">Weet ik niet <kbd>Esc</kbd></button>`}
     </form>
     ${r ? `
       <div class="feedback ${r.correct ? "good" : "bad"}" role="status">
         <span class="icon" aria-hidden="true">${r.correct ? "✓" : "✕"}</span>
         <div>
-          <strong>${r.correct ? "Goed zo!" : "Nog niet"}</strong>
+          <strong>${r.correct ? "Goed zo!" : r.unknown ? "Geen probleem, nu weet je het" : "Nog niet"}</strong>
           ${r.correct
             ? (r.expected.length > 1 ? `<p>Ook goed: ${answers}</p>` : "")
             : `<p>Het juiste antwoord: ${answers}</p>`}
@@ -283,6 +284,19 @@ function fcBindType(card) {
   cardsEl.querySelectorAll(".accents button").forEach((b) => {
     b.addEventListener("mousedown", (e) => e.preventDefault()); // focus in het invoerveld houden
     b.addEventListener("click", () => insertAtCursor(input, b.dataset.char));
+  });
+  // Weet ik niet: hier hoeft niets nagekeken te worden, de kaart komt gewoon terug
+  const dontKnow = () => {
+    fc.input = "";
+    fc.result = { correct: false, accentOnly: false, unknown: true, expected: card.answers };
+    fcRenderCard();
+  };
+  document.getElementById("fc-dont-know").addEventListener("click", dontKnow);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      dontKnow();
+    }
   });
   input.focus();
 }

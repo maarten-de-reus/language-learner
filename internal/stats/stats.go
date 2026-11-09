@@ -71,6 +71,7 @@ type Score struct {
 }
 
 type Mistakes struct {
+	Unknown      int `json:"unknown"` // "Weet ik niet"
 	AccentOnly   int `json:"accentOnly"`
 	OtherMeaning int `json:"otherMeaning"`
 	Other        int `json:"other"`
@@ -172,6 +173,8 @@ func Compute(lib *storage.Library, reviews []storage.Review, now time.Time, newP
 		}
 		d.Wrong++
 		switch {
+		case r.Unknown:
+			rep.Mistakes.Unknown++
 		case r.AccentOnly:
 			rep.Mistakes.AccentOnly++
 		case r.OtherMeaning:

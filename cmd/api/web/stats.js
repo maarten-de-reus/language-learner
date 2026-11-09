@@ -262,13 +262,14 @@ function hardestList(hardest) {
 }
 
 function mistakes(m) {
-  const total = m.accentOnly + m.otherMeaning + m.other;
+  const total = m.unknown + m.accentOnly + m.otherMeaning + m.other;
   if (!total) return `<p class="sx-empty">Nog geen fouten.</p>`;
   const row = (label, n, note) => `
     <li><span>${label}<small class="muted">${note}</small></span>
       <span class="sx-meter"><span style="width:${(n / total) * 100}%"></span></span>
       <b>${n}</b></li>`;
   return `<ul class="sx-mistakes">
+    ${row("Wist ik niet", m.unknown, "met de knop “Weet ik niet”")}
     ${row("Alleen accenten", m.accentOnly, "bijv. kave i.p.v. kávé")}
     ${row("Andere betekenis", m.otherMeaning, "bijv. tijd i.p.v. weer")}
     ${row("Anders fout", m.other, "")}

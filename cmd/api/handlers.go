@@ -36,7 +36,8 @@ func (s *server) handle(action func()) http.HandlerFunc {
 
 func (s *server) handleAnswer(w http.ResponseWriter, r *http.Request) {
 	var body struct {
-		Input string `json:"input"`
+		Input   string `json:"input"`
+		Unknown bool   `json:"unknown"` // "Weet ik niet"
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		http.Error(w, "ongeldige invoer", http.StatusBadRequest)
@@ -46,7 +47,13 @@ func (s *server) handleAnswer(w http.ResponseWriter, r *http.Request) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	fb, err := s.session.Answer(body.Input)
+	var fb *quiz.Feedback
+	var err error
+	if body.Unknown {
+		fb, err = s.session.DontKnow()
+	} else {
+		fb, err = s.session.Answer(body.Input)
+	}
 	switch {
 	case err != nil:
 		s.saveError = "Voortgang of antwoordenlog kon niet worden opgeslagen: " + err.Error()
