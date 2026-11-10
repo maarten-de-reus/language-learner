@@ -72,6 +72,8 @@ type ImportChoice struct {
 	MergeInto     string            `json:"mergeInto"`     // bestaand HU->NL concept met dezelfde betekenis; leeg = andere betekenis
 	ExistingHints map[string]string `json:"existingHints"` // bij een andere betekenis: hints voor bestaande concepten zonder hint
 	Reverse       bool              `json:"reverse"`       // de keuze voor het Hongaarse woord is gemaakt
+
+	Skip bool `json:"skip,omitempty"` // deze regel niet importeren (bijv. later naar kijken)
 }
 
 // ForwardChoice: Hongaarse woorden toevoegen aan een bestaande betekenis, of een nieuwe betekenis
@@ -86,6 +88,7 @@ const (
 	StatusDuplicate = "duplicate" // bestaat al: niet opnieuw toegevoegd, wel in de groepen van de import
 	StatusChoice    = "choice"    // het Hongaarse woord bestaat al: kies zelfde of andere betekenis
 	StatusError     = "error"
+	StatusSkipped   = "skipped" // door jou overgeslagen: niet geïmporteerd, blokkeert de import niet
 )
 
 // ImportResult is de uitkomst per regel
@@ -130,6 +133,9 @@ func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportCho
 		res.Status, res.Message = status, msg
 		return res
 	}
+	if choice.Skip {
+		return fail(StatusSkipped, "overgeslagen")
+	}
 	if line.Err != "" {
 		return fail(StatusError, line.Err)
 	}
@@ -161,7 +167,7 @@ func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportCho
 
 	// Het Nederlandse woord bestaat al: aanvullen of nieuwe betekenis?
 	if fc := ForwardCandidates(lib, nc.Dutch); len(fc) > 0 {
-		res.ForwardCandidates = entriesFor(lib, fc)
+		res.ForwardCandidates = entriesOf(lib, fc)
 		if choice.Forward == nil {
 			return fail(StatusChoice, fmt.Sprintf("%q bestaat al: extra goed antwoord bij een bestaande betekenis, of een nieuwe betekenis?", nc.Dutch))
 		}
@@ -182,7 +188,7 @@ func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportCho
 	res.Reverse = ReverseSourceFor(lib, nc)
 	if cands := ReverseCandidates(lib, res.Reverse); len(cands) > 0 {
 		if !choice.Reverse {
-			res.Candidates = entriesFor(lib, cands)
+			res.Candidates = entriesOf(lib, cands)
 			return fail(StatusChoice, fmt.Sprintf("%q bestaat al: zelfde of andere betekenis?", res.Reverse))
 		}
 		if choice.MergeInto != "" {
@@ -192,7 +198,7 @@ func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportCho
 			for _, i := range cands {
 				c := lib.Concepts[i]
 				if strings.TrimSpace(c.ContextSource) == "" && strings.TrimSpace(choice.ExistingHints[c.ID]) == "" {
-					res.Candidates = entriesFor(lib, cands)
+					res.Candidates = entriesOf(lib, cands)
 					return fail(StatusChoice, fmt.Sprintf("het bestaande %q heeft nog geen hint; geef het er een zodat de betekenissen uit elkaar te houden zijn", lib.Words[c.SourceWordID].Text))
 				}
 			}
@@ -206,18 +212,4 @@ func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportCho
 	res.ExtraReverse, res.SkippedReverse = added.ExtraReverse, added.SkippedReverse
 	res.Status = StatusAdded
 	return res
-}
-
-func entriesFor(lib *storage.Library, idx []int) []Entry {
-	ids := map[string]bool{}
-	for _, i := range idx {
-		ids[lib.Concepts[i].ID] = true
-	}
-	var out []Entry
-	for _, e := range Entries(lib) {
-		if ids[e.ID] {
-			out = append(out, e)
-		}
-	}
-	return out
 }

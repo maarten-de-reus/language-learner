@@ -243,3 +243,20 @@ func TestImportExistingWordGetsGroups(t *testing.T) {
 		}
 	}
 }
+
+func TestImportSkipLines(t *testing.T) {
+	lib := newLib()
+	add(t, lib, "weer", "buiten", "idő")
+	text := "idő;tijd\nkávé;koffie\n;leeg" // regel 1 vraagt een keuze, regel 3 is een fout
+	if _, ok := Import(lib.Clone(), ParseImport(text), nil, nil); ok {
+		t.Fatal("zonder overslaan moet de import blokkeren")
+	}
+	skip := map[int]ImportChoice{1: {Skip: true}, 3: {Skip: true}}
+	results, ok := Import(lib, ParseImport(text), skip, nil)
+	if !ok || results[0].Status != StatusSkipped || results[1].Status != StatusAdded || results[2].Status != StatusSkipped {
+		t.Errorf("overgeslagen regels blokkeren niet en worden niet toegevoegd: %+v", results)
+	}
+	if len(ReverseCandidates(lib, "idő")) != 1 {
+		t.Error("idő -> tijd mag niet toegevoegd zijn")
+	}
+}

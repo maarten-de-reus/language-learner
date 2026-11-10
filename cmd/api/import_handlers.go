@@ -22,6 +22,7 @@ type importResponse struct {
 	Duplicates int                    `json:"duplicates"`
 	Grouped    int                    `json:"grouped"` // waarvan in de groepen van de import gezet
 	Errors     int                    `json:"errors"`
+	Skipped    int                    `json:"skipped"` // door jou overgeslagen
 	Choices    int                    `json:"choices"`
 	Entries    []catalog.Entry        `json:"entries,omitempty"` // na een geslaagde import
 }
@@ -41,6 +42,8 @@ func summarize(results []catalog.ImportResult, ok bool) importResponse {
 			resp.Errors++
 		case catalog.StatusChoice:
 			resp.Choices++
+		case catalog.StatusSkipped:
+			resp.Skipped++
 		}
 	}
 	return resp

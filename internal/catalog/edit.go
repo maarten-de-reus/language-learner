@@ -38,13 +38,38 @@ type Entry struct {
 
 // Entries geeft alle concepten, gesorteerd op bronwoord (accenten genegeerd) en daarna hint
 func Entries(lib *storage.Library) []Entry {
+	all := make([]int, len(lib.Concepts))
+	for i := range all {
+		all[i] = i
+	}
+	return entriesOf(lib, all)
+}
+
+// entriesOf maakt de Entry's van de concepten op deze posities, gesorteerd zoals Entries.
+// De omgekeerde richtingen worden via een index op bronwoord gezocht: per concept alle andere
+// concepten doorlopen kost bij een import met veel keuzes al snel seconden.
+func entriesOf(lib *storage.Library, idx []int) []Entry {
 	meanings := map[string]int{}
-	for _, c := range lib.Concepts {
+	bySource := map[string][]int{}
+	for i, c := range lib.Concepts {
 		meanings[meaningKey(lib, c)]++
+		bySource[c.SourceWordID] = append(bySource[c.SourceWordID], i)
+	}
+	reverse := func(c storage.TranslationConcept) []string {
+		var ids []string
+		for _, t := range c.TargetWordIDs {
+			for _, j := range bySource[t] {
+				if o := lib.Concepts[j]; o.ID != c.ID && slices.Contains(o.TargetWordIDs, c.SourceWordID) && !slices.Contains(ids, o.ID) {
+					ids = append(ids, o.ID)
+				}
+			}
+		}
+		return ids
 	}
 
-	entries := make([]Entry, 0, len(lib.Concepts))
-	for _, c := range lib.Concepts {
+	entries := make([]Entry, 0, len(idx))
+	for _, i := range idx {
+		c := lib.Concepts[i]
 		src := lib.Words[c.SourceWordID]
 		e := Entry{
 			ID:         c.ID,
@@ -55,7 +80,7 @@ func Entries(lib *storage.Library) []Entry {
 			Answers:    TargetTexts(lib, c),
 			Example:    c.Example,
 			Meanings:   meanings[meaningKey(lib, c)],
-			Reverse:    reverseIDs(lib, c),
+			Reverse:    reverse(c),
 			New:        c.FirstReview.IsZero(),
 			Groups:     append([]string{}, c.Groups...),
 			Step:       c.StepIndex,

@@ -669,16 +669,23 @@ body.mode-manage .shell { max-width: 820px; }
 .m-import textarea:focus { border-color: var(--focus); box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 18%, transparent); }
 .m-import code { font-size: 13px; background: var(--surface-2); padding: 1px 6px; border-radius: 6px; }
 .imp-summary { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 13px; }
-.imp-chip { padding: 2px 10px; border-radius: 999px; font-weight: 600; }
+.imp-chip { padding: 2px 10px; border-radius: 999px; font-weight: 600; border: 2px solid transparent; font: inherit; font-weight: 600; cursor: pointer; }
+.imp-chip[aria-pressed="true"] { border-color: currentColor; }
+.imp-chip.all { background: none; color: var(--text-2); }
+.imp-skip-open { margin-left: auto; font-size: 13px; }
+.imp-note { margin: 6px 0 0; font-size: 13px; }
+#imp-preview.busy { opacity: .6; transition: opacity .15s .2s; }
 .imp-chip.ok { background: var(--good-bg); color: var(--good); }
 .imp-chip.dup { background: var(--surface-2); color: var(--text-2); }
 .imp-chip.choice { background: var(--warn-bg); color: var(--warn); }
 .imp-chip.err { background: var(--bad-bg); color: var(--bad); }
-.imp-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; max-height: 420px; overflow-y: auto; }
-.imp-row { display: grid; grid-template-columns: 22px 34px 1fr; gap: 6px; align-items: start; padding: 6px 10px; border-radius: 10px; background: var(--surface-2); font-size: 14px; }
+.imp-list { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; max-height: 60vh; overflow-y: auto; position: relative; }
+.imp-row { display: grid; grid-template-columns: 22px 34px 1fr auto; gap: 6px; align-items: start; padding: 6px 10px; border-radius: 10px; background: var(--surface-2); font-size: 14px; }
 .imp-row.choice { background: var(--warn-bg); }
 .imp-row.error { background: var(--bad-bg); }
 .imp-row.duplicate { opacity: .7; }
+.imp-row.skipped { opacity: .5; }
+.imp-skip { font-size: 12px; color: var(--muted); white-space: nowrap; }
 .imp-icon { font-weight: 700; text-align: center; }
 .imp-row.added .imp-icon { color: var(--good); }
 .imp-row.choice .imp-icon { color: var(--warn); }
