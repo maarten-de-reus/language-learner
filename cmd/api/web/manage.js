@@ -641,6 +641,7 @@ async function showTab() {
   cardsEl.hidden = tab !== "kaarten";
   app.hidden = tab !== "oefenen";
   document.getElementById("quiz-foot").hidden = tab !== "oefenen";
+  document.getElementById("mode-switch").hidden = tab !== "oefenen";
   document.body.classList.toggle("mode-manage", tab !== "oefenen");
   for (const t of ["oefenen", "kaarten", "statistiek", "beheer"]) {
     document.getElementById(`tab-${t}`).setAttribute("aria-current", t === tab ? "page" : "false");

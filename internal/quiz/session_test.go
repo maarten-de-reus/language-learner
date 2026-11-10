@@ -237,8 +237,9 @@ func időData(t *testing.T) *Session {
 			Example: "Milyen lesz az idő holnap?", ExampleLang: "hu", StepIndex: 2, NextReview: past},
 		{ID: "c_tijd", SourceWordID: "w_hu_idő", ContextSource: "klok", TargetWordIDs: []string{"w_nl_tijd"},
 			NextReview: time.Now().Add(48 * time.Hour)},
+		// De andere richting is pas later aan de beurt, zodat de eerste kaart altijd c_weer is
 		{ID: "c_nl_weer", SourceWordID: "w_nl_weer", TargetWordIDs: []string{"w_hu_idő"},
-			Example: "Milyen lesz az idő holnap?", ExampleLang: "hu", StepIndex: 3, NextReview: past},
+			Example: "Milyen lesz az idő holnap?", ExampleLang: "hu", StepIndex: 3, NextReview: time.Now().Add(48 * time.Hour)},
 	}
 	for i := range concepts {
 		concepts[i].FirstReview = longAgo
@@ -282,6 +283,7 @@ func TestExampleShownBeforeOnlyWhenItDoesNotGiveAwayTheAnswer(t *testing.T) {
 		t.Fatal("verwacht dat de run klaar is")
 	}
 	s.lib.Concepts[s.lib.Index("c_weer")].LastReview = time.Now().AddDate(0, 0, -1)
+	s.lib.Concepts[s.lib.Index("c_nl_weer")].NextReview = time.Now().Add(-time.Hour)
 	s.NewRun()
 
 	// NL->HU: de Hongaarse zin bevat het antwoord, dus pas na het antwoorden
@@ -391,12 +393,13 @@ func countNew(s *Session) (newInRun int) {
 
 func TestDailyNewWordLimit(t *testing.T) {
 	s := queueSession(t, 5)
-	if got := countNew(s); got != 5 {
-		t.Fatalf("verwacht 5 nieuwe woorden in de run, kreeg %d", got)
-	}
 	st := s.Stats()
-	if st.NewQueue != 30 || st.NewLeft != 5 || st.Due != 2+5 {
+	if st.NewQueue != 30 || st.NewLeft != 5 || st.Due != 2 || st.DueNew != 5 {
 		t.Errorf("stats vooraf: %+v", st)
+	}
+	s.SetMode(engine.ModeNew)
+	if got := countNew(s); got != 5 || len(s.run) != 5 {
+		t.Fatalf("verwacht een run met precies 5 nieuwe woorden, kreeg %d van %d", got, len(s.run))
 	}
 
 	// Alles beantwoorden: 5 nieuwe woorden zijn nu geïntroduceerd, de limiet is op
@@ -405,7 +408,7 @@ func TestDailyNewWordLimit(t *testing.T) {
 		s.Next()
 	}
 	st = s.Stats()
-	if st.NewQueue != 25 || st.NewToday != 5 || st.NewLeft != 0 {
+	if st.NewQueue != 25 || st.NewToday != 5 || st.NewLeft != 0 || st.DueNew != 0 || st.Due != 2 {
 		t.Errorf("stats na de run: %+v", st)
 	}
 	s.NewRun()
@@ -422,16 +425,18 @@ func TestDailyNewWordLimit(t *testing.T) {
 
 func TestNoLimit(t *testing.T) {
 	s := queueSession(t, 0)
+	s.SetMode(engine.ModeNew)
 	if got := countNew(s); got != 30 {
 		t.Errorf("zonder limiet verwacht alle 30 nieuwe woorden, kreeg %d", got)
 	}
-	if st := s.Stats(); st.NewLeft != engine.Unlimited || st.Due != 32 {
+	if st := s.Stats(); st.NewLeft != engine.Unlimited || st.Due != 2 || st.DueNew != 30 {
 		t.Errorf("stats zonder limiet: %+v", st)
 	}
 }
 
 func TestFirstAnswerMarksWordAsSeen(t *testing.T) {
 	s := queueSession(t, 1)
+	s.SetMode(engine.ModeNew)
 	for !s.Done() && !engine.IsNew(*s.conceptOf(s.run[s.pos])) {
 		s.Answer(correctAnswer(s))
 		s.Next()
@@ -538,5 +543,41 @@ func TestDontKnowCountsAsWrongAndIsLogged(t *testing.T) {
 	}
 	if again, _ := s.DontKnow(); again != nil {
 		t.Error("tweede keer op hetzelfde concept mag niets doen")
+	}
+}
+
+func TestReviewAndNewWordsDoNotMix(t *testing.T) {
+	s := queueSession(t, 5)
+	if s.Stats().Mode != engine.ModeReview || countNew(s) != 0 || len(s.run) != 2 {
+		t.Fatalf("met herhalingen klaar begint de sessie met herhalen, zonder nieuwe woorden: %d van %d nieuw", countNew(s), len(s.run))
+	}
+	s.Answer(correctAnswer(s)) // halverwege wisselen
+	s.SetMode(engine.ModeNew)
+	if s.Stats().Mode != engine.ModeNew || countNew(s) != len(s.run) || len(s.run) != 5 {
+		t.Errorf("nieuwe woorden leren: alleen nieuwe woorden, kreeg %d van %d", countNew(s), len(s.run))
+	}
+	if s.Stats().Due != 1 {
+		t.Errorf("het beantwoorde woord is klaar, het andere blijft aan de beurt: %+v", s.Stats())
+	}
+	if s.SetMode("iets") {
+		t.Error("onbekende modus moet false geven")
+	}
+
+	// Niets te herhalen: de sessie begint met nieuwe woorden
+	words, concepts := testData()
+	for i := range concepts {
+		concepts[i].NextReview = time.Now().Add(48 * time.Hour)
+	}
+	concepts = append(concepts, storage.TranslationConcept{ID: "c_nieuw", SourceWordID: "w_nl_koffie", TargetWordIDs: []string{"w_hu_kave"}, NextReview: time.Now().Add(-time.Hour)})
+	fresh := New(&storage.Library{Words: words, Concepts: concepts}, filepath.Join(t.TempDir(), "voortgang.json"), 10)
+	if fresh.Stats().Mode != engine.ModeNew || countNew(fresh) != 1 {
+		t.Errorf("zonder herhalingen begint de sessie met nieuwe woorden: %+v", fresh.Stats())
+	}
+
+	// Nog 10 nieuwe woorden gaat naar nieuwe woorden leren
+	s.SetMode(engine.ModeReview)
+	s.AddExtraNew(10)
+	if s.Stats().Mode != engine.ModeNew || countNew(s) == 0 {
+		t.Errorf("Nog 10 moet naar nieuwe woorden leren: %+v", s.Stats())
 	}
 }

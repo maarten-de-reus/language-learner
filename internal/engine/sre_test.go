@@ -65,24 +65,26 @@ func mustChunk(t *testing.T) []storage.TranslationConcept {
 	return chunk
 }
 
-func TestLowerStepsComeFirst(t *testing.T) {
-	cs := append(pairs(10, 2), pairs(0, 0)...)
-	for i := range 3 {
-		cs = append(cs, storage.TranslationConcept{
-			ID: fmt.Sprintf("c_urgent_%d", i), SourceWordID: fmt.Sprintf("w_u_%d", i), TargetWordIDs: []string{fmt.Sprintf("w_v_%d", i)}, NextReview: past,
-		})
+func TestStepsAreMixedInARun(t *testing.T) {
+	// 10 woordparen op 7 dagen en 10 op 1 dag: een run moet uit beide komen, niet eerst alle
+	// korte intervallen en daarna pas de lange
+	cs := seen(pairs(20, 2))
+	for i := range cs[:20] {
+		cs[i].StepIndex = 0
 	}
+	mixed := 0
 	for range 20 {
-		chunk, _ := GetNextChunk(cs, 5, Unlimited)
-		urgent := 0
+		chunk, _ := GetNextChunk(cs, 10, Unlimited)
+		steps := map[int]bool{}
 		for _, c := range chunk {
-			if strings.HasPrefix(c.ID, "c_urgent_") {
-				urgent++
-			}
+			steps[c.StepIndex] = true
 		}
-		if urgent != 3 {
-			t.Fatalf("alle 3 concepten op stap 0 moeten in de run, kreeg %d: %v", urgent, ids(chunk))
+		if len(steps) > 1 {
+			mixed++
 		}
+	}
+	if mixed < 15 {
+		t.Errorf("verwacht runs met stappen door elkaar, maar maar %d van de 20 waren gemengd", mixed)
 	}
 }
 

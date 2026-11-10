@@ -2,11 +2,13 @@ package main
 
 import (
 	"encoding/json"
-	"hungarian-language-learner/internal/catalog"
+	"errors"
 	"log"
 	"net/http"
 	"sync"
 
+	"hungarian-language-learner/internal/catalog"
+	"hungarian-language-learner/internal/engine"
 	"hungarian-language-learner/internal/quiz"
 	"hungarian-language-learner/internal/storage"
 )
@@ -82,4 +84,21 @@ func (s *server) handlePracticeCheck(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeJSON(w, http.StatusOK, res)
+}
+
+// handleMode kiest tussen herhalen en nieuwe woorden leren
+func (s *server) handleMode(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		Mode engine.Mode `json:"mode"`
+	}
+	if !decode(w, r, &body) {
+		return
+	}
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if !s.session.SetMode(body.Mode) {
+		writeError(w, http.StatusBadRequest, errors.New("onbekende modus: kies review of new"))
+		return
+	}
+	s.writeState(w)
 }

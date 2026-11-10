@@ -748,3 +748,13 @@ body.mode-manage .shell { max-width: 820px; }
 /* Weet ik niet: onder het invoerveld, rustig maar vindbaar */
 .dont-know { display: block; margin: 12px auto 0; font-size: 14px; color: var(--muted); }
 .dont-know kbd { margin-left: 4px; }
+
+/* Herhalen / Nieuwe woorden: gesegmenteerde keuze boven de kaart */
+.mode-switch { display: flex; gap: 4px; padding: 4px; margin: 0 0 12px; border-radius: 14px; background: var(--surface-2); }
+.mode-switch .mode {
+  flex: 1; border: 0; border-radius: 10px; padding: 9px 12px; background: none; color: var(--text-2);
+  font: inherit; font-weight: 600; cursor: pointer;
+}
+.mode-switch .mode.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgb(0 0 0 / .12); }
+.mode-count { margin-left: 6px; padding: 1px 8px; border-radius: 999px; background: var(--surface-2); font-variant-numeric: tabular-nums; font-size: 13px; }
+.mode-switch .mode.active .mode-count { background: var(--surface-2); }

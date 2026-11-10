@@ -79,7 +79,19 @@ async function act(path, body) {
 
 // ---------- Stats ----------
 
+// Herhalen of nieuwe woorden leren: twee knoppen boven de kaart, met wat er vandaag nog kan
+function renderModes(stats) {
+  const el = document.getElementById("mode-switch");
+  const option = (mode, label, n) => `
+    <button type="button" class="mode ${stats.mode === mode ? "active" : ""}" data-mode="${mode}" aria-pressed="${stats.mode === mode}">
+      ${label} <span class="mode-count">${n}</span></button>`;
+  el.innerHTML = option("review", "Herhalen", stats.due) + option("new", "Nieuwe woorden", stats.dueNew);
+  el.querySelectorAll("[data-mode]").forEach((b) =>
+    b.addEventListener("click", () => act("/api/mode", { mode: b.dataset.mode })));
+}
+
 function renderStats(stats) {
+  renderModes(stats);
   document.getElementById("kpi-due").textContent = stats.due;
   document.getElementById("kpi-total").textContent = stats.total;
 
@@ -271,11 +283,14 @@ function retryNote(r) {
 
 function renderDone() {
   const { results, stats } = state;
+  const isNew = stats.mode === "new";
   const nextDue = stats.nextDue ? `De volgende herhaling is ${esc(relative(stats.nextDue))}.` : "";
-  // Daglimiet voor nieuwe woorden bereikt, maar er staan er nog in de wachtrij: zelf meer doen kan altijd.
+  const left = isNew ? stats.dueNew : stats.due; // in deze modus vandaag nog te doen
+
+  // Nieuwe woorden: daglimiet bereikt, maar er staan er nog in de wachtrij: zelf meer doen kan altijd.
   // Niet alles in de wachtrij kan vandaag: van een woord waarvan je vandaag al een richting had,
   // wacht de andere richting tot morgen. Tel dus apart wat nu kan en wat later komt.
-  const canAddNew = stats.due === 0 && stats.newLeft === 0 && stats.newAvailable > 0;
+  const canAddNew = isNew && left === 0 && stats.newLeft === 0 && stats.newAvailable > 0;
   const now = canAddNew ? stats.newAvailable : 0;
   const later = stats.newQueue - now;
   const extra = Math.min(EXTRA_NEW, now);
@@ -285,32 +300,40 @@ function renderDone() {
     : `Je kunt nu <b>${now}</b> ${now === 1 ? "nieuw woord" : "nieuwe woorden"} leren.`);
   if (later) parts.push(`${now ? "De andere" : "Nog"} <b>${later}</b> ${later === 1 ? "komt" : "komen"} vanaf morgen${
     stats.newPerDay ? `, ${stats.newPerDay} per dag` : ""}.`);
-  const queueNote = stats.due === 0 && stats.newQueue > 0
+  const queueNote = isNew && left === 0 && stats.newQueue > 0
     ? `<p class="queue-note">${stats.newToday ? `Je hebt vandaag ${stats.newToday} nieuwe ${stats.newToday === 1 ? "woord" : "woorden"} geleerd. ` : ""}${parts.join(" ")}</p>`
     : "";
   const extraButton = canAddNew
     ? `<button class="btn" id="extra-new" type="button">Nog ${extra} ${extra === 1 ? "nieuw woord" : "nieuwe woorden"}</button>`
     : "";
+  // Klaar in deze modus: naar de andere als daar nog iets te doen is
+  const other = isNew
+    ? (stats.due > 0 ? { mode: "review", label: `Herhalen (${stats.due})` } : null)
+    : (stats.dueNew > 0 ? { mode: "new", label: `Nieuwe woorden leren (${stats.dueNew})` } : null);
+  const switchButton = left === 0 && other
+    ? `<button class="btn" id="switch-mode" type="button" data-mode="${other.mode}">${esc(other.label)}</button>`
+    : "";
+  const primary = left === 0 && (switchButton || extraButton);
+  const againButton = `<button class="btn ${primary ? "secondary" : results?.length ? "block" : "secondary"}" id="again" type="button">${
+    left > 0 ? "Nieuwe ronde" : "Opnieuw controleren"}</button>`;
+  const actions = `<div class="done-actions">${switchButton}${extraButton}${againButton}</div>`;
 
   if (!results || results.length === 0) {
     app.innerHTML = `
       <article class="card center">
         <div class="big-emoji">🌿</div>
-        <h2>Alles bijgewerkt</h2>
-        <p class="muted">Er staan nu geen woorden klaar om te herhalen. ${nextDue}</p>
+        <h2>${isNew ? "Geen nieuwe woorden meer voor vandaag" : "Alles herhaald"}</h2>
+        <p class="muted">${isNew ? "" : `Er staan nu geen herhalingen klaar. ${nextDue}`}</p>
         ${queueNote}
-        <div class="done-actions">
-          ${extraButton}
-          <button class="btn secondary" id="again" type="button">Opnieuw controleren</button>
-        </div>
+        ${actions}
       </article>`;
   } else {
     const good = results.filter((r) => r.correct).length;
     const pct = good / results.length;
     const title = pct === 1 ? "Foutloos! Nagyszerű!" : pct >= 0.7 ? "Mooi gedaan!" : "Ronde voltooid";
-    const more = stats.due > 0
-      ? `Er staan nog ${stats.due} concepten klaar.`
-      : `Je bent klaar voor nu. ${nextDue}`;
+    const more = left > 0
+      ? `Er staan nog ${left} ${isNew ? (left === 1 ? "nieuw woord" : "nieuwe woorden") : (left === 1 ? "herhaling" : "herhalingen")} klaar.`
+      : isNew ? "Klaar met nieuwe woorden voor nu." : `Alles herhaald. ${nextDue}`;
 
     app.innerHTML = `
       <article class="card center">
@@ -327,17 +350,16 @@ function renderDone() {
             </li>`).join("")}
         </ul>
         ${queueNote}
-        <div class="done-actions">
-          ${extraButton}
-          <button class="btn ${canAddNew ? "secondary" : "block"}" id="again" type="button">${stats.due > 0 ? "Nieuwe ronde" : "Opnieuw controleren"}</button>
-        </div>
+        ${actions}
       </article>`;
   }
 
   const again = document.getElementById("again");
   again.addEventListener("click", () => act("/api/run"));
   document.getElementById("extra-new")?.addEventListener("click", () => act("/api/new/extra"));
-  (document.getElementById("extra-new") ?? again).focus();
+  const switchMode = document.getElementById("switch-mode");
+  switchMode?.addEventListener("click", () => act("/api/mode", { mode: switchMode.dataset.mode }));
+  (left > 0 ? again : switchMode ?? document.getElementById("extra-new") ?? again).focus();
 }
 
 // ---------- Main render ----------

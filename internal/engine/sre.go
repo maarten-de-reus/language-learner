@@ -3,7 +3,6 @@ package engine
 import (
 	"math/rand/v2"
 	"slices"
-	"sort"
 	"time"
 
 	"hungarian-language-learner/internal/storage"
@@ -225,17 +224,41 @@ func DueCandidates(all []storage.TranslationConcept, now time.Time, newAllowance
 	return append(due, fresh...)
 }
 
-// GetNextChunk haalt de eerstvolgende 'run' op en geeft aan hoeveel er vandaag nog overblijven.
-// Laagste stappen (meest kritiek) gaan voor, binnen dezelfde stap in willekeurige volgorde.
-// Twee richtingen van hetzelfde woord komen nooit in dezelfde run, en (zie DueCandidates)
-// ook niet op dezelfde dag.
-func GetNextChunk(allConcepts []storage.TranslationConcept, chunkSize, newAllowance int) (currentChunk []storage.TranslationConcept, remainingCount int) {
-	dueWords := DueCandidates(allConcepts, time.Now(), newAllowance)
+// Mode bepaalt wat er in een ronde komt: herhalingen of nieuwe woorden, nooit door elkaar.
+// Zo staan nieuwe woorden (bijv. een grote import) je herhalingen niet in de weg.
+type Mode string
 
+const (
+	ModeReview Mode = "review" // woorden die je al eens gehad hebt en die aan de beurt zijn
+	ModeNew    Mode = "new"    // woorden uit de wachtrij, tot de daglimiet
+)
+
+// Candidates geeft wat in deze modus vandaag gevraagd kan worden (zie DueCandidates)
+func Candidates(all []storage.TranslationConcept, now time.Time, mode Mode, newAllowance int) []storage.TranslationConcept {
+	if mode == ModeNew {
+		return slices.DeleteFunc(DueCandidates(all, now, newAllowance), func(c storage.TranslationConcept) bool { return !IsNew(c) })
+	}
+	return DueCandidates(all, now, 0)
+}
+
+// NextChunk haalt de eerstvolgende run in deze modus op (zie GetNextChunk)
+func NextChunk(all []storage.TranslationConcept, chunkSize int, mode Mode, newAllowance int) []storage.TranslationConcept {
+	chunk, _ := chunkFrom(Candidates(all, time.Now(), mode, newAllowance), chunkSize)
+	return chunk
+}
+
+// GetNextChunk haalt de eerstvolgende 'run' op en geeft aan hoeveel er vandaag nog overblijven,
+// met herhalingen en nieuwe woorden door elkaar.
+func GetNextChunk(allConcepts []storage.TranslationConcept, chunkSize, newAllowance int) (currentChunk []storage.TranslationConcept, remainingCount int) {
+	return chunkFrom(DueCandidates(allConcepts, time.Now(), newAllowance), chunkSize)
+}
+
+// chunkFrom kiest een run uit de kandidaten, volledig willekeurig: korte en lange intervallen door
+// elkaar, zodat je niet eerst alle woorden van 1 dag krijgt en daarna pas die van 3 en 7 dagen.
+// Twee richtingen van hetzelfde woord komen nooit in dezelfde run, en (zie DueCandidates) ook
+// niet op dezelfde dag.
+func chunkFrom(dueWords []storage.TranslationConcept, chunkSize int) (currentChunk []storage.TranslationConcept, remainingCount int) {
 	rand.Shuffle(len(dueWords), func(i, j int) { dueWords[i], dueWords[j] = dueWords[j], dueWords[i] })
-	sort.SliceStable(dueWords, func(i, j int) bool {
-		return dueWords[i].StepIndex < dueWords[j].StepIndex
-	})
 
 	for _, c := range dueWords {
 		if len(currentChunk) == chunkSize {
@@ -247,8 +270,6 @@ func GetNextChunk(allConcepts []storage.TranslationConcept, chunkSize, newAllowa
 		currentChunk = append(currentChunk, c)
 	}
 
-	// Ook de volgorde binnen de run husselen, zodat de meest kritieke niet altijd vooraan staan
-	rand.Shuffle(len(currentChunk), func(i, j int) { currentChunk[i], currentChunk[j] = currentChunk[j], currentChunk[i] })
 	return currentChunk, len(dueWords) - len(currentChunk)
 }
 

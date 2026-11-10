@@ -100,8 +100,10 @@ func (s *Session) Forget(ids ...string) {
 
 // Stats geeft een overzicht van alle concepten
 type Stats struct {
+	Mode      engine.Mode                    `json:"mode"` // herhalen of nieuwe woorden leren
 	Total     int                            `json:"total"`
-	Due       int                            `json:"due"`
+	Due       int                            `json:"due"`    // herhalingen die vandaag aan de beurt zijn
+	DueNew    int                            `json:"dueNew"` // nieuwe woorden die je vandaag nog kunt leren
 	Steps     [len(engine.AnkiIntervals)]int `json:"steps"`
 	Intervals [len(engine.AnkiIntervals)]int `json:"intervals"`
 	NextDue   *time.Time                     `json:"nextDue"`
@@ -127,9 +129,10 @@ type Session struct {
 	runSize      int
 	reviewLog    *storage.ReviewLog // optioneel: elk antwoord wordt hierin bijgehouden
 
-	newPerDay int       // nieuwe woorden per dag; 0 = geen limiet
-	extraNew  int       // extra nieuwe woorden vandaag ("Nog 10 nieuwe woorden")
-	extraDay  time.Time // herhaaldag waarop extraNew geldt
+	mode      engine.Mode // herhalen of nieuwe woorden leren; nooit door elkaar
+	newPerDay int         // nieuwe woorden per dag; 0 = geen limiet
+	extraNew  int         // extra nieuwe woorden vandaag ("Nog 10 nieuwe woorden")
+	extraDay  time.Time   // herhaaldag waarop extraNew geldt
 }
 
 // LogReviewsTo laat de sessie elk antwoord, ook oefenherhalingen, in het antwoordenlog schrijven
@@ -139,9 +142,27 @@ func (s *Session) LogReviewsTo(l *storage.ReviewLog) {
 
 // New maakt een sessie en start meteen de eerste run
 func New(lib *storage.Library, progressPath string, runSize int) *Session {
-	s := &Session{lib: lib, progressPath: progressPath, runSize: runSize, newPerDay: storage.DefaultNewPerDay}
+	s := &Session{lib: lib, progressPath: progressPath, runSize: runSize, newPerDay: storage.DefaultNewPerDay, mode: engine.ModeReview}
+	// Eerst herhalen; is er niets te herhalen, dan meteen nieuwe woorden
+	if len(engine.Candidates(lib.Concepts, time.Now(), engine.ModeReview, 0)) == 0 {
+		s.mode = engine.ModeNew
+	}
 	s.startRun()
 	return s
+}
+
+// SetMode kiest tussen herhalen en nieuwe woorden leren en begint een run in die modus. Een
+// halve run gaat verloren, maar wat nog niet beantwoord is blijft gewoon aan de beurt.
+// false bij een onbekende modus.
+func (s *Session) SetMode(m engine.Mode) bool {
+	if m != engine.ModeReview && m != engine.ModeNew {
+		return false
+	}
+	if m != s.mode || s.Done() {
+		s.mode = m
+		s.startRun()
+	}
+	return true
 }
 
 // SetNewPerDay stelt de dagelijkse limiet voor nieuwe woorden in (0 = geen limiet).
@@ -153,8 +174,8 @@ func (s *Session) SetNewPerDay(n int) {
 	}
 }
 
-// AddExtraNew staat vandaag n extra nieuwe woorden toe. Is de run klaar, dan begint er
-// meteen een nieuwe met die woorden.
+// AddExtraNew staat vandaag n extra nieuwe woorden toe en gaat naar nieuwe woorden leren.
+// Is de run klaar, dan begint er meteen een nieuwe met die woorden.
 func (s *Session) AddExtraNew(n int) {
 	today := engine.DayOf(time.Now())
 	if !s.extraDay.Equal(today) {
@@ -165,7 +186,8 @@ func (s *Session) AddExtraNew(n int) {
 		s.extraNew = used - s.newPerDay
 	}
 	s.extraNew += n
-	if s.Done() {
+	if s.mode != engine.ModeNew || s.Done() {
+		s.mode = engine.ModeNew
 		s.startRun()
 	}
 }
@@ -408,7 +430,7 @@ func (s *Session) Save() error {
 // Stats telt per stap en bepaalt hoeveel er nu klaarstaan en wanneer de volgende herhaling is
 func (s *Session) Stats() Stats {
 	now := time.Now()
-	st := Stats{Total: len(s.lib.Concepts), Intervals: engine.AnkiIntervals, NewPerDay: s.newPerDay}
+	st := Stats{Mode: s.mode, Total: len(s.lib.Concepts), Intervals: engine.AnkiIntervals, NewPerDay: s.newPerDay}
 	st.NewLeft = s.newAllowance(now)
 	st.NewToday = s.introducedOn(engine.DayOf(now))
 	for _, c := range s.lib.Concepts {
@@ -425,8 +447,9 @@ func (s *Session) Stats() Stats {
 			st.NextDue = &t
 		}
 	}
-	// Te doen vandaag: precies wat de rondes nog kunnen geven (zelfde regels als GetNextChunk)
-	st.Due = len(engine.DueCandidates(s.lib.Concepts, now, st.NewLeft))
+	// Te doen vandaag: precies wat de rondes per modus nog kunnen geven
+	st.Due = len(engine.Candidates(s.lib.Concepts, now, engine.ModeReview, 0))
+	st.DueNew = len(engine.Candidates(s.lib.Concepts, now, engine.ModeNew, st.NewLeft))
 	for _, c := range engine.DueCandidates(s.lib.Concepts, now, engine.Unlimited) {
 		if engine.IsNew(c) {
 			st.NewAvailable++
@@ -436,7 +459,7 @@ func (s *Session) Stats() Stats {
 }
 
 func (s *Session) startRun() {
-	chunk, _ := engine.GetNextChunk(s.lib.Concepts, s.runSize, s.newAllowance(time.Now()))
+	chunk := engine.NextChunk(s.lib.Concepts, s.runSize, s.mode, s.newAllowance(time.Now()))
 	s.run = s.run[:0]
 	for _, c := range chunk {
 		s.run = append(s.run, runItem{conceptID: c.ID})

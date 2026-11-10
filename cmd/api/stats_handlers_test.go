@@ -61,3 +61,14 @@ func TestAnswerUnknownShowsAnswerAndCounts(t *testing.T) {
 		t.Errorf("statistiek moet 1 'weet ik niet' tonen: %s", out["mistakes"])
 	}
 }
+
+func TestModeEndpoint(t *testing.T) {
+	_, h := newTestServer(t)
+	code, out := call(t, h, "POST", "/api/mode", `{"mode":"new"}`)
+	if code != http.StatusOK || !strings.Contains(string(out["stats"]), `"mode":"new"`) {
+		t.Errorf("verwacht modus new, kreeg %d %s", code, out["stats"])
+	}
+	if code, _ := call(t, h, "POST", "/api/mode", `{"mode":"alles"}`); code != http.StatusBadRequest {
+		t.Errorf("onbekende modus: verwacht 400, kreeg %d", code)
+	}
+}
