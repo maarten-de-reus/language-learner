@@ -244,8 +244,11 @@ function fcTypeHTML(card) {
       <div class="feedback ${r.correct ? "good" : "bad"}" role="status">
         <span class="icon" aria-hidden="true">${r.correct ? "✓" : "✕"}</span>
         <div>
-          <strong>${r.correct ? "Goed zo!" : r.unknown ? "Geen probleem, nu weet je het" : "Nog niet"}</strong>
-          ${r.correct
+          <strong>${r.overridden ? "Goedgerekend" : r.typo ? "Goed, met een tikfout" : r.correct ? "Goed zo!"
+            : r.unknown ? "Geen probleem, nu weet je het" : "Nog niet"}</strong>
+          ${r.typo || r.overridden
+            ? `<p>Zo schrijf je het: ${answers}</p>`
+            : r.correct
             ? (r.expected.length > 1 ? `<p>Ook goed: ${answers}</p>` : "")
             : `<p>Het juiste antwoord: ${answers}</p>`}
           ${r.otherMeaning ? `<p class="hint">Klopt, <b>${esc(card.prompt)}</b> kan ook
@@ -256,7 +259,10 @@ function fcTypeHTML(card) {
           ${r.correct ? "" : `<p>Deze kaart komt straks nog een keer.</p>`}
         </div>
       </div>
-      <div class="next-row"><button class="btn block" id="fc-next" type="button">Volgende →</button></div>` : ""}`;
+      <div class="next-row">
+        ${!r.correct && !r.unknown ? `<button class="btn secondary" id="fc-override" type="button">Toch goed</button>` : ""}
+        <button class="btn block" id="fc-next" type="button">Volgende →</button>
+      </div>` : ""}`;
 }
 
 function fcBindType(card) {
@@ -264,6 +270,10 @@ function fcBindType(card) {
   const article = cardsEl.querySelector(".fc-card");
   if (fc.result) {
     fc.result.correct ? pulse(article) : shake(article);
+    document.getElementById("fc-override")?.addEventListener("click", () => {
+      Object.assign(fc.result, { correct: true, overridden: true, accentOnly: false, otherMeaning: null });
+      fcRenderCard();
+    });
     const next = document.getElementById("fc-next");
     next.addEventListener("click", () => fcRate(fc.result.correct));
     next.focus();

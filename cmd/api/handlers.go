@@ -86,6 +86,17 @@ func (s *server) handlePracticeCheck(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, res)
 }
 
+// handleOverride is "Toch goed": het laatste foute antwoord telt alsnog als goed
+func (s *server) handleOverride(w http.ResponseWriter, r *http.Request) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if _, err := s.session.Override(); err != nil {
+		s.saveError = "Voortgang of antwoordenlog kon niet worden opgeslagen: " + err.Error()
+		log.Print(s.saveError)
+	}
+	s.writeState(w)
+}
+
 // handleMode kiest tussen herhalen en nieuwe woorden leren
 func (s *server) handleMode(w http.ResponseWriter, r *http.Request) {
 	var body struct {

@@ -245,3 +245,21 @@ func TestUnknownIsItsOwnMistake(t *testing.T) {
 		t.Errorf("soort fouten: %+v", m)
 	}
 }
+
+func TestOverridesAndTyposCountAsCorrect(t *testing.T) {
+	reviews := []storage.Review{
+		review(at(23, 9), "c_koffie", false, func(r *storage.Review) { r.StepAfter = 0 }),
+		review(at(23, 9), "c_koffie", true, func(r *storage.Review) { r.Override = true; r.StepAfter = 2 }),
+		review(at(23, 10), "c_water", true, func(r *storage.Review) { r.Typo = true }),
+	}
+	rep := Compute(testLib(), reviews, at(24, 12), 20)
+	if rep.Answers != 2 || rep.FirstAttempts != 2 || rep.FirstCorrect != 2 || rep.Overrides != 1 || rep.Typos != 1 {
+		t.Errorf("totalen: %+v", rep)
+	}
+	if m := rep.Mistakes; m.Other+m.AccentOnly+m.Unknown+m.OtherMeaning != 0 {
+		t.Errorf("Toch goed is geen fout meer: %+v", m)
+	}
+	if c := PerConcept(reviews)["c_koffie"]; c.Attempts != 1 || c.Wrong != 0 {
+		t.Errorf("per concept: %+v", c)
+	}
+}

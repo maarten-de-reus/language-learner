@@ -281,7 +281,8 @@ body {
   font-size: 13px; padding: 2px 8px; border-radius: 6px;
   background: var(--warn-bg); color: var(--warn);
 }
-.next-row { margin-top: 14px; }
+.next-row { margin-top: 14px; display: flex; gap: 8px; }
+.next-row .block { flex: 1; }
 
 .shake { animation: shake .4s ease; }
 @keyframes shake {

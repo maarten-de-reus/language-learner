@@ -25,7 +25,9 @@ type Report struct {
 	Answers        int     `json:"answers"`       // alle antwoorden, inclusief oefenherhalingen
 	FirstAttempts  int     `json:"firstAttempts"` // antwoorden die meetellen voor de planning
 	FirstCorrect   int     `json:"firstCorrect"`
-	Accuracy       float64 `json:"accuracy"` // FirstCorrect / FirstAttempts, 0..1
+	Accuracy       float64 `json:"accuracy"`  // FirstCorrect / FirstAttempts, 0..1
+	Typos          int     `json:"typos"`     // eerste pogingen goedgerekend ondanks één tikfout
+	Overrides      int     `json:"overrides"` // eerste pogingen alsnog goedgerekend met "Toch goed"
 	WordsPracticed int     `json:"wordsPracticed"`
 	DaysPracticed  int     `json:"daysPracticed"`
 	Streak         int     `json:"streak"` // aaneengesloten dagen tot vandaag (of gisteren, als je vandaag nog niet hebt geoefend)
@@ -124,10 +126,31 @@ type Counts struct {
 	Wrong    int
 }
 
+// applyOverrides verwerkt "Toch goed": zo'n regel maakt het vorige antwoord op hetzelfde concept
+// alsnog goed (met de planning van daarna) en telt zelf niet als antwoord. reviews moeten op
+// tijd gesorteerd zijn, zoals in het log.
+func applyOverrides(reviews []storage.Review) []storage.Review {
+	out := make([]storage.Review, 0, len(reviews))
+	last := map[string]int{} // concept -> index in out van het laatste antwoord
+	for _, r := range reviews {
+		if !r.Override {
+			last[r.ConceptID] = len(out)
+			out = append(out, r)
+			continue
+		}
+		if i, ok := last[r.ConceptID]; ok {
+			o := &out[i]
+			o.Correct, o.AccentOnly, o.OtherMeaning, o.Unknown, o.Overridden = true, false, false, false, true
+			o.StepAfter, o.NextReview = r.StepAfter, r.NextReview
+		}
+	}
+	return out
+}
+
 // PerConcept telt per concept de eerste pogingen en hoe vaak die fout waren
 func PerConcept(reviews []storage.Review) map[string]Counts {
 	out := map[string]Counts{}
-	for _, r := range reviews {
+	for _, r := range applyOverrides(reviews) {
 		if r.Retry {
 			continue
 		}
@@ -146,6 +169,7 @@ func PerConcept(reviews []storage.Review) map[string]Counts {
 func Compute(lib *storage.Library, reviews []storage.Review, now time.Time, newPerDay int) Report {
 	reviews = slices.Clone(reviews)
 	sort.SliceStable(reviews, func(i, j int) bool { return reviews[i].Time.Before(reviews[j].Time) })
+	reviews = applyOverrides(reviews)
 
 	today := engine.DayOf(now)
 	var rep Report
@@ -169,6 +193,12 @@ func Compute(lib *storage.Library, reviews []storage.Review, now time.Time, newP
 		if r.Correct {
 			rep.FirstCorrect++
 			d.Correct++
+			switch {
+			case r.Overridden:
+				rep.Overrides++
+			case r.Typo:
+				rep.Typos++
+			}
 			continue
 		}
 		d.Wrong++

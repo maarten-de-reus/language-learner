@@ -87,3 +87,51 @@ func contains(list []string, s string) bool {
 	}
 	return false
 }
+
+// MinTypoLength is de kortste lengte waarbij één tikfout nog goed telt: bij kortere woorden is
+// één letter verschil al snel een ander woord (kan / man)
+const MinTypoLength = 4
+
+// Typo geeft het goede antwoord waar input precies één tikfout van afwijkt: een letter te veel,
+// te weinig of anders, of twee letters omgedraaid. Accenten tellen hier als gewone letters.
+func Typo(input string, accepted []string) (string, bool) {
+	in := []rune(normalize(input))
+	if len(in) == 0 {
+		return "", false
+	}
+	for _, a := range accepted {
+		for _, v := range Variants(a) {
+			want := []rune(normalize(v))
+			if len(want) >= MinTypoLength && editDistance(in, want) == 1 {
+				return v, true
+			}
+		}
+	}
+	return "", false
+}
+
+// editDistance is de Damerau-Levenshtein-afstand (zonder herhaalde omwisselingen): het aantal
+// letters dat erbij, eraf of anders moet, waarbij twee omgedraaide buren één fout zijn
+func editDistance(a, b []rune) int {
+	d := make([][]int, len(a)+1)
+	for i := range d {
+		d[i] = make([]int, len(b)+1)
+		d[i][0] = i
+	}
+	for j := range d[0] {
+		d[0][j] = j
+	}
+	for i := 1; i <= len(a); i++ {
+		for j := 1; j <= len(b); j++ {
+			cost := 1
+			if a[i-1] == b[j-1] {
+				cost = 0
+			}
+			d[i][j] = min(d[i-1][j]+1, d[i][j-1]+1, d[i-1][j-1]+cost)
+			if i > 1 && j > 1 && a[i-1] == b[j-2] && a[i-2] == b[j-1] {
+				d[i][j] = min(d[i][j], d[i-2][j-2]+1)
+			}
+		}
+	}
+	return d[len(a)][len(b)]
+}

@@ -38,9 +38,11 @@ type Feedback struct {
 	Expected   []string  `json:"expected"`
 	Step       int       `json:"step"`
 	NextReview time.Time `json:"nextReview"`
-	Retry      bool      `json:"retry"`     // dit was een oefenherhaling
-	WillRetry  bool      `json:"willRetry"` // het concept komt aan het eind van de run nog een keer
-	Unknown    bool      `json:"unknown"`   // "Weet ik niet": geen antwoord gegeven
+	Retry      bool      `json:"retry"`      // dit was een oefenherhaling
+	WillRetry  bool      `json:"willRetry"`  // het concept komt aan het eind van de run nog een keer
+	Unknown    bool      `json:"unknown"`    // "Weet ik niet": geen antwoord gegeven
+	Typo       bool      `json:"typo"`       // goed, maar met één tikfout (alleen naar het Nederlands)
+	Overridden bool      `json:"overridden"` // fout nagekeken, maar met "Toch goed" alsnog goedgerekend
 	Example    string    `json:"example,omitempty"`
 	// OtherMeaning is gevuld als het antwoord een goede vertaling is van een ándere betekenis
 	// van hetzelfde woord (bijv. idő -> "tijd" terwijl "weer" bedoeld is). Het telt als fout.
@@ -61,6 +63,12 @@ type Result struct {
 	Correct      bool     `json:"correct"`
 	Retries      int      `json:"retries"`      // aantal oefenherhalingen
 	RetryCorrect bool     `json:"retryCorrect"` // bij een herhaling alsnog goed
+}
+
+// progress is de planning van een concept, om een antwoord terug te kunnen draaien
+type progress struct {
+	step int
+	next time.Time
 }
 
 // runItem is één vraag in de run; retry > 0 betekent een oefenherhaling
@@ -124,6 +132,7 @@ type Session struct {
 	run          []runItem
 	pos          int
 	feedback     *Feedback // gevuld zodra het huidige concept beantwoord is
+	undo         progress  // voortgang van het huidige concept vóór het antwoord, voor "Toch goed"
 	results      []Result
 	progressPath string
 	runSize      int
@@ -285,11 +294,12 @@ func (s *Session) answer(input string, unknown bool) (*Feedback, error) {
 	item := s.run[s.pos]
 	concept := s.conceptOf(item)
 	expected := s.targetTexts(concept)
-	var correct, accentOnly bool
+	var correct, accentOnly, typo bool
 	if !unknown {
-		correct, accentOnly = engine.CheckAnswer(input, expected)
+		correct, accentOnly, typo = s.check(concept, input, expected)
 	}
 	stepBefore := concept.StepIndex
+	s.undo = progress{step: concept.StepIndex, next: concept.NextReview}
 
 	var saveErr error
 	if item.retry == 0 {
@@ -333,6 +343,7 @@ func (s *Session) answer(input string, unknown bool) (*Feedback, error) {
 		Retry:      item.retry > 0,
 		WillRetry:  willRetry,
 		Unknown:    unknown,
+		Typo:       typo,
 		Example:    concept.Example,
 	}
 	if !correct && !unknown {
@@ -355,6 +366,7 @@ func (s *Session) logReview(c *storage.TranslationConcept, input string, stepBef
 		AccentOnly:   fb.AccentOnly,
 		OtherMeaning: fb.OtherMeaning != nil,
 		Unknown:      fb.Unknown,
+		Typo:         fb.Typo,
 		Retry:        fb.Retry,
 		StepBefore:   stepBefore,
 		StepAfter:    c.StepIndex,
@@ -366,6 +378,7 @@ func (s *Session) logReview(c *storage.TranslationConcept, input string, stepBef
 type PracticeResult struct {
 	Correct      bool          `json:"correct"`
 	AccentOnly   bool          `json:"accentOnly"`
+	Typo         bool          `json:"typo"`
 	Expected     []string      `json:"expected"`
 	OtherMeaning *OtherMeaning `json:"otherMeaning,omitempty"`
 }
@@ -379,11 +392,76 @@ func (s *Session) Practice(conceptID, input string) (res PracticeResult, ok bool
 	}
 	concept := &s.lib.Concepts[i]
 	res.Expected = s.targetTexts(concept)
-	res.Correct, res.AccentOnly = engine.CheckAnswer(input, res.Expected)
+	res.Correct, res.AccentOnly, res.Typo = s.check(concept, input, res.Expected)
 	if !res.Correct {
 		res.OtherMeaning = s.otherMeaning(concept, input)
 	}
 	return res, true
+}
+
+// check kijkt een antwoord na. Naar het Nederlands telt één tikfout als goed (typo): je kende het
+// woord, je typte het alleen net verkeerd. Niet als je antwoord zelf een woord uit je lijst is
+// (meer i.p.v. weer): dan bedoelde je waarschijnlijk dat andere woord. Naar het Hongaars niet:
+// daar is de spelling juist wat je leert, en één letter is vaak een ander woord (ül / öl).
+func (s *Session) check(c *storage.TranslationConcept, input string, expected []string) (correct, accentOnly, typo bool) {
+	correct, accentOnly = engine.CheckAnswer(input, expected)
+	if correct || accentOnly || len(c.TargetWordIDs) == 0 || s.lib.Words[c.TargetWordIDs[0]].Language != "nl" || s.isWord("nl", input) {
+		return correct, accentOnly, false
+	}
+	if _, ok := engine.Typo(input, expected); ok {
+		return true, false, true
+	}
+	return false, false, false
+}
+
+// isWord is true als text een woord in deze taal uit de woordenschat is
+func (s *Session) isWord(lang, text string) bool {
+	want := engine.Fold(text)
+	for _, w := range s.lib.Words {
+		if w.Language == lang && engine.Fold(w.Text) == want {
+			return true
+		}
+	}
+	return false
+}
+
+// Override is "Toch goed": het laatste foute antwoord telt alsnog als goed, bijv. een tikfout die
+// de controle niet herkende of een synoniem dat niet in de lijst staat. Bij een eerste poging
+// wordt de planning teruggedraaid en als goed verwerkt; de herhaling aan het eind vervalt.
+// Geeft nil als er niets terug te draaien is (al goed, "Weet ik niet" of nog niet beantwoord).
+func (s *Session) Override() (*Feedback, error) {
+	fb := s.feedback
+	if fb == nil || fb.Correct || fb.Unknown {
+		return nil, nil
+	}
+	item := s.run[s.pos]
+	concept := s.conceptOf(item)
+	if concept == nil {
+		return nil, nil
+	}
+	var saveErr error
+	if item.retry == 0 {
+		concept.StepIndex, concept.NextReview = s.undo.step, s.undo.next
+		engine.UpdateProgressSmart(concept, engine.Correct, s.load(concept.ID))
+		saveErr = s.Save()
+		s.results[item.result].Correct = true
+	} else {
+		s.results[item.result].RetryCorrect = true
+	}
+	if fb.WillRetry {
+		s.run = s.run[:len(s.run)-1] // de herhaling die bij dit antwoord achteraan is gezet
+	}
+	fb.Correct, fb.AccentOnly, fb.OtherMeaning, fb.WillRetry, fb.Overridden = true, false, nil, false, true
+	fb.Step, fb.NextReview = concept.StepIndex, concept.NextReview
+
+	var logErr error
+	if s.reviewLog != nil {
+		logErr = s.reviewLog.Append(storage.Review{
+			Time: time.Now(), ConceptID: concept.ID, Input: fb.Input, Correct: true, Override: true, Retry: fb.Retry,
+			StepBefore: s.undo.step, StepAfter: concept.StepIndex, NextReview: concept.NextReview,
+		})
+	}
+	return fb, errors.Join(saveErr, logErr)
 }
 
 // otherMeaning zoekt een ander concept met hetzelfde bronwoord (taal + tekst, niet het ID)

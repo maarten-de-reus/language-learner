@@ -228,7 +228,9 @@ function renderFeedback(fb) {
 
   const answers = fb.expected.map((x) => `<span class="answer">${esc(x)}</span>`).join(" of ");
   const isLast = state.card.position === state.card.runSize;
-  const title = fb.correct
+  const title = fb.overridden ? "Goedgerekend"
+    : fb.typo ? "Goed, met een tikfout"
+    : fb.correct
     ? (fb.retry ? "Goed! Morgen volgt de echte test." : "Goed zo!")
     : fb.unknown ? "Geen probleem, nu weet je het"
     : (fb.retry ? "Nog niet goed" : "Helaas, niet goed");
@@ -238,7 +240,9 @@ function renderFeedback(fb) {
       <span class="icon" aria-hidden="true">${fb.correct ? "✓" : "✕"}</span>
       <div>
         <strong>${title}</strong>
-        ${fb.correct
+        ${fb.typo || fb.overridden
+          ? `<p>Zo schrijf je het: ${answers}</p>`
+          : fb.correct
           ? (fb.expected.length > 1 ? `<p>Ook goed: ${answers}</p>` : "")
           : `<p>Het juiste antwoord: ${answers}</p>`}
         <p>Volgende herhaling ${esc(relative(fb.nextReview))} · interval ${days(state.stats.intervals[fb.step])}</p>
@@ -251,12 +255,15 @@ function renderFeedback(fb) {
       </div>
     </div>
     <div class="next-row">
+      ${!fb.correct && !fb.unknown ? `<button class="btn secondary" id="override" type="button"
+        title="Bijvoorbeeld een tikfout of een synoniem dat niet in je lijst staat">Toch goed</button>` : ""}
       <button class="btn block" id="next" type="button">${isLast ? "Bekijk resultaat" : "Volgende"} →</button>
     </div>`;
 
   const card = document.getElementById("card");
   fb.correct ? pulse(card) : shake(card);
 
+  document.getElementById("override")?.addEventListener("click", () => act("/api/override"));
   const next = document.getElementById("next");
   next.addEventListener("click", () => act("/api/next"));
   next.focus();

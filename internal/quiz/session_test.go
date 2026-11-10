@@ -581,3 +581,69 @@ func TestReviewAndNewWordsDoNotMix(t *testing.T) {
 		t.Errorf("Nog 10 moet naar nieuwe woorden leren: %+v", s.Stats())
 	}
 }
+
+func TestTypoCountsOnlyTowardsDutch(t *testing.T) {
+	s := időData(t) // eerste kaart: idő (buiten) -> weer
+	s.lib.Words["w_nl_meer"] = storage.Word{ID: "w_nl_meer", Language: "nl", Text: "meer"}
+
+	if res, _ := s.Practice("c_weer", "weeer"); !res.Correct || !res.Typo {
+		t.Errorf("één tikfout naar het Nederlands telt als goed: %+v", res)
+	}
+	if res, _ := s.Practice("c_weer", "meer"); res.Correct {
+		t.Errorf("een ander woord uit de lijst is geen tikfout: %+v", res)
+	}
+	if res, _ := s.Practice("c_weer", "weer"); !res.Correct || res.Typo {
+		t.Errorf("gewoon goed is geen tikfout: %+v", res)
+	}
+
+	fb, _ := s.Answer("weeer")
+	if !fb.Correct || !fb.Typo || fb.WillRetry {
+		t.Errorf("tikfout in de ronde: goed, zonder herhaling: %+v", fb)
+	}
+
+	// Naar het Hongaars telt spelling wel: kávő is fout (geen accentfout, geen tikfout)
+	h, _ := newTestSession(t)
+	if res, _ := h.Practice("c_koffie", "kávő"); res.Correct || res.Typo {
+		t.Errorf("naar het Hongaars geen tikfouten goedrekenen: %+v", res)
+	}
+}
+
+func TestOverrideTurnsAWrongAnswerIntoCorrect(t *testing.T) {
+	s, _ := newTestSession(t)
+	logPath := filepath.Join(t.TempDir(), "antwoorden.jsonl")
+	s.LogReviewsTo(storage.NewReviewLog(logPath))
+	concept := s.conceptOf(s.run[s.pos])
+	before, runLen := concept.StepIndex, len(s.run)
+
+	fb, _ := s.Answer("helemaal fout")
+	if fb.Correct || !fb.WillRetry || len(s.run) != runLen+1 {
+		t.Fatalf("verwacht fout met herhaling: %+v", fb)
+	}
+	fb, err := s.Override()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !fb.Correct || !fb.Overridden || fb.WillRetry || len(s.run) != runLen {
+		t.Errorf("Toch goed: goed, zonder herhaling aan het eind: %+v (run %d)", fb, len(s.run))
+	}
+	if concept.StepIndex != before+1 || fb.Step != before+1 {
+		t.Errorf("planning moet zijn alsof het goed was: stap %d -> %d", before, concept.StepIndex)
+	}
+	if !s.Results()[0].Correct {
+		t.Error("het resultaat van de ronde moet goed zijn")
+	}
+	if again, _ := s.Override(); again != nil {
+		t.Error("twee keer Toch goed mag niets doen")
+	}
+	reviews, _, _ := storage.ReadReviews(logPath)
+	if len(reviews) != 2 || !reviews[1].Override || reviews[1].StepAfter != before+1 {
+		t.Errorf("log: verwacht het foute antwoord en een Toch goed-regel, kreeg %+v", reviews)
+	}
+
+	// Na "Weet ik niet" kan het niet
+	s.Next()
+	s.DontKnow()
+	if fb, _ := s.Override(); fb != nil {
+		t.Error("na Weet ik niet is er niets goed te rekenen")
+	}
+}

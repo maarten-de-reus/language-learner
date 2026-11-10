@@ -20,10 +20,15 @@ type Review struct {
 	AccentOnly   bool      `json:"accent_only,omitempty"`   // fout, maar alleen in de accenten
 	OtherMeaning bool      `json:"other_meaning,omitempty"` // fout, maar wel een andere betekenis van het woord
 	Unknown      bool      `json:"unknown,omitempty"`       // fout via "Weet ik niet": geen antwoord gegeven
-	Retry        bool      `json:"retry,omitempty"`         // oefenherhaling in dezelfde run; telt niet mee voor de planning
-	StepBefore   int       `json:"step_before"`
-	StepAfter    int       `json:"step_after"`
-	NextReview   time.Time `json:"next_review"`
+	Typo         bool      `json:"typo,omitempty"`          // goed, maar met één tikfout
+	// Override is een regel van "Toch goed": het vorige antwoord op dit concept telt alsnog als goed.
+	// Overridden markeert dat vorige antwoord nadat de statistiek de regels heeft samengevoegd.
+	Override   bool      `json:"override,omitempty"`
+	Overridden bool      `json:"-"`
+	Retry      bool      `json:"retry,omitempty"` // oefenherhaling in dezelfde run; telt niet mee voor de planning
+	StepBefore int       `json:"step_before"`
+	StepAfter  int       `json:"step_after"`
+	NextReview time.Time `json:"next_review"`
 }
 
 // ReviewLog schrijft antwoorden achteraan een JSON Lines-bestand

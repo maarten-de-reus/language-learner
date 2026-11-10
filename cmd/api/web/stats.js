@@ -87,7 +87,7 @@ function renderStatistics(r, quiz) {
         </section>
         <section class="sx-card">
           <h3>Soort fouten</h3>
-          ${mistakes(r.mistakes)}
+          ${mistakes(r.mistakes, r)}
         </section>
         <section class="sx-card">
           <h3>Helpt herhalen?</h3>
@@ -261,9 +261,12 @@ function hardestList(hardest) {
   </ol>`;
 }
 
-function mistakes(m) {
+function mistakes(m, r) {
   const total = m.unknown + m.accentOnly + m.otherMeaning + m.other;
-  if (!total) return `<p class="sx-empty">Nog geen fouten.</p>`;
+  const fixed = [r.typos ? `${r.typos} ${r.typos === 1 ? "tikfout" : "tikfouten"} (naar het Nederlands)` : "",
+    r.overrides ? `${times(r.overrides)} “Toch goed”` : ""].filter(Boolean).join(" en ");
+  const note = fixed ? `<p class="muted sx-dir-note">Goedgerekend: ${fixed}.</p>` : "";
+  if (!total) return `<p class="sx-empty">Nog geen fouten.</p>${note}`;
   const row = (label, n, note) => `
     <li><span>${label}<small class="muted">${note}</small></span>
       <span class="sx-meter"><span style="width:${(n / total) * 100}%"></span></span>
@@ -273,7 +276,7 @@ function mistakes(m) {
     ${row("Alleen accenten", m.accentOnly, "bijv. kave i.p.v. kávé")}
     ${row("Andere betekenis", m.otherMeaning, "bijv. tijd i.p.v. weer")}
     ${row("Anders fout", m.other, "")}
-  </ul>`;
+  </ul>${note}`;
 }
 
 // Minimaal aantal herhalingen per richting voordat een vergelijking iets zegt

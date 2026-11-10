@@ -96,3 +96,28 @@ func TestPunctuationAndDashes(t *testing.T) {
 		t.Errorf("Clean: %q", got)
 	}
 }
+
+func TestTypo(t *testing.T) {
+	cases := []struct {
+		input    string
+		accepted []string
+		want     string
+		ok       bool
+	}{
+		{"vrinedelijk", []string{"vriendelijk"}, "vriendelijk", true}, // twee letters omgedraaid
+		{"koffe", []string{"koffie"}, "koffie", true},                 // letter te weinig
+		{"kofffie", []string{"koffie"}, "koffie", true},               // letter te veel
+		{"woorf", []string{"woord"}, "woord", true},                   // letter anders
+		{"leest", []string{"(hij/zij) leest"}, "", false},             // gewoon goed, geen tikfout
+		{"lest", []string{"(hij/zij) leest"}, "leest", true},          // ook bij optionele delen
+		{"man", []string{"kan"}, "", false},                           // te kort
+		{"vriendlik", []string{"vriendelijk"}, "", false},             // twee fouten
+		{"", []string{"koffie"}, "", false},
+	}
+	for _, c := range cases {
+		got, ok := Typo(c.input, c.accepted)
+		if got != c.want || ok != c.ok {
+			t.Errorf("Typo(%q, %q) = %q, %v; verwacht %q, %v", c.input, c.accepted, got, ok, c.want, c.ok)
+		}
+	}
+}
