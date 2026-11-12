@@ -19,7 +19,13 @@ const view = {
   openId: null, // concept dat nu bewerkt wordt
   adding: false,
   flash: new Set(), // net toegevoegde/bewerkte concepten, kort gemarkeerd
+  limit: 0, // zoveel rijen tonen we; "Meer tonen" verhoogt het
+  filterKey: "", // de filters van de vorige keer: veranderen ze, dan begint de lijst weer bovenaan
+  groupsOpen: false, // de groepenkeuze is uitgeklapt
+  settingsOpen: false,
 };
+
+const MANAGE_PAGE = 50; // rijen per keer: alle 1500 in één keer maakt het scherm lang en traag
 
 let lastHuInput = null; // invoerveld waar de accentknoppen in typen
 
@@ -116,6 +122,14 @@ function count(pred) {
 
 function renderManage() {
   const list = filtered();
+  // Andere zoekterm of filters: weer de eerste bladzijde. Een geopende of net toegevoegde kaart
+  // moet wel in beeld blijven, ook als die verder in de lijst staat.
+  const key = JSON.stringify([view.query, view.direction, view.onlyMeanings, view.onlyNoExample, view.onlyWrong, view.onlyNew, [...view.groupFilter]]);
+  if (key !== view.filterKey) Object.assign(view, { filterKey: key, limit: MANAGE_PAGE });
+  const needed = Math.max(...list.map((e, i) => (e.id === view.openId || view.flash.has(e.id) ? i + 1 : 0)), 0);
+  view.limit = Math.max(view.limit, needed);
+  const shown = list.slice(0, view.limit);
+  const anyFilter = view.direction !== "all" || view.onlyMeanings || view.onlyNoExample || view.onlyWrong || view.onlyNew || view.groupFilter.size > 0;
   const chip = (key, value, label, n) =>
     `<button type="button" class="fchip" data-filter="${key}" data-value="${value}"
        aria-pressed="${view[key] === value}">${label} <span>${n}</span></button>`;
@@ -123,13 +137,6 @@ function renderManage() {
     `<button type="button" class="fchip" data-toggle="${key}" aria-pressed="${view[key]}">${label} <span>${n}</span></button>`;
 
   manageEl.innerHTML = `
-    <form class="m-settings" id="m-settings">
-      <label for="s-new">Nieuwe woorden per dag</label>
-      <input id="s-new" type="number" min="0" max="500" inputmode="numeric" value="${view.newPerDay ?? ""}">
-      <small class="muted">0 = geen limiet</small>
-      <button class="btn secondary" type="submit">Opslaan</button>
-    </form>
-
     <div class="m-toolbar">
       <label class="search">
         <span aria-hidden="true">⌕</span>
@@ -149,6 +156,9 @@ function renderManage() {
       ${toggle("onlyNoExample", "Zonder voorbeeldzin", count((e) => !e.example))}
       ${toggle("onlyWrong", "Fout gehad", count((e) => e.wrong > 0))}
       ${toggle("onlyNew", "In wachtrij", count((e) => e.new))}
+      ${knownGroups().length ? `<button type="button" class="fchip" id="m-groups-toggle" aria-expanded="${view.groupsOpen}">
+        Groepen${view.groupFilter.size ? ` <span>${view.groupFilter.size} gekozen</span>` : ""} ${view.groupsOpen ? "▴" : "▾"}</button>` : ""}
+      ${anyFilter ? `<button type="button" class="linklike m-clear" id="m-clear">filters wissen</button>` : ""}
     </div>
     ${groupFilterHTML()}
     ${groupDatalistHTML()}
@@ -156,22 +166,34 @@ function renderManage() {
     <div id="m-new-slot">${view.adding ? newFormHTML() : imp.open ? importPanelHTML() : ""}</div>
 
     <p class="m-count muted">${list.length === view.entries.length
-      ? `${list.length} concepten`
-      : `${list.length} van ${view.entries.length} concepten`}</p>
+      ? `${list.length} kaarten`
+      : `${list.length} van ${view.entries.length} kaarten`}</p>
 
     <ul class="m-list">
-      ${list.map(rowHTML).join("") || `<li class="m-empty">Niets gevonden${view.query ? ` voor “${esc(view.query)}”` : ""}.</li>`}
-    </ul>`;
+      ${shown.map(rowHTML).join("") || `<li class="m-empty">Niets gevonden${view.query ? ` voor “${esc(view.query)}”` : ""}.</li>`}
+    </ul>
+    ${list.length > shown.length ? `<button type="button" class="btn secondary m-more" id="m-more">
+      Meer tonen (nog ${list.length - shown.length})</button>` : ""}
+
+    <details class="m-settings-box" id="m-settings-box" ${view.settingsOpen ? "open" : ""}>
+      <summary>Instellingen <span class="muted">· ${view.newPerDay === 0 ? "geen limiet op nieuwe woorden" : `${view.newPerDay ?? "–"} nieuwe woorden per dag`}</span></summary>
+      <form class="m-settings" id="m-settings">
+        <label for="s-new">Nieuwe woorden per dag</label>
+        <input id="s-new" type="number" min="0" max="500" inputmode="numeric" value="${view.newPerDay ?? ""}">
+        <small class="muted">0 = geen limiet</small>
+        <button class="btn secondary" type="submit">Opslaan</button>
+      </form>
+    </details>`;
 
   bindManage();
 }
 
-// groupFilterHTML: een rij met alle groepen om op te filteren (meerdere tegelijk: woorden uit één ervan)
+// groupFilterHTML: de groepen om op te filteren (meerdere tegelijk: woorden uit één ervan).
+// Ingeklapt zie je alleen de gekozen groepen, zodat je ze ook weer kunt uitzetten.
 function groupFilterHTML() {
-  const groups = knownGroups();
+  const groups = knownGroups().filter((g) => view.groupsOpen || view.groupFilter.has(g.name));
   if (!groups.length) return "";
   return `<div class="m-filters m-groupfilter" aria-label="Filter op groep">
-    <span class="muted">Groepen:</span>
     ${groups.map((g) => `<button type="button" class="fchip" data-group-filter="${esc(g.name)}"
       aria-pressed="${view.groupFilter.has(g.name)}">${esc(g.name)} <span>${g.count}</span></button>`).join("")}
   </div>`;
@@ -251,7 +273,7 @@ function confirmDeleteHTML(e) {
   const reverse = (e.reverse || []).map((id) => view.entries.find((x) => x.id === id)).filter(Boolean);
   return `
     <p><b>${esc(e.prompt)}</b>${e.context ? ` (${esc(e.context)})` : ""} → ${esc(e.answers.join(", "))} verwijderen?
-    Je voortgang voor dit concept gaat ook verloren.</p>
+    Je voortgang voor deze kaart gaat ook verloren.</p>
     ${reverse.length ? `<label class="m-radio">
       <input type="checkbox" id="d-reverse" checked>
       <span>Ook de andere richting: ${reverse.map((r) => `<b>${esc(r.prompt)}</b> → ${esc(r.answers.join(", "))}`).join("; ")}
@@ -266,7 +288,7 @@ function confirmDeleteHTML(e) {
 function newFormHTML() {
   return `
     <form class="m-new card" id="m-new">
-      <h3>Nieuw concept</h3>
+      <h3>Nieuw woord</h3>
       <p class="muted">Maakt Nederlands → Hongaars én Hongaars → Nederlands aan.</p>
       <div class="m-grid">
         ${field("n-dutch", "Nederlands woord", "", { placeholder: "bijv. tijd" })}
@@ -288,12 +310,29 @@ function newFormHTML() {
 // ---------- Interactie ----------
 
 function bindManage() {
+  document.getElementById("m-settings-box").addEventListener("toggle", (e) => { view.settingsOpen = e.target.open; });
+  document.getElementById("m-more")?.addEventListener("click", () => {
+    view.limit += MANAGE_PAGE;
+    const y = window.scrollY;
+    renderManage();
+    window.scrollTo(0, y);
+  });
+  document.getElementById("m-groups-toggle")?.addEventListener("click", () => {
+    view.groupsOpen = !view.groupsOpen;
+    renderManage();
+  });
+  document.getElementById("m-clear")?.addEventListener("click", () => {
+    Object.assign(view, { direction: "all", onlyMeanings: false, onlyNoExample: false, onlyWrong: false, onlyNew: false });
+    view.groupFilter.clear();
+    renderManage();
+  });
   document.getElementById("m-settings").addEventListener("submit", async (e) => {
     e.preventDefault();
     const n = Number(document.getElementById("s-new").value);
     try {
       const res = await api("PUT", "/api/settings", { newPerDay: n });
       view.newPerDay = res.newPerDay;
+      renderManage();
       toast(res.newPerDay === 0 ? "Geen limiet meer op nieuwe woorden" : `Voortaan ${res.newPerDay} nieuwe woorden per dag`);
       refreshStats();
     } catch (err) {
@@ -518,7 +557,7 @@ function renderForwardChoice(check, req) {
       <label class="m-radio">
         <input type="radio" name="forward" value="">
         <span>Nieuwe betekenis
-        <small class="muted">Apart concept; de hint hierboven moet de betekenis onderscheiden, zoals bank (meubel) / bank (geld)</small></span>
+        <small class="muted">Aparte kaart; de hint hierboven moet de betekenis onderscheiden, zoals bank (meubel) / bank (geld)</small></span>
       </label>
       <div id="n-forward-hints" hidden>
         ${req.context.trim() ? "" : `<p class="m-warn">Vul hierboven een hint in die deze nieuwe betekenis onderscheidt.</p>`}
@@ -526,7 +565,7 @@ function renderForwardChoice(check, req) {
           `<label class="m-field">
             <span>Hint voor het bestaande ${dutch} → ${esc(c.answers.join(", "))}</span>
             <input data-forward-hint="${esc(c.id)}" placeholder="bijv. meubel" autocomplete="off">
-            <small class="muted">Dat concept heeft nog geen hint; zonder hint zijn de betekenissen niet uit elkaar te houden.</small>
+            <small class="muted">Die betekenis heeft nog geen hint; zonder hint zijn de betekenissen niet uit elkaar te houden.</small>
           </label>`).join("")}
       </div>
     </fieldset>`;
@@ -568,12 +607,12 @@ function renderReverseChoice(check, req) {
       <label class="m-radio">
         <input type="radio" name="meaning" value="" checked>
         <span>Andere betekenis
-        <small class="muted">Apart concept met een eigen hint, zoals idő → weer / tijd</small></span>
+        <small class="muted">Aparte kaart met een eigen hint, zoals idő → weer / tijd</small></span>
       </label>
       <div id="n-hints">
         ${check.candidates.filter((c) => !c.context).map((c) =>
           field(`n-existing-${esc(c.id)}`, `Hint voor het bestaande ${hu} → ${esc(c.answers.join(", "))}`, "",
-            { placeholder: "bijv. buiten ☀️", hint: "Dat concept heeft nog geen hint; zonder hint zijn de betekenissen niet uit elkaar te houden." })
+            { placeholder: "bijv. buiten ☀️", hint: "Die betekenis heeft nog geen hint; zonder hint zijn de betekenissen niet uit elkaar te houden." })
         ).join("")}
         ${field("n-reverse", `Hint voor ${hu} → ${dutch}`, defaultHint, { hint: "Standaard dezelfde hint als hierboven." })}
       </div>
@@ -612,7 +651,7 @@ function meaningChoice() {
   const existingHints = {};
   document.querySelectorAll("[data-existing]").forEach((i) => (existingHints[i.dataset.existing] = i.value));
   const missing = Object.entries(existingHints).find(([, v]) => !v.trim());
-  if (missing) throw new Error("Geef het bestaande concept ook een hint, anders zijn de betekenissen niet uit elkaar te houden.");
+  if (missing) throw new Error("Geef de bestaande betekenis ook een hint, anders zijn de betekenissen niet uit elkaar te houden.");
   return { existingHints, reverseContext: document.getElementById("n-reverse").value };
 }
 
@@ -645,6 +684,8 @@ async function showTab() {
   app.hidden = tab !== "oefenen";
   document.getElementById("quiz-foot").hidden = tab !== "oefenen";
   document.getElementById("mode-switch").hidden = tab !== "oefenen";
+  // De voortgangsbalk hoort bij oefenen en statistiek; elders kost hij alleen ruimte
+  document.getElementById("steps").hidden = tab !== "oefenen" && tab !== "statistiek";
   document.body.classList.toggle("mode-manage", tab !== "oefenen");
   for (const t of ["oefenen", "kaarten", "statistiek", "beheer", "controleren"]) {
     document.getElementById(`tab-${t}`).setAttribute("aria-current", t === tab ? "page" : "false");
@@ -661,7 +702,7 @@ async function showTab() {
       // Komend vanuit de statistiek: het gekozen woord openklappen
       manageEl.querySelector(".m-row.open")?.scrollIntoView({ block: "center" });
     } catch (err) {
-      manageEl.innerHTML = `<p class="error">Kon de concepten niet laden: ${esc(err.message)}</p>`;
+      manageEl.innerHTML = `<p class="error">Kon de woorden niet laden: ${esc(err.message)}</p>`;
     }
   } else if (tab === "statistiek") {
     showStatistics();

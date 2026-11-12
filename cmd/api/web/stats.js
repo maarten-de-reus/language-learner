@@ -73,18 +73,20 @@ function renderStatistics(r, quiz) {
     </section>
 
     <div class="sx-grid">
-      <section class="sx-card">
-        <h3>Moeilijkste woorden</h3>
-        <p class="muted">Vaakst fout bij de eerste poging. Klik om te bewerken, bijv. een hint of voorbeeldzin toevoegen.</p>
-        ${hardestList(r.hardest)}
-      </section>
-
       <div class="sx-stack">
-        ${queueCard(r.queue, quiz)}
+        <section class="sx-card">
+          <h3>Moeilijkste woorden</h3>
+          <p class="muted">Vaakst fout bij de eerste poging. Klik om te bewerken, bijv. een hint of voorbeeldzin toevoegen.</p>
+          ${hardestList(r.hardest)}
+        </section>
         <section class="sx-card">
           <h3>Per richting</h3>
           ${directions(r.directions)}
         </section>
+      </div>
+
+      <div class="sx-stack">
+        ${queueCard(r.queue, quiz)}
         <section class="sx-card">
           <h3>Soort fouten</h3>
           ${mistakes(r.mistakes, r)}

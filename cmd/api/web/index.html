@@ -18,19 +18,20 @@
       </div>
       <div class="kpis">
         <div class="kpi"><span class="kpi-value" id="kpi-due">–</span><span class="kpi-label">te herhalen</span></div>
-        <div class="kpi"><span class="kpi-value" id="kpi-total">–</span><span class="kpi-label">concepten</span></div>
+        <div class="kpi"><span class="kpi-value" id="kpi-total">–</span><span class="kpi-label">kaarten</span></div>
       </div>
     </header>
 
     <nav class="tabs" aria-label="Onderdelen">
       <a href="#oefenen" id="tab-oefenen">Oefenen</a>
       <a href="#kaarten" id="tab-kaarten">Kaarten</a>
-      <a href="#statistiek" id="tab-statistiek">Statistiek</a>
+      <a href="#statistiek" id="tab-statistiek"><span class="tab-long">Statistiek</span><span class="tab-short">Stats</span></a>
       <a href="#beheer" id="tab-beheer">Beheer</a>
-      <a href="#controleren" id="tab-controleren">Controleren <span class="tab-count" id="rv-count" hidden></span></a>
+      <a href="#controleren" id="tab-controleren"><span class="tab-long">Controleren</span><span class="tab-short">Controle</span>
+        <span class="tab-count" id="rv-count" hidden></span></a>
     </nav>
 
-    <section class="steps" aria-labelledby="steps-title">
+    <section class="steps" id="steps" aria-labelledby="steps-title">
       <div class="steps-head">
         <h2 id="steps-title">Voortgang per stap</h2>
         <span class="muted" id="steps-hint">interval tot de volgende herhaling</span>
@@ -48,14 +49,14 @@
 
     <section id="stats" class="stats" hidden aria-label="Statistiek"></section>
 
-    <section id="manage" class="manage" hidden aria-label="Beheer van concepten"></section>
+    <section id="manage" class="manage" hidden aria-label="Beheer van je woorden"></section>
 
     <section id="review" class="review" hidden aria-label="Woorden controleren"></section>
 
     <p class="error" id="error" hidden></p>
 
     <footer class="foot muted" id="quiz-foot">
-      <kbd>Enter</kbd> controleren / volgende
+      <kbd>Enter</kbd> controleren / volgende · <kbd>Esc</kbd> weet ik niet
     </footer>
   </div>
   <div class="toast" id="toast" role="status" hidden></div>

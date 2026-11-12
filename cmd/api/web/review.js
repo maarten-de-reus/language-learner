@@ -13,6 +13,7 @@ const rv = {
   limit: REVIEW_PAGE,
   noteFor: null, // woord waarbij het opmerkingenveld open staat
   query: "", // zoeken, zonder op accenten te letten
+  current: null, // woord waar de sneltoetsen op werken
 };
 
 async function showReview() {
@@ -57,15 +58,23 @@ function renderReview() {
   const items = all.filter((i) => (filter === "all" || (filter === "queue" ? i.queue : i.note)) &&
     (!q || i.cards.some((e) => fold([e.prompt, ...e.answers, e.context].join(" ")).includes(q))));
   const shown = items.slice(0, rv.limit);
+  // Het huidige woord voor de sneltoetsen: blijft staan, of schuift door als het weg is
+  if (!shown.some((i) => i.main.id === rv.current)) rv.current = shown[Math.min(rv.currentIndex ?? 0, shown.length - 1)]?.main.id ?? null;
+  rv.currentIndex = shown.findIndex((i) => i.main.id === rv.current);
   const chip = (key, label) => `<button type="button" class="fchip" data-rv-filter="${key}" aria-pressed="${filter === key}">
     ${label} <span>${counts[key]}</span></button>`;
 
   reviewEl.innerHTML = `
     <article class="card rv-head">
       <h2>Controleren</h2>
-      <p class="muted">Kijk de woorden na voordat ze in de les komen. Een nieuw woord komt pas bij <b>Nieuwe woorden</b>
-        als het hier is goedgekeurd; woorden die al in de herhalingen zitten lopen gewoon door.
-        Klopt er iets niet, verbeter het dan in Beheer of laat een opmerking achter.</p>
+      <p class="muted">Een nieuw woord komt pas in de les als het hier is goedgekeurd.</p>
+      <details class="rv-help">
+        <summary>Hoe werkt het?</summary>
+        <p class="muted">Klopt een woord, keur het dan goed: beide richtingen tegelijk. Klopt er iets niet, verbeter het
+          in Beheer of laat een opmerking achter; dan wacht het woord. Woorden die al in de herhalingen zitten lopen gewoon door.</p>
+        <p class="muted">Sneltoetsen: <kbd>J</kbd>/<kbd>K</kbd> volgende/vorige · <kbd>A</kbd> goedkeuren ·
+          <kbd>O</kbd> opmerking · <kbd>B</kbd> verbeteren in Beheer</p>
+      </details>
       <label class="search rv-search">
         <span aria-hidden="true">⌕</span>
         <input id="rv-search" type="search" placeholder="Zoek een woord…" value="${esc(rv.query)}"
@@ -92,7 +101,7 @@ function reviewItemHTML(item) {
   const example = item.cards.find((e) => e.example)?.example;
   const groups = [...new Set(item.cards.flatMap((e) => e.groups || []))];
   return `
-    <article class="card rv-item" data-rv-id="${esc(main.id)}">
+    <article class="card rv-item ${main.id === rv.current ? "current" : ""}" data-rv-id="${esc(main.id)}">
       <div class="rv-words">
         <div class="rv-main" lang="${esc(main.from)}">${card(main)}</div>
         ${rest.map((e) => `<div class="rv-rev muted">${card(e)}</div>`).join("")}
@@ -106,7 +115,7 @@ function reviewItemHTML(item) {
       <div class="rv-actions">
         <button type="button" class="btn" data-rv-approve>Goedkeuren</button>
         <button type="button" class="btn secondary" data-rv-note>Opmerking</button>
-        <button type="button" class="linklike" data-rv-fix>Verbeteren in Beheer</button>
+        <button type="button" class="linklike" data-rv-fix>Verbeteren</button>
       </div>
       ${rv.noteFor === main.id ? `
         <form class="rv-note-form" data-rv-note-form>
@@ -138,6 +147,10 @@ reviewEl.addEventListener("click", async (e) => {
   const b = e.target.closest("button");
   if (!b) return;
   const id = b.closest("[data-rv-id]")?.dataset.rvId;
+  if (id) {
+    rv.current = id;
+    rv.currentIndex = [...reviewEl.querySelectorAll("[data-rv-id]")].findIndex((el) => el.dataset.rvId === id);
+  }
   try {
     if (b.dataset.rvFilter) {
       Object.assign(rv, { filter: b.dataset.rvFilter, limit: REVIEW_PAGE, noteFor: null });
@@ -201,4 +214,28 @@ reviewEl.addEventListener("input", (e) => {
   const again = document.getElementById("rv-search");
   again.focus();
   again.setSelectionRange(pos, pos);
+});
+
+// Sneltoetsen, zodat honderden woorden nakijken niet al het werk met de muis is
+document.addEventListener("keydown", (e) => {
+  if (reviewEl.hidden || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.target instanceof Element && e.target.closest("input, textarea")) return;
+  const items = [...reviewEl.querySelectorAll("[data-rv-id]")];
+  if (!items.length) return;
+  const i = Math.max(0, items.findIndex((el) => el.dataset.rvId === rv.current));
+  const press = (sel) => items[i].querySelector(sel)?.click();
+  const go = (j) => {
+    rv.currentIndex = Math.min(Math.max(j, 0), items.length - 1);
+    rv.current = items[rv.currentIndex].dataset.rvId;
+    items.forEach((el) => el.classList.toggle("current", el.dataset.rvId === rv.current));
+    reviewEl.querySelector(".rv-item.current")?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  };
+  const actions = {
+    j: () => go(i + 1), ArrowDown: () => go(i + 1), k: () => go(i - 1), ArrowUp: () => go(i - 1),
+    a: () => press("[data-rv-approve]"), o: () => press("[data-rv-note]"), b: () => press("[data-rv-fix]"),
+  };
+  const action = actions[e.key.length === 1 ? e.key.toLowerCase() : e.key];
+  if (!action) return;
+  e.preventDefault();
+  action();
 });

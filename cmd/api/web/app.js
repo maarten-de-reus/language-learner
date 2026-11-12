@@ -109,7 +109,7 @@ function renderStats(stats) {
       `<div class="seg" style="flex-grow:${n};background:var(--s${i})" data-step="${i}"></div>`)
     .join("");
   bar.setAttribute("aria-label", stats.steps
-    .map((n, i) => `${n} concepten met interval ${days(stats.intervals[i])}`).join(", "));
+    .map((n, i) => `${n} kaarten met interval ${days(stats.intervals[i])}`).join(", "));
 
   legend.innerHTML = stats.steps
     .map((n, i) => `<li>
@@ -121,7 +121,7 @@ function renderStats(stats) {
     seg.addEventListener("mousemove", (e) => {
       const i = Number(seg.dataset.step);
       const n = stats.steps[i];
-      tooltip.textContent = `${n} concepten · interval ${days(stats.intervals[i])} · ${Math.round((n / total) * 100)}%`;
+      tooltip.textContent = `${n} kaarten · interval ${days(stats.intervals[i])} · ${Math.round((n / total) * 100)}%`;
       const box = seg.closest(".steps").getBoundingClientRect();
       tooltip.style.left = `${e.clientX - box.left}px`;
       tooltip.style.top = `${e.clientY - box.top - 10}px`;
@@ -330,8 +330,15 @@ function renderDone() {
     : "";
   const primary = left === 0 && (switchButton || extraButton);
   const againButton = `<button class="btn ${primary ? "secondary" : results?.length ? "block" : "secondary"}" id="again" type="button">${
-    left > 0 ? "Nieuwe ronde" : "Opnieuw controleren"}</button>`;
-  const actions = `<div class="done-actions">${switchButton}${extraButton}${againButton}</div>`;
+    left > 0 ? "Nieuwe ronde" : "Vernieuwen"}</button>`;
+  // Helemaal klaar voor nu: wijs de weg naar wat je wél kunt doen
+  const suggestions = left === 0 && !other ? [
+    stats.newQueue ? `<a href="#kaarten">Oefen de wachtrij alvast met Kaarten</a>` : "",
+    stats.newUnverified ? `<a href="#controleren">${stats.newUnverified} ${stats.newUnverified === 1 ? "woord" : "woorden"} laten controleren</a>` : "",
+    `<a href="#statistiek">Bekijk je statistiek</a>`,
+  ].filter(Boolean) : [];
+  const nextSteps = suggestions.length ? `<p class="next-steps"><span class="muted">Wat nu?</span> ${suggestions.join(" · ")}</p>` : "";
+  const actions = `<div class="done-actions">${switchButton}${extraButton}${againButton}</div>${nextSteps}`;
 
   if (!results || results.length === 0) {
     app.innerHTML = `

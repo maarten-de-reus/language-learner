@@ -6,8 +6,8 @@
 
 const cardsEl = document.getElementById("cards");
 const FC_DIRECTIONS = [
-  { key: "hu-nl", label: "Hongaars → Nederlands", hint: "herkennen, de makkelijkste start" },
-  { key: "nl-hu", label: "Nederlands → Hongaars", hint: "zelf het Hongaarse woord bedenken" },
+  { key: "hu-nl", label: "HU → NL", hint: "herkennen, de makkelijkste start" },
+  { key: "nl-hu", label: "NL → HU", hint: "zelf het Hongaarse woord bedenken" },
   { key: "mixed", label: "Gemengd", hint: "per woord een willekeurige richting" },
 ];
 const FC_MODES = [
@@ -112,33 +112,37 @@ function fcRenderSetup() {
   const set = sets.find((s) => s.key === fc.setKey) ?? sets[sets.length - 1];
   const size = fcDeck(set, fc.dir).length;
 
+  const setChip = (s) => {
+    const n = fcDeck(s, fc.dir).length;
+    return `<button type="button" class="fchip" role="radio" data-set="${esc(s.key)}"
+      aria-checked="${s.key === set.key}" ${n ? "" : "disabled"} title="${esc(s.note)}">${esc(s.label)} <span>${n}</span></button>`;
+  };
+  // Richting en manier als gesegmenteerde keuze; de uitleg van de gekozen optie staat eronder
+  const segmented = (label, options, current, attr) => `
+    <div class="fc-choice">
+      <h3>${label}</h3>
+      <div class="segmented" role="radiogroup" aria-label="${label}">
+        ${options.map((o) => `<button type="button" class="segmented-opt" role="radio" ${attr}="${o.key}"
+          aria-checked="${o.key === current}">${o.label}</button>`).join("")}
+      </div>
+      <small class="muted">${options.find((o) => o.key === current)?.hint ?? ""}</small>
+    </div>`;
+  const quick = sets.filter((s) => !s.key.startsWith("g:"));
+  const groups = sets.filter((s) => s.key.startsWith("g:"));
+
   cardsEl.innerHTML = `
     <article class="card fc-setup">
       <h2>Kaarten</h2>
-      <p class="muted">Oefen woorden vooraf, bijvoorbeeld een nieuwe import, voordat ze in je herhalingen komen.
-        Draai de kaart om of typ het antwoord. <b>Dit telt niet mee voor je planning.</b></p>
+      <p class="muted">Oefen woorden vooraf, bijvoorbeeld een nieuwe import. <b>Telt niet mee voor je planning.</b></p>
 
       <h3>Welke woorden</h3>
-      <div class="fc-options" role="radiogroup" aria-label="Welke woorden">
-        ${sets.map((s) => {
-          const n = fcDeck(s, fc.dir).length;
-          return `<button type="button" class="fchip" role="radio" data-set="${esc(s.key)}"
-            aria-checked="${s.key === set.key}" ${n ? "" : "disabled"} title="${esc(s.note)}">${esc(s.label)} <span>${n}</span></button>`;
-        }).join("")}
-      </div>
+      <div class="fc-options" role="radiogroup" aria-label="Welke woorden">${quick.map(setChip).join("")}</div>
+      ${groups.length ? `<div class="fc-options fc-groups" role="radiogroup" aria-label="Groepen">
+        <span class="muted">Groepen:</span>${groups.map(setChip).join("")}</div>` : ""}
 
-      <h3>Richting</h3>
-      <div class="fc-dirs" role="radiogroup" aria-label="Richting">
-        ${FC_DIRECTIONS.map((d) => `
-          <label class="m-radio"><input type="radio" name="fc-dir" value="${d.key}" ${d.key === fc.dir ? "checked" : ""}>
-            <span>${d.label} <small class="muted">${d.hint}</small></span></label>`).join("")}
-      </div>
-
-      <h3>Manier</h3>
-      <div class="fc-dirs" role="radiogroup" aria-label="Manier">
-        ${FC_MODES.map((m) => `
-          <label class="m-radio"><input type="radio" name="fc-mode" value="${m.key}" ${m.key === fc.mode ? "checked" : ""}>
-            <span>${m.label} <small class="muted">${m.hint}</small></span></label>`).join("")}
+      <div class="fc-row">
+        ${segmented("Richting", FC_DIRECTIONS, fc.dir, "data-dir")}
+        ${segmented("Manier", FC_MODES, fc.mode, "data-mode")}
       </div>
 
       <button type="button" class="btn block" id="fc-start" ${size ? "" : "disabled"}>
@@ -147,10 +151,10 @@ function fcRenderSetup() {
 
   cardsEl.querySelectorAll("[data-set]").forEach((b) =>
     b.addEventListener("click", () => { fc.setKey = b.dataset.set; fcRemember(); fcRenderSetup(); }));
-  cardsEl.querySelectorAll('input[name="fc-dir"]').forEach((r) =>
-    r.addEventListener("change", () => { fc.dir = r.value; fcRemember(); fcRenderSetup(); }));
-  cardsEl.querySelectorAll('input[name="fc-mode"]').forEach((r) =>
-    r.addEventListener("change", () => { fc.mode = r.value; fcRemember(); fcRenderSetup(); }));
+  cardsEl.querySelectorAll("[data-dir]").forEach((b) =>
+    b.addEventListener("click", () => { fc.dir = b.dataset.dir; fcRemember(); fcRenderSetup(); }));
+  cardsEl.querySelectorAll(".fc-choice [data-mode]").forEach((b) =>
+    b.addEventListener("click", () => { fc.mode = b.dataset.mode; fcRemember(); fcRenderSetup(); }));
   document.getElementById("fc-start").addEventListener("click", () => fcStartSession(fcDeck(set, fc.dir)));
 }
 
@@ -178,6 +182,8 @@ function fcRenderCard() {
         ${card.context ? `<span class="chip">${esc(card.context)}</span>` : ""}
         ${fc.misses.get(card.id) ? `<span class="chip retry">↻ nog eens</span>` : ""}
         ${card.new && !card.verified ? `<span class="chip" title="Komt pas in de les als het goedgekeurd is">nog niet gecontroleerd</span>` : ""}
+        ${card.new ? `<button type="button" class="chip chip-btn fc-priority" id="fc-priority" aria-pressed="${card.priority}"
+          title="Komt vooraan bij Nieuwe woorden">${card.priority ? "★ voorrang" : "☆ voorrang geven"}</button>` : ""}
       </div>
       <h2 class="prompt" lang="${esc(card.from)}">${esc(card.prompt)}</h2>
       ${exampleFront ? `<p class="example" lang="hu">“${highlight(card.example, [card.prompt])}”</p>` : ""}
@@ -194,8 +200,6 @@ function fcRenderCard() {
       : `<button type="button" class="btn block fc-flip" id="fc-flip">Omdraaien <kbd>spatie</kbd></button>`}
     </article>
     <p class="muted fc-foot">Telt niet mee voor je planning ·
-      ${card.new ? `<button type="button" class="linklike fc-priority" id="fc-priority" aria-pressed="${card.priority}"
-        title="Komt vooraan bij Nieuwe woorden">${card.priority ? "★ voorrang bij Nieuwe woorden (aan)" : "☆ voorrang bij Nieuwe woorden"}</button> · ` : ""}
       <button type="button" class="linklike" id="fc-stop">stoppen</button></p>`;
 
   document.getElementById("fc-stop").addEventListener("click", () => { fc.queue = []; fcRenderSummary(); });
