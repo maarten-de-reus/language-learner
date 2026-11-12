@@ -374,7 +374,7 @@ func queueSession(t *testing.T, perDay int) *Session {
 		words[nl] = storage.Word{ID: nl, Language: "nl", Text: fmt.Sprintf("woord%d", i)}
 		words[hu] = storage.Word{ID: hu, Language: "hu", Text: fmt.Sprintf("szó%d", i)}
 		concepts = append(concepts, storage.TranslationConcept{
-			ID: fmt.Sprintf("c_new_%d", i), SourceWordID: nl, TargetWordIDs: []string{hu}, NextReview: past,
+			ID: fmt.Sprintf("c_new_%d", i), SourceWordID: nl, TargetWordIDs: []string{hu}, NextReview: past, Verified: true,
 		})
 	}
 	s := New(&storage.Library{Words: words, Concepts: concepts}, filepath.Join(t.TempDir(), "voortgang.json"), 100)
@@ -568,7 +568,7 @@ func TestReviewAndNewWordsDoNotMix(t *testing.T) {
 	for i := range concepts {
 		concepts[i].NextReview = time.Now().Add(48 * time.Hour)
 	}
-	concepts = append(concepts, storage.TranslationConcept{ID: "c_nieuw", SourceWordID: "w_nl_koffie", TargetWordIDs: []string{"w_hu_kave"}, NextReview: time.Now().Add(-time.Hour)})
+	concepts = append(concepts, storage.TranslationConcept{ID: "c_nieuw", SourceWordID: "w_nl_koffie", TargetWordIDs: []string{"w_hu_kave"}, NextReview: time.Now().Add(-time.Hour), Verified: true})
 	fresh := New(&storage.Library{Words: words, Concepts: concepts}, filepath.Join(t.TempDir(), "voortgang.json"), 10)
 	if fresh.Stats().Mode != engine.ModeNew || countNew(fresh) != 1 {
 		t.Errorf("zonder herhalingen begint de sessie met nieuwe woorden: %+v", fresh.Stats())

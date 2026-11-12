@@ -117,10 +117,13 @@ type Stats struct {
 	NextDue   *time.Time                     `json:"nextDue"`
 
 	// Nieuwe woorden: wachtrij en dagelijkse limiet
-	NewQueue  int `json:"newQueue"`  // nieuwe woorden die nog nooit gevraagd zijn
-	NewToday  int `json:"newToday"`  // vandaag voor het eerst gevraagd
-	NewPerDay int `json:"newPerDay"` // ingestelde limiet; 0 = geen limiet
-	NewLeft   int `json:"newLeft"`   // vandaag nog toegestaan, inclusief extra; -1 = geen limiet
+	NewQueue int `json:"newQueue"` // nieuwe woorden die nog nooit gevraagd zijn
+	// woorden in de wachtrij die nog niet goedgekeurd zijn: die komen pas in de les na controle.
+	// Een woord telt één keer, ook al heeft het twee richtingen (zoals op het tabblad Controleren).
+	NewUnverified int `json:"newUnverified"`
+	NewToday      int `json:"newToday"`  // vandaag voor het eerst gevraagd
+	NewPerDay     int `json:"newPerDay"` // ingestelde limiet; 0 = geen limiet
+	NewLeft       int `json:"newLeft"`   // vandaag nog toegestaan, inclusief extra; -1 = geen limiet
 	// Nieuwe woorden die vandaag nog zouden kunnen komen als de limiet het toeliet (zonder de
 	// andere richting van woorden die vandaag al gevraagd zijn); bepaalt of "Nog 10" zin heeft
 	NewAvailable int `json:"newAvailable"`
@@ -414,6 +417,32 @@ func (s *Session) check(c *storage.TranslationConcept, input string, expected []
 	return false, false, false
 }
 
+// unverifiedWords telt de woorden die de wachtrij blokkeren: met een nieuwe kaart die nog niet
+// goedgekeurd is. De richtingen van een woord tellen samen één keer, zoals op het tabblad Controleren.
+func (s *Session) unverifiedWords() int {
+	bySource := map[string][]int{}
+	for i, c := range s.lib.Concepts {
+		bySource[c.SourceWordID] = append(bySource[c.SourceWordID], i)
+	}
+	counted := map[string]bool{}
+	n := 0
+	for _, c := range s.lib.Concepts {
+		if !engine.IsNew(c) || c.Verified || counted[c.ID] {
+			continue
+		}
+		n++
+		counted[c.ID] = true
+		for _, t := range c.TargetWordIDs { // de omgekeerde richting(en) horen bij hetzelfde woord
+			for _, j := range bySource[t] {
+				if o := s.lib.Concepts[j]; slices.Contains(o.TargetWordIDs, c.SourceWordID) {
+					counted[o.ID] = true
+				}
+			}
+		}
+	}
+	return n
+}
+
 // isWord is true als text een woord in deze taal uit de woordenschat is
 func (s *Session) isWord(lang, text string) bool {
 	want := engine.Fold(text)
@@ -525,6 +554,7 @@ func (s *Session) Stats() Stats {
 			st.NextDue = &t
 		}
 	}
+	st.NewUnverified = s.unverifiedWords()
 	// Te doen vandaag: precies wat de rondes per modus nog kunnen geven
 	st.Due = len(engine.Candidates(s.lib.Concepts, now, engine.ModeReview, 0))
 	st.DueNew = len(engine.Candidates(s.lib.Concepts, now, engine.ModeNew, st.NewLeft))

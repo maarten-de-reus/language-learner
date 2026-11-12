@@ -199,22 +199,38 @@ func Buried(all []storage.TranslationConcept, now time.Time) map[string]bool {
 }
 
 // DueCandidates geeft alles wat vandaag gevraagd kan worden: herhalingen die aan de beurt zijn en
-// nieuwe woorden tot newAllowance (Unlimited = geen limiet), in de volgorde waarin ze zijn
-// toegevoegd. Concepten waarvan vandaag al een andere richting gevraagd is, wachten tot morgen,
-// en van een nieuw woord komt per dag één richting: "Nog 10" is zo ook echt 10 woorden.
+// nieuwe woorden tot newAllowance (Unlimited = geen limiet). Nieuwe woorden moeten goedgekeurd zijn
+// (Verified) en komen in de volgorde waarin ze zijn toegevoegd, met voorrang (Priority) vooraan.
+// Concepten waarvan vandaag al een andere richting gevraagd is, wachten tot morgen, en van een
+// nieuw woord komt per dag één richting: "Nog 10" is zo ook echt 10 woorden.
 func DueCandidates(all []storage.TranslationConcept, now time.Time, newAllowance int) []storage.TranslationConcept {
 	buried := Buried(all, now)
-	var due, fresh []storage.TranslationConcept
+	var due, queue []storage.TranslationConcept
 	for _, c := range all {
 		if !c.NextReview.Before(now) || buried[c.ID] {
 			continue
 		}
-		if !IsNew(c) {
-			due = append(due, c)
-			continue
+		switch {
+		case !IsNew(c):
+			due = append(due, c) // al in de herhalingen: daar is geen controle meer voor nodig
+		case c.Verified:
+			queue = append(queue, c)
 		}
+	}
+	slices.SortStableFunc(queue, func(a, b storage.TranslationConcept) int {
+		switch {
+		case a.Priority && !b.Priority:
+			return -1
+		case b.Priority && !a.Priority:
+			return 1
+		}
+		return 0
+	})
+
+	var fresh []storage.TranslationConcept
+	for _, c := range queue {
 		if newAllowance != Unlimited && len(fresh) >= newAllowance {
-			continue
+			break
 		}
 		if slices.ContainsFunc(fresh, func(o storage.TranslationConcept) bool { return reverseOf(c, o) }) {
 			continue // andere richting van een woord dat vandaag al nieuw binnenkomt

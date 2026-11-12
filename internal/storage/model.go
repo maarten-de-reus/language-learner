@@ -18,6 +18,10 @@ type TranslationConcept struct {
 	Example       string   `json:"example,omitempty"`      // Voorbeeldzin, bijv. "Milyen lesz az idő holnap?"
 	ExampleLang   string   `json:"example_lang,omitempty"` // Taal van de voorbeeldzin, bijv. "hu"
 	Groups        []string `json:"groups,omitempty"`       // Groepen waar het woord in zit, bijv. ["Getallen", "Week 1"]
+	// Controle door iemand anders: pas als een nieuw woord goedgekeurd is komt het in de les.
+	// ReviewNote is een opmerking van de controleur (bijv. waarom het nog niet klopt).
+	Verified   bool   `json:"verified,omitempty"`
+	ReviewNote string `json:"review_note,omitempty"`
 	// Voortgang: wordt in voortgang.json bewaard (zie ProgressState), nooit in woorden.json
 	StepIndex  int       `json:"-"` // Index voor engine.AnkiIntervals (0 t/m 5)
 	NextReview time.Time `json:"-"`
@@ -25,4 +29,6 @@ type TranslationConcept struct {
 	FirstReview time.Time `json:"-"`
 	// Moment van het laatste echte antwoord (geen oefenherhaling); de andere richting wacht dan tot morgen
 	LastReview time.Time `json:"-"`
+	// Voorrang: in Kaarten gemarkeerd als klaar, komt vooraan bij de nieuwe woorden
+	Priority bool `json:"-"`
 }

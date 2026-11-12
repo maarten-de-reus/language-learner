@@ -92,6 +92,11 @@ function renderModes(stats) {
 
 function renderStats(stats) {
   renderModes(stats);
+  // Op het tabblad Controleren: hoeveel kaarten in de wachtrij nog op controle wachten
+  const rvCount = document.getElementById("rv-count");
+  rvCount.textContent = stats.newUnverified;
+  rvCount.hidden = !stats.newUnverified;
+  rvCount.title = `${stats.newUnverified} woorden in de wachtrij wachten op controle`;
   document.getElementById("kpi-due").textContent = stats.due;
   document.getElementById("kpi-total").textContent = stats.total;
 
@@ -307,8 +312,11 @@ function renderDone() {
     : `Je kunt nu <b>${now}</b> ${now === 1 ? "nieuw woord" : "nieuwe woorden"} leren.`);
   if (later) parts.push(`${now ? "De andere" : "Nog"} <b>${later}</b> ${later === 1 ? "komt" : "komen"} vanaf morgen${
     stats.newPerDay ? `, ${stats.newPerDay} per dag` : ""}.`);
+  const waiting = stats.newUnverified
+    ? ` ${stats.newUnverified} ${stats.newUnverified === 1 ? "woord wacht" : "woorden wachten"} nog op <a href="#controleren">controle</a>.`
+    : "";
   const queueNote = isNew && left === 0 && stats.newQueue > 0
-    ? `<p class="queue-note">${stats.newToday ? `Je hebt vandaag ${stats.newToday} nieuwe ${stats.newToday === 1 ? "woord" : "woorden"} geleerd. ` : ""}${parts.join(" ")}</p>`
+    ? `<p class="queue-note">${stats.newToday ? `Je hebt vandaag ${stats.newToday} nieuwe ${stats.newToday === 1 ? "woord" : "woorden"} geleerd. ` : ""}${parts.join(" ")}${waiting}</p>`
     : "";
   const extraButton = canAddNew
     ? `<button class="btn" id="extra-new" type="button">Nog ${extra} ${extra === 1 ? "nieuw woord" : "nieuwe woorden"}</button>`

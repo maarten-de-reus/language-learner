@@ -177,6 +177,7 @@ function fcRenderCard() {
         <span class="chip">${esc(LANG[card.from] || card.from)} → ${esc(LANG[card.to] || card.to)}</span>
         ${card.context ? `<span class="chip">${esc(card.context)}</span>` : ""}
         ${fc.misses.get(card.id) ? `<span class="chip retry">↻ nog eens</span>` : ""}
+        ${card.new && !card.verified ? `<span class="chip" title="Komt pas in de les als het goedgekeurd is">nog niet gecontroleerd</span>` : ""}
       </div>
       <h2 class="prompt" lang="${esc(card.from)}">${esc(card.prompt)}</h2>
       ${exampleFront ? `<p class="example" lang="hu">“${highlight(card.example, [card.prompt])}”</p>` : ""}
@@ -193,9 +194,15 @@ function fcRenderCard() {
       : `<button type="button" class="btn block fc-flip" id="fc-flip">Omdraaien <kbd>spatie</kbd></button>`}
     </article>
     <p class="muted fc-foot">Telt niet mee voor je planning ·
+      ${card.new ? `<button type="button" class="linklike fc-priority" id="fc-priority" aria-pressed="${card.priority}"
+        title="Komt vooraan bij Nieuwe woorden">${card.priority ? "★ voorrang bij Nieuwe woorden (aan)" : "☆ voorrang bij Nieuwe woorden"}</button> · ` : ""}
       <button type="button" class="linklike" id="fc-stop">stoppen</button></p>`;
 
   document.getElementById("fc-stop").addEventListener("click", () => { fc.queue = []; fcRenderSummary(); });
+  document.getElementById("fc-priority")?.addEventListener("click", async () => {
+    await fcSetPriority([card], !card.priority);
+    fcRenderCard();
+  });
   if (fc.mode === "type") return fcBindType(card);
   document.getElementById("fc-flip")?.addEventListener("click", fcFlip);
   document.getElementById("fc-again")?.addEventListener("click", () => fcRate(false));
@@ -318,6 +325,9 @@ function fcRenderSummary() {
   const seen = fc.seen.size; // bij stoppen: alleen wat je echt gezien hebt
   const firstTime = seen - hard.length;
   const stopped = seen < fc.total;
+  // Nieuwe woorden die je meteen wist en die nog geen voorrang hebben
+  const known = [...fc.seen].filter((id) => !fc.misses.has(id)).map((id) => byId.get(id))
+    .filter((e) => e?.new && !e.priority);
 
   cardsEl.innerHTML = `
     <article class="card center">
@@ -331,8 +341,11 @@ function fcRenderSummary() {
         return e ? `<li class="ko"><span class="mark">↻</span><span class="src">${esc(e.prompt)}</span>
           <span class="exp">${esc(e.answers.join(", "))} <span class="muted">· ${n}× nog niet</span></span></li>` : "";
       }).join("")}</ul>` : ""}
+      ${known.length ? `<p class="muted">${known.length} ${known.length === 1 ? "nieuw woord" : "nieuwe woorden"} meteen gekend.
+        Geef ze voorrang, dan komen ze als eerste bij Nieuwe woorden.</p>` : ""}
       <div class="done-actions">
-        ${hard.length ? `<button type="button" class="btn" id="fc-hard">Alleen de lastige nog een keer</button>` : ""}
+        ${known.length ? `<button type="button" class="btn" id="fc-prioritize">★ ${known.length} voorrang geven</button>` : ""}
+        ${hard.length ? `<button type="button" class="btn ${known.length ? "secondary" : ""}" id="fc-hard">Alleen de lastige nog een keer</button>` : ""}
         <button type="button" class="btn secondary" id="fc-new">Andere kaarten kiezen</button>
       </div>
     </article>`;
@@ -340,7 +353,26 @@ function fcRenderSummary() {
   document.getElementById("fc-hard")?.addEventListener("click", () =>
     fcStartSession(hard.map(([id]) => byId.get(id)).filter(Boolean)));
   document.getElementById("fc-new").addEventListener("click", () => { fc.queue = []; fcRenderSetup(); });
-  (document.getElementById("fc-hard") ?? document.getElementById("fc-new")).focus();
+  document.getElementById("fc-prioritize")?.addEventListener("click", async (ev) => {
+    ev.target.disabled = true;
+    await fcSetPriority(known, true);
+    toast(`${known.length} ${known.length === 1 ? "woord heeft" : "woorden hebben"} voorrang bij Nieuwe woorden`);
+    fcRenderSummary();
+  });
+  (document.getElementById("fc-prioritize") ?? document.getElementById("fc-hard") ?? document.getElementById("fc-new")).focus();
+}
+
+// fcSetPriority geeft nieuwe woorden (in beide richtingen) voorrang in de wachtrij, of haalt die weg
+async function fcSetPriority(cards, on) {
+  try {
+    for (const card of cards) {
+      const res = await api("POST", `/api/concepts/${encodeURIComponent(card.id)}/priority`, { priority: on });
+      for (const e of fc.entries) if (res.ids.includes(e.id)) e.priority = on;
+    }
+    refreshStats();
+  } catch (err) {
+    toast(err.message);
+  }
 }
 
 // Toetsen bij omdraaien: spatie draait om, pijl links = nog niet, pijl rechts = ken ik

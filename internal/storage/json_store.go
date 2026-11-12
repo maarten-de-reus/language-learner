@@ -24,6 +24,7 @@ type ProgressState struct {
 	NextReview  time.Time `json:"next_review"`
 	FirstReview time.Time `json:"first_review,omitzero"` // leeg = nog nooit gevraagd (een nieuw woord)
 	LastReview  time.Time `json:"last_review,omitzero"`  // laatste echte antwoord
+	Priority    bool      `json:"priority,omitempty"`    // in Kaarten gemarkeerd: voorrang bij de nieuwe woorden
 }
 
 // LoadData laadt de woorden in en vlecht de opgeslagen voortgang er doorheen
@@ -68,6 +69,7 @@ func LoadData(wordsFile, progressFile string) (map[string]Word, []TranslationCon
 			input.Concepts[i].NextReview = state.NextReview
 			input.Concepts[i].FirstReview = state.FirstReview
 			input.Concepts[i].LastReview = state.LastReview
+			input.Concepts[i].Priority = state.Priority
 		} else {
 			input.Concepts[i].StepIndex = 0
 			input.Concepts[i].NextReview = time.Now()
@@ -92,6 +94,7 @@ func SaveProgress(progressFile string, concepts []TranslationConcept) error {
 			NextReview:  c.NextReview,
 			FirstReview: c.FirstReview,
 			LastReview:  c.LastReview,
+			Priority:    c.Priority,
 		}
 	}
 

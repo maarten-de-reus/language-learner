@@ -29,8 +29,11 @@ type Entry struct {
 	Reverse    []string  `json:"reverse,omitempty"` // ID's van de omgekeerde richting(en), bijv. kávé -> koffie bij koffie -> kávé
 	New        bool      `json:"new"`               // nog nooit gevraagd: staat in de wachtrij
 	Groups     []string  `json:"groups"`
-	Attempts   int       `json:"attempts"` // eerste pogingen volgens het antwoordenlog (ingevuld door de API)
-	Wrong      int       `json:"wrong"`    // waarvan fout
+	Verified   bool      `json:"verified"`             // goedgekeurd door de controleur
+	ReviewNote string    `json:"reviewNote,omitempty"` // opmerking van de controleur
+	Priority   bool      `json:"priority"`             // voorrang in de wachtrij (gemarkeerd in Kaarten)
+	Attempts   int       `json:"attempts"`             // eerste pogingen volgens het antwoordenlog (ingevuld door de API)
+	Wrong      int       `json:"wrong"`                // waarvan fout
 	Step       int       `json:"step"`
 	Interval   int       `json:"interval"` // dagen bij de huidige stap
 	NextReview time.Time `json:"nextReview"`
@@ -83,6 +86,9 @@ func entriesOf(lib *storage.Library, idx []int) []Entry {
 			Reverse:    reverse(c),
 			New:        c.FirstReview.IsZero(),
 			Groups:     append([]string{}, c.Groups...),
+			Verified:   c.Verified,
+			ReviewNote: c.ReviewNote,
+			Priority:   c.Priority,
 			Step:       c.StepIndex,
 			NextReview: c.NextReview,
 		}
@@ -183,6 +189,9 @@ func Update(lib *storage.Library, id string, e Edit) error {
 		exampleLanguage = exampleLang(example)
 	}
 
+	// Is er inhoudelijk iets veranderd, dan moet het woord opnieuw gecontroleerd worden
+	changed := prompt != src.Text || context != c.ContextSource || example != c.Example ||
+		!slices.Equal(answers, TargetTexts(lib, c))
 	if prompt != src.Text {
 		retarget(lib, &c, prompt)
 	}
@@ -210,6 +219,11 @@ func Update(lib *storage.Library, id string, e Edit) error {
 		addGroups(&c, groups)
 	}
 	lib.Concepts[i] = c
+	if changed {
+		for _, id := range append([]string{c.ID}, reverseIDs(lib, c)...) {
+			lib.Concepts[lib.Index(id)].Verified = false
+		}
+	}
 	removeUnusedWords(lib)
 	return nil
 }

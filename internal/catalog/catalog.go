@@ -294,6 +294,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 			c.Example, c.ExampleLang = nc.Example, exampleLang(nc.Example)
 		}
 		addGroups(c, groups)
+		c.Verified = false // nieuwe antwoorden: opnieuw laten controleren
 	} else {
 		for id, hint := range nc.ForwardHints {
 			if i := lib.Index(id); i >= 0 {
@@ -321,6 +322,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 		merged := &lib.Concepts[mergeIdx]
 		if !slices.Contains(merged.TargetWordIDs, dutchID) {
 			merged.TargetWordIDs = append(merged.TargetWordIDs, dutchID)
+			merged.Verified = false // nieuw antwoord: opnieuw laten controleren
 		}
 		if merged.Example == "" && nc.Example != "" {
 			merged.Example, merged.ExampleLang = nc.Example, exampleLang(nc.Example)

@@ -189,6 +189,7 @@ function rowHTML(e) {
           ${e.context ? `<span class="chip">${markFold(e.context, q)}</span>` : ""}
           <span class="m-arrow" aria-hidden="true">→</span>
           <span class="m-answers" lang="${esc(e.to)}">${markFold(e.answers.join(", "), q)}</span>
+          ${e.reviewNote ? `<span class="m-note" title="${esc(e.reviewNote)}">💬 opmerking</span>` : ""}
           ${(e.groups || []).map((g) => `<span class="m-group">${markFold(g, q)}</span>`).join("")}
         </span>
         <span class="m-meta">
@@ -225,6 +226,7 @@ function editFormHTML(e) {
   const reverse = (e.reverse || []).length > 0;
   return `
     <form class="m-edit" data-id="${esc(e.id)}">
+      ${e.reviewNote ? `<p class="m-warn">Opmerking van de controleur: ${esc(e.reviewNote)}</p>` : ""}
       ${field("e-prompt", `Woord (${esc(LANG[e.from] || e.from)})`, e.prompt,
         { hu: !toHu, hint: reverse ? "Een correctie geldt ook voor het antwoord in de andere richting." : "" })}
       ${field("e-context", "Hint", e.context, { placeholder: "bijv. buiten ☀️", hint: "Wijst aan welke betekenis bedoeld is." })}
@@ -635,15 +637,16 @@ document.addEventListener("keydown", (e) => {
 // ---------- Tabs ----------
 
 async function showTab() {
-  const tab = { "#beheer": "beheer", "#statistiek": "statistiek", "#kaarten": "kaarten" }[location.hash] ?? "oefenen";
+  const tab = { "#beheer": "beheer", "#statistiek": "statistiek", "#kaarten": "kaarten", "#controleren": "controleren" }[location.hash] ?? "oefenen";
   manageEl.hidden = tab !== "beheer";
   statsEl.hidden = tab !== "statistiek";
   cardsEl.hidden = tab !== "kaarten";
+  reviewEl.hidden = tab !== "controleren";
   app.hidden = tab !== "oefenen";
   document.getElementById("quiz-foot").hidden = tab !== "oefenen";
   document.getElementById("mode-switch").hidden = tab !== "oefenen";
   document.body.classList.toggle("mode-manage", tab !== "oefenen");
-  for (const t of ["oefenen", "kaarten", "statistiek", "beheer"]) {
+  for (const t of ["oefenen", "kaarten", "statistiek", "beheer", "controleren"]) {
     document.getElementById(`tab-${t}`).setAttribute("aria-current", t === tab ? "page" : "false");
   }
 
@@ -664,6 +667,8 @@ async function showTab() {
     showStatistics();
   } else if (tab === "kaarten") {
     showCards();
+  } else if (tab === "controleren") {
+    showReview();
   } else {
     renderedCardId = null; // kaart opnieuw opbouwen, er kunnen concepten bijgekomen zijn
     act("/api/state");

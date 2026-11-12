@@ -18,8 +18,8 @@ func pairs(n, step int) []storage.TranslationConcept {
 	for i := 0; i < n; i++ {
 		nl, hu := fmt.Sprintf("w_nl_%d", i), fmt.Sprintf("w_hu_%d", i)
 		cs = append(cs,
-			storage.TranslationConcept{ID: fmt.Sprintf("c_nl_hu_%d", i), SourceWordID: nl, TargetWordIDs: []string{hu}, StepIndex: step, NextReview: past},
-			storage.TranslationConcept{ID: fmt.Sprintf("c_hu_nl_%d", i), SourceWordID: hu, TargetWordIDs: []string{nl}, StepIndex: step, NextReview: past},
+			storage.TranslationConcept{ID: fmt.Sprintf("c_nl_hu_%d", i), SourceWordID: nl, TargetWordIDs: []string{hu}, StepIndex: step, NextReview: past, Verified: true},
+			storage.TranslationConcept{ID: fmt.Sprintf("c_hu_nl_%d", i), SourceWordID: hu, TargetWordIDs: []string{nl}, StepIndex: step, NextReview: past, Verified: true},
 		)
 	}
 	return cs
@@ -278,7 +278,7 @@ func newWords(n int) []storage.TranslationConcept {
 	var cs []storage.TranslationConcept
 	for i := range n {
 		cs = append(cs, storage.TranslationConcept{
-			ID: fmt.Sprintf("c_new_%02d", i), SourceWordID: fmt.Sprintf("w_a_%d", i), TargetWordIDs: []string{fmt.Sprintf("w_b_%d", i)}, NextReview: past,
+			ID: fmt.Sprintf("c_new_%02d", i), SourceWordID: fmt.Sprintf("w_a_%d", i), TargetWordIDs: []string{fmt.Sprintf("w_b_%d", i)}, NextReview: past, Verified: true,
 		})
 	}
 	return cs
@@ -381,5 +381,22 @@ func TestBuried(t *testing.T) {
 	cs[0].LastReview = now.AddDate(0, 0, -1)
 	if b := Buried(cs, now); len(b) != 0 {
 		t.Errorf("een antwoord van gisteren laat niets wachten, kreeg %v", b)
+	}
+}
+
+func TestUnverifiedWaitAndPriorityGoesFirst(t *testing.T) {
+	cs := append(seen(pairs(2, 1)), newWords(6)...)
+	cs[len(cs)-1].Priority = true // het laatst toegevoegde woord heeft voorrang
+	cs[4].Verified = false        // het eerste nieuwe woord is nog niet gecontroleerd
+	cs[0].Verified = false        // een woord dat al in de herhalingen zit: blijft gewoon gevraagd
+
+	got := DueCandidates(cs, time.Now(), 2)
+	var ids []string
+	for _, c := range got {
+		ids = append(ids, c.ID)
+	}
+	want := []string{"c_nl_hu_0", "c_hu_nl_0", "c_nl_hu_1", "c_hu_nl_1", "c_new_05", "c_new_01"}
+	if !slices.Equal(ids, want) {
+		t.Errorf("verwacht herhalingen, dan het woord met voorrang, dan het eerste goedgekeurde nieuwe woord:\n kreeg    %v\n verwacht %v", ids, want)
 	}
 }

@@ -7,10 +7,12 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 
 	"hungarian-language-learner/internal/catalog"
+	"hungarian-language-learner/internal/engine"
 	"hungarian-language-learner/internal/quiz"
 	"hungarian-language-learner/internal/storage"
 )
@@ -21,8 +23,8 @@ const testWords = `{
     {"id": "w_hu_idő", "language": "hu", "text": "idő"}
   ],
   "concepts": [
-    {"id": "c_nl_hu_weer", "source_word_id": "w_nl_weer", "context_source": "", "target_word_ids": ["w_hu_idő"]},
-    {"id": "c_hu_nl_idő", "source_word_id": "w_hu_idő", "context_source": "", "target_word_ids": ["w_nl_weer"]}
+    {"id": "c_nl_hu_weer", "source_word_id": "w_nl_weer", "context_source": "", "target_word_ids": ["w_hu_idő"], "verified": true},
+    {"id": "c_hu_nl_idő", "source_word_id": "w_hu_idő", "context_source": "", "target_word_ids": ["w_nl_weer"], "verified": true}
   ]
 }`
 
@@ -121,23 +123,29 @@ func TestAddConceptSavesAndIsQuizzable(t *testing.T) {
 		t.Errorf("bestaande betekenis moet hint 'buiten' krijgen, kreeg %q", c.ContextSource)
 	}
 
-	// Nieuw concept zit in dezelfde woordenschat als de quiz: na deze run komt het aan de beurt
-	for !s.session.Done() {
-		s.session.Answer("x")
-		s.session.Next()
-	}
-	s.session.NewRun()
-	found := false
-	for !s.session.Done() {
-		// Beide richtingen zijn nieuw; welke in deze run zit is willekeurig (de andere volgt later)
-		if id := s.session.Current().ID; strings.HasPrefix(id, "c_nl_hu_tijd") || strings.HasPrefix(id, "c_hu_nl_idő_klok") {
-			found = true
+	// Nieuw concept zit in dezelfde woordenschat als de quiz, maar komt pas na controle in de les
+	inRun := func() bool {
+		s.session.SetMode(engine.ModeNew)
+		for !s.session.Done() {
+			// Beide richtingen zijn nieuw; welke in deze run zit is willekeurig (de andere volgt later)
+			if id := s.session.Current().ID; strings.HasPrefix(id, "c_nl_hu_tijd") || strings.HasPrefix(id, "c_hu_nl_idő_klok") {
+				return true
+			}
+			s.session.DontKnow()
+			s.session.Next()
 		}
-		s.session.Answer("x")
-		s.session.Next()
+		return false
 	}
-	if !found {
-		t.Error("nieuw concept moet meteen geoefend kunnen worden")
+	if inRun() {
+		t.Error("een nieuw woord mag pas na controle in de les komen")
+	}
+	id := s.lib.Concepts[slices.IndexFunc(s.lib.Concepts, func(c storage.TranslationConcept) bool { return strings.HasPrefix(c.ID, "c_nl_hu_tijd") })].ID
+	code, out = call(t, h, "POST", "/api/concepts/"+url.PathEscape(id)+"/review", `{"verified":true}`)
+	if code != http.StatusOK || !strings.Contains(string(out["ids"]), "c_hu_nl_idő_klok") {
+		t.Fatalf("goedkeuren moet beide richtingen raken: %d %s", code, out["ids"])
+	}
+	if !inRun() {
+		t.Error("na goedkeuring moet het nieuwe woord geoefend kunnen worden")
 	}
 }
 
@@ -262,5 +270,46 @@ func TestPracticeCheckSavesNothing(t *testing.T) {
 		if _, err := os.Stat(name); err == nil {
 			t.Errorf("oefenen in Kaarten mag niets opslaan, maar %s bestaat", filepath.Base(name))
 		}
+	}
+}
+
+func TestReviewNoteAndPriority(t *testing.T) {
+	s, h := newTestServer(t)
+	call(t, h, "POST", "/api/concepts", `{"dutch":"tijd","context":"klok","hungarian":"idő","existingHints":{"c_hu_nl_idő":"buiten"}}`)
+	id := s.lib.Concepts[len(s.lib.Concepts)-2].ID // NL->HU van tijd
+
+	// Afkeuren met een opmerking: blijft ongecontroleerd, opmerking op beide richtingen
+	code, _ := call(t, h, "POST", "/api/concepts/"+url.PathEscape(id)+"/review", `{"verified":false,"note":"  dit is óra, niet idő "}`)
+	if code != http.StatusOK {
+		t.Fatalf("afkeuren: %d", code)
+	}
+	for _, c := range s.lib.Concepts[len(s.lib.Concepts)-2:] {
+		if c.Verified || c.ReviewNote != "dit is óra, niet idő" {
+			t.Errorf("%s: verwacht afgekeurd met opmerking, kreeg %+v", c.ID, c)
+		}
+	}
+	_, out := call(t, h, "GET", "/api/concepts", "")
+	if !strings.Contains(string(out["entries"]), `"reviewNote":"dit is óra, niet idő"`) {
+		t.Error("de opmerking moet in het beheer te zien zijn")
+	}
+
+	// Voorrang: in voortgang.json, alleen voor nieuwe woorden
+	code, out = call(t, h, "POST", "/api/concepts/"+url.PathEscape(id)+"/priority", `{"priority":true}`)
+	if code != http.StatusOK || !strings.Contains(string(out["ids"]), id) {
+		t.Fatalf("voorrang: %d %s", code, out["ids"])
+	}
+	data, _ := os.ReadFile(filepath.Join(filepath.Dir(s.wordsPath), "voortgang.json"))
+	if !strings.Contains(string(data), `"priority": true`) {
+		t.Error("voorrang moet in voortgang.json staan")
+	}
+	if code, _ := call(t, h, "POST", "/api/concepts/bestaat-niet/review", `{"verified":true}`); code != http.StatusNotFound {
+		t.Errorf("onbekend concept: verwacht 404, kreeg %d", code)
+	}
+
+	// Goedgekeurd en daarna aangepast: opnieuw controleren
+	call(t, h, "POST", "/api/concepts/"+url.PathEscape(id)+"/review", `{"verified":true}`)
+	call(t, h, "PUT", "/api/concepts/"+url.PathEscape(id), `{"prompt":"tijd","context":"klok","answers":["idő","óra"]}`)
+	if c := s.lib.Concepts[s.lib.Index(id)]; c.Verified || c.ReviewNote != "" {
+		t.Errorf("na een inhoudelijke aanpassing opnieuw te controleren: %+v", c)
 	}
 }
