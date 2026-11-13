@@ -351,24 +351,14 @@
       "text": "antipatikus"
     },
     {
+      "id": "w_hu_anya",
+      "language": "hu",
+      "text": "anya"
+    },
+    {
       "id": "w_hu_anyanyelv",
       "language": "hu",
       "text": "anyanyelv"
-    },
-    {
-      "id": "w_hu_anyanyelved",
-      "language": "hu",
-      "text": "anyanyelved"
-    },
-    {
-      "id": "w_hu_anyanyelvem",
-      "language": "hu",
-      "text": "anyanyelvem"
-    },
-    {
-      "id": "w_hu_anyja",
-      "language": "hu",
-      "text": "anyja"
     },
     {
       "id": "w_hu_anyuka",
@@ -389,11 +379,6 @@
       "id": "w_hu_asztal",
       "language": "hu",
       "text": "asztal"
-    },
-    {
-      "id": "w_hu_asztala",
-      "language": "hu",
-      "text": "asztala"
     },
     {
       "id": "w_hu_az",
@@ -434,21 +419,6 @@
       "id": "w_hu_barokk",
       "language": "hu",
       "text": "barokk"
-    },
-    {
-      "id": "w_hu_barátja",
-      "language": "hu",
-      "text": "barátja"
-    },
-    {
-      "id": "w_hu_barátod",
-      "language": "hu",
-      "text": "barátod"
-    },
-    {
-      "id": "w_hu_barátom",
-      "language": "hu",
-      "text": "barátom"
     },
     {
       "id": "w_hu_barátságtalan",
@@ -559,11 +529,6 @@
       "id": "w_hu_báty",
       "language": "hu",
       "text": "báty"
-    },
-    {
-      "id": "w_hu_bátyám",
-      "language": "hu",
-      "text": "bátyám"
     },
     {
       "id": "w_hu_büdös",
@@ -799,11 +764,6 @@
       "id": "w_hu_enni",
       "language": "hu",
       "text": "enni"
-    },
-    {
-      "id": "w_hu_enyém",
-      "language": "hu",
-      "text": "enyém"
     },
     {
       "id": "w_hu_erdő",
@@ -1051,16 +1011,6 @@
       "text": "főnök"
     },
     {
-      "id": "w_hu_főnöke",
-      "language": "hu",
-      "text": "főnöke"
-    },
-    {
-      "id": "w_hu_főnököm",
-      "language": "hu",
-      "text": "főnököm"
-    },
-    {
       "id": "w_hu_főváros",
       "language": "hu",
       "text": "főváros"
@@ -1274,11 +1224,6 @@
       "id": "w_hu_háromnegyed",
       "language": "hu",
       "text": "háromnegyed"
-    },
-    {
-      "id": "w_hu_háza",
-      "language": "hu",
-      "text": "háza"
     },
     {
       "id": "w_hu_hétfő",
@@ -1826,11 +1771,6 @@
       "text": "lány"
     },
     {
-      "id": "w_hu_lányom",
-      "language": "hu",
-      "text": "lányom"
-    },
-    {
       "id": "w_hu_látni",
       "language": "hu",
       "text": "látni"
@@ -2181,24 +2121,9 @@
       "text": "nadrág"
     },
     {
-      "id": "w_hu_nadrágod",
-      "language": "hu",
-      "text": "nadrágod"
-    },
-    {
-      "id": "w_hu_nadrágom",
-      "language": "hu",
-      "text": "nadrágom"
-    },
-    {
       "id": "w_hu_nagymama",
       "language": "hu",
       "text": "nagymama"
-    },
-    {
-      "id": "w_hu_nagymamám",
-      "language": "hu",
-      "text": "nagymamám"
     },
     {
       "id": "w_hu_nagyon",
@@ -2256,11 +2181,6 @@
       "text": "nemzetközi"
     },
     {
-      "id": "w_hu_neve",
-      "language": "hu",
-      "text": "neve"
-    },
-    {
       "id": "w_hu_nevet",
       "language": "hu",
       "text": "nevet"
@@ -2309,11 +2229,6 @@
       "id": "w_hu_nyomtató",
       "language": "hu",
       "text": "nyomtató"
-    },
-    {
-      "id": "w_hu_nyomtatója",
-      "language": "hu",
-      "text": "nyomtatója"
     },
     {
       "id": "w_hu_nyugat",
@@ -2414,11 +2329,6 @@
       "id": "w_hu_orvos",
       "language": "hu",
       "text": "orvos"
-    },
-    {
-      "id": "w_hu_orvosa",
-      "language": "hu",
-      "text": "orvosa"
     },
     {
       "id": "w_hu_paprika",
@@ -3514,11 +3424,6 @@
       "id": "w_hu_ön",
       "language": "hu",
       "text": "ön"
-    },
-    {
-      "id": "w_hu_öné",
-      "language": "hu",
-      "text": "öné"
     },
     {
       "id": "w_hu_önök",
@@ -4786,41 +4691,6 @@
       "text": "haar"
     },
     {
-      "id": "w_nl_haar_dokter",
-      "language": "nl",
-      "text": "haar dokter"
-    },
-    {
-      "id": "w_nl_haar_huis",
-      "language": "nl",
-      "text": "haar huis"
-    },
-    {
-      "id": "w_nl_haar_moeder",
-      "language": "nl",
-      "text": "haar moeder"
-    },
-    {
-      "id": "w_nl_haar_naam",
-      "language": "nl",
-      "text": "haar naam"
-    },
-    {
-      "id": "w_nl_haar_printer",
-      "language": "nl",
-      "text": "haar printer"
-    },
-    {
-      "id": "w_nl_haar_tafel",
-      "language": "nl",
-      "text": "haar tafel"
-    },
-    {
-      "id": "w_nl_haar_vriend",
-      "language": "nl",
-      "text": "haar vriend"
-    },
-    {
       "id": "w_nl_half",
       "language": "nl",
       "text": "half"
@@ -5099,21 +4969,6 @@
       "id": "w_nl_jong",
       "language": "nl",
       "text": "jong"
-    },
-    {
-      "id": "w_nl_jouw_broek",
-      "language": "nl",
-      "text": "jouw broek"
-    },
-    {
-      "id": "w_nl_jouw_moedertaal",
-      "language": "nl",
-      "text": "jouw moedertaal"
-    },
-    {
-      "id": "w_nl_jouw_vriend",
-      "language": "nl",
-      "text": "jouw vriend"
     },
     {
       "id": "w_nl_jungle",
@@ -5591,41 +5446,6 @@
       "text": "middernacht"
     },
     {
-      "id": "w_nl_mijn_baas",
-      "language": "nl",
-      "text": "mijn baas"
-    },
-    {
-      "id": "w_nl_mijn_broek",
-      "language": "nl",
-      "text": "mijn broek"
-    },
-    {
-      "id": "w_nl_mijn_dochter",
-      "language": "nl",
-      "text": "mijn dochter"
-    },
-    {
-      "id": "w_nl_mijn_moedertaal",
-      "language": "nl",
-      "text": "mijn moedertaal"
-    },
-    {
-      "id": "w_nl_mijn_oma",
-      "language": "nl",
-      "text": "mijn oma"
-    },
-    {
-      "id": "w_nl_mijn_oudere_broer",
-      "language": "nl",
-      "text": "mijn oudere broer"
-    },
-    {
-      "id": "w_nl_mijn_vriend",
-      "language": "nl",
-      "text": "mijn vriend"
-    },
-    {
       "id": "w_nl_minuut",
       "language": "nl",
       "text": "minuut"
@@ -5644,6 +5464,11 @@
       "id": "w_nl_moe",
       "language": "nl",
       "text": "moe"
+    },
+    {
+      "id": "w_nl_moeder",
+      "language": "nl",
+      "text": "moeder"
     },
     {
       "id": "w_nl_moedertaal",
@@ -6676,11 +6501,6 @@
       "text": "uur"
     },
     {
-      "id": "w_nl_uw_baas",
-      "language": "nl",
-      "text": "uw baas"
-    },
-    {
       "id": "w_nl_vaak",
       "language": "nl",
       "text": "vaak"
@@ -6711,19 +6531,9 @@
       "text": "van hier"
     },
     {
-      "id": "w_nl_van_mij",
-      "language": "nl",
-      "text": "van mij"
-    },
-    {
       "id": "w_nl_van_nationaliteit",
       "language": "nl",
       "text": "van nationaliteit"
-    },
-    {
-      "id": "w_nl_van_u",
-      "language": "nl",
-      "text": "van u"
     },
     {
       "id": "w_nl_vanaf_hoe_laat",
@@ -7189,41 +6999,6 @@
       "id": "w_nl_zijn",
       "language": "nl",
       "text": "zijn"
-    },
-    {
-      "id": "w_nl_zijn_dokter",
-      "language": "nl",
-      "text": "zijn dokter"
-    },
-    {
-      "id": "w_nl_zijn_huis",
-      "language": "nl",
-      "text": "zijn huis"
-    },
-    {
-      "id": "w_nl_zijn_moeder",
-      "language": "nl",
-      "text": "zijn moeder"
-    },
-    {
-      "id": "w_nl_zijn_naam",
-      "language": "nl",
-      "text": "zijn naam"
-    },
-    {
-      "id": "w_nl_zijn_printer",
-      "language": "nl",
-      "text": "zijn printer"
-    },
-    {
-      "id": "w_nl_zijn_tafel",
-      "language": "nl",
-      "text": "zijn tafel"
-    },
-    {
-      "id": "w_nl_zijn_vriend",
-      "language": "nl",
-      "text": "zijn vriend"
     },
     {
       "id": "w_nl_zin",
@@ -25425,110 +25200,6 @@
       ]
     },
     {
-      "id": "c_nl_hu_jouw_vriend_bezit_van_jou",
-      "source_word_id": "w_nl_jouw_vriend",
-      "context_source": "bezit van jou",
-      "target_word_ids": [
-        "w_hu_barátod"
-      ],
-      "example": "Hány barátod van?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_barátod_bezit_van_jou",
-      "source_word_id": "w_hu_barátod",
-      "context_source": "bezit van jou",
-      "target_word_ids": [
-        "w_nl_jouw_vriend"
-      ],
-      "example": "Hány barátod van?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_mijn_vriend_bezit_van_mij",
-      "source_word_id": "w_nl_mijn_vriend",
-      "context_source": "bezit van mij",
-      "target_word_ids": [
-        "w_hu_barátom"
-      ],
-      "example": "Nyolc barátom van.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_barátom_bezit_van_mij",
-      "source_word_id": "w_hu_barátom",
-      "context_source": "bezit van mij",
-      "target_word_ids": [
-        "w_nl_mijn_vriend"
-      ],
-      "example": "Nyolc barátom van.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_zijn_vriend_bezit_van_een_man",
-      "source_word_id": "w_nl_zijn_vriend",
-      "context_source": "bezit van een man",
-      "target_word_ids": [
-        "w_hu_barátja"
-      ],
-      "example": "Péter barátja kedves.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_barátja_bezit_van_een_man",
-      "source_word_id": "w_hu_barátja",
-      "context_source": "bezit van een man",
-      "target_word_ids": [
-        "w_nl_zijn_vriend"
-      ],
-      "example": "Péter barátja kedves.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_haar_vriend_bezit_van_een_vrouw",
-      "source_word_id": "w_nl_haar_vriend",
-      "context_source": "bezit van een vrouw",
-      "target_word_ids": [
-        "w_hu_barátja"
-      ],
-      "example": "A lányom barátja magas.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_barátja_bezit_van_een_vrouw",
-      "source_word_id": "w_hu_barátja",
-      "context_source": "bezit van een vrouw",
-      "target_word_ids": [
-        "w_nl_haar_vriend"
-      ],
-      "example": "A lányom barátja magas.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
       "id": "c_nl_hu_kleur_rood,_groen,_blauw",
       "source_word_id": "w_nl_kleur",
       "context_source": "rood, groen, blauw",
@@ -25607,58 +25278,6 @@
       ]
     },
     {
-      "id": "c_nl_hu_jouw_broek_bezit_van_jou",
-      "source_word_id": "w_nl_jouw_broek",
-      "context_source": "bezit van jou",
-      "target_word_ids": [
-        "w_hu_nadrágod"
-      ],
-      "example": "Milyen színű a nadrágod?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_nadrágod_bezit_van_jou",
-      "source_word_id": "w_hu_nadrágod",
-      "context_source": "bezit van jou",
-      "target_word_ids": [
-        "w_nl_jouw_broek"
-      ],
-      "example": "Milyen színű a nadrágod?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_mijn_broek_bezit_van_mij",
-      "source_word_id": "w_nl_mijn_broek",
-      "context_source": "bezit van mij",
-      "target_word_ids": [
-        "w_hu_nadrágom"
-      ],
-      "example": "A nadrágom kék.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_nadrágom_bezit_van_mij",
-      "source_word_id": "w_hu_nadrágom",
-      "context_source": "bezit van mij",
-      "target_word_ids": [
-        "w_nl_mijn_broek"
-      ],
-      "example": "A nadrágom kék.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
       "id": "c_nl_hu_blauw_kleur_van_de_lucht",
       "source_word_id": "w_nl_blauw",
       "context_source": "kleur van de lucht",
@@ -25685,65 +25304,13 @@
       ]
     },
     {
-      "id": "c_nl_hu_jouw_moedertaal_bezit_van_jou",
-      "source_word_id": "w_nl_jouw_moedertaal",
-      "context_source": "bezit van jou",
-      "target_word_ids": [
-        "w_hu_anyanyelved"
-      ],
-      "example": "Mi az anyanyelved?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_anyanyelved_bezit_van_jou",
-      "source_word_id": "w_hu_anyanyelved",
-      "context_source": "bezit van jou",
-      "target_word_ids": [
-        "w_nl_jouw_moedertaal"
-      ],
-      "example": "Mi az anyanyelved?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_mijn_moedertaal_bezit_van_mij",
-      "source_word_id": "w_nl_mijn_moedertaal",
-      "context_source": "bezit van mij",
-      "target_word_ids": [
-        "w_hu_anyanyelvem"
-      ],
-      "example": "Holland az anyanyelvem.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_anyanyelvem_bezit_van_mij",
-      "source_word_id": "w_hu_anyanyelvem",
-      "context_source": "bezit van mij",
-      "target_word_ids": [
-        "w_nl_mijn_moedertaal"
-      ],
-      "example": "Holland az anyanyelvem.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
       "id": "c_nl_hu_zijn_moeder_moeder_van_een_man",
-      "source_word_id": "w_nl_zijn_moeder",
-      "context_source": "moeder van een man",
+      "source_word_id": "w_nl_moeder",
+      "context_source": "",
       "target_word_ids": [
-        "w_hu_anyja"
+        "w_hu_anya"
       ],
-      "example": "Péter anyja kedves.",
+      "example": "Az anya kedves.",
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"
@@ -25751,90 +25318,12 @@
     },
     {
       "id": "c_hu_nl_anyja_moeder_van_een_man",
-      "source_word_id": "w_hu_anyja",
-      "context_source": "moeder van een man",
+      "source_word_id": "w_hu_anya",
+      "context_source": "",
       "target_word_ids": [
-        "w_nl_zijn_moeder"
+        "w_nl_moeder"
       ],
-      "example": "Péter anyja kedves.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_haar_moeder_moeder_van_een_vrouw",
-      "source_word_id": "w_nl_haar_moeder",
-      "context_source": "moeder van een vrouw",
-      "target_word_ids": [
-        "w_hu_anyja"
-      ],
-      "example": "Anna anyja tanár.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_anyja_moeder_van_een_vrouw",
-      "source_word_id": "w_hu_anyja",
-      "context_source": "moeder van een vrouw",
-      "target_word_ids": [
-        "w_nl_haar_moeder"
-      ],
-      "example": "Anna anyja tanár.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_zijn_naam_naam_van_een_man",
-      "source_word_id": "w_nl_zijn_naam",
-      "context_source": "naam van een man",
-      "target_word_ids": [
-        "w_hu_neve"
-      ],
-      "example": "Mi Péter neve?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_neve_naam_van_een_man",
-      "source_word_id": "w_hu_neve",
-      "context_source": "naam van een man",
-      "target_word_ids": [
-        "w_nl_zijn_naam"
-      ],
-      "example": "Mi Péter neve?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_haar_naam_naam_van_een_vrouw",
-      "source_word_id": "w_nl_haar_naam",
-      "context_source": "naam van een vrouw",
-      "target_word_ids": [
-        "w_hu_neve"
-      ],
-      "example": "Anyja neve Mária.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_neve_naam_van_een_vrouw",
-      "source_word_id": "w_hu_neve",
-      "context_source": "naam van een vrouw",
-      "target_word_ids": [
-        "w_nl_haar_naam"
-      ],
-      "example": "Anyja neve Mária.",
+      "example": "Az anya kedves.",
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"
@@ -26146,110 +25635,6 @@
       ]
     },
     {
-      "id": "c_nl_hu_van_u_bezit_van_de_beleefde_persoon",
-      "source_word_id": "w_nl_van_u",
-      "context_source": "bezit van de beleefde persoon",
-      "target_word_ids": [
-        "w_hu_öné"
-      ],
-      "example": "Az öné is rokonszenves?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_öné_bezit_van_de_beleefde_persoon",
-      "source_word_id": "w_hu_öné",
-      "context_source": "bezit van de beleefde persoon",
-      "target_word_ids": [
-        "w_nl_van_u"
-      ],
-      "example": "Az öné is rokonszenves?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_uw_baas_bezit_van_de_beleefde_persoon",
-      "source_word_id": "w_nl_uw_baas",
-      "context_source": "bezit van de beleefde persoon",
-      "target_word_ids": [
-        "w_hu_főnöke"
-      ],
-      "example": "Az Ön főnöke is rokonszenves?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_főnöke_bezit_van_de_beleefde_persoon",
-      "source_word_id": "w_hu_főnöke",
-      "context_source": "bezit van de beleefde persoon",
-      "target_word_ids": [
-        "w_nl_uw_baas"
-      ],
-      "example": "Az Ön főnöke is rokonszenves?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_mijn_baas_bezit_van_mij",
-      "source_word_id": "w_nl_mijn_baas",
-      "context_source": "bezit van mij",
-      "target_word_ids": [
-        "w_hu_főnököm"
-      ],
-      "example": "Az én főnököm ellenszenves.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_főnököm_bezit_van_mij",
-      "source_word_id": "w_hu_főnököm",
-      "context_source": "bezit van mij",
-      "target_word_ids": [
-        "w_nl_mijn_baas"
-      ],
-      "example": "Az én főnököm ellenszenves.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_van_mij_bezit_zonder_zelfstandig_naamwoord",
-      "source_word_id": "w_nl_van_mij",
-      "context_source": "bezit zonder zelfstandig naamwoord",
-      "target_word_ids": [
-        "w_hu_enyém"
-      ],
-      "example": "Az enyém ellenszenves.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_enyém_bezit_zonder_zelfstandig_naamwoord",
-      "source_word_id": "w_hu_enyém",
-      "context_source": "bezit zonder zelfstandig naamwoord",
-      "target_word_ids": [
-        "w_nl_van_mij"
-      ],
-      "example": "Az enyém ellenszenves.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
       "id": "c_nl_hu_glazuur_glanslaag_op_aardewerk_of_taart",
       "source_word_id": "w_nl_glazuur",
       "context_source": "glanslaag op aardewerk of taart",
@@ -26368,32 +25753,6 @@
       ]
     },
     {
-      "id": "c_nl_hu_mijn_dochter_bezit_van_mij",
-      "source_word_id": "w_nl_mijn_dochter",
-      "context_source": "bezit van mij",
-      "target_word_ids": [
-        "w_hu_lányom"
-      ],
-      "example": "A lányom barátja magas.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_lányom_bezit_van_mij",
-      "source_word_id": "w_hu_lányom",
-      "context_source": "bezit van mij",
-      "target_word_ids": [
-        "w_nl_mijn_dochter"
-      ],
-      "example": "A lányom barátja magas.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
       "id": "c_nl_hu_oudere_broer_familie,_ouder_dan_jij",
       "source_word_id": "w_nl_oudere_broer",
       "context_source": "familie, ouder dan jij",
@@ -26414,84 +25773,6 @@
         "w_nl_oudere_broer"
       ],
       "example": "A báty magas.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_mijn_oudere_broer_bezit_van_mij",
-      "source_word_id": "w_nl_mijn_oudere_broer",
-      "context_source": "bezit van mij",
-      "target_word_ids": [
-        "w_hu_bátyám"
-      ],
-      "example": "A bátyám háza nagy.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_bátyám_bezit_van_mij",
-      "source_word_id": "w_hu_bátyám",
-      "context_source": "bezit van mij",
-      "target_word_ids": [
-        "w_nl_mijn_oudere_broer"
-      ],
-      "example": "A bátyám háza nagy.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_zijn_huis_huis_van_een_man",
-      "source_word_id": "w_nl_zijn_huis",
-      "context_source": "huis van een man",
-      "target_word_ids": [
-        "w_hu_háza"
-      ],
-      "example": "A bátyám háza nagy.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_háza_huis_van_een_man",
-      "source_word_id": "w_hu_háza",
-      "context_source": "huis van een man",
-      "target_word_ids": [
-        "w_nl_zijn_huis"
-      ],
-      "example": "A bátyám háza nagy.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_haar_huis_huis_van_een_vrouw",
-      "source_word_id": "w_nl_haar_huis",
-      "context_source": "huis van een vrouw",
-      "target_word_ids": [
-        "w_hu_háza"
-      ],
-      "example": "Anna háza kicsi.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_háza_huis_van_een_vrouw",
-      "source_word_id": "w_hu_háza",
-      "context_source": "huis van een vrouw",
-      "target_word_ids": [
-        "w_nl_haar_huis"
-      ],
-      "example": "Anna háza kicsi.",
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"
@@ -26524,58 +25805,6 @@
       ]
     },
     {
-      "id": "c_nl_hu_zijn_printer_printer_van_een_man",
-      "source_word_id": "w_nl_zijn_printer",
-      "context_source": "printer van een man",
-      "target_word_ids": [
-        "w_hu_nyomtatója"
-      ],
-      "example": "Péter nyomtatója régi.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_nyomtatója_printer_van_een_man",
-      "source_word_id": "w_hu_nyomtatója",
-      "context_source": "printer van een man",
-      "target_word_ids": [
-        "w_nl_zijn_printer"
-      ],
-      "example": "Péter nyomtatója régi.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_haar_printer_printer_van_een_vrouw",
-      "source_word_id": "w_nl_haar_printer",
-      "context_source": "printer van een vrouw",
-      "target_word_ids": [
-        "w_hu_nyomtatója"
-      ],
-      "example": "Anna nyomtatója új.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_nyomtatója_printer_van_een_vrouw",
-      "source_word_id": "w_hu_nyomtatója",
-      "context_source": "printer van een vrouw",
-      "target_word_ids": [
-        "w_nl_haar_printer"
-      ],
-      "example": "Anna nyomtatója új.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
       "id": "c_nl_hu_dokter_helpt_als_je_ziek_bent",
       "source_word_id": "w_nl_dokter",
       "context_source": "helpt als je ziek bent",
@@ -26602,84 +25831,6 @@
       ]
     },
     {
-      "id": "c_nl_hu_zijn_dokter_dokter_van_een_man",
-      "source_word_id": "w_nl_zijn_dokter",
-      "context_source": "dokter van een man",
-      "target_word_ids": [
-        "w_hu_orvosa"
-      ],
-      "example": "Péter orvosa fiatal.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_orvosa_dokter_van_een_man",
-      "source_word_id": "w_hu_orvosa",
-      "context_source": "dokter van een man",
-      "target_word_ids": [
-        "w_nl_zijn_dokter"
-      ],
-      "example": "Péter orvosa fiatal.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_haar_dokter_dokter_van_een_vrouw",
-      "source_word_id": "w_nl_haar_dokter",
-      "context_source": "dokter van een vrouw",
-      "target_word_ids": [
-        "w_hu_orvosa"
-      ],
-      "example": "A nagymamám orvosa kedves.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_orvosa_dokter_van_een_vrouw",
-      "source_word_id": "w_hu_orvosa",
-      "context_source": "dokter van een vrouw",
-      "target_word_ids": [
-        "w_nl_haar_dokter"
-      ],
-      "example": "A nagymamám orvosa kedves.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_mijn_oma_bezit_van_mij",
-      "source_word_id": "w_nl_mijn_oma",
-      "context_source": "bezit van mij",
-      "target_word_ids": [
-        "w_hu_nagymamám"
-      ],
-      "example": "A nagymamám orvosa kedves.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_nagymamám_bezit_van_mij",
-      "source_word_id": "w_hu_nagymamám",
-      "context_source": "bezit van mij",
-      "target_word_ids": [
-        "w_nl_mijn_oma"
-      ],
-      "example": "A nagymamám orvosa kedves.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
       "id": "c_nl_hu_leraar_geeft_les_op_school",
       "source_word_id": "w_nl_leraar",
       "context_source": "geeft les op school",
@@ -26700,58 +25851,6 @@
         "w_nl_leraar"
       ],
       "example": "A tanár kedves.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_zijn_tafel_tafel_van_een_man",
-      "source_word_id": "w_nl_zijn_tafel",
-      "context_source": "tafel van een man",
-      "target_word_ids": [
-        "w_hu_asztala"
-      ],
-      "example": "A tanár asztala nagy.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_asztala_tafel_van_een_man",
-      "source_word_id": "w_hu_asztala",
-      "context_source": "tafel van een man",
-      "target_word_ids": [
-        "w_nl_zijn_tafel"
-      ],
-      "example": "A tanár asztala nagy.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_nl_hu_haar_tafel_tafel_van_een_vrouw",
-      "source_word_id": "w_nl_haar_tafel",
-      "context_source": "tafel van een vrouw",
-      "target_word_ids": [
-        "w_hu_asztala"
-      ],
-      "example": "Anna asztala kicsi.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ]
-    },
-    {
-      "id": "c_hu_nl_asztala_tafel_van_een_vrouw",
-      "source_word_id": "w_hu_asztala",
-      "context_source": "tafel van een vrouw",
-      "target_word_ids": [
-        "w_nl_haar_tafel"
-      ],
-      "example": "Anna asztala kicsi.",
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"

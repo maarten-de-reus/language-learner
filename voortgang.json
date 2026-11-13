@@ -132,10 +132,10 @@
     "last_review": "2026-11-10T14:10:36.462847814+01:00"
   },
   "c_4": {
-    "step_index": 3,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 4,
+    "next_review": "2026-12-24T04:00:00+01:00",
     "first_review": "2026-10-18T22:00:14.378333794+02:00",
-    "last_review": "2026-10-26T20:52:53.32293573+01:00"
+    "last_review": "2026-11-13T07:57:38.443143483+01:00"
   },
   "c_5": {
     "step_index": 2,
@@ -251,27 +251,15 @@
     "first_review": "2026-10-29T17:18:26.305486569+01:00",
     "last_review": "2026-11-09T22:11:17.100946658+01:00"
   },
-  "c_hu_nl_anyanyelved_bezit_van_jou": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636211083+01:00"
-  },
-  "c_hu_nl_anyanyelvem_bezit_van_mij": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636211274+01:00"
-  },
   "c_hu_nl_anyja_moeder_van_een_man": {
     "step_index": 0,
     "next_review": "2026-11-11T21:39:14.636211433+01:00"
   },
-  "c_hu_nl_anyja_moeder_van_een_vrouw": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636211592+01:00"
-  },
   "c_hu_nl_anyuka": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-01T20:37:10.149474967+01:00",
-    "last_review": "2026-11-06T00:43:02.438372042+01:00"
+    "last_review": "2026-11-13T07:54:47.415953916+01:00"
   },
   "c_hu_nl_aranyos": {
     "step_index": 3,
@@ -290,14 +278,6 @@
     "next_review": "2026-11-28T04:00:00+01:00",
     "first_review": "2026-11-01T13:29:10.988325095+01:00",
     "last_review": "2026-11-12T22:23:02.51737406+01:00"
-  },
-  "c_hu_nl_asztala_tafel_van_een_man": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636217556+01:00"
-  },
-  "c_hu_nl_asztala_tafel_van_een_vrouw": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636217705+01:00"
   },
   "c_hu_nl_autó": {
     "step_index": 3,
@@ -358,22 +338,6 @@
     "next_review": "2026-11-17T04:00:00+01:00",
     "first_review": "2026-10-24T13:03:32.663390691+02:00",
     "last_review": "2026-11-03T13:42:54.992342776+01:00"
-  },
-  "c_hu_nl_barátja_bezit_van_een_man": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.63620978+01:00"
-  },
-  "c_hu_nl_barátja_bezit_van_een_vrouw": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636209924+01:00"
-  },
-  "c_hu_nl_barátod_bezit_van_jou": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636209426+01:00"
-  },
-  "c_hu_nl_barátom_bezit_van_mij": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636209592+01:00"
   },
   "c_hu_nl_barátságtalan": {
     "step_index": 3,
@@ -503,10 +467,6 @@
     "step_index": 0,
     "next_review": "2026-11-11T21:39:14.636215657+01:00"
   },
-  "c_hu_nl_bátyám_bezit_van_mij": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636215807+01:00"
-  },
   "c_hu_nl_büdös_ruikt_slecht": {
     "step_index": 0,
     "next_review": "2026-11-09T21:08:25.344994634+01:00"
@@ -556,10 +516,10 @@
     "last_review": "2026-11-08T12:28:02.219488759+01:00"
   },
   "c_hu_nl_csokoládé": {
-    "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 1,
+    "next_review": "2026-11-16T04:00:00+01:00",
     "first_review": "2026-10-30T06:48:37.417181915+01:00",
-    "last_review": "2026-11-12T22:22:49.436433272+01:00"
+    "last_review": "2026-11-13T07:45:53.754295981+01:00"
   },
   "c_hu_nl_csúnya_tegenovergestelde_van_szép": {
     "step_index": 0,
@@ -584,10 +544,10 @@
     "next_review": "2026-11-09T21:08:25.34499494+01:00"
   },
   "c_hu_nl_cím": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T21:02:37.354599759+01:00",
-    "last_review": "2026-11-06T00:37:25.828015575+01:00"
+    "last_review": "2026-11-13T07:52:25.510190774+01:00"
   },
   "c_hu_nl_cím_2": {
     "step_index": 2,
@@ -720,16 +680,16 @@
     "last_review": "2026-11-12T07:43:06.57347821+01:00"
   },
   "c_hu_nl_elnézést": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-30T06:46:21.448950302+01:00",
-    "last_review": "2026-11-05T06:59:08.876694863+01:00"
+    "last_review": "2026-11-13T07:56:13.877407137+01:00"
   },
   "c_hu_nl_elég": {
     "step_index": 0,
-    "next_review": "2026-11-12T04:00:00+01:00",
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-11-02T06:51:11.421426982+01:00",
-    "last_review": "2026-11-11T21:54:11.156638235+01:00"
+    "last_review": "2026-11-13T07:52:11.423311637+01:00"
   },
   "c_hu_nl_elég_mate": {
     "step_index": 1,
@@ -755,19 +715,15 @@
     "first_review": "2026-10-25T06:22:30.806376859+01:00",
     "last_review": "2026-11-06T00:47:24.694132791+01:00"
   },
-  "c_hu_nl_enyém_bezit_zonder_zelfstandig_naamwoord": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636214502+01:00"
-  },
   "c_hu_nl_erdő_veel_bomen": {
     "step_index": 0,
     "next_review": "2026-11-09T21:08:25.345004067+01:00"
   },
   "c_hu_nl_esni_werkwoord_-_infinitief": {
-    "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 1,
+    "next_review": "2026-11-16T04:00:00+01:00",
     "first_review": "2026-10-29T17:22:06.102293315+01:00",
-    "last_review": "2026-11-12T22:15:01.717747466+01:00"
+    "last_review": "2026-11-13T07:57:05.150147111+01:00"
   },
   "c_hu_nl_este_na_het_eten": {
     "step_index": 0,
@@ -816,10 +772,10 @@
     "next_review": "2026-11-09T21:08:25.345005523+01:00"
   },
   "c_hu_nl_fej": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T17:30:49.995752843+01:00",
-    "last_review": "2026-11-05T06:57:11.687417934+01:00"
+    "last_review": "2026-11-13T07:15:40.651183492+01:00"
   },
   "c_hu_nl_fejezet": {
     "step_index": 2,
@@ -832,10 +788,10 @@
     "next_review": "2026-11-09T21:08:25.345005817+01:00"
   },
   "c_hu_nl_feladat": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-31T07:37:16.062121745+01:00",
-    "last_review": "2026-11-05T06:55:10.100736365+01:00"
+    "last_review": "2026-11-13T07:59:04.084897453+01:00"
   },
   "c_hu_nl_feladó": {
     "step_index": 2,
@@ -884,10 +840,10 @@
     "last_review": "2026-11-10T14:02:07.324191497+01:00"
   },
   "c_hu_nl_fiú_familie": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T21:06:46.285966952+01:00",
-    "last_review": "2026-11-06T00:42:22.189065844+01:00"
+    "last_review": "2026-11-13T07:45:50.647038031+01:00"
   },
   "c_hu_nl_fjord_smalle_zeearm_in_noorwegen": {
     "step_index": 0,
@@ -914,10 +870,10 @@
     "next_review": "2026-11-09T21:08:25.345008237+01:00"
   },
   "c_hu_nl_fogalmam_sincs": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-30T07:02:11.858454582+01:00",
-    "last_review": "2026-11-05T06:58:15.345622152+01:00"
+    "last_review": "2026-11-13T07:57:55.344808266+01:00"
   },
   "c_hu_nl_fogalom": {
     "step_index": 2,
@@ -980,10 +936,10 @@
     "last_review": "2026-11-08T19:51:12.002086525+01:00"
   },
   "c_hu_nl_fáradt": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T17:23:00.26852794+01:00",
-    "last_review": "2026-11-06T00:40:47.440416257+01:00"
+    "last_review": "2026-11-13T07:57:58.370111589+01:00"
   },
   "c_hu_nl_fél_de_helft": {
     "step_index": 0,
@@ -1029,14 +985,6 @@
     "first_review": "2026-11-02T17:31:56.853276744+01:00",
     "last_review": "2026-11-06T08:03:02.353994815+01:00"
   },
-  "c_hu_nl_főnöke_bezit_van_de_beleefde_persoon": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636214175+01:00"
-  },
-  "c_hu_nl_főnököm_bezit_van_mij": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636214356+01:00"
-  },
   "c_hu_nl_főváros": {
     "step_index": 3,
     "next_review": "2026-11-26T04:00:00+01:00",
@@ -1068,10 +1016,10 @@
     "last_review": "2026-11-08T12:20:54.770386588+01:00"
   },
   "c_hu_nl_gyakran": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 0,
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-10-27T15:11:28.936196847+01:00",
-    "last_review": "2026-11-05T06:59:24.420105424+01:00"
+    "last_review": "2026-11-13T07:57:21.033207103+01:00"
   },
   "c_hu_nl_gyalog_zonder_vervoermiddel": {
     "step_index": 0,
@@ -1110,20 +1058,20 @@
     "next_review": "2026-11-09T21:08:25.345011297+01:00"
   },
   "c_hu_nl_gép": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T21:05:40.370694628+01:00",
-    "last_review": "2026-11-05T06:58:05.897237432+01:00"
+    "last_review": "2026-11-13T07:49:27.006156948+01:00"
   },
   "c_hu_nl_gótikus_bouwstijl_met_spitse_bogen": {
     "step_index": 0,
     "next_review": "2026-11-09T21:08:25.345009707+01:00"
   },
   "c_hu_nl_haj": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T17:24:50.435702904+01:00",
-    "last_review": "2026-11-06T00:37:34.441287213+01:00"
+    "last_review": "2026-11-13T07:58:55.223802762+01:00"
   },
   "c_hu_nl_hanem": {
     "step_index": 3,
@@ -1198,10 +1146,10 @@
     "last_review": "2026-11-11T21:53:46.212187306+01:00"
   },
   "c_hu_nl_holland": {
-    "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 1,
+    "next_review": "2026-11-16T04:00:00+01:00",
     "first_review": "2026-11-01T13:45:11.946459973+01:00",
-    "last_review": "2026-11-12T07:46:38.764628356+01:00"
+    "last_review": "2026-11-13T07:51:09.072593287+01:00"
   },
   "c_hu_nl_holland_2": {
     "step_index": 2,
@@ -1287,14 +1235,6 @@
     "first_review": "2026-10-24T13:03:04.889243701+02:00",
     "last_review": "2026-11-03T13:43:20.346402598+01:00"
   },
-  "c_hu_nl_háza_huis_van_een_man": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636215967+01:00"
-  },
-  "c_hu_nl_háza_huis_van_een_vrouw": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636216133+01:00"
-  },
   "c_hu_nl_hét": {
     "step_index": 3,
     "next_review": "2026-11-20T04:00:00+01:00",
@@ -1302,10 +1242,10 @@
     "last_review": "2026-11-04T13:22:40.804653409+01:00"
   },
   "c_hu_nl_hét_2": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-20T04:00:00+01:00",
     "first_review": "2026-11-01T13:46:39.993466213+01:00",
-    "last_review": "2026-11-10T13:58:57.530128343+01:00"
+    "last_review": "2026-11-13T07:51:48.365371813+01:00"
   },
   "c_hu_nl_hétfő_eerste_dag_van_de_week": {
     "step_index": 0,
@@ -1352,20 +1292,20 @@
     "last_review": "2026-11-04T13:21:00.873018938+01:00"
   },
   "c_hu_nl_hőmérséklet": {
-    "step_index": 3,
-    "next_review": "2026-11-12T04:00:00+01:00",
+    "step_index": 4,
+    "next_review": "2026-12-25T04:00:00+01:00",
     "first_review": "2026-10-20T19:14:53.322118392+02:00",
-    "last_review": "2026-10-27T19:49:48.334434101+01:00"
+    "last_review": "2026-11-13T07:46:10.940703111+01:00"
   },
   "c_hu_nl_ide_richting_deze_plek": {
     "step_index": 0,
     "next_review": "2026-11-09T21:08:25.345016268+01:00"
   },
   "c_hu_nl_ideges": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T06:55:21.836832782+01:00",
-    "last_review": "2026-11-05T06:59:19.935455704+01:00"
+    "last_review": "2026-11-13T07:59:39.602767364+01:00"
   },
   "c_hu_nl_idevalósi_iemand_uit_deze_plaats": {
     "step_index": 0,
@@ -1444,10 +1384,10 @@
     "last_review": "2026-11-12T07:39:54.944656675+01:00"
   },
   "c_hu_nl_jelent": {
-    "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 1,
+    "next_review": "2026-11-16T04:00:00+01:00",
     "first_review": "2026-10-30T06:56:39.777480216+01:00",
-    "last_review": "2026-11-12T22:21:55.688728775+01:00"
+    "last_review": "2026-11-13T07:45:37.54207144+01:00"
   },
   "c_hu_nl_jobb": {
     "step_index": 3,
@@ -1456,10 +1396,10 @@
     "last_review": "2026-11-10T14:09:39.213219881+01:00"
   },
   "c_hu_nl_jobb_2": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-20T04:00:00+01:00",
     "first_review": "2026-11-02T06:54:07.925778698+01:00",
-    "last_review": "2026-11-10T13:56:19.717528132+01:00"
+    "last_review": "2026-11-13T07:57:10.307965258+01:00"
   },
   "c_hu_nl_jobbra": {
     "step_index": 3,
@@ -1554,10 +1494,10 @@
     "last_review": "2026-11-11T21:45:55.641539297+01:00"
   },
   "c_hu_nl_kap": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T21:03:36.418560119+01:00",
-    "last_review": "2026-11-06T00:36:40.254852487+01:00"
+    "last_review": "2026-11-13T07:46:39.737498105+01:00"
   },
   "c_hu_nl_kapni": {
     "step_index": 2,
@@ -1582,10 +1522,10 @@
     "next_review": "2026-11-09T21:08:25.345019812+01:00"
   },
   "c_hu_nl_kedvenc": {
-    "step_index": 3,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 4,
+    "next_review": "2026-12-25T04:00:00+01:00",
     "first_review": "2026-10-19T13:42:46.842889345+02:00",
-    "last_review": "2026-10-26T20:52:33.190682853+01:00"
+    "last_review": "2026-11-13T07:16:33.822584129+01:00"
   },
   "c_hu_nl_kedves": {
     "step_index": 2,
@@ -1608,10 +1548,10 @@
     "next_review": "2026-11-09T21:08:25.34502008+01:00"
   },
   "c_hu_nl_kerülni_ergens_omheen_gaan": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-19T04:00:00+01:00",
     "first_review": "2026-10-28T21:38:53.18892584+01:00",
-    "last_review": "2026-11-10T14:03:22.357744091+01:00"
+    "last_review": "2026-11-13T07:53:54.130309285+01:00"
   },
   "c_hu_nl_kerülni_werkwoord_-_infinitief": {
     "step_index": 3,
@@ -1718,10 +1658,10 @@
     "next_review": "2026-11-09T21:08:25.34502387+01:00"
   },
   "c_hu_nl_kreatív": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T17:29:14.125767969+01:00",
-    "last_review": "2026-11-05T07:00:39.705281584+01:00"
+    "last_review": "2026-11-13T07:49:23.174618736+01:00"
   },
   "c_hu_nl_kritérium_voorwaarde_of_maatstaf": {
     "step_index": 0,
@@ -1734,10 +1674,10 @@
     "last_review": "2026-11-06T08:08:13.831699437+01:00"
   },
   "c_hu_nl_kukac_2": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T21:02:41.984178934+01:00",
-    "last_review": "2026-11-05T06:56:43.325532901+01:00"
+    "last_review": "2026-11-13T07:57:00.893494716+01:00"
   },
   "c_hu_nl_kulturális_over_kunst_en_theater": {
     "step_index": 0,
@@ -1778,16 +1718,16 @@
     "last_review": "2026-11-06T08:05:06.71450802+01:00"
   },
   "c_hu_nl_kérdez": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-30T06:54:22.117522381+01:00",
-    "last_review": "2026-11-06T00:42:14.500386881+01:00"
+    "last_review": "2026-11-13T07:14:54.331820526+01:00"
   },
   "c_hu_nl_kérem": {
     "step_index": 0,
-    "next_review": "2026-11-10T04:00:00+01:00",
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-10-24T13:07:08.45735443+02:00",
-    "last_review": "2026-11-09T21:54:32.102343048+01:00"
+    "last_review": "2026-11-13T07:47:21.233582977+01:00"
   },
   "c_hu_nl_kérni_werkwoord_-_infinitief": {
     "step_index": 3,
@@ -1930,10 +1870,10 @@
     "next_review": "2026-11-11T21:39:14.636213661+01:00"
   },
   "c_hu_nl_legyen_szíves_weest_u_hartelijk": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T06:49:27.317626097+01:00",
-    "last_review": "2026-11-05T06:58:46.245145488+01:00"
+    "last_review": "2026-11-13T07:48:34.96984687+01:00"
   },
   "c_hu_nl_lehet_het_is_toegestaan_of_mogelijk": {
     "step_index": 0,
@@ -1978,10 +1918,6 @@
     "next_review": "2026-11-30T04:00:00+01:00",
     "first_review": "2026-11-01T21:03:29.405967913+01:00",
     "last_review": "2026-11-12T22:14:40.446410618+01:00"
-  },
-  "c_hu_nl_lányom_bezit_van_mij": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.63621551+01:00"
   },
   "c_hu_nl_lát": {
     "step_index": 2,
@@ -2108,10 +2044,10 @@
     "last_review": "2026-11-11T21:53:44.164633944+01:00"
   },
   "c_hu_nl_meríteni": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-26T20:59:39.329854502+01:00",
-    "last_review": "2026-11-06T00:35:33.361387068+01:00"
+    "last_review": "2026-11-13T07:51:05.568890284+01:00"
   },
   "c_hu_nl_merőkanál": {
     "step_index": 3,
@@ -2156,10 +2092,10 @@
     "next_review": "2026-11-09T21:08:25.345030564+01:00"
   },
   "c_hu_nl_mikulás": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T06:42:56.289536606+01:00",
-    "last_review": "2026-11-05T07:00:55.160901664+01:00"
+    "last_review": "2026-11-13T07:54:51.972783257+01:00"
   },
   "c_hu_nl_milyen": {
     "step_index": 3,
@@ -2266,10 +2202,10 @@
     "last_review": "2026-11-07T23:38:07.003017357+01:00"
   },
   "c_hu_nl_mosolyog": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-21T04:00:00+01:00",
     "first_review": "2026-11-02T17:27:30.249415641+01:00",
-    "last_review": "2026-11-10T14:02:02.038446847+01:00"
+    "last_review": "2026-11-13T07:53:49.385950179+01:00"
   },
   "c_hu_nl_mosolyogni": {
     "step_index": 3,
@@ -2352,10 +2288,10 @@
     "last_review": "2026-11-11T21:53:41.38009212+01:00"
   },
   "c_hu_nl_mérséklet": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-20T04:00:00+01:00",
     "first_review": "2026-10-19T19:15:15.49134282+02:00",
-    "last_review": "2026-11-10T13:57:09.678425036+01:00"
+    "last_review": "2026-11-13T07:59:15.192581693+01:00"
   },
   "c_hu_nl_múzeum_kunst_en_geschiedenis": {
     "step_index": 0,
@@ -2371,14 +2307,6 @@
     "step_index": 0,
     "next_review": "2026-11-11T21:39:14.636210425+01:00"
   },
-  "c_hu_nl_nadrágod_bezit_van_jou": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636210606+01:00"
-  },
-  "c_hu_nl_nadrágom_bezit_van_mij": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.63621077+01:00"
-  },
   "c_hu_nl_nagy": {
     "step_index": 3,
     "next_review": "2026-11-16T04:00:00+01:00",
@@ -2391,15 +2319,11 @@
     "first_review": "2026-11-01T20:35:44.724741642+01:00",
     "last_review": "2026-11-12T07:39:52.341319568+01:00"
   },
-  "c_hu_nl_nagymamám_bezit_van_mij": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636217127+01:00"
-  },
   "c_hu_nl_nagyon": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-01T13:37:49.792692562+01:00",
-    "last_review": "2026-11-06T00:44:11.336205102+01:00"
+    "last_review": "2026-11-13T07:15:06.469888917+01:00"
   },
   "c_hu_nl_nagyváros_zoals_budapest": {
     "step_index": 0,
@@ -2459,14 +2383,6 @@
     "first_review": "2026-10-31T07:34:59.222811977+01:00",
     "last_review": "2026-11-12T22:15:49.707112354+01:00"
   },
-  "c_hu_nl_neve_naam_van_een_man": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636211766+01:00"
-  },
-  "c_hu_nl_neve_naam_van_een_vrouw": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636212021+01:00"
-  },
   "c_hu_nl_nevet": {
     "step_index": 2,
     "next_review": "2026-11-18T04:00:00+01:00",
@@ -2474,10 +2390,10 @@
     "last_review": "2026-11-10T14:09:59.430198915+01:00"
   },
   "c_hu_nl_nevetni": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T06:46:45.656624302+01:00",
-    "last_review": "2026-11-06T00:42:48.211286179+01:00"
+    "last_review": "2026-11-13T07:55:17.014863627+01:00"
   },
   "c_hu_nl_normális": {
     "step_index": 3,
@@ -2490,10 +2406,10 @@
     "next_review": "2026-11-09T21:08:25.345037298+01:00"
   },
   "c_hu_nl_nyelv": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-29T17:19:10.656392591+01:00",
-    "last_review": "2026-11-06T00:40:28.244137625+01:00"
+    "last_review": "2026-11-13T07:55:34.445618541+01:00"
   },
   "c_hu_nl_nyelven_hoeveel_je_er_spreekt": {
     "step_index": 0,
@@ -2520,14 +2436,6 @@
   "c_hu_nl_nyomtató_zet_tekst_op_papier": {
     "step_index": 0,
     "next_review": "2026-11-11T21:39:14.636216275+01:00"
-  },
-  "c_hu_nl_nyomtatója_printer_van_een_man": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636216407+01:00"
-  },
-  "c_hu_nl_nyomtatója_printer_van_een_vrouw": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636216549+01:00"
   },
   "c_hu_nl_nyugat_waar_de_zon_ondergaat": {
     "step_index": 0,
@@ -2647,14 +2555,6 @@
     "step_index": 0,
     "next_review": "2026-11-11T21:39:14.636216682+01:00"
   },
-  "c_hu_nl_orvosa_dokter_van_een_man": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636216818+01:00"
-  },
-  "c_hu_nl_orvosa_dokter_van_een_vrouw": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636216975+01:00"
-  },
   "c_hu_nl_paprika": {
     "step_index": 3,
     "next_review": "2026-11-29T04:00:00+01:00",
@@ -2760,10 +2660,10 @@
     "last_review": "2026-11-09T22:10:48.086922096+01:00"
   },
   "c_hu_nl_rendben": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-01T13:32:05.319843271+01:00",
-    "last_review": "2026-11-05T06:58:55.379799302+01:00"
+    "last_review": "2026-11-13T07:53:57.212546756+01:00"
   },
   "c_hu_nl_rendelő_hier_ontvangt_de_dokter_je": {
     "step_index": 0,
@@ -2830,10 +2730,10 @@
     "last_review": "2026-11-04T13:24:00.121540611+01:00"
   },
   "c_hu_nl_rosszkedvű": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T12:55:44.556067861+01:00",
-    "last_review": "2026-11-06T00:36:48.474606018+01:00"
+    "last_review": "2026-11-13T07:50:30.699786645+01:00"
   },
   "c_hu_nl_rádió": {
     "step_index": 2,
@@ -2848,10 +2748,10 @@
     "last_review": "2026-11-06T00:44:58.353576574+01:00"
   },
   "c_hu_nl_régóta": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-20T04:00:00+01:00",
     "first_review": "2026-11-05T06:42:08.153456483+01:00",
-    "last_review": "2026-11-10T13:45:17.360016727+01:00"
+    "last_review": "2026-11-13T07:47:50.831995025+01:00"
   },
   "c_hu_nl_rövid": {
     "step_index": 3,
@@ -2958,20 +2858,20 @@
     "last_review": "2026-11-07T23:23:40.14349442+01:00"
   },
   "c_hu_nl_szalámi": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T17:27:12.350059302+01:00",
-    "last_review": "2026-11-06T00:37:30.083378166+01:00"
+    "last_review": "2026-11-13T07:50:40.486794396+01:00"
   },
   "c_hu_nl_szavanna_grasvlakte_in_afrika": {
     "step_index": 0,
     "next_review": "2026-11-09T21:08:25.345049879+01:00"
   },
   "c_hu_nl_szedni_nemen": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-27T14:48:30.544029023+01:00",
-    "last_review": "2026-11-06T00:42:44.361218395+01:00"
+    "last_review": "2026-11-13T07:52:49.87497536+01:00"
   },
   "c_hu_nl_szedőkanál": {
     "step_index": 3,
@@ -3064,10 +2964,10 @@
     "next_review": "2026-11-09T21:08:25.345052964+01:00"
   },
   "c_hu_nl_szomszéd": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-01T20:36:21.758120243+01:00",
-    "last_review": "2026-11-05T07:00:23.487895863+01:00"
+    "last_review": "2026-11-13T07:49:45.104809853+01:00"
   },
   "c_hu_nl_szálloda_hier_slaap_je_op_vakantie": {
     "step_index": 0,
@@ -3271,9 +3171,9 @@
   },
   "c_hu_nl_tessék?": {
     "step_index": 0,
-    "next_review": "2026-11-12T04:00:00+01:00",
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-11-02T06:56:15.033122789+01:00",
-    "last_review": "2026-11-11T21:44:46.315215502+01:00"
+    "last_review": "2026-11-13T07:54:30.860244313+01:00"
   },
   "c_hu_nl_teáskanál": {
     "step_index": 3,
@@ -3320,10 +3220,10 @@
     "last_review": "2026-11-07T23:23:35.706113061+01:00"
   },
   "c_hu_nl_tud_werkwoord_·_3e_persoon_enkelvoud_·_vaardigheid": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-21T04:00:00+01:00",
     "first_review": "2026-11-01T20:50:47.395010497+01:00",
-    "last_review": "2026-11-10T13:59:58.653076554+01:00"
+    "last_review": "2026-11-13T07:58:18.18947898+01:00"
   },
   "c_hu_nl_tudni_werkwoord_-_infinitief": {
     "step_index": 3,
@@ -3332,10 +3232,10 @@
     "last_review": "2026-11-10T14:02:29.018350363+01:00"
   },
   "c_hu_nl_tudni_werkwoord_·_infinitief_·_vaardigheid": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T21:05:46.835453109+01:00",
-    "last_review": "2026-11-05T06:58:41.087286632+01:00"
+    "last_review": "2026-11-13T07:49:20.201993263+01:00"
   },
   "c_hu_nl_tulajdonképpen_in_werkelijkheid": {
     "step_index": 0,
@@ -3366,10 +3266,10 @@
     "next_review": "2026-11-09T21:08:25.345055115+01:00"
   },
   "c_hu_nl_típus": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T17:22:14.293484985+01:00",
-    "last_review": "2026-11-05T06:57:07.561864695+01:00"
+    "last_review": "2026-11-13T07:46:05.52671608+01:00"
   },
   "c_hu_nl_tíz": {
     "step_index": 3,
@@ -3382,10 +3282,10 @@
     "next_review": "2026-11-09T21:08:25.345055773+01:00"
   },
   "c_hu_nl_tök": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T21:06:12.687357993+01:00",
-    "last_review": "2026-11-05T06:56:33.069002411+01:00"
+    "last_review": "2026-11-13T07:52:16.292523512+01:00"
   },
   "c_hu_nl_tök_spreektaal": {
     "step_index": 2,
@@ -3648,10 +3548,10 @@
     "next_review": "2026-11-09T21:08:25.34506303+01:00"
   },
   "c_hu_nl_zebra": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-01T13:39:39.752509746+01:00",
-    "last_review": "2026-11-06T00:40:22.529782354+01:00"
+    "last_review": "2026-11-13T07:47:43.524558203+01:00"
   },
   "c_hu_nl_zene": {
     "step_index": 3,
@@ -3676,10 +3576,10 @@
     "next_review": "2026-11-09T21:08:25.345063383+01:00"
   },
   "c_hu_nl_ábécé": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-30T06:49:50.950607653+01:00",
-    "last_review": "2026-11-06T00:36:22.404985389+01:00"
+    "last_review": "2026-11-13T07:50:16.554227164+01:00"
   },
   "c_hu_nl_ágy": {
     "step_index": 3,
@@ -3768,10 +3668,10 @@
     "last_review": "2026-11-11T21:40:14.683982805+01:00"
   },
   "c_hu_nl_él": {
-    "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 1,
+    "next_review": "2026-11-16T04:00:00+01:00",
     "first_review": "2026-11-01T20:34:38.092851426+01:00",
-    "last_review": "2026-11-12T07:44:28.481504367+01:00"
+    "last_review": "2026-11-13T07:47:47.7422632+01:00"
   },
   "c_hu_nl_élelmiszer_eten_en_drinken": {
     "step_index": 0,
@@ -3887,10 +3787,6 @@
     "first_review": "2026-11-02T06:56:30.344608518+01:00",
     "last_review": "2026-11-10T13:57:16.877364866+01:00"
   },
-  "c_hu_nl_öné_bezit_van_de_beleefde_persoon": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636213997+01:00"
-  },
   "c_hu_nl_önök_3e_persoon_meervoud": {
     "step_index": 2,
     "next_review": "2026-11-15T04:00:00+01:00",
@@ -3936,10 +3832,10 @@
     "last_review": "2026-11-11T21:56:23.769278008+01:00"
   },
   "c_hu_nl_úr": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T21:03:39.570698928+01:00",
-    "last_review": "2026-11-05T07:00:50.745536747+01:00"
+    "last_review": "2026-11-13T07:55:46.619202279+01:00"
   },
   "c_hu_nl_úszik_bewegen_in_het_water": {
     "step_index": 0,
@@ -3960,10 +3856,10 @@
     "last_review": "2026-11-08T19:55:54.639918298+01:00"
   },
   "c_hu_nl_ülni_werkwoord_-_infinitief": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-20T04:00:00+01:00",
     "first_review": "2026-10-28T19:47:20.79213207+01:00",
-    "last_review": "2026-11-10T14:03:16.078346009+01:00"
+    "last_review": "2026-11-13T07:54:03.837869626+01:00"
   },
   "c_hu_nl_üveg": {
     "step_index": 2,
@@ -4030,16 +3926,16 @@
     "last_review": "2026-11-08T19:54:12.3693935+01:00"
   },
   "c_nl_hu_afzender": {
-    "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 1,
+    "next_review": "2026-11-16T04:00:00+01:00",
     "first_review": "2026-11-01T20:44:52.73817912+01:00",
-    "last_review": "2026-11-12T22:16:14.975668573+01:00"
+    "last_review": "2026-11-13T07:15:45.323659203+01:00"
   },
   "c_nl_hu_al": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 0,
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-10-28T19:54:22.483192844+01:00",
-    "last_review": "2026-11-05T06:55:17.149993823+01:00"
+    "last_review": "2026-11-13T07:57:31.516393199+01:00"
   },
   "c_nl_hu_al_lang": {
     "step_index": 2,
@@ -4066,10 +3962,10 @@
     "last_review": "2026-11-06T08:09:04.162358902+01:00"
   },
   "c_nl_hu_alleen_zonder_anderen": {
-    "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 1,
+    "next_review": "2026-11-16T04:00:00+01:00",
     "first_review": "2026-11-09T21:17:09.936119288+01:00",
-    "last_review": "2026-11-12T22:24:50.807202062+01:00"
+    "last_review": "2026-11-13T07:16:27.268500808+01:00"
   },
   "c_nl_hu_alles": {
     "step_index": 3,
@@ -4089,15 +3985,15 @@
   },
   "c_nl_hu_ander_overig": {
     "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-11-09T21:16:57.253128112+01:00",
-    "last_review": "2026-11-12T22:26:00.268210901+01:00"
+    "last_review": "2026-11-13T07:56:26.425520975+01:00"
   },
   "c_nl_hu_apart": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-26T20:55:18.62093237+01:00",
-    "last_review": "2026-11-05T06:57:27.368093817+01:00"
+    "last_review": "2026-11-13T07:59:27.348205943+01:00"
   },
   "c_nl_hu_apenstaartje": {
     "step_index": 3,
@@ -4159,15 +4055,15 @@
   },
   "c_nl_hu_banketbakkerij_taart_en_gebak": {
     "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-11-09T21:09:41.626527167+01:00",
-    "last_review": "2026-11-12T07:42:50.586730865+01:00"
+    "last_review": "2026-11-13T07:50:56.993368899+01:00"
   },
   "c_nl_hu_barok_bouwstijl_uit_de_17e_eeuw": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-21T04:00:00+01:00",
     "first_review": "2026-11-09T21:17:18.196712251+01:00",
-    "last_review": "2026-11-10T13:57:34.939832194+01:00"
+    "last_review": "2026-11-13T07:54:55.005741588+01:00"
   },
   "c_nl_hu_bed": {
     "step_index": 3,
@@ -4223,9 +4119,9 @@
   },
   "c_nl_hu_beslist_een_keuze_maken": {
     "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-11-09T22:13:51.840950316+01:00",
-    "last_review": "2026-11-12T07:48:22.084466727+01:00"
+    "last_review": "2026-11-13T07:51:18.360856846+01:00"
   },
   "c_nl_hu_betalen_werkwoord_-_infinitief": {
     "step_index": 3,
@@ -4462,10 +4358,10 @@
     "next_review": "2026-11-09T21:08:25.345038694+01:00"
   },
   "c_nl_hu_daarna_wat_er_vervolgens_gebeurt": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-21T04:00:00+01:00",
     "first_review": "2026-11-09T22:14:55.453756079+01:00",
-    "last_review": "2026-11-10T14:09:12.09720466+01:00"
+    "last_review": "2026-11-13T07:50:47.114765571+01:00"
   },
   "c_nl_hu_daarom": {
     "step_index": 3,
@@ -4486,10 +4382,10 @@
     "next_review": "2026-11-09T21:08:25.345035695+01:00"
   },
   "c_nl_hu_dan": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-01T20:39:12.71523593+01:00",
-    "last_review": "2026-11-05T07:00:31.157586998+01:00"
+    "last_review": "2026-11-13T07:53:09.655897857+01:00"
   },
   "c_nl_hu_dansen_werkwoord_-_infinitief": {
     "step_index": 3,
@@ -4530,10 +4426,10 @@
     "next_review": "2026-11-09T21:08:25.345019184+01:00"
   },
   "c_nl_hu_disco_dansen_tot_laat": {
-    "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 1,
+    "next_review": "2026-11-16T04:00:00+01:00",
     "first_review": "2026-11-09T22:13:58.740832442+01:00",
-    "last_review": "2026-11-12T22:26:07.362339158+01:00"
+    "last_review": "2026-11-13T07:59:11.929856111+01:00"
   },
   "c_nl_hu_dit_aanwijzend": {
     "step_index": 3,
@@ -4542,10 +4438,10 @@
     "last_review": "2026-11-07T23:43:22.450655723+01:00"
   },
   "c_nl_hu_dochter": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T21:06:41.429369815+01:00",
-    "last_review": "2026-11-05T07:00:27.941830745+01:00"
+    "last_review": "2026-11-13T07:55:21.262541266+01:00"
   },
   "c_nl_hu_document": {
     "step_index": 3,
@@ -4579,9 +4475,9 @@
   },
   "c_nl_hu_doorschijnend": {
     "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-10-30T21:12:40.107073067+01:00",
-    "last_review": "2026-11-12T22:19:26.067232154+01:00"
+    "last_review": "2026-11-13T07:58:35.647486475+01:00"
   },
   "c_nl_hu_doorzichtig": {
     "step_index": 1,
@@ -4660,10 +4556,10 @@
     "next_review": "2026-11-09T21:08:25.344999932+01:00"
   },
   "c_nl_hu_eenmaal_één_keer": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-21T04:00:00+01:00",
     "first_review": "2026-11-09T22:13:48.44093495+01:00",
-    "last_review": "2026-11-10T13:47:19.078060794+01:00"
+    "last_review": "2026-11-13T07:14:38.862928302+01:00"
   },
   "c_nl_hu_eergisteren": {
     "step_index": 3,
@@ -4708,10 +4604,10 @@
     "next_review": "2026-11-09T21:08:25.345040693+01:00"
   },
   "c_nl_hu_enkele": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-21T04:00:00+01:00",
     "first_review": "2026-10-29T22:17:15.578610746+01:00",
-    "last_review": "2026-11-10T14:10:41.387906519+01:00"
+    "last_review": "2026-11-13T07:46:51.847401746+01:00"
   },
   "c_nl_hu_erg": {
     "step_index": 3,
@@ -4754,10 +4650,10 @@
     "next_review": "2026-11-09T21:08:25.345044498+01:00"
   },
   "c_nl_hu_fauteuil": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-29T22:07:40.603179662+01:00",
-    "last_review": "2026-11-06T00:37:17.670136558+01:00"
+    "last_review": "2026-11-13T07:52:07.660618613+01:00"
   },
   "c_nl_hu_favoriet": {
     "step_index": 3,
@@ -4798,16 +4694,16 @@
     "last_review": "2026-11-11T21:52:57.694955755+01:00"
   },
   "c_nl_hu_focus": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-11-30T04:00:00+01:00",
     "first_review": "2026-10-29T22:08:06.873703174+01:00",
-    "last_review": "2026-11-06T00:36:00.411424138+01:00"
+    "last_review": "2026-11-13T08:00:04.975987762+01:00"
   },
   "c_nl_hu_foto": {
-    "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 1,
+    "next_review": "2026-11-16T04:00:00+01:00",
     "first_review": "2026-11-01T20:49:02.165201787+01:00",
-    "last_review": "2026-11-12T22:25:36.845398253+01:00"
+    "last_review": "2026-11-13T07:47:39.848889671+01:00"
   },
   "c_nl_hu_fototoestel_hiermee_maak_je_foto's": {
     "step_index": 0,
@@ -4846,10 +4742,10 @@
     "last_review": "2026-11-12T22:20:58.772795432+01:00"
   },
   "c_nl_hu_geheim_zelfstandig_naamwoord": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-21T04:00:00+01:00",
     "first_review": "2026-11-01T20:50:37.541280731+01:00",
-    "last_review": "2026-11-10T14:05:33.838369182+01:00"
+    "last_review": "2026-11-13T07:46:58.049334151+01:00"
   },
   "c_nl_hu_gekleurd_van_een_bepaalde_kleur": {
     "step_index": 0,
@@ -4987,34 +4883,6 @@
     "first_review": "2026-10-30T21:20:52.629787456+01:00",
     "last_review": "2026-11-12T22:25:44.124866401+01:00"
   },
-  "c_nl_hu_haar_dokter_dokter_van_een_vrouw": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636216905+01:00"
-  },
-  "c_nl_hu_haar_huis_huis_van_een_vrouw": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636216059+01:00"
-  },
-  "c_nl_hu_haar_moeder_moeder_van_een_vrouw": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636211519+01:00"
-  },
-  "c_nl_hu_haar_naam_naam_van_een_vrouw": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636211879+01:00"
-  },
-  "c_nl_hu_haar_printer_printer_van_een_vrouw": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636216482+01:00"
-  },
-  "c_nl_hu_haar_tafel_tafel_van_een_vrouw": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636217634+01:00"
-  },
-  "c_nl_hu_haar_vriend_bezit_van_een_vrouw": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636209858+01:00"
-  },
   "c_nl_hu_half_de_helft": {
     "step_index": 0,
     "next_review": "2026-11-09T21:08:25.345005961+01:00"
@@ -5036,10 +4904,10 @@
     "last_review": "2026-11-07T23:36:42.665815368+01:00"
   },
   "c_nl_hu_heet": {
-    "step_index": 3,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 4,
+    "next_review": "2026-12-23T04:00:00+01:00",
     "first_review": "2026-10-20T19:15:39.510200798+02:00",
-    "last_review": "2026-10-27T19:49:31.553277197+01:00"
+    "last_review": "2026-11-13T07:48:18.027297186+01:00"
   },
   "c_nl_hu_helaas": {
     "step_index": 3,
@@ -5086,10 +4954,10 @@
     "last_review": "2026-11-12T07:44:46.020125368+01:00"
   },
   "c_nl_hu_hoe": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-29T22:08:20.971466637+01:00",
-    "last_review": "2026-11-06T00:37:07.285636122+01:00"
+    "last_review": "2026-11-13T07:58:45.355505239+01:00"
   },
   "c_nl_hu_hoe_laat_vraag_naar_het_tijdstip": {
     "step_index": 0,
@@ -5208,10 +5076,10 @@
     "next_review": "2026-11-09T21:08:25.345025387+01:00"
   },
   "c_nl_hu_in_het_hongaars": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-01T20:40:46.751336392+01:00",
-    "last_review": "2026-11-06T00:36:17.29303238+01:00"
+    "last_review": "2026-11-13T07:46:27.86091734+01:00"
   },
   "c_nl_hu_in_het_weekend_wanneer,_zaterdag_en_zondag": {
     "step_index": 0,
@@ -5280,18 +5148,6 @@
     "next_review": "2026-11-27T04:00:00+01:00",
     "first_review": "2026-10-28T19:57:07.020579632+01:00",
     "last_review": "2026-11-09T22:07:39.879480466+01:00"
-  },
-  "c_nl_hu_jouw_broek_bezit_van_jou": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636210533+01:00"
-  },
-  "c_nl_hu_jouw_moedertaal_bezit_van_jou": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636210991+01:00"
-  },
-  "c_nl_hu_jouw_vriend_bezit_van_jou": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636209354+01:00"
   },
   "c_nl_hu_jungle_tropisch_regenwoud": {
     "step_index": 1,
@@ -5388,10 +5244,10 @@
     "next_review": "2026-11-11T21:39:14.636210027+01:00"
   },
   "c_nl_hu_kleurrijk": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-26T20:54:04.312294029+01:00",
-    "last_review": "2026-11-06T00:38:33.274575171+01:00"
+    "last_review": "2026-11-13T08:00:09.954630824+01:00"
   },
   "c_nl_hu_klinker": {
     "step_index": 2,
@@ -5502,10 +5358,10 @@
     "next_review": "2026-11-09T21:08:25.345022243+01:00"
   },
   "c_nl_hu_krant": {
-    "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 1,
+    "next_review": "2026-11-16T04:00:00+01:00",
     "first_review": "2026-10-30T14:20:20.059366684+01:00",
-    "last_review": "2026-11-12T07:47:09.468036303+01:00"
+    "last_review": "2026-11-13T07:46:00.981793313+01:00"
   },
   "c_nl_hu_krijgen": {
     "step_index": 2,
@@ -5534,10 +5390,10 @@
     "last_review": "2026-11-09T22:05:41.643392558+01:00"
   },
   "c_nl_hu_kunstenaar": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-25T21:48:42.210103242+01:00",
-    "last_review": "2026-11-06T00:42:38.4804669+01:00"
+    "last_review": "2026-11-13T07:57:48.217174367+01:00"
   },
   "c_nl_hu_kwart_een_vierde_deel": {
     "step_index": 0,
@@ -5708,10 +5564,10 @@
     "last_review": "2026-11-11T21:51:00.711967583+01:00"
   },
   "c_nl_hu_lunchpauze_pauze_rond_12_uur": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-20T04:00:00+01:00",
     "first_review": "2026-11-09T21:15:41.969319023+01:00",
-    "last_review": "2026-11-10T14:05:52.850813451+01:00"
+    "last_review": "2026-11-13T07:49:55.297860501+01:00"
   },
   "c_nl_hu_luncht_middageten": {
     "step_index": 0,
@@ -5859,34 +5715,6 @@
     "step_index": 0,
     "next_review": "2026-11-09T21:08:25.345000234+01:00"
   },
-  "c_nl_hu_mijn_baas_bezit_van_mij": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636214278+01:00"
-  },
-  "c_nl_hu_mijn_broek_bezit_van_mij": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636210689+01:00"
-  },
-  "c_nl_hu_mijn_dochter_bezit_van_mij": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636215439+01:00"
-  },
-  "c_nl_hu_mijn_moedertaal_bezit_van_mij": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.63621116+01:00"
-  },
-  "c_nl_hu_mijn_oma_bezit_van_mij": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636217045+01:00"
-  },
-  "c_nl_hu_mijn_oudere_broer_bezit_van_mij": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636215736+01:00"
-  },
-  "c_nl_hu_mijn_vriend_bezit_van_mij": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636209491+01:00"
-  },
   "c_nl_hu_minuut": {
     "step_index": 3,
     "next_review": "2026-11-26T04:00:00+01:00",
@@ -5984,20 +5812,20 @@
     "last_review": "2026-11-08T19:52:15.608584037+01:00"
   },
   "c_nl_hu_nacht": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-21T04:00:00+01:00",
     "first_review": "2026-10-29T22:06:34.849295553+01:00",
-    "last_review": "2026-11-10T13:46:49.078713689+01:00"
+    "last_review": "2026-11-13T07:16:40.669158322+01:00"
   },
   "c_nl_hu_namiddag_na_de_lunch": {
     "step_index": 0,
     "next_review": "2026-11-09T21:08:25.344996921+01:00"
   },
   "c_nl_hu_nationaliteit": {
-    "step_index": 0,
-    "next_review": "2026-11-12T04:00:00+01:00",
+    "step_index": 1,
+    "next_review": "2026-11-16T04:00:00+01:00",
     "first_review": "2026-10-28T19:52:00.46315662+01:00",
-    "last_review": "2026-11-11T21:58:53.245817561+01:00"
+    "last_review": "2026-11-13T07:16:20.674917658+01:00"
   },
   "c_nl_hu_nationaliteit_zelfstandig_naamwoord": {
     "step_index": 2,
@@ -6246,10 +6074,10 @@
     "next_review": "2026-11-09T21:08:25.345019446+01:00"
   },
   "c_nl_hu_op_donderdag_wanneer,_vierde_dag_van_de_week": {
-    "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 1,
+    "next_review": "2026-11-16T04:00:00+01:00",
     "first_review": "2026-11-09T21:14:26.951062437+01:00",
-    "last_review": "2026-11-12T22:17:57.631633538+01:00"
+    "last_review": "2026-11-13T07:15:36.240152877+01:00"
   },
   "c_nl_hu_op_maandag_wanneer,_eerste_dag_van_de_week": {
     "step_index": 0,
@@ -6358,10 +6186,10 @@
     "last_review": "2026-11-12T22:21:42.791476207+01:00"
   },
   "c_nl_hu_perfect": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 0,
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-11-01T20:48:32.67622731+01:00",
-    "last_review": "2026-11-06T00:42:56.257410772+01:00"
+    "last_review": "2026-11-13T07:56:00.245591702+01:00"
   },
   "c_nl_hu_perfect_bijwoord": {
     "step_index": 1,
@@ -6476,16 +6304,16 @@
     "last_review": "2026-11-10T14:12:05.429043576+01:00"
   },
   "c_nl_hu_radio": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-30T14:15:11.644187926+01:00",
-    "last_review": "2026-11-06T00:36:28.605658089+01:00"
+    "last_review": "2026-11-13T07:57:17.269120193+01:00"
   },
   "c_nl_hu_recht_niet_krom": {
     "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-11-09T22:16:51.145111036+01:00",
-    "last_review": "2026-11-12T07:43:36.59626239+01:00"
+    "last_review": "2026-11-13T07:51:54.993176141+01:00"
   },
   "c_nl_hu_recht_wat_je_mag_volgens_de_wet": {
     "step_index": 0,
@@ -6502,10 +6330,10 @@
     "last_review": "2026-11-08T12:28:19.597801566+01:00"
   },
   "c_nl_hu_regelmatig": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 0,
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-11-01T20:49:15.957035488+01:00",
-    "last_review": "2026-11-10T13:58:08.097210025+01:00"
+    "last_review": "2026-11-13T07:55:39.411058405+01:00"
   },
   "c_nl_hu_regelmatig_bijvoeglijk,_steeds_op_vaste_momenten": {
     "step_index": 0,
@@ -6588,10 +6416,10 @@
     "next_review": "2026-11-09T21:08:25.345049759+01:00"
   },
   "c_nl_hu_schattig": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-26T20:44:23.915918644+01:00",
-    "last_review": "2026-11-06T00:39:07.524207363+01:00"
+    "last_review": "2026-11-13T07:48:29.054383183+01:00"
   },
   "c_nl_hu_schattig_spreektaal": {
     "step_index": 3,
@@ -6828,16 +6656,16 @@
     "last_review": "2026-11-12T22:16:33.309839849+01:00"
   },
   "c_nl_hu_stilte_geen_enkel_geluid": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-19T04:00:00+01:00",
     "first_review": "2026-11-09T22:13:02.452851502+01:00",
-    "last_review": "2026-11-10T14:07:33.445805798+01:00"
+    "last_review": "2026-11-13T07:54:36.580257904+01:00"
   },
   "c_nl_hu_stinkend_ruikt_slecht": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 0,
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-11-09T21:12:41.219535754+01:00",
-    "last_review": "2026-11-10T13:56:27.162456392+01:00"
+    "last_review": "2026-11-13T07:55:28.239646127+01:00"
   },
   "c_nl_hu_straat": {
     "step_index": 3,
@@ -6851,9 +6679,9 @@
   },
   "c_nl_hu_stroomvoorziening_levering_van_elektriciteit": {
     "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-11-09T22:16:57.539841616+01:00",
-    "last_review": "2026-11-12T22:20:41.456228452+01:00"
+    "last_review": "2026-11-13T07:53:12.741028017+01:00"
   },
   "c_nl_hu_studentenhuis_hier_wonen_studenten": {
     "step_index": 0,
@@ -7042,10 +6870,10 @@
     "next_review": "2026-11-09T21:08:25.345060821+01:00"
   },
   "c_nl_hu_twee_getal_·_voor_een_zelfstandig_naamwoord": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-27T20:46:32.31539507+01:00",
-    "last_review": "2026-11-05T07:00:12.991169212+01:00"
+    "last_review": "2026-11-13T07:54:43.096988062+01:00"
   },
   "c_nl_hu_tweehonderdvierendertig_het_getal_234": {
     "step_index": 0,
@@ -7058,16 +6886,16 @@
     "last_review": "2026-11-06T08:05:17.163486499+01:00"
   },
   "c_nl_hu_u": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-30T21:40:05.345907064+01:00",
-    "last_review": "2026-11-05T06:59:13.289738429+01:00"
+    "last_review": "2026-11-13T07:50:36.343197449+01:00"
   },
   "c_nl_hu_u_3e_persoon_meervoud": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-10-30T21:40:19.586655501+01:00",
-    "last_review": "2026-11-05T06:56:39.52021241+01:00"
+    "last_review": "2026-11-13T07:51:27.138687018+01:00"
   },
   "c_nl_hu_uiterlijk_overtreffende_trap_van_késő": {
     "step_index": 0,
@@ -7092,10 +6920,6 @@
     "next_review": "2026-11-26T04:00:00+01:00",
     "first_review": "2026-11-01T13:28:15.116376174+01:00",
     "last_review": "2026-11-12T22:24:10.672175529+01:00"
-  },
-  "c_nl_hu_uw_baas_bezit_van_de_beleefde_persoon": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636214097+01:00"
   },
   "c_nl_hu_vaak": {
     "step_index": 1,
@@ -7127,19 +6951,11 @@
     "step_index": 0,
     "next_review": "2026-11-09T21:08:25.345016408+01:00"
   },
-  "c_nl_hu_van_mij_bezit_zonder_zelfstandig_naamwoord": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636214425+01:00"
-  },
   "c_nl_hu_van_nationaliteit": {
     "step_index": 2,
     "next_review": "2026-11-19T04:00:00+01:00",
     "first_review": "2026-10-30T20:59:47.549500664+01:00",
     "last_review": "2026-11-12T22:22:44.745619456+01:00"
-  },
-  "c_nl_hu_van_u_bezit_van_de_beleefde_persoon": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636213924+01:00"
   },
   "c_nl_hu_vanaf_hoe_laat_vraag_naar_het_begin": {
     "step_index": 0,
@@ -7152,10 +6968,10 @@
     "last_review": "2026-11-03T13:41:19.03351293+01:00"
   },
   "c_nl_hu_vast": {
-    "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 1,
+    "next_review": "2026-11-16T04:00:00+01:00",
     "first_review": "2026-11-01T20:41:56.289474704+01:00",
-    "last_review": "2026-11-12T22:18:20.975680267+01:00"
+    "last_review": "2026-11-13T07:56:20.380825904+01:00"
   },
   "c_nl_hu_veertig_het_getal_40": {
     "step_index": 0,
@@ -7267,9 +7083,9 @@
   },
   "c_nl_hu_vorm_hoe_iets_eruitziet,_ook_bij_grammatica": {
     "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-11-09T22:13:13.558049352+01:00",
-    "last_review": "2026-11-12T22:25:40.019872258+01:00"
+    "last_review": "2026-11-13T07:48:53.533901523+01:00"
   },
   "c_nl_hu_vraagt": {
     "step_index": 1,
@@ -7306,10 +7122,10 @@
     "next_review": "2026-11-09T21:08:25.345041297+01:00"
   },
   "c_nl_hu_vrolijk": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-21T04:00:00+01:00",
     "first_review": "2026-10-30T21:08:42.576201186+01:00",
-    "last_review": "2026-11-10T14:02:23.95533561+01:00"
+    "last_review": "2026-11-13T07:48:47.636890093+01:00"
   },
   "c_nl_hu_vrouw": {
     "step_index": 3,
@@ -7342,16 +7158,16 @@
     "next_review": "2026-11-09T21:08:25.344989169+01:00"
   },
   "c_nl_hu_waar_wel_of_niet": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T21:06:01.648327685+01:00",
-    "last_review": "2026-11-06T00:36:05.298765304+01:00"
+    "last_review": "2026-11-13T07:46:33.468831271+01:00"
   },
   "c_nl_hu_waarheen": {
-    "step_index": 1,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 2,
+    "next_review": "2026-11-19T04:00:00+01:00",
     "first_review": "2026-10-28T19:52:54.40967978+01:00",
-    "last_review": "2026-11-10T14:12:53.175002797+01:00"
+    "last_review": "2026-11-13T07:58:52.193699953+01:00"
   },
   "c_nl_hu_waarmee_vraag_naar_het_middel": {
     "step_index": 0,
@@ -7374,10 +7190,10 @@
     "last_review": "2026-11-06T09:02:33.786786277+01:00"
   },
   "c_nl_hu_wandelen_werkwoord_·_infinitief": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-02T21:05:54.632621459+01:00",
-    "last_review": "2026-11-05T06:57:56.039910081+01:00"
+    "last_review": "2026-11-13T07:49:41.579212317+01:00"
   },
   "c_nl_hu_wandelt_rustig_lopen_voor_je_plezier": {
     "step_index": 0,
@@ -7410,10 +7226,10 @@
     "last_review": "2026-11-03T13:41:37.577878254+01:00"
   },
   "c_nl_hu_warmte": {
-    "step_index": 3,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 4,
+    "next_review": "2026-12-25T04:00:00+01:00",
     "first_review": "2026-10-19T13:42:41.794646754+02:00",
-    "last_review": "2026-10-26T20:52:01.539368632+01:00"
+    "last_review": "2026-11-13T07:46:18.429543604+01:00"
   },
   "c_nl_hu_wat?": {
     "step_index": 3,
@@ -7442,10 +7258,10 @@
     "next_review": "2026-11-09T21:08:25.345014606+01:00"
   },
   "c_nl_hu_weer": {
-    "step_index": 3,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 4,
+    "next_review": "2026-12-25T04:00:00+01:00",
     "first_review": "2026-10-20T13:42:19.012975589+02:00",
-    "last_review": "2026-10-28T13:13:05.487340871+01:00"
+    "last_review": "2026-11-13T07:59:59.202251655+01:00"
   },
   "c_nl_hu_weet": {
     "step_index": 2,
@@ -7490,10 +7306,10 @@
     "last_review": "2026-11-07T23:42:41.166050056+01:00"
   },
   "c_nl_hu_werkplek": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 3,
+    "next_review": "2026-12-01T04:00:00+01:00",
     "first_review": "2026-11-01T20:42:14.877765448+01:00",
-    "last_review": "2026-11-06T00:40:58.688711604+01:00"
+    "last_review": "2026-11-13T07:49:34.446653272+01:00"
   },
   "c_nl_hu_werktijd_de_uren_dat_je_werkt": {
     "step_index": 0,
@@ -7539,9 +7355,9 @@
   },
   "c_nl_hu_winkelcentrum_veel_winkels_onder_één_dak": {
     "step_index": 0,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-11-09T21:16:22.376177313+01:00",
-    "last_review": "2026-11-12T07:39:57.964082121+01:00"
+    "last_review": "2026-11-13T07:52:19.50899397+01:00"
   },
   "c_nl_hu_woensdag_derde_dag_van_de_week": {
     "step_index": 0,
@@ -7608,10 +7424,10 @@
     "last_review": "2026-11-06T08:07:52.748642812+01:00"
   },
   "c_nl_hu_zeker": {
-    "step_index": 2,
-    "next_review": "2026-11-13T04:00:00+01:00",
+    "step_index": 0,
+    "next_review": "2026-11-14T04:00:00+01:00",
     "first_review": "2026-11-01T20:39:39.796469842+01:00",
-    "last_review": "2026-11-05T06:58:52.165028219+01:00"
+    "last_review": "2026-11-13T07:49:14.603103645+01:00"
   },
   "c_nl_hu_zelden_niet_vaak": {
     "step_index": 0,
@@ -7665,33 +7481,9 @@
     "first_review": "2026-10-25T06:26:32.459510698+01:00",
     "last_review": "2026-11-12T22:18:36.404763537+01:00"
   },
-  "c_nl_hu_zijn_dokter_dokter_van_een_man": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636216751+01:00"
-  },
-  "c_nl_hu_zijn_huis_huis_van_een_man": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636215875+01:00"
-  },
   "c_nl_hu_zijn_moeder_moeder_van_een_man": {
     "step_index": 0,
     "next_review": "2026-11-11T21:39:14.636211364+01:00"
-  },
-  "c_nl_hu_zijn_naam_naam_van_een_man": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636211673+01:00"
-  },
-  "c_nl_hu_zijn_printer_printer_van_een_man": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636216342+01:00"
-  },
-  "c_nl_hu_zijn_tafel_tafel_van_een_man": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636217478+01:00"
-  },
-  "c_nl_hu_zijn_vriend_bezit_van_een_man": {
-    "step_index": 0,
-    "next_review": "2026-11-11T21:39:14.636209675+01:00"
   },
   "c_nl_hu_zijn_werkwoord_-_infinitief": {
     "step_index": 3,
