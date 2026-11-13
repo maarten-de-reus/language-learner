@@ -3,9 +3,7 @@
 package quiz
 
 import (
-	"errors"
 	"slices"
-	"strings"
 	"time"
 
 	"hungarian-language-learner/internal/engine"
@@ -28,31 +26,6 @@ type Card struct {
 	RunSize  int    `json:"runSize"`
 	Retry    bool   `json:"retry"`             // oefenherhaling binnen de run, telt niet mee voor de planning
 	Example  string `json:"example,omitempty"` // alleen als de zin in de taal van de vraag is en dus het antwoord niet verraadt
-}
-
-// Feedback is de uitslag van het laatst gegeven antwoord
-type Feedback struct {
-	Correct    bool      `json:"correct"`
-	AccentOnly bool      `json:"accentOnly"`
-	Input      string    `json:"input"`
-	Expected   []string  `json:"expected"`
-	Step       int       `json:"step"`
-	NextReview time.Time `json:"nextReview"`
-	Retry      bool      `json:"retry"`      // dit was een oefenherhaling
-	WillRetry  bool      `json:"willRetry"`  // het concept komt aan het eind van de run nog een keer
-	Unknown    bool      `json:"unknown"`    // "Weet ik niet": geen antwoord gegeven
-	Typo       bool      `json:"typo"`       // goed, maar met één tikfout (alleen naar het Nederlands)
-	Overridden bool      `json:"overridden"` // fout nagekeken, maar met "Toch goed" alsnog goedgerekend
-	Example    string    `json:"example,omitempty"`
-	// OtherMeaning is gevuld als het antwoord een goede vertaling is van een ándere betekenis
-	// van hetzelfde woord (bijv. idő -> "tijd" terwijl "weer" bedoeld is). Het telt als fout.
-	OtherMeaning *OtherMeaning `json:"otherMeaning,omitempty"`
-}
-
-// OtherMeaning beschrijft de andere betekenis waar het antwoord bij hoort
-type OtherMeaning struct {
-	Answer  string `json:"answer"`
-	Context string `json:"context"`
 }
 
 // Result is één beantwoord concept binnen de huidige run; Correct gaat over de eerste poging
@@ -106,29 +79,6 @@ func (s *Session) Forget(ids ...string) {
 	s.run, s.pos = kept, pos
 }
 
-// Stats geeft een overzicht van alle concepten
-type Stats struct {
-	Mode      engine.Mode                    `json:"mode"` // herhalen of nieuwe woorden leren
-	Total     int                            `json:"total"`
-	Due       int                            `json:"due"`    // herhalingen die vandaag aan de beurt zijn
-	DueNew    int                            `json:"dueNew"` // nieuwe woorden die je vandaag nog kunt leren
-	Steps     [len(engine.AnkiIntervals)]int `json:"steps"`
-	Intervals [len(engine.AnkiIntervals)]int `json:"intervals"`
-	NextDue   *time.Time                     `json:"nextDue"`
-
-	// Nieuwe woorden: wachtrij en dagelijkse limiet
-	NewQueue int `json:"newQueue"` // nieuwe woorden die nog nooit gevraagd zijn
-	// woorden in de wachtrij die nog niet goedgekeurd zijn: die komen pas in de les na controle.
-	// Een woord telt één keer, ook al heeft het twee richtingen (zoals op het tabblad Controleren).
-	NewUnverified int `json:"newUnverified"`
-	NewToday      int `json:"newToday"`  // vandaag voor het eerst gevraagd
-	NewPerDay     int `json:"newPerDay"` // ingestelde limiet; 0 = geen limiet
-	NewLeft       int `json:"newLeft"`   // vandaag nog toegestaan, inclusief extra; -1 = geen limiet
-	// Nieuwe woorden die vandaag nog zouden kunnen komen als de limiet het toeliet (zonder de
-	// andere richting van woorden die vandaag al gevraagd zijn); bepaalt of "Nog 10" zin heeft
-	NewAvailable int `json:"newAvailable"`
-}
-
 // Session is niet veilig voor gelijktijdig gebruik; de aanroeper zorgt voor locking.
 type Session struct {
 	lib          *storage.Library // gedeeld met het beheer; na verwijderen roept het beheer Forget aan
@@ -163,71 +113,6 @@ func New(lib *storage.Library, progressPath string, runSize int) *Session {
 	return s
 }
 
-// SetMode kiest tussen herhalen en nieuwe woorden leren en begint een run in die modus. Een
-// halve run gaat verloren, maar wat nog niet beantwoord is blijft gewoon aan de beurt.
-// false bij een onbekende modus.
-func (s *Session) SetMode(m engine.Mode) bool {
-	if m != engine.ModeReview && m != engine.ModeNew {
-		return false
-	}
-	if m != s.mode || s.Done() {
-		s.mode = m
-		s.startRun()
-	}
-	return true
-}
-
-// SetNewPerDay stelt de dagelijkse limiet voor nieuwe woorden in (0 = geen limiet).
-// Is er in de huidige run nog niets beantwoord, dan wordt die opnieuw samengesteld.
-func (s *Session) SetNewPerDay(n int) {
-	s.newPerDay = n
-	if s.pos == 0 && s.feedback == nil && len(s.results) == 0 {
-		s.startRun()
-	}
-}
-
-// AddExtraNew staat vandaag n extra nieuwe woorden toe en gaat naar nieuwe woorden leren.
-// Is de run klaar, dan begint er meteen een nieuwe met die woorden.
-func (s *Session) AddExtraNew(n int) {
-	today := engine.DayOf(time.Now())
-	if !s.extraDay.Equal(today) {
-		s.extraNew, s.extraDay = 0, today
-	}
-	// Altijd n méér dan wat er nu al geïntroduceerd is, ook als je vandaag al over de limiet zit
-	if used := s.introducedOn(today); s.newPerDay+s.extraNew < used {
-		s.extraNew = used - s.newPerDay
-	}
-	s.extraNew += n
-	if s.mode != engine.ModeNew || s.Done() {
-		s.mode = engine.ModeNew
-		s.startRun()
-	}
-}
-
-// newAllowance is het aantal nieuwe woorden dat vandaag nog mag; engine.Unlimited zonder limiet
-func (s *Session) newAllowance(now time.Time) int {
-	if s.newPerDay == 0 {
-		return engine.Unlimited
-	}
-	today := engine.DayOf(now)
-	allowed := s.newPerDay
-	if s.extraDay.Equal(today) {
-		allowed += s.extraNew
-	}
-	return max(0, allowed-s.introducedOn(today))
-}
-
-// introducedOn telt de concepten die op deze herhaaldag voor het eerst gevraagd zijn
-func (s *Session) introducedOn(day time.Time) int {
-	n := 0
-	for _, c := range s.lib.Concepts {
-		if !engine.IsNew(c) && engine.DayOf(c.FirstReview.In(day.Location())).Equal(day) {
-			n++
-		}
-	}
-	return n
-}
-
 // load telt per herhaaldag hoeveel concepten er gepland staan, voor de spreiding van herhalingen
 func (s *Session) load(except string) engine.Load {
 	counts := map[time.Time]int{}
@@ -241,9 +126,6 @@ func (s *Session) load(except string) engine.Load {
 
 // Done is true als de run klaar is (of leeg was omdat er niets te herhalen viel)
 func (s *Session) Done() bool { return s.pos >= len(s.run) }
-
-// Feedback geeft de uitslag van het huidige concept, of nil als het nog niet beantwoord is
-func (s *Session) Feedback() *Feedback { return s.feedback }
 
 // Results geeft de antwoorden van de huidige run
 func (s *Session) Results() []Result { return s.results }
@@ -274,242 +156,6 @@ func (s *Session) Current() *Card {
 	return card
 }
 
-// Answer kijkt het antwoord op het huidige concept na.
-// Bij een eerste poging wordt de voortgang bijgewerkt en opgeslagen; bij een oefenherhaling niet.
-// Een fout antwoord zet het concept (maximaal MaxRetries keer) achteraan de run.
-// Geeft nil terug als er niets na te kijken valt (run klaar, of al beantwoord).
-// Een fout betekent dat opslaan of het antwoordenlog mislukte; de voortgang is in het geheugen wel bijgewerkt.
-func (s *Session) Answer(input string) (*Feedback, error) {
-	return s.answer(input, false)
-}
-
-// DontKnow is "Weet ik niet": het telt als fout (ook voor de planning), maar in het log staat
-// dat je het niet wist in plaats van een gok
-func (s *Session) DontKnow() (*Feedback, error) {
-	return s.answer("", true)
-}
-
-func (s *Session) answer(input string, unknown bool) (*Feedback, error) {
-	if s.Done() || s.feedback != nil {
-		return nil, nil
-	}
-
-	item := s.run[s.pos]
-	concept := s.conceptOf(item)
-	expected := s.targetTexts(concept)
-	var correct, accentOnly, typo bool
-	if !unknown {
-		correct, accentOnly, typo = s.check(concept, input, expected)
-	}
-	stepBefore := concept.StepIndex
-	s.undo = progress{step: concept.StepIndex, next: concept.NextReview}
-
-	var saveErr error
-	if item.retry == 0 {
-		if engine.IsNew(*concept) {
-			concept.FirstReview = time.Now() // uit de wachtrij: telt mee voor de daglimiet
-		}
-		concept.LastReview = time.Now() // de andere richting van dit woord wacht nu tot morgen
-		outcome := engine.Wrong
-		if correct {
-			outcome = engine.Correct
-		} else if accentOnly {
-			outcome = engine.AccentOnly
-		}
-		engine.UpdateProgressSmart(concept, outcome, s.load(concept.ID))
-		saveErr = s.Save()
-		item.result = len(s.results)
-		s.results = append(s.results, Result{
-			Prompt:   s.lib.Words[concept.SourceWordID].Text,
-			Input:    input,
-			Expected: expected,
-			Correct:  correct,
-		})
-	} else {
-		r := &s.results[item.result]
-		r.Retries = item.retry
-		r.RetryCorrect = correct
-	}
-
-	willRetry := !correct && item.retry < MaxRetries
-	if willRetry {
-		s.run = append(s.run, runItem{conceptID: item.conceptID, retry: item.retry + 1, result: item.result})
-	}
-
-	s.feedback = &Feedback{
-		Correct:    correct,
-		AccentOnly: accentOnly,
-		Input:      input,
-		Expected:   expected,
-		Step:       concept.StepIndex,
-		NextReview: concept.NextReview,
-		Retry:      item.retry > 0,
-		WillRetry:  willRetry,
-		Unknown:    unknown,
-		Typo:       typo,
-		Example:    concept.Example,
-	}
-	if !correct && !unknown {
-		s.feedback.OtherMeaning = s.otherMeaning(concept, input)
-	}
-	return s.feedback, errors.Join(saveErr, s.logReview(concept, input, stepBefore))
-}
-
-// logReview schrijft het zojuist gegeven antwoord in het antwoordenlog (als dat ingesteld is)
-func (s *Session) logReview(c *storage.TranslationConcept, input string, stepBefore int) error {
-	if s.reviewLog == nil {
-		return nil
-	}
-	fb := s.feedback
-	return s.reviewLog.Append(storage.Review{
-		Time:         time.Now(),
-		ConceptID:    c.ID,
-		Input:        input,
-		Correct:      fb.Correct,
-		AccentOnly:   fb.AccentOnly,
-		OtherMeaning: fb.OtherMeaning != nil,
-		Unknown:      fb.Unknown,
-		Typo:         fb.Typo,
-		Retry:        fb.Retry,
-		StepBefore:   stepBefore,
-		StepAfter:    c.StepIndex,
-		NextReview:   c.NextReview,
-	})
-}
-
-// PracticeResult is de uitslag van een oefenantwoord buiten de planning (Kaarten)
-type PracticeResult struct {
-	Correct      bool          `json:"correct"`
-	AccentOnly   bool          `json:"accentOnly"`
-	Typo         bool          `json:"typo"`
-	Expected     []string      `json:"expected"`
-	OtherMeaning *OtherMeaning `json:"otherMeaning,omitempty"`
-}
-
-// Practice kijkt een antwoord na zoals Answer, maar verandert niets: geen voortgang, geen log
-// en de lopende run blijft zoals hij is. ok is false als het concept niet bestaat.
-func (s *Session) Practice(conceptID, input string) (res PracticeResult, ok bool) {
-	i := s.lib.Index(conceptID)
-	if i < 0 {
-		return res, false
-	}
-	concept := &s.lib.Concepts[i]
-	res.Expected = s.targetTexts(concept)
-	res.Correct, res.AccentOnly, res.Typo = s.check(concept, input, res.Expected)
-	if !res.Correct {
-		res.OtherMeaning = s.otherMeaning(concept, input)
-	}
-	return res, true
-}
-
-// check kijkt een antwoord na. Naar het Nederlands telt één tikfout als goed (typo): je kende het
-// woord, je typte het alleen net verkeerd. Niet als je antwoord zelf een woord uit je lijst is
-// (meer i.p.v. weer): dan bedoelde je waarschijnlijk dat andere woord. Naar het Hongaars niet:
-// daar is de spelling juist wat je leert, en één letter is vaak een ander woord (ül / öl).
-func (s *Session) check(c *storage.TranslationConcept, input string, expected []string) (correct, accentOnly, typo bool) {
-	correct, accentOnly = engine.CheckAnswer(input, expected)
-	if correct || accentOnly || len(c.TargetWordIDs) == 0 || s.lib.Words[c.TargetWordIDs[0]].Language != "nl" || s.isWord("nl", input) {
-		return correct, accentOnly, false
-	}
-	if _, ok := engine.Typo(input, expected); ok {
-		return true, false, true
-	}
-	return false, false, false
-}
-
-// unverifiedWords telt de woorden die de wachtrij blokkeren: met een nieuwe kaart die nog niet
-// goedgekeurd is. De richtingen van een woord tellen samen één keer, zoals op het tabblad Controleren.
-func (s *Session) unverifiedWords() int {
-	bySource := map[string][]int{}
-	for i, c := range s.lib.Concepts {
-		bySource[c.SourceWordID] = append(bySource[c.SourceWordID], i)
-	}
-	counted := map[string]bool{}
-	n := 0
-	for _, c := range s.lib.Concepts {
-		if !engine.IsNew(c) || c.Verified || counted[c.ID] {
-			continue
-		}
-		n++
-		counted[c.ID] = true
-		for _, t := range c.TargetWordIDs { // de omgekeerde richting(en) horen bij hetzelfde woord
-			for _, j := range bySource[t] {
-				if o := s.lib.Concepts[j]; slices.Contains(o.TargetWordIDs, c.SourceWordID) {
-					counted[o.ID] = true
-				}
-			}
-		}
-	}
-	return n
-}
-
-// isWord is true als text een woord in deze taal uit de woordenschat is
-func (s *Session) isWord(lang, text string) bool {
-	want := engine.Fold(text)
-	for _, w := range s.lib.Words {
-		if w.Language == lang && engine.Fold(w.Text) == want {
-			return true
-		}
-	}
-	return false
-}
-
-// Override is "Toch goed": het laatste foute antwoord telt alsnog als goed, bijv. een tikfout die
-// de controle niet herkende of een synoniem dat niet in de lijst staat. Bij een eerste poging
-// wordt de planning teruggedraaid en als goed verwerkt; de herhaling aan het eind vervalt.
-// Geeft nil als er niets terug te draaien is (al goed, "Weet ik niet" of nog niet beantwoord).
-func (s *Session) Override() (*Feedback, error) {
-	fb := s.feedback
-	if fb == nil || fb.Correct || fb.Unknown {
-		return nil, nil
-	}
-	item := s.run[s.pos]
-	concept := s.conceptOf(item)
-	if concept == nil {
-		return nil, nil
-	}
-	var saveErr error
-	if item.retry == 0 {
-		concept.StepIndex, concept.NextReview = s.undo.step, s.undo.next
-		engine.UpdateProgressSmart(concept, engine.Correct, s.load(concept.ID))
-		saveErr = s.Save()
-		s.results[item.result].Correct = true
-	} else {
-		s.results[item.result].RetryCorrect = true
-	}
-	if fb.WillRetry {
-		s.run = s.run[:len(s.run)-1] // de herhaling die bij dit antwoord achteraan is gezet
-	}
-	fb.Correct, fb.AccentOnly, fb.OtherMeaning, fb.WillRetry, fb.Overridden = true, false, nil, false, true
-	fb.Step, fb.NextReview = concept.StepIndex, concept.NextReview
-
-	var logErr error
-	if s.reviewLog != nil {
-		logErr = s.reviewLog.Append(storage.Review{
-			Time: time.Now(), ConceptID: concept.ID, Input: fb.Input, Correct: true, Override: true, Retry: fb.Retry,
-			StepBefore: s.undo.step, StepAfter: concept.StepIndex, NextReview: concept.NextReview,
-		})
-	}
-	return fb, errors.Join(saveErr, logErr)
-}
-
-// otherMeaning zoekt een ander concept met hetzelfde bronwoord (taal + tekst, niet het ID)
-// waarvoor de invoer wél het goede antwoord is
-func (s *Session) otherMeaning(current *storage.TranslationConcept, input string) *OtherMeaning {
-	src := s.lib.Words[current.SourceWordID]
-	for _, c := range s.lib.Concepts {
-		other := s.lib.Words[c.SourceWordID]
-		if c.ID == current.ID || other.Language != src.Language || !strings.EqualFold(strings.TrimSpace(other.Text), strings.TrimSpace(src.Text)) {
-			continue
-		}
-		targets := s.targetTexts(&c)
-		if ok, _ := engine.CheckAnswer(input, targets); ok {
-			return &OtherMeaning{Answer: strings.Join(targets, ", "), Context: c.ContextSource}
-		}
-	}
-	return nil
-}
-
 // Next gaat naar het volgende concept; kan alleen nadat het huidige beantwoord is
 func (s *Session) Next() bool {
 	if s.feedback == nil {
@@ -532,38 +178,6 @@ func (s *Session) NewRun() bool {
 // Save schrijft de voortgang van alle concepten weg
 func (s *Session) Save() error {
 	return storage.SaveProgress(s.progressPath, s.lib.Concepts)
-}
-
-// Stats telt per stap en bepaalt hoeveel er nu klaarstaan en wanneer de volgende herhaling is
-func (s *Session) Stats() Stats {
-	now := time.Now()
-	st := Stats{Mode: s.mode, Total: len(s.lib.Concepts), Intervals: engine.AnkiIntervals, NewPerDay: s.newPerDay}
-	st.NewLeft = s.newAllowance(now)
-	st.NewToday = s.introducedOn(engine.DayOf(now))
-	for _, c := range s.lib.Concepts {
-		if engine.IsNew(c) {
-			// Nieuwe woorden staan in de wachtrij; ze tellen niet mee als stap of geplande herhaling
-			st.NewQueue++
-			continue
-		}
-		if c.StepIndex >= 0 && c.StepIndex < len(st.Steps) {
-			st.Steps[c.StepIndex]++
-		}
-		if !c.NextReview.Before(now) && (st.NextDue == nil || c.NextReview.Before(*st.NextDue)) {
-			t := c.NextReview
-			st.NextDue = &t
-		}
-	}
-	st.NewUnverified = s.unverifiedWords()
-	// Te doen vandaag: precies wat de rondes per modus nog kunnen geven
-	st.Due = len(engine.Candidates(s.lib.Concepts, now, engine.ModeReview, 0))
-	st.DueNew = len(engine.Candidates(s.lib.Concepts, now, engine.ModeNew, st.NewLeft))
-	for _, c := range engine.DueCandidates(s.lib.Concepts, now, engine.Unlimited) {
-		if engine.IsNew(c) {
-			st.NewAvailable++
-		}
-	}
-	return st
 }
 
 func (s *Session) startRun() {

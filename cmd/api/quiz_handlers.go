@@ -1,3 +1,5 @@
+// De endpoints van het oefenen: antwoorden, Toch goed, de modus, en nakijken in Kaarten.
+
 package main
 
 import (
@@ -5,36 +7,11 @@ import (
 	"errors"
 	"log"
 	"net/http"
-	"sync"
 
 	"hungarian-language-learner/internal/catalog"
 	"hungarian-language-learner/internal/engine"
 	"hungarian-language-learner/internal/quiz"
-	"hungarian-language-learner/internal/storage"
 )
-
-// server is de HTTP-laag rond de woordenschat en één quiz-sessie;
-// mu beschermt beide tegen gelijktijdige requests
-type server struct {
-	mu           sync.Mutex
-	lib          *storage.Library
-	wordsPath    string
-	reviewsPath  string
-	settingsPath string
-	settings     storage.Settings
-	session      *quiz.Session
-	saveError    string
-}
-
-// handle voert een actie uit onder de lock en stuurt daarna de actuele staat terug
-func (s *server) handle(action func()) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		s.mu.Lock()
-		defer s.mu.Unlock()
-		action()
-		s.writeState(w)
-	}
-}
 
 func (s *server) handleAnswer(w http.ResponseWriter, r *http.Request) {
 	var body struct {
