@@ -1,12 +1,14 @@
-"use strict";
+// Beheer: zoeken, bladeren, bewerken en toevoegen van woorden, plus de instelling voor nieuwe woorden.
 
-// Beheer: zoeken, bladeren, bewerken en toevoegen van concepten.
-// Gebruikt de helpers uit app.js (esc, highlight, relative, days, LANG, ACCENTS, renderStats, act).
+import { ACCENTS, LANG, esc, fold, insertAtCursor, relative } from "./util.js";
+import { api, toast } from "./api.js";
+import { refreshStats } from "./quiz.js";
+import { bindGroupPicker, groupDatalistHTML, groupPickerHTML, groupState, knownGroups, pendingGroups } from "./groups.js";
+import { bindImport, closeImport, imp, importPanelHTML, openImport } from "./import.js";
 
-const manageEl = document.getElementById("manage");
-const toastEl = document.getElementById("toast");
+export const manageEl = document.getElementById("manage");
 
-const view = {
+export const view = {
   entries: [],
   query: "",
   direction: "all", // all | nl-hu | hu-nl
@@ -29,41 +31,8 @@ const MANAGE_PAGE = 50; // rijen per keer: alle 1500 in één keer maakt het sch
 
 let lastHuInput = null; // invoerveld waar de accentknoppen in typen
 
-// ---------- API ----------
-
-async function api(method, path, body) {
-  // Alle wijzigingen gaan als JSON: de server weigert andere verzoeken (bescherming tegen CSRF)
-  const res = await fetch(path, method === "GET" ? { method } : {
-    method,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body ?? {}),
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    const msg = data.error || `Serverfout (${res.status})`;
-    throw new Error(msg.charAt(0).toUpperCase() + msg.slice(1) + (/[.!?]$/.test(msg) ? "" : "."));
-  }
-  return data;
-}
-
-async function refreshStats() {
-  try {
-    const st = await api("GET", "/api/state");
-    renderStats(st.stats);
-  } catch { /* statistiek is bijzaak */ }
-}
-
-function toast(msg) {
-  toastEl.textContent = msg;
-  toastEl.hidden = false;
-  clearTimeout(toast.timer);
-  toast.timer = setTimeout(() => (toastEl.hidden = true), Math.max(2600, msg.length * 60)); // langere tekst blijft langer staan
-}
-
 // ---------- Zoeken & filteren ----------
 
-// fold: kleine letters zonder accenten, zodat "ido" ook "idő" vindt
-const fold = (s) => String(s ?? "").normalize("NFD").replace(/\p{M}/gu, "").toLowerCase().trim();
 
 // markFold markeert de zoekterm in de tekst, ook als de accenten verschillen ("ido" in "idő")
 function markFold(text, query) {
@@ -120,7 +89,7 @@ function count(pred) {
 
 // ---------- Weergave ----------
 
-function renderManage() {
+export function renderManage() {
   const list = filtered();
   // Andere zoekterm of filters: weer de eerste bladzijde. Een geopende of net toegevoegde kaart
   // moet wel in beeld blijven, ook als die verder in de lijst staat.
@@ -228,7 +197,7 @@ function rowHTML(e) {
     </li>`;
 }
 
-function accentBar() {
+export function accentBar() {
   return `<div class="accents m-accents" aria-label="Hongaarse tekens">
     ${ACCENTS.map((a) => `<button type="button" data-char="${a}" tabindex="-1">${a}</button>`).join("")}
   </div>`;
@@ -673,48 +642,18 @@ document.addEventListener("keydown", (e) => {
   renderManage();
 });
 
-// ---------- Tabs ----------
-
-async function showTab() {
-  const tab = { "#beheer": "beheer", "#statistiek": "statistiek", "#kaarten": "kaarten", "#controleren": "controleren" }[location.hash] ?? "oefenen";
-  manageEl.hidden = tab !== "beheer";
-  statsEl.hidden = tab !== "statistiek";
-  cardsEl.hidden = tab !== "kaarten";
-  reviewEl.hidden = tab !== "controleren";
-  app.hidden = tab !== "oefenen";
-  document.getElementById("quiz-foot").hidden = tab !== "oefenen";
-  document.getElementById("mode-switch").hidden = tab !== "oefenen";
-  // De voortgangsbalk hoort bij oefenen en statistiek; elders kost hij alleen ruimte
-  document.getElementById("steps").hidden = tab !== "oefenen" && tab !== "statistiek";
-  document.body.classList.toggle("mode-manage", tab !== "oefenen");
-  for (const t of ["oefenen", "kaarten", "statistiek", "beheer", "controleren"]) {
-    document.getElementById(`tab-${t}`).setAttribute("aria-current", t === tab ? "page" : "false");
-  }
-
-  if (tab === "beheer") {
-    manageEl.innerHTML = `<div class="skeleton"></div>`;
-    try {
-      const [concepts, settings] = await Promise.all([api("GET", "/api/concepts"), api("GET", "/api/settings")]);
-      view.entries = concepts.entries;
-      view.newPerDay = settings.newPerDay;
-      renderManage();
-      refreshStats();
-      // Komend vanuit de statistiek: het gekozen woord openklappen
-      manageEl.querySelector(".m-row.open")?.scrollIntoView({ block: "center" });
-    } catch (err) {
-      manageEl.innerHTML = `<p class="error">Kon de woorden niet laden: ${esc(err.message)}</p>`;
-    }
-  } else if (tab === "statistiek") {
-    showStatistics();
-  } else if (tab === "kaarten") {
-    showCards();
-  } else if (tab === "controleren") {
-    showReview();
-  } else {
-    renderedCardId = null; // kaart opnieuw opbouwen, er kunnen concepten bijgekomen zijn
-    act("/api/state");
+// showManage opent het beheer: woorden en instelling laden, dan de lijst tonen
+export async function showManage() {
+  manageEl.innerHTML = `<div class="skeleton"></div>`;
+  try {
+    const [concepts, settings] = await Promise.all([api("GET", "/api/concepts"), api("GET", "/api/settings")]);
+    view.entries = concepts.entries;
+    view.newPerDay = settings.newPerDay;
+    renderManage();
+    refreshStats();
+    // Komend vanuit de statistiek: het gekozen woord openklappen
+    manageEl.querySelector(".m-row.open")?.scrollIntoView({ block: "center" });
+  } catch (err) {
+    manageEl.innerHTML = `<p class="error">Kon de woorden niet laden: ${esc(err.message)}</p>`;
   }
 }
-
-window.addEventListener("hashchange", showTab);
-showTab();

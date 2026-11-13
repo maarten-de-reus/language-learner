@@ -92,6 +92,8 @@ internal/stats/     statistics computed from the answer log and current progress
 internal/storage/   JSON files, progress and the answer log
 ```
 
+The frontend in `cmd/api/web/` uses plain ES modules, no build step: `main.js` switches between the tabs, each tab has its own module (`quiz.js` Oefenen, `cards.js`, `stats.js`, `manage.js` with `import.js` and `groups.js`, `review.js`), and `api.js` / `util.js` hold what they share. Every module imports what it uses, so nothing depends on global names.
+
 ## Credits
 
 Built by Maarten de Reus together with [Claude](https://claude.com/claude-code) (Anthropic).

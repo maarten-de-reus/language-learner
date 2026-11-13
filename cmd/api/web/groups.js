@@ -1,25 +1,25 @@
-"use strict";
-
 // Groepenkiezer voor het beheer: gekozen groepen als chips, plus een invoerveld met suggesties
 // van bestaande groepen. Enter of komma voegt de getypte naam toe (spaties mogen), × haalt weg.
 // Een naam die nog niet bestaat wordt bij het opslaan een nieuwe groep.
-// Gebruikt esc uit app.js en view uit manage.js.
 
-const groupState = {}; // per kiezer ("new", "edit", "import"): de gekozen namen
+import { esc } from "./util.js";
+import { manageEl, view } from "./manage.js";
+
+export const groupState = {}; // per kiezer ("new", "edit", "import"): de gekozen namen
 
 // knownGroups telt de groepen in de woordenlijst, voor suggesties en het filter
-function knownGroups() {
+export function knownGroups() {
   const counts = new Map();
   for (const e of view.entries) for (const g of e.groups || []) counts.set(g, (counts.get(g) || 0) + 1);
   return [...counts].map(([name, count]) => ({ name, count }))
     .sort((a, b) => a.name.localeCompare(b.name, "nl", { sensitivity: "base" }));
 }
 
-function groupDatalistHTML() {
+export function groupDatalistHTML() {
   return `<datalist id="g-list">${knownGroups().map((g) => `<option value="${esc(g.name)}">`).join("")}</datalist>`;
 }
 
-function groupPickerHTML(id, label = "Groepen") {
+export function groupPickerHTML(id, label = "Groepen") {
   return `
     <div class="m-field">
       <span>${label}</span>
@@ -37,7 +37,7 @@ function groupChipsHTML(id) {
     <span class="g-chip">${esc(g)}<button type="button" data-remove-group="${esc(g)}" aria-label="${esc(g)} verwijderen">×</button></span>`).join("");
 }
 
-function bindGroupPicker(id) {
+export function bindGroupPicker(id) {
   const picker = manageEl.querySelector(`[data-picker="${id}"]`);
   if (!picker) return;
   const input = picker.querySelector("[data-group-input]");
@@ -84,7 +84,7 @@ function bindGroupPicker(id) {
 }
 
 // pendingGroups neemt ook een nog niet bevestigde getypte naam mee
-function pendingGroups(id) {
+export function pendingGroups(id) {
   const input = manageEl.querySelector(`[data-picker="${id}"] [data-group-input]`);
   const typed = input?.value.trim();
   return [...(groupState[id] || []), ...(typed ? typed.split(",").map((s) => s.trim()).filter(Boolean) : [])];

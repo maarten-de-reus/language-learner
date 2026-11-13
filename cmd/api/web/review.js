@@ -1,8 +1,10 @@
-"use strict";
-
 // Controleren: iemand anders kijkt de woorden na voordat ze in de les komen. Goedkeuren, een
 // opmerking geven (dan blijft het woord wachten) of in Beheer verbeteren.
-// Gebruikt helpers uit app.js (esc, LANG) en manage.js (api, view, refreshStats, toast).
+
+import { esc, fold } from "./util.js";
+import { api, toast } from "./api.js";
+import { refreshStats } from "./quiz.js";
+import { view } from "./manage.js";
 
 const reviewEl = document.getElementById("review");
 const REVIEW_PAGE = 30;
@@ -16,7 +18,7 @@ const rv = {
   current: null, // woord waar de sneltoetsen op werken
 };
 
-async function showReview() {
+export async function showReview() {
   reviewEl.innerHTML = `<div class="skeleton"></div>`;
   refreshStats();
   try {

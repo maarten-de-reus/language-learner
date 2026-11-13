@@ -1,10 +1,13 @@
-"use strict";
-
 // Importeren in het beheer: een lijst plakken (hongaars;nederlands;context;voorbeeldzin),
 // controleren, keuzes maken en dan alles in één keer toevoegen.
-// Gebruikt helpers uit app.js (esc) en manage.js (api, view, renderManage, toast, refreshStats, field).
 
-const imp = {
+import { esc } from "./util.js";
+import { api, toast } from "./api.js";
+import { refreshStats } from "./quiz.js";
+import { groupPickerHTML, groupState, pendingGroups } from "./groups.js";
+import { accentBar, renderManage, view } from "./manage.js";
+
+export const imp = {
   open: false,
   text: "",
   check: null, // laatste controle-uitkomst van de server
@@ -18,7 +21,7 @@ const imp = {
 
 const IMPORT_EXAMPLE = "olvas;leest;werkwoord · 3e persoon enkelvoud;Ő sokat olvas.\nolvasni;lezen;werkwoord · infinitief\npad,kanapé;bank;meubel";
 
-function importPanelHTML() {
+export function importPanelHTML() {
   const c = imp.check;
   return `
     <form class="m-new card m-import" id="m-import">
@@ -176,7 +179,7 @@ function importChoiceHTML(r) {
 
 // Koppelt het formulier één keer: keuzes, hints, filters en overslaan gaan via event delegation,
 // zodat het voorbeeld opnieuw opgebouwd kan worden zonder alles opnieuw te koppelen
-function bindImport() {
+export function bindImport() {
   const form = document.getElementById("m-import");
   if (!form) return;
   const text = document.getElementById("imp-text");
@@ -318,7 +321,7 @@ async function runImport() {
   }
 }
 
-function openImport() {
+export function openImport() {
   imp.open = true;
   groupState.import = [];
   view.adding = false;
@@ -327,7 +330,7 @@ function openImport() {
   document.getElementById("imp-text").focus();
 }
 
-function closeImport() {
+export function closeImport() {
   Object.assign(imp, { open: false, text: "", check: null, choices: {}, filter: null, anchor: null });
   imp.touched.clear();
   renderManage();

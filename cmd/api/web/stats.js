@@ -1,7 +1,9 @@
-"use strict";
-
 // Statistiek: reeks, score, activiteit, vooruitblik, moeilijkste woorden en het effect van herhalen.
-// Gebruikt helpers uit app.js (esc, days) en manage.js (api, refreshStats, view).
+
+import { LANG, esc } from "./util.js";
+import { api } from "./api.js";
+import { renderStats } from "./quiz.js";
+import { view } from "./manage.js";
 
 const statsEl = document.getElementById("stats");
 
@@ -12,7 +14,7 @@ const dayLabel = (iso, opts = { day: "numeric", month: "short" }) => {
 const pct = (x) => `${Math.round(x * 100)}%`;
 const times = (n) => (n === 1 ? "1 keer" : `${n} keer`);
 
-async function showStatistics() {
+export async function showStatistics() {
   statsEl.innerHTML = `<div class="skeleton"></div>`;
   try {
     const [report, quiz] = await Promise.all([api("GET", "/api/stats"), api("GET", "/api/state")]);

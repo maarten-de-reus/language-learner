@@ -1,8 +1,9 @@
-"use strict";
-
 // Kaarten: woorden vooraf oefenen (bijv. een nieuwe import) met omdraaibare flashcards.
 // Staat los van de spaced repetition: er wordt niets opgeslagen en niets uit de wachtrij gehaald.
-// Gebruikt helpers uit app.js (esc, highlight, LANG) en manage.js (api).
+
+import { ACCENTS, LANG, esc, highlight, insertAtCursor, pulse, shake } from "./util.js";
+import { api, toast } from "./api.js";
+import { refreshStats } from "./quiz.js";
 
 const cardsEl = document.getElementById("cards");
 const FC_DIRECTIONS = [
@@ -80,7 +81,7 @@ function fcRecall() {
 
 // ---------- Schermen ----------
 
-async function showCards() {
+export async function showCards() {
   cardsEl.innerHTML = `<div class="skeleton"></div>`;
   refreshStats(); // kop en stappenbalk bijwerken, net als op de andere tabbladen
   try {

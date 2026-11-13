@@ -1,8 +1,8 @@
-"use strict";
+// Oefenen: de quizkaart, het nakijken, het eindscherm van een ronde, en de kop met tellers en
+// voortgangsbalk (die ook de andere tabbladen bijwerken met refreshStats).
 
-const LANG = { nl: "Nederlands", hu: "Hongaars", en: "Engels" };
-const ACCENTS = ["á", "é", "í", "ó", "ö", "ő", "ú", "ü", "ű"];
-const rtf = new Intl.RelativeTimeFormat("nl", { numeric: "auto" });
+import { ACCENTS, LANG, days, esc, highlight, insertAtCursor, pulse, relative, shake } from "./util.js";
+import { api } from "./api.js";
 
 const app = document.getElementById("app");
 const errorBox = document.getElementById("error");
@@ -12,43 +12,12 @@ let state = null;
 let busy = false;
 let renderedCardId = null;
 
+// zoveel nieuwe woorden geeft de knop "Nog … nieuwe woorden" (ExtraNewWords in cmd/api/main.go)
+const EXTRA_NEW = 10;
+
 // ---------- Helpers ----------
 
-const esc = (s) =>
-  String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
-// Een herhaaldag begint om 04:00, net als op de server (engine.DayStartHour)
-const EXTRA_NEW = 10; // zoveel nieuwe woorden geeft de knop "Nog … nieuwe woorden" (ExtraNewWords in main.go)
-const DAY_START_HOUR = 4;
-
-// relative toont wanneer een herhaling is, in herhaaldagen: "morgen", "over 3 dagen".
-// Binnen dezelfde herhaaldag in uren of minuten.
-function relative(iso) {
-  const t = new Date(iso);
-  const ms = t - Date.now();
-  if (ms <= 0) return "nu";
-  const reviewDay = (d) => {
-    const shifted = new Date(d.getTime() - DAY_START_HOUR * 3600000);
-    return Date.UTC(shifted.getFullYear(), shifted.getMonth(), shifted.getDate());
-  };
-  const days = Math.round((reviewDay(t) - reviewDay(new Date())) / 86400000);
-  if (days > 0) return rtf.format(days, "day");
-  if (ms < 3600000) return rtf.format(Math.max(1, Math.round(ms / 60000)), "minute");
-  return rtf.format(Math.round(ms / 3600000), "hour");
-}
-
-// highlight markeert de woorden in een (ge-escapete) voorbeeldzin, hoofdletterongevoelig
-function highlight(sentence, words) {
-  let html = esc(sentence);
-  for (const w of words) {
-    if (!w || !w.trim()) continue;
-    const re = new RegExp(esc(w.trim()).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "giu");
-    html = html.replace(re, (m) => `<mark>${m}</mark>`);
-  }
-  return html;
-}
-
-const days = (n) => (n === 1 ? "1 dag" : `${n} dagen`);
 
 async function call(path, body) {
   // Alle wijzigingen gaan als JSON: de server weigert andere POSTs (bescherming tegen CSRF)
@@ -77,6 +46,20 @@ async function act(path, body) {
   }
 }
 
+// refreshStats werkt de kop (tellers en voortgangsbalk) bij, vanaf elk tabblad
+export async function refreshStats() {
+  try {
+    const st = await api("GET", "/api/state");
+    renderStats(st.stats);
+  } catch { /* statistiek is bijzaak */ }
+}
+
+// showQuiz opent Oefenen; de kaart wordt opnieuw opgebouwd, er kunnen woorden bijgekomen zijn
+export async function showQuiz() {
+  renderedCardId = null;
+  await act("/api/state");
+}
+
 // ---------- Stats ----------
 
 // Herhalen of nieuwe woorden leren: twee knoppen boven de kaart, met wat er vandaag nog kan
@@ -90,7 +73,7 @@ function renderModes(stats) {
     b.addEventListener("click", () => act("/api/mode", { mode: b.dataset.mode })));
 }
 
-function renderStats(stats) {
+export function renderStats(stats) {
   renderModes(stats);
   // Op het tabblad Controleren: hoeveel kaarten in de wachtrij nog op controle wachten
   const rvCount = document.getElementById("rv-count");
@@ -199,14 +182,6 @@ function renderCard(card) {
   input.focus();
 }
 
-function insertAtCursor(input, text) {
-  if (input.disabled) return;
-  const { selectionStart: s, selectionEnd: e, value } = input;
-  input.value = value.slice(0, s) + text + value.slice(e);
-  input.setSelectionRange(s + text.length, s + text.length);
-  input.focus();
-}
-
 function renderFeedback(fb) {
   const slot = document.getElementById("feedback-slot");
   const input = document.getElementById("answer");
@@ -272,18 +247,6 @@ function renderFeedback(fb) {
   const next = document.getElementById("next");
   next.addEventListener("click", () => act("/api/next"));
   next.focus();
-}
-
-function shake(el) {
-  el.classList.remove("shake");
-  void el.offsetWidth;
-  el.classList.add("shake");
-}
-
-function pulse(el) {
-  el.classList.remove("pop");
-  void el.offsetWidth;
-  el.classList.add("pop");
 }
 
 // ---------- Run finished ----------
