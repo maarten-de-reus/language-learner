@@ -41,7 +41,7 @@ func TestChunkNeverContainsBothDirections(t *testing.T) {
 		}
 		for i, a := range chunk {
 			for _, b := range chunk[i+1:] {
-				if reverseOf(a, b) {
+				if storage.Related(a, b) {
 					t.Fatalf("beide richtingen in één run: %s en %s", a.ID, b.ID)
 				}
 			}
@@ -359,7 +359,7 @@ func TestNewWordsOneDirectionPerDay(t *testing.T) {
 	}
 	for i, a := range cands {
 		for _, b := range cands[i+1:] {
-			if reverseOf(a, b) {
+			if storage.Related(a, b) {
 				t.Fatalf("beide richtingen van een nieuw woord op één dag: %s en %s", a.ID, b.ID)
 			}
 		}

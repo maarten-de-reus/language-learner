@@ -177,14 +177,15 @@ func targetLang(lib *storage.Library, c storage.TranslationConcept) string {
 	return lib.Words[c.TargetWordIDs[0]].Language
 }
 
-// reverseIDs zoekt de concepten die de omgekeerde richting van c zijn: hun bronwoord is een
-// antwoord van c, en het bronwoord van c is een van hun antwoorden
+// reverseIDs geeft de ID's van de omgekeerde richting(en) van c (zie storage.Reverses)
 func reverseIDs(lib *storage.Library, c storage.TranslationConcept) []string {
-	var ids []string
-	for _, o := range lib.Concepts {
-		if o.ID != c.ID && slices.Contains(c.TargetWordIDs, o.SourceWordID) && slices.Contains(o.TargetWordIDs, c.SourceWordID) {
-			ids = append(ids, o.ID)
-		}
+	return idsAt(lib, storage.NewReverses(lib.Concepts).Of(c))
+}
+
+func idsAt(lib *storage.Library, idx []int) []string {
+	ids := make([]string, 0, len(idx))
+	for _, i := range idx {
+		ids = append(ids, lib.Concepts[i].ID)
 	}
 	return ids
 }

@@ -167,32 +167,15 @@ func IsNew(c storage.TranslationConcept) bool {
 // heeft niets aan kávé -> koffie een paar minuten later; die komt morgen.
 func Buried(all []storage.TranslationConcept, now time.Time) map[string]bool {
 	today := DayOf(now)
-	bySource := map[string][]int{}
-	byTarget := map[string][]int{}
-	for i, c := range all {
-		bySource[c.SourceWordID] = append(bySource[c.SourceWordID], i)
-		for _, t := range c.TargetWordIDs {
-			byTarget[t] = append(byTarget[t], i)
-		}
-	}
+	related := storage.NewReverses(all)
 	buried := map[string]bool{}
 	for _, r := range all {
 		if r.LastReview.IsZero() || !DayOf(r.LastReview.In(now.Location())).Equal(today) {
 			continue
 		}
-		mark := func(i int) {
-			if all[i].ID != r.ID {
-				buried[all[i].ID] = true
-			}
-		}
-		// Omgekeerde richtingen: hun bronwoord is een antwoord van r, of r's bronwoord is hun antwoord
-		for _, t := range r.TargetWordIDs {
-			for _, i := range bySource[t] {
-				mark(i)
-			}
-		}
-		for _, i := range byTarget[r.SourceWordID] {
-			mark(i)
+		// Ook kaarten die r maar van één kant raken: die verklappen het antwoord net zo goed
+		for _, i := range related.Related(r) {
+			buried[all[i].ID] = true
 		}
 	}
 	return buried
@@ -232,7 +215,7 @@ func DueCandidates(all []storage.TranslationConcept, now time.Time, newAllowance
 		if newAllowance != Unlimited && len(fresh) >= newAllowance {
 			break
 		}
-		if slices.ContainsFunc(fresh, func(o storage.TranslationConcept) bool { return reverseOf(c, o) }) {
+		if slices.ContainsFunc(fresh, func(o storage.TranslationConcept) bool { return storage.Related(c, o) }) {
 			continue // andere richting van een woord dat vandaag al nieuw binnenkomt
 		}
 		fresh = append(fresh, c)
@@ -280,16 +263,11 @@ func chunkFrom(dueWords []storage.TranslationConcept, chunkSize int) (currentChu
 		if len(currentChunk) == chunkSize {
 			break
 		}
-		if slices.ContainsFunc(currentChunk, func(other storage.TranslationConcept) bool { return reverseOf(c, other) }) {
+		if slices.ContainsFunc(currentChunk, func(other storage.TranslationConcept) bool { return storage.Related(c, other) }) {
 			continue
 		}
 		currentChunk = append(currentChunk, c)
 	}
 
 	return currentChunk, len(dueWords) - len(currentChunk)
-}
-
-// reverseOf is true als de twee concepten elkaars omgekeerde richting zijn (bijv. koffie -> kávé en kávé -> koffie)
-func reverseOf(a, b storage.TranslationConcept) bool {
-	return slices.Contains(a.TargetWordIDs, b.SourceWordID) || slices.Contains(b.TargetWordIDs, a.SourceWordID)
 }

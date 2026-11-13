@@ -3,10 +3,10 @@
 package quiz
 
 import (
-	"slices"
 	"time"
 
 	"hungarian-language-learner/internal/engine"
+	"hungarian-language-learner/internal/storage"
 )
 
 // Stats geeft een overzicht van alle concepten
@@ -35,10 +35,7 @@ type Stats struct {
 // unverifiedWords telt de woorden die de wachtrij blokkeren: met een nieuwe kaart die nog niet
 // goedgekeurd is. De richtingen van een woord tellen samen één keer, zoals op het tabblad Controleren.
 func (s *Session) unverifiedWords() int {
-	bySource := map[string][]int{}
-	for i, c := range s.lib.Concepts {
-		bySource[c.SourceWordID] = append(bySource[c.SourceWordID], i)
-	}
+	reverses := storage.NewReverses(s.lib.Concepts)
 	counted := map[string]bool{}
 	n := 0
 	for _, c := range s.lib.Concepts {
@@ -47,12 +44,8 @@ func (s *Session) unverifiedWords() int {
 		}
 		n++
 		counted[c.ID] = true
-		for _, t := range c.TargetWordIDs { // de omgekeerde richting(en) horen bij hetzelfde woord
-			for _, j := range bySource[t] {
-				if o := s.lib.Concepts[j]; slices.Contains(o.TargetWordIDs, c.SourceWordID) {
-					counted[o.ID] = true
-				}
-			}
+		for _, i := range reverses.Of(c) { // de omgekeerde richting(en) horen bij hetzelfde woord
+			counted[s.lib.Concepts[i].ID] = true
 		}
 	}
 	return n

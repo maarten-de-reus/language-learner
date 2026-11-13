@@ -43,27 +43,15 @@ func Entries(lib *storage.Library) []Entry {
 	return entriesOf(lib, all)
 }
 
-// entriesOf maakt de Entry's van de concepten op deze posities, gesorteerd zoals Entries.
-// De omgekeerde richtingen worden via een index op bronwoord gezocht: per concept alle andere
-// concepten doorlopen kost bij een import met veel keuzes al snel seconden.
+// entriesOf maakt de Entry's van de concepten op deze posities, gesorteerd zoals Entries. De
+// omgekeerde richtingen komen uit één opzoektabel: per concept alle andere concepten doorlopen
+// kost bij een import met veel keuzes al snel seconden.
 func entriesOf(lib *storage.Library, idx []int) []Entry {
 	meanings := map[string]int{}
-	bySource := map[string][]int{}
-	for i, c := range lib.Concepts {
+	for _, c := range lib.Concepts {
 		meanings[meaningKey(lib, c)]++
-		bySource[c.SourceWordID] = append(bySource[c.SourceWordID], i)
 	}
-	reverse := func(c storage.TranslationConcept) []string {
-		var ids []string
-		for _, t := range c.TargetWordIDs {
-			for _, j := range bySource[t] {
-				if o := lib.Concepts[j]; o.ID != c.ID && slices.Contains(o.TargetWordIDs, c.SourceWordID) && !slices.Contains(ids, o.ID) {
-					ids = append(ids, o.ID)
-				}
-			}
-		}
-		return ids
-	}
+	reverses := storage.NewReverses(lib.Concepts)
 
 	entries := make([]Entry, 0, len(idx))
 	for _, i := range idx {
@@ -78,7 +66,7 @@ func entriesOf(lib *storage.Library, idx []int) []Entry {
 			Answers:    TargetTexts(lib, c),
 			Example:    c.Example,
 			Meanings:   meanings[meaningKey(lib, c)],
-			Reverse:    reverse(c),
+			Reverse:    idsAt(lib, reverses.Of(c)),
 			New:        c.FirstReview.IsZero(),
 			Groups:     append([]string{}, c.Groups...),
 			Verified:   c.Verified,
