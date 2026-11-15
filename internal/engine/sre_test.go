@@ -400,3 +400,48 @@ func TestUnverifiedWaitAndPriorityGoesFirst(t *testing.T) {
 		t.Errorf("verwacht herhalingen, dan het woord met voorrang, dan het eerste goedgekeurde nieuwe woord:\n kreeg    %v\n verwacht %v", ids, want)
 	}
 }
+
+func TestMasteredAfterFourTimesRightAtNinetyDays(t *testing.T) {
+	now := time.Date(2026, 10, 20, 21, 0, 0, 0, time.Local)
+	c := storage.TranslationConcept{StepIndex: TopStep - 1, NextReview: now.Add(-time.Hour)}
+
+	updateProgress(&c, Correct, now, nil) // 40 -> 90 dagen: telt nog niet mee
+	if c.StepIndex != TopStep || c.TopStreak != 0 {
+		t.Fatalf("van 40 naar 90 dagen, teller nog 0: %+v", c)
+	}
+	for i := 1; i < MasterAfter; i++ {
+		c.NextReview = now.Add(-time.Hour)
+		updateProgress(&c, Correct, now, nil)
+		if c.StepIndex != TopStep || c.TopStreak != i {
+			t.Fatalf("na %d keer goed op 90 dagen: nog op 90 met teller %d, kreeg %+v", i, i, c)
+		}
+	}
+
+	// Fout tussendoor: terug naar 16 dagen, de telling begint opnieuw
+	fail := c
+	updateProgress(&fail, Wrong, now, nil)
+	if fail.StepIndex != TopStep-LapseSteps || fail.TopStreak != 0 {
+		t.Errorf("fout op 90 dagen: 2 stappen terug en teller 0, kreeg %+v", fail)
+	}
+
+	c.NextReview = now.Add(-time.Hour)
+	updateProgress(&c, Correct, now, nil)
+	lo, hi := IntervalRange(MasteredStep)
+	if days := DaysBetween(DayOf(now), DayOf(c.NextReview)); c.StepIndex != MasteredStep || c.TopStreak != 0 || days < lo || days > hi {
+		t.Fatalf("de %de keer goed: beheerst, controle over ongeveer een jaar (%d-%d dagen), kreeg %+v", MasterAfter, lo, hi, c)
+	}
+
+	// Beheerst en goed bij de jaarlijkse controle: blijft beheerst
+	c.NextReview = now.Add(-time.Hour)
+	updateProgress(&c, Correct, now, nil)
+	if c.StepIndex != MasteredStep {
+		t.Errorf("goed bij de controle: blijft beheerst, kreeg %+v", c)
+	}
+	// Fout bij de controle: terug naar 40 dagen; accentfout: naar 90 dagen
+	wrong, accentSlip := c, c
+	updateProgress(&wrong, Wrong, now, nil)
+	updateProgress(&accentSlip, AccentOnly, now, nil)
+	if wrong.StepIndex != MasteredStep-LapseSteps || accentSlip.StepIndex != MasteredStep-AccentLapseSteps {
+		t.Errorf("fout bij de controle: naar 40 dagen (kreeg %d), accentfout naar 90 (kreeg %d)", wrong.StepIndex, accentSlip.StepIndex)
+	}
+}

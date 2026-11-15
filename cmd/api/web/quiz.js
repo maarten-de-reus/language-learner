@@ -1,7 +1,7 @@
 // Oefenen: de quizkaart, het nakijken, het eindscherm van een ronde, en de kop met tellers en
 // voortgangsbalk (die ook de andere tabbladen bijwerken met refreshStats).
 
-import { ACCENTS, LANG, days, esc, highlight, insertAtCursor, pulse, relative, shake } from "./util.js";
+import { ACCENTS, LANG, MASTERED_STEP, days, esc, highlight, insertAtCursor, pulse, relative, shake } from "./util.js";
 import { api } from "./api.js";
 
 const app = document.getElementById("app");
@@ -11,6 +11,9 @@ const tooltip = document.getElementById("tooltip");
 let state = null;
 let busy = false;
 let renderedCardId = null;
+
+// zoveel keer achter elkaar goed op 90 dagen tot beheerst (engine.MasterAfter)
+const MASTERED_AFTER = 4;
 
 // zoveel nieuwe woorden geeft de knop "Nog … nieuwe woorden" (ExtraNewWords in cmd/api/main.go)
 const EXTRA_NEW = 10;
@@ -91,12 +94,12 @@ export function renderStats(stats) {
     .map((n, i) => n === 0 ? "" :
       `<div class="seg" style="flex-grow:${n};background:var(--s${i})" data-step="${i}"></div>`)
     .join("");
-  bar.setAttribute("aria-label", stats.steps
-    .map((n, i) => `${n} kaarten met interval ${days(stats.intervals[i])}`).join(", "));
+  const stepName = (i) => (i === MASTERED_STEP ? "beheerst (controle eens per jaar)" : `interval ${days(stats.intervals[i])}`);
+  bar.setAttribute("aria-label", stats.steps.map((n, i) => `${n} kaarten ${stepName(i)}`).join(", "));
 
   legend.innerHTML = stats.steps
     .map((n, i) => `<li>
-      <span class="lbl"><span class="dot" style="background:var(--s${i})"></span>${stats.intervals[i]}d</span>
+      <span class="lbl"><span class="dot" style="background:var(--s${i})"></span>${i === MASTERED_STEP ? "★" : `${stats.intervals[i]}d`}</span>
       <span class="num">${n}</span></li>`)
     .join("");
 
@@ -104,7 +107,7 @@ export function renderStats(stats) {
     seg.addEventListener("mousemove", (e) => {
       const i = Number(seg.dataset.step);
       const n = stats.steps[i];
-      tooltip.textContent = `${n} kaarten · interval ${days(stats.intervals[i])} · ${Math.round((n / total) * 100)}%`;
+      tooltip.textContent = `${n} kaarten · ${stepName(i)} · ${Math.round((n / total) * 100)}%`;
       const box = seg.closest(".steps").getBoundingClientRect();
       tooltip.style.left = `${e.clientX - box.left}px`;
       tooltip.style.top = `${e.clientY - box.top - 10}px`;
@@ -131,6 +134,7 @@ function renderCard(card) {
         <span class="chip">${esc(LANG[card.from] || card.from)} → ${esc(LANG[card.to] || card.to)}</span>
         ${card.retry
           ? `<span class="chip retry">↻ Herhaling · telt niet mee voor de planning</span>`
+          : card.step === MASTERED_STEP ? `<span class="gold-badge">★ beheerst · jaarlijkse controle</span>`
           : `<span class="chip"><span class="dot" style="background:var(--s${card.step})"></span>interval ${days(interval)}</span>`}
         ${card.context ? `<span class="chip">${esc(card.context)}</span>` : ""}
       </div>
@@ -208,7 +212,8 @@ function renderFeedback(fb) {
 
   const answers = fb.expected.map((x) => `<span class="answer">${esc(x)}</span>`).join(" of ");
   const isLast = state.card.position === state.card.runSize;
-  const title = fb.overridden ? "Goedgerekend"
+  const title = fb.mastered ? "🏆 Beheerst!"
+    : fb.overridden ? "Goedgerekend"
     : fb.typo ? "Goed, met een tikfout"
     : fb.correct
     ? (fb.retry ? "Goed! Morgen volgt de echte test." : "Goed zo!")
@@ -216,8 +221,8 @@ function renderFeedback(fb) {
     : (fb.retry ? "Nog niet goed" : "Helaas, niet goed");
 
   slot.innerHTML = `
-    <div class="feedback ${fb.correct ? "good" : "bad"}" role="status">
-      <span class="icon" aria-hidden="true">${fb.correct ? "✓" : "✕"}</span>
+    <div class="feedback ${fb.correct ? "good" : "bad"} ${fb.mastered ? "mastered" : ""}" role="status">
+      <span class="icon" aria-hidden="true">${fb.mastered ? "★" : fb.correct ? "✓" : "✕"}</span>
       <div>
         <strong>${title}</strong>
         ${fb.typo || fb.overridden
@@ -225,7 +230,10 @@ function renderFeedback(fb) {
           : fb.correct
           ? (fb.expected.length > 1 ? `<p>Ook goed: ${answers}</p>` : "")
           : `<p>Het juiste antwoord: ${answers}</p>`}
-        <p>Volgende herhaling ${esc(relative(fb.nextReview))} · interval ${days(state.stats.intervals[fb.step])}</p>
+        ${fb.mastered
+          ? `<p>${MASTERED_AFTER} keer achter elkaar goed op 90 dagen. Voortaan nog één controle per jaar.</p>`
+          : `<p>Volgende herhaling ${esc(relative(fb.nextReview))} · ${fb.step === MASTERED_STEP ? "beheerst" : `interval ${days(state.stats.intervals[fb.step])}`}</p>`}
+        ${fb.topLeft ? `<p class="top-left">Nog ${fb.topLeft}× goed op 90 dagen tot ★ beheerst</p>` : ""}
         ${fb.otherMeaning ? `<p class="hint">Klopt, <b>${esc(state.card.prompt)}</b> kan ook
           ‘${esc(fb.otherMeaning.answer)}’ betekenen${fb.otherMeaning.context ? ` (${esc(fb.otherMeaning.context)})` : ""},
           maar hier wordt ‘${esc(fb.expected.join(", "))}’ bedoeld.</p>` : ""}
@@ -241,6 +249,7 @@ function renderFeedback(fb) {
     </div>`;
 
   const card = document.getElementById("card");
+  card.classList.toggle("mastered", !!fb.mastered);
   fb.correct ? pulse(card) : shake(card);
 
   document.getElementById("override")?.addEventListener("click", () => act("/api/override"));
@@ -327,8 +336,8 @@ function renderDone() {
         <p class="muted">${more}</p>
         <ul class="results">
           ${results.map((r) => `
-            <li class="${r.correct ? "ok" : "ko"}">
-              <span class="mark">${r.correct ? "✓" : "✕"}</span>
+            <li class="${r.correct ? "ok" : "ko"} ${r.mastered ? "mastered" : ""}">
+              <span class="mark">${r.mastered ? "★" : r.correct ? "✓" : "✕"}</span>
               <span class="src">${esc(r.prompt)}</span>
               <span class="exp">${r.correct ? "" : r.input ? `<span class="yours">${esc(r.input)}</span>` : `<span class="muted">weet ik niet · </span>`}${esc(r.expected.join(", "))}</span>
               ${r.retries > 0 ? `<span class="retry-note ${r.retryCorrect ? "ok" : "ko"}">${retryNote(r)}</span>` : ""}

@@ -36,12 +36,14 @@ type Result struct {
 	Correct      bool     `json:"correct"`
 	Retries      int      `json:"retries"`      // aantal oefenherhalingen
 	RetryCorrect bool     `json:"retryCorrect"` // bij een herhaling alsnog goed
+	Mastered     bool     `json:"mastered"`     // met dit antwoord beheerst geworden
 }
 
 // progress is de planning van een concept, om een antwoord terug te kunnen draaien
 type progress struct {
-	step int
-	next time.Time
+	step      int
+	next      time.Time
+	topStreak int
 }
 
 // runItem is één vraag in de run; retry > 0 betekent een oefenherhaling

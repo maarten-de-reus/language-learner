@@ -1,7 +1,7 @@
 // Kaarten: woorden vooraf oefenen (bijv. een nieuwe import) met omdraaibare flashcards.
 // Staat los van de spaced repetition: er wordt niets opgeslagen en niets uit de wachtrij gehaald.
 
-import { ACCENTS, LANG, esc, highlight, insertAtCursor, pulse, shake } from "./util.js";
+import { ACCENTS, LANG, MASTERED_STEP, esc, highlight, insertAtCursor, pulse, shake } from "./util.js";
 import { api, toast } from "./api.js";
 import { refreshStats } from "./quiz.js";
 
@@ -40,6 +40,7 @@ function fcSets() {
   return [
     { key: "queue", label: "In wachtrij", note: "nieuwe woorden die nog moeten komen", filter: (e) => e.new },
     { key: "wrong", label: "Fout gehad", note: "volgens je antwoorden", filter: (e) => e.wrong > 0 },
+    { key: "mastered", label: "★ Beheerst", note: "woorden die je beheerst", filter: (e) => !e.new && e.step === MASTERED_STEP },
     ...groups.map((g) => ({ key: `g:${g}`, label: g, note: "groep", filter: (e) => (e.groups || []).includes(g) })),
     { key: "all", label: "Alles", note: "je hele woordenlijst", filter: () => true },
   ];

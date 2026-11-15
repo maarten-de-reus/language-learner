@@ -64,3 +64,19 @@ func (s *server) handlePriority(w http.ResponseWriter, r *http.Request) {
 	}
 	writeJSON(w, http.StatusOK, map[string][]string{"ids": ids})
 }
+
+// handleUnmaster zet een beheerst woord terug in de herhalingen (vanuit het beheer)
+func (s *server) handleUnmaster(w http.ResponseWriter, r *http.Request) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	ok, err := s.session.Unmaster(r.PathValue("id"))
+	switch {
+	case err != nil:
+		log.Printf("Terugzetten niet opgeslagen: %v", err)
+		writeError(w, http.StatusInternalServerError, errors.New("voortgang kon niet worden opgeslagen: "+err.Error()))
+	case !ok:
+		writeError(w, http.StatusNotFound, errors.New("geen beheerst woord gevonden"))
+	default:
+		writeJSON(w, http.StatusOK, entriesResponse{Entries: s.entries()})
+	}
+}

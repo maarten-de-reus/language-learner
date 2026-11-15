@@ -1,6 +1,6 @@
 // Beheer: zoeken, bladeren, bewerken en toevoegen van woorden, plus de instelling voor nieuwe woorden.
 
-import { ACCENTS, LANG, esc, fold, insertAtCursor, relative } from "./util.js";
+import { ACCENTS, LANG, MASTERED_STEP, esc, fold, insertAtCursor, relative } from "./util.js";
 import { api, toast } from "./api.js";
 import { refreshStats } from "./quiz.js";
 import { bindGroupPicker, groupDatalistHTML, groupPickerHTML, groupState, knownGroups, pendingGroups } from "./groups.js";
@@ -16,6 +16,7 @@ export const view = {
   onlyNoExample: false,
   onlyWrong: false, // alleen woorden die je ooit fout had (volgens het antwoordenlog)
   onlyNew: false, // alleen woorden in de wachtrij
+  onlyMastered: false, // alleen beheerste woorden
   groupFilter: new Set(), // alleen woorden uit (een van) deze groepen
   newPerDay: null, // instelling, geladen bij het openen van het beheer
   openId: null, // concept dat nu bewerkt wordt
@@ -80,6 +81,7 @@ function filtered() {
     (!view.onlyNoExample || !e.example) &&
     (!view.onlyWrong || e.wrong > 0) &&
     (!view.onlyNew || e.new) &&
+    (!view.onlyMastered || e.step === MASTERED_STEP) &&
     (!view.groupFilter.size || (e.groups || []).some((g) => view.groupFilter.has(g))));
 }
 
@@ -93,12 +95,12 @@ export function renderManage() {
   const list = filtered();
   // Andere zoekterm of filters: weer de eerste bladzijde. Een geopende of net toegevoegde kaart
   // moet wel in beeld blijven, ook als die verder in de lijst staat.
-  const key = JSON.stringify([view.query, view.direction, view.onlyMeanings, view.onlyNoExample, view.onlyWrong, view.onlyNew, [...view.groupFilter]]);
+  const key = JSON.stringify([view.query, view.direction, view.onlyMeanings, view.onlyNoExample, view.onlyWrong, view.onlyNew, view.onlyMastered, [...view.groupFilter]]);
   if (key !== view.filterKey) Object.assign(view, { filterKey: key, limit: MANAGE_PAGE });
   const needed = Math.max(...list.map((e, i) => (e.id === view.openId || view.flash.has(e.id) ? i + 1 : 0)), 0);
   view.limit = Math.max(view.limit, needed);
   const shown = list.slice(0, view.limit);
-  const anyFilter = view.direction !== "all" || view.onlyMeanings || view.onlyNoExample || view.onlyWrong || view.onlyNew || view.groupFilter.size > 0;
+  const anyFilter = view.direction !== "all" || view.onlyMeanings || view.onlyNoExample || view.onlyWrong || view.onlyNew || view.onlyMastered || view.groupFilter.size > 0;
   const chip = (key, value, label, n) =>
     `<button type="button" class="fchip" data-filter="${key}" data-value="${value}"
        aria-pressed="${view[key] === value}">${label} <span>${n}</span></button>`;
@@ -125,6 +127,7 @@ export function renderManage() {
       ${toggle("onlyNoExample", "Zonder voorbeeldzin", count((e) => !e.example))}
       ${toggle("onlyWrong", "Fout gehad", count((e) => e.wrong > 0))}
       ${toggle("onlyNew", "In wachtrij", count((e) => e.new))}
+      ${count((e) => e.step === MASTERED_STEP) ? toggle("onlyMastered", "★ Beheerst", count((e) => e.step === MASTERED_STEP)) : ""}
       ${knownGroups().length ? `<button type="button" class="fchip" id="m-groups-toggle" aria-expanded="${view.groupsOpen}">
         Groepen${view.groupFilter.size ? ` <span>${view.groupFilter.size} gekozen</span>` : ""} ${view.groupsOpen ? "▴" : "▾"}</button>` : ""}
       ${anyFilter ? `<button type="button" class="linklike m-clear" id="m-clear">filters wissen</button>` : ""}
@@ -189,6 +192,7 @@ function rowHTML(e) {
           ${e.wrong ? `<span class="m-wrong" title="${e.wrong} van ${e.attempts} keer fout bij de eerste poging">✕ ${e.wrong}/${e.attempts}</span>` : ""}
           ${e.new
             ? `<span class="m-queued">nieuw · in wachtrij</span>`
+            : e.step === MASTERED_STEP ? `<span class="gold-badge" title="Controle ${esc(relative(e.nextReview))}">★ beheerst</span>`
             : `<span class="m-due"><span class="dot" style="background:var(--s${e.step})"></span>${due ? "nu te herhalen" : esc(relative(e.nextReview))}</span>`}
         </span>
         ${e.example ? `<span class="m-example" lang="hu">“${markFold(e.example, q)}”</span>` : ""}
@@ -229,6 +233,8 @@ function editFormHTML(e) {
       <p class="m-error" hidden></p>
       <div class="m-actions">
         <button type="button" class="btn danger-ghost" data-delete>Verwijderen…</button>
+        ${e.step === MASTERED_STEP ? `<button type="button" class="btn secondary" data-unmaster
+          title="Morgen weer, op 90 dagen; daarna opnieuw 4 keer goed tot beheerst">Terug naar de herhalingen</button>` : ""}
         <span class="m-spacer"></span>
         <button type="button" class="btn secondary" data-cancel>Annuleren</button>
         <button type="submit" class="btn">Opslaan</button>
@@ -291,7 +297,7 @@ function bindManage() {
     renderManage();
   });
   document.getElementById("m-clear")?.addEventListener("click", () => {
-    Object.assign(view, { direction: "all", onlyMeanings: false, onlyNoExample: false, onlyWrong: false, onlyNew: false });
+    Object.assign(view, { direction: "all", onlyMeanings: false, onlyNoExample: false, onlyWrong: false, onlyNew: false, onlyMastered: false });
     view.groupFilter.clear();
     renderManage();
   });
@@ -392,6 +398,17 @@ function bindManage() {
       actions.hidden = false;
     });
     confirmBox.querySelector("[data-delete-confirm]").addEventListener("click", () => deleteConcept(edit));
+    edit.querySelector("[data-unmaster]")?.addEventListener("click", async () => {
+      try {
+        const res = await api("POST", `/api/concepts/${encodeURIComponent(edit.dataset.id)}/unmaster`);
+        view.entries = res.entries;
+        renderManage();
+        toast("Terug in de herhalingen: morgen weer, op 90 dagen");
+        refreshStats();
+      } catch (err) {
+        toast(err.message);
+      }
+    });
   }
 
   const add = document.getElementById("m-new");

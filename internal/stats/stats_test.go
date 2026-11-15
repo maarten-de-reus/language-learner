@@ -278,13 +278,13 @@ func TestProgressPerDay(t *testing.T) {
 	got := Compute(testLib(), reviews, at(24, 12), 20).Progress
 	want := []struct {
 		date  string
-		steps [6]int
+		steps [7]int
 	}{
-		{"2026-10-20", [6]int{0, 1, 1, 0, 0, 0}}, // water staat vanaf het begin op zijn oude stap
-		{"2026-10-21", [6]int{0, 1, 1, 0, 0, 0}},
-		{"2026-10-22", [6]int{0, 1, 0, 1, 0, 0}},
-		{"2026-10-23", [6]int{0, 0, 1, 1, 0, 0}}, // Toch goed: stap 2, niet 0
-		{"2026-10-24", [6]int{0, 0, 1, 1, 0, 0}},
+		{"2026-10-20", [7]int{0, 1, 1, 0, 0, 0, 0}}, // water staat vanaf het begin op zijn oude stap
+		{"2026-10-21", [7]int{0, 1, 1, 0, 0, 0, 0}},
+		{"2026-10-22", [7]int{0, 1, 0, 1, 0, 0, 0}},
+		{"2026-10-23", [7]int{0, 0, 1, 1, 0, 0, 0}}, // Toch goed: stap 2, niet 0
+		{"2026-10-24", [7]int{0, 0, 1, 1, 0, 0, 0}},
 	}
 	if len(got) != len(want) {
 		t.Fatalf("verwacht %d dagen, kreeg %d: %+v", len(want), len(got), got)

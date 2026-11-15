@@ -1,5 +1,9 @@
 // Kleine hulpjes voor tekst, datums en animaties, gedeeld door alle onderdelen.
 
+// De laatste stap: 4 keer achter elkaar goed op 90 dagen (engine.MasteredStep), daarna een
+// controle per jaar. Overal in goud.
+export const MASTERED_STEP = 6;
+
 export const LANG = { nl: "Nederlands", hu: "Hongaars", en: "Engels" };
 export const ACCENTS = ["á", "é", "í", "ó", "ö", "ő", "ú", "ü", "ű"];
 const rtf = new Intl.RelativeTimeFormat("nl", { numeric: "auto" });

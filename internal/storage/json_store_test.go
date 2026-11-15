@@ -165,3 +165,21 @@ func TestLastReviewStoredAndBackfilled(t *testing.T) {
 		t.Error("een bestaand laatste antwoord mag niet overschreven worden")
 	}
 }
+
+func TestTopStreakIsStoredInProgress(t *testing.T) {
+	dir := t.TempDir()
+	words := writeTestFile(t, dir, "woorden.json", `{"words":[{"id":"w1","language":"nl","text":"a"},{"id":"w2","language":"hu","text":"b"}],"concepts":[{"id":"c1","source_word_id":"w1","target_word_ids":["w2"]}]}`)
+	progress := filepath.Join(dir, "voortgang.json")
+	_, concepts, err := LoadData(words, progress)
+	if err != nil {
+		t.Fatal(err)
+	}
+	concepts[0].StepIndex, concepts[0].TopStreak = 5, 3
+	if err := SaveProgress(progress, concepts); err != nil {
+		t.Fatal(err)
+	}
+	_, again, err := LoadData(words, progress)
+	if err != nil || again[0].TopStreak != 3 || again[0].StepIndex != 5 {
+		t.Errorf("teller op 90 dagen moet bewaard blijven, kreeg %+v (%v)", again[0], err)
+	}
+}

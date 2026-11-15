@@ -23,7 +23,8 @@ type TranslationConcept struct {
 	Verified   bool   `json:"verified,omitempty"`
 	ReviewNote string `json:"review_note,omitempty"`
 	// Voortgang: wordt in voortgang.json bewaard (zie ProgressState), nooit in woorden.json
-	StepIndex  int       `json:"-"` // Index voor engine.AnkiIntervals (0 t/m 5)
+	StepIndex  int       `json:"-"` // Index voor engine.AnkiIntervals (0 t/m 6; 6 = beheerst)
+	TopStreak  int       `json:"-"` // zoveel keer achter elkaar goed op 90 dagen (naar beheerst)
 	NextReview time.Time `json:"-"`
 	// Moment van het eerste antwoord; leeg betekent een nieuw woord dat nog in de wachtrij staat
 	FirstReview time.Time `json:"-"`

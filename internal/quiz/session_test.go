@@ -647,3 +647,47 @@ func TestOverrideTurnsAWrongAnswerIntoCorrect(t *testing.T) {
 		t.Error("na Weet ik niet is er niets goed te rekenen")
 	}
 }
+
+// topSession: één woord op 90 dagen dat aan de beurt is, met al `streak` keer goed daar
+func topSession(t *testing.T, streak int) *Session {
+	t.Helper()
+	words, concepts := testData()
+	concepts = concepts[:1] // alleen koffie -> kávé
+	concepts[0].StepIndex, concepts[0].TopStreak = engine.TopStep, streak
+	return New(&storage.Library{Words: words, Concepts: concepts}, filepath.Join(t.TempDir(), "voortgang.json"), 10)
+}
+
+func TestFeedbackOnTheWayToMastered(t *testing.T) {
+	s := topSession(t, 1)
+	fb, _ := s.Answer(correctAnswer(s))
+	if fb.Mastered || fb.TopLeft != engine.MasterAfter-2 {
+		t.Errorf("tweede keer goed op 90 dagen: nog %d keer te gaan, kreeg %+v", engine.MasterAfter-2, fb)
+	}
+
+	s = topSession(t, engine.MasterAfter-1)
+	fb, _ = s.Answer(correctAnswer(s))
+	if !fb.Mastered || fb.Step != engine.MasteredStep || fb.TopLeft != 0 || !s.Results()[0].Mastered {
+		t.Errorf("laatste keer goed: beheerst, ook in de resultaten van de ronde, kreeg %+v", fb)
+	}
+
+	// Toch goed na een fout op de laatste keer: de teller komt terug, dus alsnog beheerst
+	s = topSession(t, engine.MasterAfter-1)
+	if fb, _ := s.Answer("fout"); fb.Step != engine.TopStep-engine.LapseSteps {
+		t.Fatalf("fout op 90 dagen: 2 stappen terug, kreeg %+v", fb)
+	}
+	if fb, _ := s.Override(); !fb.Mastered || fb.Step != engine.MasteredStep {
+		t.Errorf("Toch goed moet de teller herstellen en alsnog beheerst maken, kreeg %+v", fb)
+	}
+
+	// Terugzetten: morgen weer, op 90 dagen, teller opnieuw
+	id := s.lib.Concepts[0].ID
+	if ok, err := s.Unmaster(id); !ok || err != nil {
+		t.Fatalf("terugzetten: %v %v", ok, err)
+	}
+	if c := s.lib.Concepts[0]; c.StepIndex != engine.TopStep || c.TopStreak != 0 || !c.NextReview.Equal(engine.ReviewDate(time.Now(), 1)) {
+		t.Errorf("na terugzetten: 90 dagen, teller 0, morgen weer, kreeg %+v", c)
+	}
+	if ok, _ := s.Unmaster(id); ok {
+		t.Error("een woord dat niet beheerst is, kan niet teruggezet worden")
+	}
+}

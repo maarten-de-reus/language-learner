@@ -237,7 +237,7 @@ function bindCharts(root = statsEl) {
 
 // ---------- Voortgang door de tijd ----------
 
-const STEP_LABELS = ["1 dag", "3 dagen", "7 dagen", "16 dagen", "40 dagen", "90 dagen"];
+const STEP_LABELS = ["1 dag", "3 dagen", "7 dagen", "16 dagen", "40 dagen", "90 dagen", "★ beheerst"];
 const STRONG_STEP = 3; // vanaf 16 dagen: zit er goed in
 
 // Aantal (hoeveel kaarten per stap) of aandeel (welk deel van je geoefende kaarten): aandeel

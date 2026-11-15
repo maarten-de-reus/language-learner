@@ -24,6 +24,8 @@ type Feedback struct {
 	Unknown    bool      `json:"unknown"`    // "Weet ik niet": geen antwoord gegeven
 	Typo       bool      `json:"typo"`       // goed, maar met één tikfout (alleen naar het Nederlands)
 	Overridden bool      `json:"overridden"` // fout nagekeken, maar met "Toch goed" alsnog goedgerekend
+	Mastered   bool      `json:"mastered"`   // met dit antwoord beheerst geworden
+	TopLeft    int       `json:"topLeft"`    // op 90 dagen: nog zoveel keer goed tot beheerst
 	Example    string    `json:"example,omitempty"`
 	// OtherMeaning is gevuld als het antwoord een goede vertaling is van een ándere betekenis
 	// van hetzelfde woord (bijv. idő -> "tijd" terwijl "weer" bedoeld is). Het telt als fout.
@@ -67,7 +69,7 @@ func (s *Session) answer(input string, unknown bool) (*Feedback, error) {
 		correct, accentOnly, typo = s.check(concept, input, expected)
 	}
 	stepBefore := concept.StepIndex
-	s.undo = progress{step: concept.StepIndex, next: concept.NextReview}
+	s.undo = progress{step: concept.StepIndex, next: concept.NextReview, topStreak: concept.TopStreak}
 
 	var saveErr error
 	if item.retry == 0 {
@@ -116,6 +118,9 @@ func (s *Session) answer(input string, unknown bool) (*Feedback, error) {
 	}
 	if !correct && !unknown {
 		s.feedback.OtherMeaning = s.otherMeaning(concept, input)
+	}
+	if item.retry == 0 {
+		s.mastery(item, stepBefore, concept)
 	}
 	return s.feedback, errors.Join(saveErr, s.logReview(concept, input, stepBefore))
 }
@@ -209,7 +214,7 @@ func (s *Session) Override() (*Feedback, error) {
 	}
 	var saveErr error
 	if item.retry == 0 {
-		concept.StepIndex, concept.NextReview = s.undo.step, s.undo.next
+		concept.StepIndex, concept.NextReview, concept.TopStreak = s.undo.step, s.undo.next, s.undo.topStreak
 		engine.UpdateProgressSmart(concept, engine.Correct, s.load(concept.ID))
 		saveErr = s.Save()
 		s.results[item.result].Correct = true
@@ -221,6 +226,9 @@ func (s *Session) Override() (*Feedback, error) {
 	}
 	fb.Correct, fb.AccentOnly, fb.OtherMeaning, fb.WillRetry, fb.Overridden = true, false, nil, false, true
 	fb.Step, fb.NextReview = concept.StepIndex, concept.NextReview
+	if item.retry == 0 {
+		s.mastery(item, s.undo.step, concept)
+	}
 
 	var logErr error
 	if s.reviewLog != nil {
@@ -230,6 +238,30 @@ func (s *Session) Override() (*Feedback, error) {
 		})
 	}
 	return fb, errors.Join(saveErr, logErr)
+}
+
+// mastery vult in wat een eerste poging betekende op weg naar Beheerst: net beheerst geworden,
+// of nog zoveel keer goed nodig op 90 dagen
+func (s *Session) mastery(item runItem, stepBefore int, c *storage.TranslationConcept) {
+	fb := s.feedback
+	fb.Mastered = stepBefore != engine.MasteredStep && c.StepIndex == engine.MasteredStep
+	fb.TopLeft = 0
+	if fb.Correct && c.StepIndex == engine.TopStep {
+		fb.TopLeft = engine.MasterAfter - c.TopStreak
+	}
+	s.results[item.result].Mastered = fb.Mastered
+}
+
+// Unmaster zet een beheerst woord terug in de herhalingen: morgen weer, op 90 dagen, waar het
+// zich opnieuw MasterAfter keer moet bewijzen. false als het concept niet bestaat of niet beheerst is.
+func (s *Session) Unmaster(id string) (bool, error) {
+	i := s.lib.Index(id)
+	if i < 0 || s.lib.Concepts[i].StepIndex != engine.MasteredStep {
+		return false, nil
+	}
+	c := &s.lib.Concepts[i]
+	c.StepIndex, c.TopStreak, c.NextReview = engine.TopStep, 0, engine.ReviewDate(time.Now(), 1)
+	return true, s.Save()
 }
 
 // otherMeaning zoekt een ander concept met hetzelfde bronwoord (taal + tekst, niet het ID)

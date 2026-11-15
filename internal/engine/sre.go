@@ -8,8 +8,16 @@ import (
 	"hungarian-language-learner/internal/storage"
 )
 
-// AnkiIntervals zijn de intervallen in dagen per stap (StepIndex 0 t/m 5)
-var AnkiIntervals = [6]int{1, 3, 7, 16, 40, 90}
+// AnkiIntervals zijn de intervallen in dagen per stap (StepIndex 0 t/m 6). De laatste stap is
+// Beheerst: een jaarlijkse controle, voor woorden die op 90 dagen MasterAfter keer achter elkaar
+// goed waren.
+var AnkiIntervals = [7]int{1, 3, 7, 16, 40, 90, 365}
+
+const (
+	TopStep      = 5 // 90 dagen: hier moet een woord zich MasterAfter keer bewijzen
+	MasteredStep = 6 // Beheerst
+	MasterAfter  = 4 // zoveel keer achter elkaar goed op 90 dagen
+)
 
 // DayStartHour is het uur waarop een nieuwe herhaaldag begint (zoals in Anki). Wie om 01:00
 // oefent, zit nog in de vorige dag. Het uur geldt in de tijdzone van de server (TZ).
@@ -134,7 +142,9 @@ func updateProgress(concept *storage.TranslationConcept, outcome Outcome, now ti
 	isEarly := now.Before(concept.NextReview)
 
 	if outcome != Correct {
-		// Fout: stappen terug en morgen weer, ook bij vroegtijdig oefenen
+		// Fout: stappen terug en morgen weer, ook bij vroegtijdig oefenen. Ook een beheerst
+		// woord: dat gaat terug naar 40 dagen en moet zich op 90 dagen opnieuw bewijzen.
+		concept.TopStreak = 0
 		lapse := LapseSteps
 		if outcome == AccentOnly {
 			lapse = AccentLapseSteps
@@ -149,8 +159,18 @@ func updateProgress(concept *storage.TranslationConcept, outcome Outcome, now ti
 		return
 	}
 
-	// Normale flow: Verhoog stap indien mogelijk
-	concept.StepIndex = clampStep(concept.StepIndex + 1)
+	switch concept.StepIndex {
+	case TopStep:
+		// Op 90 dagen: pas na MasterAfter keer achter elkaar goed wordt het woord beheerst
+		concept.TopStreak++
+		if concept.TopStreak >= MasterAfter {
+			concept.StepIndex, concept.TopStreak = MasteredStep, 0
+		}
+	case MasteredStep:
+		// Beheerst blijft beheerst; volgend jaar weer een controle
+	default:
+		concept.StepIndex = clampStep(concept.StepIndex + 1)
+	}
 	concept.NextReview = ReviewDate(now, balancedInterval(concept.StepIndex, now, load))
 }
 
