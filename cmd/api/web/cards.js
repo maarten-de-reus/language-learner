@@ -39,6 +39,8 @@ function fcSets() {
     .sort((a, b) => a.localeCompare(b, "nl", { sensitivity: "base" }));
   return [
     { key: "queue", label: "In wachtrij", note: "nieuwe woorden die nog moeten komen", filter: (e) => e.new },
+    { key: "ready", label: "Goedgekeurd, nog nieuw", note: "goedgekeurd en nog niet voor het eerst gedaan: deze komen als eerste in je les",
+      filter: (e) => e.new && e.verified },
     { key: "wrong", label: "Fout gehad", note: "volgens je antwoorden", filter: (e) => e.wrong > 0 },
     { key: "mastered", label: "★ Beheerst", note: "woorden die je beheerst", filter: (e) => !e.new && e.step === MASTERED_STEP },
     ...groups.map((g) => ({ key: `g:${g}`, label: g, note: "groep", filter: (e) => (e.groups || []).includes(g) })),
