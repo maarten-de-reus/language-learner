@@ -20,7 +20,7 @@
   --flag-w: #ffffff;
   --flag-g: #436f4d;
   /* Ordinale blauwe schaal: stap 0 (1d) licht -> stap 5 (90d) donker */
-  --s0: #86b6ef; --s1: #5598e7; --s2: #2a78d6; --s3: #256abf; --s4: #184f95; --s5: #0d366b;
+  --s0: #86b6ef; --s1: #5598e7; --s2: #2a78d6; --s3: #2163b5; --s4: #184f95; --s5: #0d366b;
   --shadow: 0 1px 2px rgb(0 0 0 / .04), 0 8px 24px rgb(0 0 0 / .06);
   --radius: 20px;
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -558,6 +558,16 @@ body.mode-manage .shell { max-width: 820px; }
 .sx-swatch.good, .sx-seg.good { background: var(--good); }
 .sx-swatch.bad, .sx-seg.bad { background: var(--bad); }
 .sx-seg.due { background: var(--s2); }
+/* Voortgang door de tijd: de stappen in dezelfde kleuren als de voortgangsbalk */
+.sx-seg.s0, .sx-swatch.s0 { background: var(--s0); }
+.sx-seg.s1, .sx-swatch.s1 { background: var(--s1); }
+.sx-seg.s2, .sx-swatch.s2 { background: var(--s2); }
+.sx-seg.s3, .sx-swatch.s3 { background: var(--s3); }
+.sx-seg.s4, .sx-swatch.s4 { background: var(--s4); }
+.sx-seg.s5, .sx-swatch.s5 { background: var(--s5); }
+.sx-legend-steps { flex-wrap: wrap; margin: 4px 0 10px; }
+.sx-progress-mode { flex: 0 0 auto; }
+.sx-progress-mode .segmented-opt { padding: 5px 12px; font-size: 13px; }
 .sx-seg.due.peak { background: var(--s4); }
 
 .sx-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 14px; align-items: start; }

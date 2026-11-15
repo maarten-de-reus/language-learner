@@ -35,15 +35,16 @@ type Report struct {
 	PracticedToday bool    `json:"practicedToday"`
 	Today          Day     `json:"today"`
 
-	Mistakes   Mistakes    `json:"mistakes"`
-	Directions []Direction `json:"directions"` // per leerrichting, bijv. hu -> nl en nl -> hu
-	Activity   []Day       `json:"activity"`   // laatste ActivityDays dagen, oudste eerst
-	Forecast   []DueDay    `json:"forecast"`   // vandaag (inclusief achterstand) en de dagen erna
-	Hardest    []Hard      `json:"hardest"`
-	Retry      RetryEffect `json:"retry"`
-	Lapses     Lapses      `json:"lapses"`
-	Queue      Queue       `json:"queue"`
-	Skipped    int         `json:"skipped,omitempty"` // onleesbare regels in het log
+	Mistakes   Mistakes      `json:"mistakes"`
+	Directions []Direction   `json:"directions"` // per leerrichting, bijv. hu -> nl en nl -> hu
+	Activity   []Day         `json:"activity"`   // laatste ActivityDays dagen, oudste eerst
+	Progress   []ProgressDay `json:"progress"`   // per dag de kaarten per stap, oudste eerst
+	Forecast   []DueDay      `json:"forecast"`   // vandaag (inclusief achterstand) en de dagen erna
+	Hardest    []Hard        `json:"hardest"`
+	Retry      RetryEffect   `json:"retry"`
+	Lapses     Lapses        `json:"lapses"`
+	Queue      Queue         `json:"queue"`
+	Skipped    int           `json:"skipped,omitempty"` // onleesbare regels in het log
 }
 
 type Day struct {
@@ -235,6 +236,7 @@ func Compute(lib *storage.Library, reviews []storage.Review, now time.Time, newP
 		}
 	}
 	rep.Forecast = forecast(lib, today)
+	rep.Progress = progress(lib, reviews, today)
 	rep.Directions = directions(lib, reviews)
 	rep.Hardest = hardest(lib, reviews)
 	rep.Retry = retryEffect(reviews, now.Location())

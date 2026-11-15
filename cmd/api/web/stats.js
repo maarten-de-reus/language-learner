@@ -64,6 +64,8 @@ function renderStatistics(r, quiz) {
       ${activityChart(r.activity)}
     </section>
 
+    <section class="sx-card" id="sx-progress">${progressCard(r.progress)}</section>
+
     <section class="sx-card">
       <div class="sx-head">
         <div><h3>Planning: komende 2 weken <span class="sx-tag ahead">vooruitblik</span></h3>
@@ -106,6 +108,7 @@ function renderStatistics(r, quiz) {
     ${r.skipped ? `<p class="muted sx-note">${r.skipped} onleesbare regel(s) in het antwoordenlog overgeslagen.</p>` : ""}`;
 
   bindCharts();
+  bindProgress(r.progress);
   statsEl.querySelectorAll("[data-word]").forEach((row) => {
     const open = () => {
       view.query = row.dataset.word; // zoekterm voor het beheer
@@ -135,11 +138,11 @@ function niceMax(n) {
   return Math.ceil(n / (step / 2)) * (step / 2);
 }
 
-function chartFrame({ cols, max, label, tableHead, tableRows, ticks }) {
+function chartFrame({ cols, max, label, tableHead, tableRows, ticks, fmt = (n) => n }) {
   return `
     <div class="sx-chart" role="img" aria-label="${esc(label)}">
-      <div class="sx-gridline top"><span>${max}</span></div>
-      <div class="sx-gridline mid"><span>${max / 2}</span></div>
+      <div class="sx-gridline top"><span>${fmt(max)}</span></div>
+      <div class="sx-gridline mid"><span>${fmt(max / 2)}</span></div>
       <div class="sx-plot">${cols}</div>
       <div class="sx-axis">${ticks}</div>
       <div class="sx-tip" hidden></div>
@@ -210,8 +213,8 @@ function forecastChart(forecast) {
     })}`;
 }
 
-function bindCharts() {
-  statsEl.querySelectorAll(".sx-chart").forEach((chart) => {
+function bindCharts(root = statsEl) {
+  root.querySelectorAll(".sx-chart").forEach((chart) => {
     const tip = chart.querySelector(".sx-tip");
     chart.querySelectorAll(".sx-col").forEach((col) => {
       col.addEventListener("mouseenter", () => {
@@ -230,6 +233,81 @@ function bindCharts() {
       });
     });
   });
+}
+
+// ---------- Voortgang door de tijd ----------
+
+const STEP_LABELS = ["1 dag", "3 dagen", "7 dagen", "16 dagen", "40 dagen", "90 dagen"];
+const STRONG_STEP = 3; // vanaf 16 dagen: zit er goed in
+
+// Aantal (hoeveel kaarten per stap) of aandeel (welk deel van je geoefende kaarten): aandeel
+// haalt het effect van een grote import eruit en laat het best zien of je vooruitgaat
+let progressMode = (() => {
+  try { return localStorage.getItem("sx-progress-mode") === "count" ? "count" : "share"; } catch { return "share"; }
+})();
+
+function progressCard(progress) {
+  const head = `<h3>Voortgang door de tijd <span class="sx-tag">terugblik</span></h3>`;
+  if (!progress || progress.length < 2) {
+    return `${head}<p class="sx-empty">Nog te weinig dagen. Na een paar dagen oefenen zie je hier hoe je kaarten naar langere intervallen schuiven.</p>`;
+  }
+  const first = progress[0];
+  const last = progress[progress.length - 1];
+  const total = (d) => d.steps.reduce((a, n) => a + n, 0);
+  const strong = (d) => d.steps.slice(STRONG_STEP).reduce((a, n) => a + n, 0);
+  const share = (d) => (total(d) ? Math.round((strong(d) / total(d)) * 100) : 0);
+  return `
+    <div class="sx-head">
+      <div>${head}
+        <p class="muted">Op welke stap je geoefende kaarten aan het eind van elke dag stonden, sinds
+          ${esc(dayLabel(first.date, { day: "numeric", month: "long" }))}.</p></div>
+      <div class="segmented sx-progress-mode" role="radiogroup" aria-label="Weergave">
+        <button type="button" class="segmented-opt" role="radio" data-progress-mode="share" aria-checked="${progressMode === "share"}">Aandeel</button>
+        <button type="button" class="segmented-opt" role="radio" data-progress-mode="count" aria-checked="${progressMode === "count"}">Aantal</button>
+      </div>
+    </div>
+    <p class="sx-callout">Op 16 dagen of meer: <b>${strong(first)} → ${strong(last)}</b> kaarten
+      <span class="muted">(${share(first)}% → ${share(last)}% van je geoefende kaarten)</span></p>
+    <ul class="sx-legend sx-legend-steps" aria-label="Legenda">
+      ${STEP_LABELS.map((l, i) => `<li><span class="sx-swatch s${i}"></span>${l}</li>`).join("")}
+    </ul>
+    ${progressChart(progress)}`;
+}
+
+function progressChart(progress) {
+  const asShare = progressMode === "share";
+  const totals = progress.map((d) => d.steps.reduce((a, n) => a + n, 0));
+  const max = asShare ? 100 : niceMax(Math.max(...totals));
+  const value = (n, t) => (asShare ? (t ? (n / t) * 100 : 0) : n);
+  const cols = progress.map((d, k) => {
+    const t = totals[k];
+    const tip = `${dayLabel(d.date, { weekday: "short", day: "numeric", month: "short" })}: ` +
+      d.steps.map((n, i) => `${STEP_LABELS[i]} ${n}`).filter((_, i) => d.steps[i]).join(" · ") + ` (samen ${t})`;
+    // Kortste interval bovenaan, langste onderaan: het fundament groeit van onderen
+    const segs = d.steps.map((n, i) => (n ? `<span class="sx-seg s${i}" style="height:${(value(n, t) / max) * 100}%"></span>` : "")).join("");
+    return `<div class="sx-col" data-tip="${esc(tip)}"><div class="sx-bar">${segs}</div></div>`;
+  }).join("");
+  return chartFrame({
+    cols, max,
+    fmt: asShare ? (n) => `${n}%` : (n) => n,
+    label: `Voortgang: op ${dayLabel(progress[progress.length - 1].date)} ` +
+      progress[progress.length - 1].steps.map((n, i) => `${n} op ${STEP_LABELS[i]}`).join(", ") + ".",
+    ticks: ticksFor(progress.map((d) => d.date), 7, "end"),
+    tableHead: ["Dag", ...STEP_LABELS, "Samen"],
+    tableRows: progress.map((d, k) => [dayLabel(d.date), ...d.steps, totals[k]]),
+  });
+}
+
+function bindProgress(progress) {
+  const section = document.getElementById("sx-progress");
+  section.querySelectorAll("[data-progress-mode]").forEach((b) =>
+    b.addEventListener("click", () => {
+      progressMode = b.dataset.progressMode;
+      try { localStorage.setItem("sx-progress-mode", progressMode); } catch { /* geen opslag */ }
+      section.innerHTML = progressCard(progress);
+      bindCharts(section);
+      bindProgress(progress);
+    }));
 }
 
 // ---------- Wachtrij ----------

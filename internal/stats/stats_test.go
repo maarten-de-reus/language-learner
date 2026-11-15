@@ -263,3 +263,38 @@ func TestOverridesAndTyposCountAsCorrect(t *testing.T) {
 		t.Errorf("per concept: %+v", c)
 	}
 }
+
+func TestProgressPerDay(t *testing.T) {
+	steps := func(before, after int) func(*storage.Review) {
+		return func(r *storage.Review) { r.StepBefore, r.StepAfter = before, after }
+	}
+	reviews := []storage.Review{
+		review(at(20, 9), "c_koffie", true, steps(0, 1)),                                                                     // nieuw woord
+		review(at(22, 9), "c_water", true, steps(2, 3)),                                                                      // al geoefend voor het log begon
+		review(at(23, 9), "c_koffie", false, steps(1, 0)),                                                                    // fout ...
+		review(at(23, 9), "c_koffie", true, func(r *storage.Review) { r.Override = true; r.StepBefore, r.StepAfter = 1, 2 }), // ... maar Toch goed
+		review(at(23, 10), "c_weg", true, steps(0, 1)),                                                                       // verwijderd: telt niet mee
+	}
+	got := Compute(testLib(), reviews, at(24, 12), 20).Progress
+	want := []struct {
+		date  string
+		steps [6]int
+	}{
+		{"2026-10-20", [6]int{0, 1, 1, 0, 0, 0}}, // water staat vanaf het begin op zijn oude stap
+		{"2026-10-21", [6]int{0, 1, 1, 0, 0, 0}},
+		{"2026-10-22", [6]int{0, 1, 0, 1, 0, 0}},
+		{"2026-10-23", [6]int{0, 0, 1, 1, 0, 0}}, // Toch goed: stap 2, niet 0
+		{"2026-10-24", [6]int{0, 0, 1, 1, 0, 0}},
+	}
+	if len(got) != len(want) {
+		t.Fatalf("verwacht %d dagen, kreeg %d: %+v", len(want), len(got), got)
+	}
+	for i, w := range want {
+		if got[i].Date != w.date || got[i].Steps != w.steps {
+			t.Errorf("dag %d: verwacht %s %v, kreeg %s %v", i, w.date, w.steps, got[i].Date, got[i].Steps)
+		}
+	}
+	if p := Compute(testLib(), nil, at(24, 12), 20).Progress; p == nil || len(p) != 0 {
+		t.Errorf("zonder antwoorden: lege lijst, kreeg %v", p)
+	}
+}
