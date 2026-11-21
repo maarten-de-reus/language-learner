@@ -932,3 +932,4 @@ body.mode-manage .shell { max-width: 820px; }
   .gr-meta { margin-left: 0; width: 100%; }
   .gr-explain { padding-left: 16px; }
 }
+.imp-note-row { color: var(--warn); }

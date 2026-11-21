@@ -344,3 +344,19 @@ func TestImportReleaseOnlyTouchesNewWords(t *testing.T) {
 		t.Errorf("verwacht bank -> pad, kanapé met pad en kanapé terug: 5 kaarten, kreeg %d", n)
 	}
 }
+
+func TestImportNotesVerbPartners(t *testing.T) {
+	lib := newLib()
+	text := "olvas;leest;werkwoord · 3e persoon enkelvoud;;ww\nolvasni;lezen;werkwoord · infinitief;;ww\n" +
+		"ír;schrijft;werkwoord · 3e persoon enkelvoud;;ww\nadni;geven;werkwoord · infinitief;;ww\nmegy;gaat;werkwoord · 3e persoon enkelvoud;;ww;inf=menni"
+	results, ok := Import(lib, ParseImport(text), nil, ImportOptions{})
+	if !ok {
+		t.Fatalf("import: %+v", results)
+	}
+	want := []string{"", "", "írni", "3e persoon", "menni"}
+	for i, r := range results {
+		if (want[i] == "") != (r.Note == "") || !strings.Contains(r.Note, want[i]) {
+			t.Errorf("regel %d (%s): opmerking %q, verwacht iets met %q", r.No, r.Hungarian, r.Note, want[i])
+		}
+	}
+}

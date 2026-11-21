@@ -3,6 +3,7 @@ package catalog
 import (
 	"errors"
 	"fmt"
+	"slices"
 	"strings"
 
 	"hungarian-language-learner/internal/grammar"
@@ -117,6 +118,8 @@ type ImportResult struct {
 	// Synoniemen op de regel: wie een eigen HU->NL kaart krijgt, en wie al een andere betekenis heeft
 	ExtraReverse   []string `json:"extraReverse,omitempty"`
 	SkippedReverse []string `json:"skippedReverse,omitempty"`
+	// Note: een opmerking die de import niet tegenhoudt, bijv. een werkwoord zonder zijn partner
+	Note string `json:"note,omitempty"`
 }
 
 // Import voegt de regels in volgorde toe aan lib. Elke regel ziet de regels erboven, zodat
@@ -138,7 +141,59 @@ func Import(lib *storage.Library, lines []ImportLine, choices map[int]ImportChoi
 		}
 		results = append(results, res)
 	}
+	noteVerbPartners(lib, results)
 	return results, ok
+}
+
+// noteVerbPartners: van een werkwoord leer je de infinitief én de 3e persoon enkelvoud (de regels
+// vervoegen vanuit de 3e persoon). Komt er een nieuw werkwoord binnen zonder zijn partner, in de
+// import of al in je lijst, dan zegt de import dat.
+func noteVerbPartners(lib *storage.Library, results []ImportResult) {
+	verbs := map[string]bool{}
+	var thirds []string
+	for _, c := range lib.Concepts {
+		if c.WordType != "ww" || lib.Words[c.SourceWordID].Language != "nl" {
+			continue
+		}
+		for _, id := range c.TargetWordIDs {
+			hu := strings.ToLower(strings.TrimSpace(lib.Words[id].Text))
+			verbs[hu] = true
+			if !strings.HasSuffix(hu, "ni") {
+				thirds = append(thirds, hu)
+			}
+		}
+	}
+	infinitiveOf := func(third string) string {
+		if f, ok := grammar.Infinitive(third); ok {
+			return f.Text
+		}
+		return ""
+	}
+	for i, r := range results {
+		if r.Status != StatusAdded || r.WordType != "ww" {
+			continue
+		}
+		hu := strings.ToLower(strings.TrimSpace(strings.Split(r.Hungarian, ",")[0]))
+		if strings.HasSuffix(hu, "ni") {
+			if !slices.ContainsFunc(thirds, func(t string) bool { return infinitiveOf(t) == hu }) {
+				results[i].Note = "werkwoord zonder 3e persoon enkelvoud: voeg die ook toe, anders kunnen de regels het niet vervoegen"
+			}
+			continue
+		}
+		forms, _ := grammar.ParseForms(r.Forms)
+		inf := forms["inf"]
+		if inf == "" {
+			inf = infinitiveOf(hu)
+		}
+		switch {
+		case inf == "" && verbs[hu+"ni"]:
+			// niet uit te rekenen (lő), maar lőni staat er al
+		case inf == "":
+			results[i].Note = "werkwoord: voeg ook de infinitief toe"
+		case !verbs[inf]:
+			results[i].Note = "werkwoord zonder infinitief: voeg ook " + inf + " toe"
+		}
+	}
 }
 
 func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportChoice, opts ImportOptions) ImportResult {

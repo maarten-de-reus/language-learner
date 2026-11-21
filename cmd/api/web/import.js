@@ -122,6 +122,7 @@ function importRowHTML(r) {
         ${r.status === "duplicate" ? `<div class="imp-msg">Bestaat al als <b>${esc(r.existing)}</b>${r.grouped
           ? ` · komt in ${esc(pendingGroups("import").join(", "))}` : ""}${r.typed ? " · krijgt woordsoort/vormen uit de import" : ""}</div>`
           : r.message && r.status !== "added" && r.status !== "skipped" ? `<div class="imp-msg">${esc(r.message)}</div>` : ""}
+        ${r.note ? `<div class="imp-msg imp-note-row">${esc(r.note)}</div>` : ""}
         ${r.extraReverse?.length ? `<div class="imp-extra">Ook als vraag: ${r.extraReverse.map((h) => `<b lang="hu">${esc(h)}</b> → ${esc(r.dutch)}`).join(", ")}</div>` : ""}
         ${r.skippedReverse?.length ? `<div class="imp-msg">${r.skippedReverse.map((h) => `<b lang="hu">${esc(h)}</b>`).join(", ")}
           ${r.skippedReverse.length === 1 ? "heeft" : "hebben"} al een andere betekenis, dus er komt geen kaart
