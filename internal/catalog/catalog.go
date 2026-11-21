@@ -260,6 +260,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 	if err != nil {
 		return res, err
 	}
+	groups = withVerbGroup(lib, wordType, groups)
 	forms, err := grammar.ParseForms(nc.Forms)
 	if err != nil {
 		return res, err

@@ -1,6 +1,9 @@
 package catalog
 
-import "testing"
+import (
+	"slices"
+	"testing"
+)
 
 func TestWordTypeOnAddAndUpdate(t *testing.T) {
 	lib := newLib()
@@ -34,5 +37,31 @@ func TestWordTypeOnAddAndUpdate(t *testing.T) {
 	empty := ""
 	if err := Update(lib, id, Edit{Answers: TargetTexts(lib, lib.Concepts[0]), WordType: &empty}); err != nil || lib.Concepts[1].WordType != "" {
 		t.Errorf("leeg moet wissen: %v %q", err, lib.Concepts[1].WordType)
+	}
+}
+
+func TestVerbsGetVerbGroup(t *testing.T) {
+	lib := newLib()
+	if _, err := add(t, lib, "leest", "", "olvas", func(nc *NewPair) { nc.WordType = "ww"; nc.Groups = []string{"Week 1"} }); err != nil {
+		t.Fatal(err)
+	}
+	for _, c := range lib.Concepts {
+		if !slices.Equal(c.Groups, []string{"Week 1", VerbGroup}) {
+			t.Errorf("%s: groepen %v", c.ID, c.Groups)
+		}
+	}
+	// Een bestaand woord dat werkwoord wordt, krijgt de groep ook (beide richtingen)
+	if _, err := add(t, lib, "huis", "", "ház"); err != nil {
+		t.Fatal(err)
+	}
+	i := lib.Index("c_nl_hu_huis")
+	ww := "ww"
+	if err := Update(lib, lib.Concepts[i].ID, Edit{Answers: []string{"ház"}, WordType: &ww}); err != nil {
+		t.Fatal(err)
+	}
+	for _, c := range lib.Concepts[2:] {
+		if !slices.Contains(c.Groups, VerbGroup) {
+			t.Errorf("%s: groepen %v", c.ID, c.Groups)
+		}
 	}
 }

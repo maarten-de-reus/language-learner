@@ -6,6 +6,7 @@ package catalog
 import (
 	"fmt"
 	"maps"
+	"slices"
 	"strings"
 
 	"hungarian-language-learner/internal/storage"
@@ -30,6 +31,22 @@ var WordTypes = []WordType{
 	{"vz", "achterzetsel"},
 	{"tw", "tussenwerpsel"},
 	{"uitdr", "uitdrukking"},
+}
+
+// VerbGroup: werkwoorden staan altijd in deze groep (handig in Kaarten), ook als je dat bij het
+// toevoegen of importeren vergeet. De groep volgt de woordsoort.
+const VerbGroup = "Werkwoorden"
+
+// withVerbGroup voegt de werkwoordengroep toe als de woordsoort ww is
+func withVerbGroup(lib *storage.Library, code string, groups []string) []string {
+	if code != "ww" {
+		return groups
+	}
+	g, err := NormalizeGroups(lib, append(slices.Clone(groups), VerbGroup))
+	if err != nil {
+		return groups
+	}
+	return g
 }
 
 // ParseWordType herkent een code of naam (hoofdletters maken niet uit, "werkwoord" = "ww").
@@ -61,6 +78,10 @@ func setWordType(lib *storage.Library, i int, code string, onlyEmpty bool) bool 
 	changed := false
 	for _, j := range append([]int{i}, storage.NewReverses(lib.Concepts).Of(lib.Concepts[i])...) {
 		c := &lib.Concepts[j]
+		if code == "ww" && !slices.Contains(c.Groups, VerbGroup) && (!onlyEmpty || c.WordType == "" || c.WordType == "ww") {
+			addGroups(c, withVerbGroup(lib, code, nil))
+			changed = true
+		}
 		if c.WordType == code || (onlyEmpty && c.WordType != "") {
 			continue
 		}
