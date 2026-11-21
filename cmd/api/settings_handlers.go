@@ -21,14 +21,14 @@ func (s *server) handlePutSettings(w http.ResponseWriter, r *http.Request) {
 	if !decode(w, r, &v) {
 		return
 	}
-	next := storage.Settings{NewPerDay: v.NewPerDay}
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	next := s.settings // de rest van de instellingen (zoals de actieve regels) blijft staan
+	next.NewPerDay = v.NewPerDay
 	if err := next.Validate(); err != nil {
 		writeError(w, http.StatusBadRequest, err)
 		return
 	}
-
-	s.mu.Lock()
-	defer s.mu.Unlock()
 	if s.settingsPath != "" {
 		if err := storage.SaveSettings(s.settingsPath, next); err != nil {
 			writeError(w, http.StatusInternalServerError, err)

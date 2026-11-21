@@ -3,6 +3,7 @@
 
 import { showQuiz } from "./quiz.js";
 import { showCards } from "./cards.js";
+import { showGrammar } from "./grammar.js";
 import { showStatistics } from "./stats.js";
 import { showManage } from "./manage.js";
 import { showReview } from "./review.js";
@@ -10,6 +11,7 @@ import { showReview } from "./review.js";
 const TABS = {
   oefenen: { section: "app", show: showQuiz },
   kaarten: { section: "cards", show: showCards },
+  regels: { section: "grammar", show: showGrammar },
   statistiek: { section: "stats", show: showStatistics },
   beheer: { section: "manage", show: showManage },
   controleren: { section: "review", show: showReview },

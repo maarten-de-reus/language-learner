@@ -42,11 +42,16 @@ func NewReviewLog(path string) *ReviewLog {
 
 // Append voegt één antwoord toe. Bestaande regels worden nooit aangeraakt.
 func (l *ReviewLog) Append(r Review) error {
-	line, err := json.Marshal(r)
+	return appendJSONLine(l.path, r)
+}
+
+// appendJSONLine zet v als één regel JSON achteraan het bestand
+func appendJSONLine(path string, v any) error {
+	line, err := json.Marshal(v)
 	if err != nil {
 		return err
 	}
-	f, err := os.OpenFile(l.path, os.O_APPEND|os.O_CREATE|os.O_RDWR, 0644)
+	f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_RDWR, 0644)
 	if err != nil {
 		return err
 	}

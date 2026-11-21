@@ -14,6 +14,9 @@ const DefaultNewPerDay = 20
 // Settings zijn de instellingen die je in de interface aanpast; ze staan in instellingen.json
 type Settings struct {
 	NewPerDay int `json:"new_per_day"` // 0 = geen limiet
+	// GrammarRules: de regels die je oefent (zie grammar.Rules). nil = de standaardkeuze;
+	// een lege lijst = bewust alles uit.
+	GrammarRules []string `json:"grammar_rules"`
 }
 
 func DefaultSettings() Settings {

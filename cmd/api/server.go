@@ -22,6 +22,8 @@ type server struct {
 	reviewsPath  string
 	settingsPath string
 	settings     storage.Settings
+	grammarPath  string                   // regels.jsonl: antwoorden in de regeloefening
+	grammarLog   []storage.GrammarAttempt // in het geheugen, voor de scores
 	session      *quiz.Session
 	saveError    string
 }

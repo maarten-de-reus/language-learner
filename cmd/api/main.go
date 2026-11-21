@@ -48,12 +48,18 @@ func main() {
 		log.Fatalf("Fout bij laden instellingen: %v", err)
 	}
 
+	grammarLog, err := storage.ReadGrammar(cfg.grammarPath())
+	if err != nil {
+		log.Printf("Regellog niet gelezen: %v", err)
+	}
+
 	session := quiz.New(lib, cfg.progressPath(), RunSize)
 	session.LogReviewsTo(storage.NewReviewLog(cfg.reviewsPath()))
 	session.SetNewPerDay(settings.NewPerDay)
 	s := &server{
 		lib: lib, session: session, settings: settings,
 		wordsPath: cfg.wordsPath(), reviewsPath: cfg.reviewsPath(), settingsPath: cfg.settingsPath(),
+		grammarPath: cfg.grammarPath(), grammarLog: grammarLog,
 	}
 	srv := &http.Server{
 		Addr:              cfg.Addr,
@@ -115,6 +121,12 @@ func (s *server) routes() *http.ServeMux {
 	mux.HandleFunc("GET /api/stats", s.handleStats)
 	mux.HandleFunc("GET /api/settings", s.handleGetSettings)
 	mux.HandleFunc("PUT /api/settings", s.handlePutSettings)
+
+	// Regels (grammatica)
+	mux.HandleFunc("GET /api/grammar", s.handleGrammar)
+	mux.HandleFunc("PUT /api/grammar/active", s.handleGrammarActive)
+	mux.HandleFunc("GET /api/grammar/exercise", s.handleGrammarExercise)
+	mux.HandleFunc("POST /api/grammar/check", s.handleGrammarCheck)
 
 	// Beheer
 	mux.HandleFunc("GET /api/concepts", s.handleListConcepts)
