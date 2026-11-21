@@ -65,10 +65,14 @@ function importVisible(c, r) {
 // Er valt iets op te slaan: nieuwe woorden, of bestaande woorden die in een groep komen
 const importReady = (c) => c && c.ok && (c.added > 0 || c.grouped > 0);
 
+const words = (n) => `${n} ${n === 1 ? "woord" : "woorden"}`;
+
+// Met een groep: noem eerst hoeveel woorden er straks in de groep zitten (nieuwe én bestaande),
+// anders lijkt "67 in de groep" het hele aantal terwijl er ook 48 nieuwe bij komen
 function importLabel(c) {
-  const words = (n) => `${n} ${n === 1 ? "woord" : "woorden"}`;
   if (!c.added) return `${words(c.grouped)} in de groep zetten`;
-  return `${words(c.added)} importeren${c.grouped ? ` en ${c.grouped} in de groep` : ""}`;
+  if (!pendingGroups("import").length) return `${words(c.added)} importeren`;
+  return `${words(c.added)} importeren · ${c.added + c.duplicates} in de groep`;
 }
 
 function importPreviewHTML(c) {
@@ -302,15 +306,19 @@ async function runImport() {
   if (imp.busy) return;
   imp.busy = true;
   try {
-    const res = await api("POST", "/api/import", { text: imp.text, choices: imp.choices, groups: pendingGroups("import") });
+    const groups = pendingGroups("import");
+    const res = await api("POST", "/api/import", { text: imp.text, choices: imp.choices, groups });
     view.entries = res.entries ?? view.entries;
     closeImport();
+    // Met een groep eerst het totaal in de groep, dan hoe dat is opgebouwd
     const parts = [];
-    if (res.added) parts.push(`${res.added} ${res.added === 1 ? "woord" : "woorden"} toegevoegd`);
-    if (res.grouped) parts.push(`${res.grouped} bestaande in de groep gezet`);
-    if (res.duplicates - res.grouped) parts.push(`${res.duplicates - res.grouped} bestonden al`);
+    if (res.added) parts.push(`${res.added} nieuw`);
+    if (res.duplicates) parts.push(`${res.duplicates} ${res.duplicates === 1 ? "stond" : "stonden"} al in je lijst`);
     if (res.skipped) parts.push(`${res.skipped} overgeslagen`);
-    toast(`${parts.join(", ")}.${res.added ? " Nieuwe woorden komen via de wachtrij binnen; oefen ze vooraf onder Kaarten." : ""}`);
+    const summary = groups.length
+      ? `${words(res.added + res.duplicates)} in ${groups.join(", ")}: ${parts.join(", ")}.`
+      : `${parts.join(", ")}.`;
+    toast(`${summary}${res.added ? " Nieuwe woorden komen via de wachtrij binnen; oefen ze vooraf onder Kaarten." : ""}`);
     refreshStats();
   } catch (err) {
     toast(err.message); // bijv. iets veranderd sinds het controleren: opnieuw controleren
