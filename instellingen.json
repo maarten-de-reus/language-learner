@@ -1,3 +1,6 @@
 {
-  "new_per_day": 40
+  "new_per_day": 40,
+  "grammar_rules": [
+    "ww-onbep"
+  ]
 }
