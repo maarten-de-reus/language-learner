@@ -546,6 +546,11 @@
       "text": "bűvös kocka"
     },
     {
+      "id": "w_hu_ceruza",
+      "language": "hu",
+      "text": "ceruza"
+    },
+    {
       "id": "w_hu_cipő",
       "language": "hu",
       "text": "cipő"
@@ -916,6 +921,11 @@
       "text": "fogalom"
     },
     {
+      "id": "w_hu_foglalkozás",
+      "language": "hu",
+      "text": "foglalkozás"
+    },
+    {
       "id": "w_hu_foglalt",
       "language": "hu",
       "text": "foglalt"
@@ -991,6 +1001,11 @@
       "text": "fényképezőgép"
     },
     {
+      "id": "w_hu_fénymásolat",
+      "language": "hu",
+      "text": "fénymásolat"
+    },
+    {
       "id": "w_hu_fénymásoló",
       "language": "hu",
       "text": "fénymásoló"
@@ -1061,6 +1076,16 @@
       "text": "gyufa"
     },
     {
+      "id": "w_hu_gyufagyár",
+      "language": "hu",
+      "text": "gyufagyár"
+    },
+    {
+      "id": "w_hu_gyár",
+      "language": "hu",
+      "text": "gyár"
+    },
+    {
       "id": "w_hu_gyógyfürdő",
       "language": "hu",
       "text": "gyógyfürdő"
@@ -1074,6 +1099,31 @@
       "id": "w_hu_gyönyörű",
       "language": "hu",
       "text": "gyönyörű"
+    },
+    {
+      "id": "w_hu_gyújt",
+      "language": "hu",
+      "text": "gyújt"
+    },
+    {
+      "id": "w_hu_gyújtani",
+      "language": "hu",
+      "text": "gyújtani"
+    },
+    {
+      "id": "w_hu_gyújtogat",
+      "language": "hu",
+      "text": "gyújtogat"
+    },
+    {
+      "id": "w_hu_gyújtogatni",
+      "language": "hu",
+      "text": "gyújtogatni"
+    },
+    {
+      "id": "w_hu_győri",
+      "language": "hu",
+      "text": "győri"
     },
     {
       "id": "w_hu_gép",
@@ -1201,6 +1251,11 @@
       "text": "hozzá"
     },
     {
+      "id": "w_hu_huszonegy",
+      "language": "hu",
+      "text": "huszonegy"
+    },
+    {
       "id": "w_hu_huszonöt",
       "language": "hu",
       "text": "huszonöt"
@@ -1296,6 +1351,11 @@
       "text": "igaz"
     },
     {
+      "id": "w_hu_ige",
+      "language": "hu",
+      "text": "ige"
+    },
+    {
       "id": "w_hu_innen",
       "language": "hu",
       "text": "innen"
@@ -1319,6 +1379,11 @@
       "id": "w_hu_intézmény",
       "language": "hu",
       "text": "intézmény"
+    },
+    {
+      "id": "w_hu_iroda",
+      "language": "hu",
+      "text": "iroda"
     },
     {
       "id": "w_hu_is",
@@ -1451,9 +1516,24 @@
       "text": "kerülni"
     },
     {
+      "id": "w_hu_kezd",
+      "language": "hu",
+      "text": "kezd"
+    },
+    {
+      "id": "w_hu_kezdeni",
+      "language": "hu",
+      "text": "kezdeni"
+    },
+    {
       "id": "w_hu_kezdődik",
       "language": "hu",
       "text": "kezdődik"
+    },
+    {
+      "id": "w_hu_kezdődni",
+      "language": "hu",
+      "text": "kezdődni"
     },
     {
       "id": "w_hu_ki?",
@@ -1626,6 +1706,11 @@
       "text": "kórház"
     },
     {
+      "id": "w_hu_könyv",
+      "language": "hu",
+      "text": "könyv"
+    },
+    {
       "id": "w_hu_könyvesbolt",
       "language": "hu",
       "text": "könyvesbolt"
@@ -1716,6 +1801,11 @@
       "text": "lakóház"
     },
     {
+      "id": "w_hu_laptop",
+      "language": "hu",
+      "text": "laptop"
+    },
+    {
       "id": "w_hu_lassú",
       "language": "hu",
       "text": "lassú"
@@ -1749,6 +1839,11 @@
       "id": "w_hu_lenni",
       "language": "hu",
       "text": "lenni"
+    },
+    {
+      "id": "w_hu_londoni",
+      "language": "hu",
+      "text": "londoni"
     },
     {
       "id": "w_hu_lusta",
@@ -1791,6 +1886,11 @@
       "text": "madár"
     },
     {
+      "id": "w_hu_madártoll",
+      "language": "hu",
+      "text": "madártoll"
+    },
+    {
       "id": "w_hu_magas",
       "language": "hu",
       "text": "magas"
@@ -1799,6 +1899,11 @@
       "id": "w_hu_magyar",
       "language": "hu",
       "text": "magyar"
+    },
+    {
+      "id": "w_hu_magyarország",
+      "language": "hu",
+      "text": "magyarország"
     },
     {
       "id": "w_hu_magyarul",
@@ -2046,6 +2151,11 @@
       "text": "munka"
     },
     {
+      "id": "w_hu_munkafüzet",
+      "language": "hu",
+      "text": "munkafüzet"
+    },
+    {
       "id": "w_hu_munkahely",
       "language": "hu",
       "text": "munkahely"
@@ -2064,6 +2174,11 @@
       "id": "w_hu_már",
       "language": "hu",
       "text": "már"
+    },
+    {
+      "id": "w_hu_máris",
+      "language": "hu",
+      "text": "máris"
     },
     {
       "id": "w_hu_másolat",
@@ -2161,9 +2276,19 @@
       "text": "negyven"
     },
     {
+      "id": "w_hu_negyvenegy",
+      "language": "hu",
+      "text": "negyvenegy"
+    },
+    {
       "id": "w_hu_negyvennégy",
       "language": "hu",
       "text": "negyvennégy"
+    },
+    {
+      "id": "w_hu_negyvenöt",
+      "language": "hu",
+      "text": "negyvenöt"
     },
     {
       "id": "w_hu_nemzetiség",
@@ -2189,6 +2314,11 @@
       "id": "w_hu_nevetni",
       "language": "hu",
       "text": "nevetni"
+    },
+    {
+      "id": "w_hu_nincs",
+      "language": "hu",
+      "text": "nincs"
     },
     {
       "id": "w_hu_normális",
@@ -2391,6 +2521,11 @@
       "text": "posta"
     },
     {
+      "id": "w_hu_postás",
+      "language": "hu",
+      "text": "postás"
+    },
+    {
       "id": "w_hu_praktikus",
       "language": "hu",
       "text": "praktikus"
@@ -2526,6 +2661,11 @@
       "text": "régóta"
     },
     {
+      "id": "w_hu_rögtön",
+      "language": "hu",
+      "text": "rögtön"
+    },
+    {
       "id": "w_hu_rövid",
       "language": "hu",
       "text": "rövid"
@@ -2596,6 +2736,11 @@
       "text": "sovány"
     },
     {
+      "id": "w_hu_spanyol",
+      "language": "hu",
+      "text": "spanyol"
+    },
+    {
       "id": "w_hu_sport",
       "language": "hu",
       "text": "sport"
@@ -2624,6 +2769,11 @@
       "id": "w_hu_stadion",
       "language": "hu",
       "text": "stadion"
+    },
+    {
+      "id": "w_hu_szakács",
+      "language": "hu",
+      "text": "szakács"
     },
     {
       "id": "w_hu_szakáll",
@@ -2846,6 +2996,11 @@
       "text": "tankol"
     },
     {
+      "id": "w_hu_tankönyv",
+      "language": "hu",
+      "text": "tankönyv"
+    },
+    {
       "id": "w_hu_tanulni",
       "language": "hu",
       "text": "tanulni"
@@ -2934,6 +3089,21 @@
       "id": "w_hu_tizenegy",
       "language": "hu",
       "text": "tizenegy"
+    },
+    {
+      "id": "w_hu_tizennégy",
+      "language": "hu",
+      "text": "tizennégy"
+    },
+    {
+      "id": "w_hu_tizenöt",
+      "language": "hu",
+      "text": "tizenöt"
+    },
+    {
+      "id": "w_hu_toll",
+      "language": "hu",
+      "text": "toll"
     },
     {
       "id": "w_hu_tréning",
@@ -3036,6 +3206,11 @@
       "text": "uszoda"
     },
     {
+      "id": "w_hu_utazik",
+      "language": "hu",
+      "text": "utazik"
+    },
+    {
       "id": "w_hu_utazni",
       "language": "hu",
       "text": "utazni"
@@ -3049,6 +3224,11 @@
       "id": "w_hu_utolsó",
       "language": "hu",
       "text": "utolsó"
+    },
+    {
+      "id": "w_hu_utrechti",
+      "language": "hu",
+      "text": "utrechti"
     },
     {
       "id": "w_hu_utána",
@@ -3321,6 +3501,11 @@
       "text": "édes"
     },
     {
+      "id": "w_hu_éj",
+      "language": "hu",
+      "text": "éj"
+    },
+    {
       "id": "w_hu_éjfél",
       "language": "hu",
       "text": "éjfél"
@@ -3329,6 +3514,11 @@
       "id": "w_hu_éjfélkor",
       "language": "hu",
       "text": "éjfélkor"
+    },
+    {
+      "id": "w_hu_éjjel",
+      "language": "hu",
+      "text": "éjjel"
     },
     {
       "id": "w_hu_éjszaka",
@@ -3366,6 +3556,11 @@
       "text": "élni"
     },
     {
+      "id": "w_hu_énekel",
+      "language": "hu",
+      "text": "énekel"
+    },
+    {
       "id": "w_hu_énekelni",
       "language": "hu",
       "text": "énekelni"
@@ -3379,6 +3574,11 @@
       "id": "w_hu_épület",
       "language": "hu",
       "text": "épület"
+    },
+    {
+      "id": "w_hu_érdekes",
+      "language": "hu",
+      "text": "érdekes"
     },
     {
       "id": "w_hu_ért",
@@ -3791,6 +3991,11 @@
       "text": "nee"
     },
     {
+      "id": "w_nl_aansteken",
+      "language": "nl",
+      "text": "aansteken"
+    },
+    {
       "id": "w_nl_aardig",
       "language": "nl",
       "text": "aardig"
@@ -3931,6 +4136,11 @@
       "text": "bedankt"
     },
     {
+      "id": "w_nl_beginnen",
+      "language": "nl",
+      "text": "beginnen"
+    },
+    {
       "id": "w_nl_begint",
       "language": "nl",
       "text": "begint"
@@ -3969,6 +4179,11 @@
       "id": "w_nl_berg",
       "language": "nl",
       "text": "berg"
+    },
+    {
+      "id": "w_nl_beroep",
+      "language": "nl",
+      "text": "beroep"
     },
     {
       "id": "w_nl_beslist",
@@ -4061,6 +4276,11 @@
       "text": "blijft"
     },
     {
+      "id": "w_nl_boek",
+      "language": "nl",
+      "text": "boek"
+    },
+    {
       "id": "w_nl_boekenwinkel",
       "language": "nl",
       "text": "boekenwinkel"
@@ -4069,6 +4289,11 @@
       "id": "w_nl_bos",
       "language": "nl",
       "text": "bos"
+    },
+    {
+      "id": "w_nl_brandstichten",
+      "language": "nl",
+      "text": "brandstichten"
     },
     {
       "id": "w_nl_breed",
@@ -4296,6 +4521,11 @@
       "text": "dinsdag"
     },
     {
+      "id": "w_nl_direct",
+      "language": "nl",
+      "text": "direct"
+    },
+    {
       "id": "w_nl_disco",
       "language": "nl",
       "text": "disco"
@@ -4411,6 +4641,16 @@
       "text": "echtgenote"
     },
     {
+      "id": "w_nl_eenentwintig",
+      "language": "nl",
+      "text": "eenentwintig"
+    },
+    {
+      "id": "w_nl_eenenveertig",
+      "language": "nl",
+      "text": "eenenveertig"
+    },
+    {
       "id": "w_nl_eenlettergrepig",
       "language": "nl",
       "text": "eenlettergrepig"
@@ -4491,6 +4731,11 @@
       "text": "evenement"
     },
     {
+      "id": "w_nl_fabriek",
+      "language": "nl",
+      "text": "fabriek"
+    },
+    {
       "id": "w_nl_fauteuil",
       "language": "nl",
       "text": "fauteuil"
@@ -4544,6 +4789,11 @@
       "id": "w_nl_foto",
       "language": "nl",
       "text": "foto"
+    },
+    {
+      "id": "w_nl_fotokopie",
+      "language": "nl",
+      "text": "fotokopie"
     },
     {
       "id": "w_nl_fototoestel",
@@ -4841,6 +5091,11 @@
       "text": "hongaarse les"
     },
     {
+      "id": "w_nl_hongarije",
+      "language": "nl",
+      "text": "hongarije"
+    },
+    {
       "id": "w_nl_hoofd",
       "language": "nl",
       "text": "hoofd"
@@ -4901,6 +5156,11 @@
       "text": "in de buurt"
     },
     {
+      "id": "w_nl_in_de_nacht",
+      "language": "nl",
+      "text": "in de nacht"
+    },
+    {
       "id": "w_nl_in_het_hongaars",
       "language": "nl",
       "text": "in het hongaars"
@@ -4931,6 +5191,11 @@
       "text": "instituut"
     },
     {
+      "id": "w_nl_interessant",
+      "language": "nl",
+      "text": "interessant"
+    },
+    {
       "id": "w_nl_internationaal",
       "language": "nl",
       "text": "internationaal"
@@ -4944,6 +5209,11 @@
       "id": "w_nl_is",
       "language": "nl",
       "text": "is"
+    },
+    {
+      "id": "w_nl_is_er_niet",
+      "language": "nl",
+      "text": "is er niet"
     },
     {
       "id": "w_nl_is_op_vakantie",
@@ -4971,6 +5241,11 @@
       "text": "jong"
     },
     {
+      "id": "w_nl_jongen",
+      "language": "nl",
+      "text": "jongen"
+    },
+    {
       "id": "w_nl_jungle",
       "language": "nl",
       "text": "jungle"
@@ -4989,6 +5264,11 @@
       "id": "w_nl_kan",
       "language": "nl",
       "text": "kan"
+    },
+    {
+      "id": "w_nl_kantoor",
+      "language": "nl",
+      "text": "kantoor"
     },
     {
       "id": "w_nl_kapper",
@@ -5069,6 +5349,11 @@
       "id": "w_nl_koffiezetapparaat",
       "language": "nl",
       "text": "koffiezetapparaat"
+    },
+    {
+      "id": "w_nl_kok",
+      "language": "nl",
+      "text": "kok"
     },
     {
       "id": "w_nl_koken",
@@ -5206,6 +5491,11 @@
       "text": "langzaam"
     },
     {
+      "id": "w_nl_laptop",
+      "language": "nl",
+      "text": "laptop"
+    },
+    {
       "id": "w_nl_later",
       "language": "nl",
       "text": "later"
@@ -5214,6 +5504,16 @@
       "id": "w_nl_lawaaierig",
       "language": "nl",
       "text": "lawaaierig"
+    },
+    {
+      "id": "w_nl_leeft",
+      "language": "nl",
+      "text": "leeft"
+    },
+    {
+      "id": "w_nl_leert",
+      "language": "nl",
+      "text": "leert"
     },
     {
       "id": "w_nl_lelijk",
@@ -5231,9 +5531,19 @@
       "text": "leraar"
     },
     {
+      "id": "w_nl_leren",
+      "language": "nl",
+      "text": "leren"
+    },
+    {
       "id": "w_nl_les",
       "language": "nl",
       "text": "les"
+    },
+    {
+      "id": "w_nl_lesboek",
+      "language": "nl",
+      "text": "lesboek"
     },
     {
       "id": "w_nl_leven",
@@ -5286,6 +5596,11 @@
       "text": "links"
     },
     {
+      "id": "w_nl_londens",
+      "language": "nl",
+      "text": "londens"
+    },
+    {
       "id": "w_nl_lopen",
       "language": "nl",
       "text": "lopen"
@@ -5304,6 +5619,11 @@
       "id": "w_nl_lucifer",
       "language": "nl",
       "text": "lucifer"
+    },
+    {
+      "id": "w_nl_luciferfabriek",
+      "language": "nl",
+      "text": "luciferfabriek"
     },
     {
       "id": "w_nl_lui",
@@ -5414,6 +5734,11 @@
       "id": "w_nl_met_hem",
       "language": "nl",
       "text": "met hem"
+    },
+    {
+      "id": "w_nl_meteen",
+      "language": "nl",
+      "text": "meteen"
     },
     {
       "id": "w_nl_metro",
@@ -5881,6 +6206,11 @@
       "text": "patiënt"
     },
     {
+      "id": "w_nl_pen",
+      "language": "nl",
+      "text": "pen"
+    },
+    {
       "id": "w_nl_perfect",
       "language": "nl",
       "text": "perfect"
@@ -5951,9 +6281,19 @@
       "text": "populair"
     },
     {
+      "id": "w_nl_postbode",
+      "language": "nl",
+      "text": "postbode"
+    },
+    {
       "id": "w_nl_postkantoor",
       "language": "nl",
       "text": "postkantoor"
+    },
+    {
+      "id": "w_nl_potlood",
+      "language": "nl",
+      "text": "potlood"
     },
     {
       "id": "w_nl_prachtig",
@@ -6014,6 +6354,11 @@
       "id": "w_nl_regelmatig",
       "language": "nl",
       "text": "regelmatig"
+    },
+    {
+      "id": "w_nl_reis",
+      "language": "nl",
+      "text": "reis"
     },
     {
       "id": "w_nl_reist",
@@ -6191,6 +6536,11 @@
       "text": "sorry? (wat zegt u?)"
     },
     {
+      "id": "w_nl_spaans",
+      "language": "nl",
+      "text": "spaans"
+    },
+    {
       "id": "w_nl_speelgoed",
       "language": "nl",
       "text": "speelgoed"
@@ -6261,9 +6611,19 @@
       "text": "station"
     },
     {
+      "id": "w_nl_steekt_aan",
+      "language": "nl",
+      "text": "steekt aan"
+    },
+    {
       "id": "w_nl_stem",
       "language": "nl",
       "text": "stem"
+    },
+    {
+      "id": "w_nl_sticht_brand",
+      "language": "nl",
+      "text": "sticht brand"
     },
     {
       "id": "w_nl_stil",
@@ -6481,6 +6841,11 @@
       "text": "u"
     },
     {
+      "id": "w_nl_uit_győr",
+      "language": "nl",
+      "text": "uit győr"
+    },
+    {
       "id": "w_nl_uiterlijk",
       "language": "nl",
       "text": "uiterlijk"
@@ -6494,6 +6859,11 @@
       "id": "w_nl_uitstekend",
       "language": "nl",
       "text": "uitstekend"
+    },
+    {
+      "id": "w_nl_utrechts",
+      "language": "nl",
+      "text": "utrechts"
     },
     {
       "id": "w_nl_uur",
@@ -6544,6 +6914,16 @@
       "id": "w_nl_vast",
       "language": "nl",
       "text": "vast"
+    },
+    {
+      "id": "w_nl_veer",
+      "language": "nl",
+      "text": "veer"
+    },
+    {
+      "id": "w_nl_veertien",
+      "language": "nl",
+      "text": "veertien"
     },
     {
       "id": "w_nl_veertig",
@@ -6616,6 +6996,16 @@
       "text": "vijfentwintig"
     },
     {
+      "id": "w_nl_vijfenveertig",
+      "language": "nl",
+      "text": "vijfenveertig"
+    },
+    {
+      "id": "w_nl_vijftien",
+      "language": "nl",
+      "text": "vijftien"
+    },
+    {
       "id": "w_nl_vijftig",
       "language": "nl",
       "text": "vijftig"
@@ -6644,6 +7034,11 @@
       "id": "w_nl_vogelaar",
       "language": "nl",
       "text": "vogelaar"
+    },
+    {
+      "id": "w_nl_vogelveer",
+      "language": "nl",
+      "text": "vogelveer"
     },
     {
       "id": "w_nl_voormiddag",
@@ -6831,6 +7226,11 @@
       "text": "werk"
     },
     {
+      "id": "w_nl_werkboek",
+      "language": "nl",
+      "text": "werkboek"
+    },
+    {
       "id": "w_nl_werkcollege",
       "language": "nl",
       "text": "werkcollege"
@@ -6849,6 +7249,11 @@
       "id": "w_nl_werktijd",
       "language": "nl",
       "text": "werktijd"
+    },
+    {
+      "id": "w_nl_werkwoord",
+      "language": "nl",
+      "text": "werkwoord"
     },
     {
       "id": "w_nl_west",
@@ -6889,6 +7294,11 @@
       "id": "w_nl_woensdag",
       "language": "nl",
       "text": "woensdag"
+    },
+    {
+      "id": "w_nl_wonen",
+      "language": "nl",
+      "text": "wonen"
     },
     {
       "id": "w_nl_woonhuis",
@@ -7011,6 +7421,11 @@
       "text": "zingen"
     },
     {
+      "id": "w_nl_zingt",
+      "language": "nl",
+      "text": "zingt"
+    },
+    {
       "id": "w_nl_zinsdeel",
       "language": "nl",
       "text": "zinsdeel"
@@ -7034,6 +7449,11 @@
       "id": "w_nl_zomer",
       "language": "nl",
       "text": "zomer"
+    },
+    {
+      "id": "w_nl_zon",
+      "language": "nl",
+      "text": "zon"
     },
     {
       "id": "w_nl_zondag",
@@ -7165,7 +7585,8 @@
       "groups": [
         "Basiswoorden",
         "MagyarOK 1.1",
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7180,7 +7601,8 @@
       "groups": [
         "Basiswoorden",
         "MagyarOK 1.1",
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7292,7 +7714,8 @@
       "example_lang": "hu",
       "groups": [
         "Getallen",
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7320,7 +7743,8 @@
       "example": "Három sört kérek.",
       "example_lang": "hu",
       "groups": [
-        "Getallen"
+        "Getallen",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7334,7 +7758,8 @@
       "example_lang": "hu",
       "groups": [
         "Getallen",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7348,7 +7773,8 @@
       "example_lang": "hu",
       "groups": [
         "Getallen",
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7362,7 +7788,8 @@
       "example_lang": "hu",
       "groups": [
         "Getallen",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7406,7 +7833,8 @@
       "example_lang": "hu",
       "groups": [
         "Getallen",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7420,7 +7848,8 @@
       "example_lang": "hu",
       "groups": [
         "Getallen",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7474,7 +7903,8 @@
       "example": "Most nem tudok beszélni.",
       "example_lang": "hu",
       "groups": [
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7488,7 +7918,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.6",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7502,7 +7933,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.6",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7811,7 +8243,8 @@
       "groups": [
         "Basiswoorden",
         "MagyarOK 1.1",
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7826,7 +8259,8 @@
       "groups": [
         "Basiswoorden",
         "MagyarOK 1.1",
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7924,7 +8358,8 @@
       "example_lang": "hu",
       "groups": [
         "Getallen",
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7952,7 +8387,8 @@
       "example": "Három sört kérek.",
       "example_lang": "hu",
       "groups": [
-        "Getallen"
+        "Getallen",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7966,7 +8402,8 @@
       "example_lang": "hu",
       "groups": [
         "Getallen",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7980,7 +8417,8 @@
       "example_lang": "hu",
       "groups": [
         "Getallen",
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -7994,7 +8432,8 @@
       "example_lang": "hu",
       "groups": [
         "Getallen",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8038,7 +8477,8 @@
       "example_lang": "hu",
       "groups": [
         "Getallen",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8052,7 +8492,8 @@
       "example_lang": "hu",
       "groups": [
         "Getallen",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8093,7 +8534,8 @@
       "example_lang": "hu",
       "groups": [
         "Eten en drinken",
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8107,7 +8549,8 @@
       "example_lang": "hu",
       "groups": [
         "Eten en drinken",
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8148,7 +8591,8 @@
       "example": "A ház nagy és szép.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8161,7 +8605,8 @@
       "example": "A ház nagy és szép.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8176,8 +8621,10 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.1",
-        "MagyarOK 1.5-6"
-      ]
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_autó",
@@ -8190,8 +8637,10 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.1",
-        "MagyarOK 1.5-6"
-      ]
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_trein",
@@ -8277,7 +8726,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.6",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8291,7 +8741,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.6",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8372,12 +8823,14 @@
       "source_word_id": "w_hu_39",
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
-        "w_nl_hij_zij_studeert"
+        "w_nl_hij_zij_studeert",
+        "w_nl_leert"
       ],
       "example": "Ő magyarul tanul.",
       "example_lang": "hu",
       "groups": [
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8392,7 +8845,8 @@
       "groups": [
         "Werkwoorden",
         "MagyarOK 1.1",
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8408,7 +8862,8 @@
       "groups": [
         "Werkwoorden",
         "MagyarOK 1.1",
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8422,7 +8877,8 @@
       "example_lang": "hu",
       "groups": [
         "Werkwoorden",
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8436,7 +8892,8 @@
       "example_lang": "hu",
       "groups": [
         "Werkwoorden",
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8506,7 +8963,8 @@
       "example_lang": "hu",
       "groups": [
         "Werkwoorden",
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8520,7 +8978,8 @@
       "example_lang": "hu",
       "groups": [
         "Werkwoorden",
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8535,7 +8994,8 @@
       "groups": [
         "Werkwoorden",
         "Onregelmatige werkwoorden",
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8550,7 +9010,8 @@
       "groups": [
         "Werkwoorden",
         "Onregelmatige werkwoorden",
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8817,7 +9278,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.4",
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8831,7 +9293,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.4",
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8909,13 +9372,15 @@
       "source_word_id": "w_hu_tanulni",
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
-        "w_nl_39"
+        "w_nl_39",
+        "w_nl_leren"
       ],
       "example": "Szeretek tanulni.",
       "example_lang": "hu",
       "groups": [
         "Werkwoorden",
-        "Magyar Óra 2.4"
+        "Magyar Óra 2.4",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8928,7 +9393,8 @@
       "example": "Szeretnék magyarul beszélni.",
       "example_lang": "hu",
       "groups": [
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8954,7 +9420,8 @@
       "example": "Tudsz magyarul írni?",
       "example_lang": "hu",
       "groups": [
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -8967,7 +9434,8 @@
       "example": "Tudsz magyarul írni?",
       "example_lang": "hu",
       "groups": [
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -9034,7 +9502,8 @@
       "example": "Holnap tudsz jönni?",
       "example_lang": "hu",
       "groups": [
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -9047,7 +9516,8 @@
       "example": "Holnap tudsz jönni?",
       "example_lang": "hu",
       "groups": [
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -9061,7 +9531,8 @@
       "example_lang": "hu",
       "groups": [
         "Werkwoorden",
-        "Onregelmatige werkwoorden"
+        "Onregelmatige werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -9075,7 +9546,8 @@
       "example_lang": "hu",
       "groups": [
         "Werkwoorden",
-        "Onregelmatige werkwoorden"
+        "Onregelmatige werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -9296,7 +9768,8 @@
         "w_hu_madár"
       ],
       "groups": [
-        "Magyar Óra 2.5"
+        "Magyar Óra 2.5",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -9307,7 +9780,8 @@
         "w_nl_vogel"
       ],
       "groups": [
-        "Magyar Óra 2.5"
+        "Magyar Óra 2.5",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -10573,7 +11047,8 @@
         "w_hu_énekelni"
       ],
       "groups": [
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -10584,7 +11059,8 @@
         "w_nl_zingen"
       ],
       "groups": [
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -10639,7 +11115,8 @@
         "w_hu_élni"
       ],
       "groups": [
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -10647,10 +11124,14 @@
       "source_word_id": "w_hu_élni",
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
-        "w_nl_leven"
+        "w_nl_leven",
+        "w_nl_wonen"
       ],
+      "example": "Jó Utrechtben élni.",
+      "example_lang": "hu",
       "groups": [
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -10749,7 +11230,8 @@
         "w_hu_szeretni"
       ],
       "groups": [
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -10760,7 +11242,8 @@
         "w_nl_houden_van"
       ],
       "groups": [
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -10932,7 +11415,8 @@
         "w_hu_utazni"
       ],
       "groups": [
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -10943,7 +11427,8 @@
         "w_nl_reizen"
       ],
       "groups": [
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -11496,7 +11981,8 @@
         "w_hu_hanem"
       ],
       "groups": [
-        "Magyar Óra 2.4"
+        "Magyar Óra 2.4",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -11507,7 +11993,8 @@
         "w_nl_maar"
       ],
       "groups": [
-        "Magyar Óra 2.4"
+        "Magyar Óra 2.4",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -11519,7 +12006,8 @@
       ],
       "groups": [
         "Magyar Óra 2.4",
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -11531,7 +12019,8 @@
       ],
       "groups": [
         "Magyar Óra 2.4",
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -12001,7 +12490,8 @@
         "w_hu_azonnal"
       ],
       "groups": [
-        "Magyar Óra 2.4"
+        "Magyar Óra 2.4",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -12012,7 +12502,8 @@
         "w_nl_onmiddellijk"
       ],
       "groups": [
-        "Magyar Óra 2.4"
+        "Magyar Óra 2.4",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -12089,7 +12580,8 @@
         "w_hu_kávéfőző"
       ],
       "groups": [
-        "Magyar Óra 2.4"
+        "Magyar Óra 2.4",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -12100,7 +12592,8 @@
         "w_nl_koffiezetapparaat"
       ],
       "groups": [
-        "Magyar Óra 2.4"
+        "Magyar Óra 2.4",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -12680,12 +13173,14 @@
       "source_word_id": "w_nl_nacht",
       "context_source": "",
       "target_word_ids": [
-        "w_hu_éjszaka"
+        "w_hu_éjszaka",
+        "w_hu_éj"
       ],
       "example": "Az éjszaka szép.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -12698,7 +13193,8 @@
       "example": "Az éjszaka szép.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -12844,7 +13340,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.1",
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -12859,7 +13356,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.1",
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -12990,7 +13488,8 @@
       "example": "Ez egy gyufa.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -13003,7 +13502,8 @@
       "example": "Ez egy gyufa.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -13042,7 +13542,8 @@
       "example": "Ez egy hasznos mondat.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -13055,7 +13556,8 @@
       "example": "Ez egy hasznos mondat.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -13481,7 +13983,8 @@
       "example": "Anna magyar.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -13494,7 +13997,8 @@
       "example": "Anna magyar.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -13718,7 +14222,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.1",
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -13732,7 +14237,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.1",
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -13904,7 +14410,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.1",
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -13918,7 +14425,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.1",
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -14062,7 +14570,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.1",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -14076,7 +14585,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.1",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -14089,7 +14599,8 @@
       "example": "A telefon új.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -14102,7 +14613,8 @@
       "example": "A telefon új.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.1"
+        "MagyarOK 1.1",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -14535,7 +15047,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.6",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -14549,7 +15062,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.6",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -14640,7 +15154,8 @@
       "example": "A macska lusta.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -14653,7 +15168,8 @@
       "example": "A macska lusta.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -14961,7 +15477,8 @@
       "example": "A fiam nagyon kreatív.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -14975,7 +15492,8 @@
       "example": "A fiam nagyon kreatív.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -14988,7 +15506,8 @@
       "example": "Nagyon fáradt vagyok.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -15123,7 +15642,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.6",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -15137,7 +15657,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.6",
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -15151,7 +15672,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.6",
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -15165,7 +15687,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.6",
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -15230,7 +15753,8 @@
       "example": "Hét óra tizenegy perc van.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -15243,7 +15767,8 @@
       "example": "Hét óra tizenegy perc van.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -15298,7 +15823,8 @@
       "groups": [
         "Magyar Óra 2.6",
         "Werkwoorden",
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -15306,13 +15832,15 @@
       "source_word_id": "w_hu_él",
       "context_source": "werkwoord · 3e persoon enkelvoud",
       "target_word_ids": [
-        "w_nl_woont"
+        "w_nl_woont",
+        "w_nl_leeft"
       ],
       "example": "Anna Utrechtben él.",
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.6",
-        "Werkwoorden"
+        "Werkwoorden",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -15340,7 +15868,8 @@
       "example": "Hol a bal füled?",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -15353,7 +15882,8 @@
       "example": "Hol a bal füled?",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -16414,7 +16944,8 @@
       "example": "A természet szép.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -16427,7 +16958,8 @@
       "example": "A természet szép.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -16505,7 +17037,8 @@
       "example": "A munkahely közel van.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -16518,7 +17051,8 @@
       "example": "A munkahely közel van.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -17304,7 +17838,8 @@
       "example": "Annának egy fia van.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -17317,7 +17852,8 @@
       "example": "Annának egy fia van.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.6"
+        "Magyar Óra 2.6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -17331,7 +17867,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_ahol_verwijst_naar_een_plaats_midden_in_een_zin",
@@ -17344,7 +17881,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_vorm_hoe_iets_eruitziet,_ook_bij_grammatica",
@@ -17409,7 +17947,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_áram_elektriciteit",
@@ -17422,7 +17961,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_stroomvoorziening_levering_van_elektriciteit",
@@ -17435,7 +17975,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_áramellátás_levering_van_elektriciteit",
@@ -17448,7 +17989,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_warenhuis_grote_winkel_met_veel_afdelingen",
@@ -17461,7 +18003,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_áruház_grote_winkel_met_veel_afdelingen",
@@ -17474,7 +18017,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_daarna_wat_er_vervolgens_gebeurt",
@@ -17488,7 +18032,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_aztán_wat_er_vervolgens_gebeurt",
@@ -17501,7 +18046,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_bank_hier_zet_je_je_geld",
@@ -17514,7 +18060,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_bank_hier_zet_je_je_geld",
@@ -17527,7 +18074,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_barok_bouwstijl_uit_de_17e_eeuw",
@@ -17540,7 +18088,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_barokk_bouwstijl_uit_de_17e_eeuw",
@@ -17553,7 +18102,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_centrum_het_oude_hart_van_de_stad",
@@ -17580,7 +18130,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_bent_tegenovergestelde_van_kint",
@@ -17593,7 +18144,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_tankstation_hier_gooi_je_de_tank_vol",
@@ -17606,7 +18158,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_benzinkút_hier_gooi_je_de_tank_vol",
@@ -17619,7 +18172,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_ziek_als_je_griep_hebt",
@@ -17632,7 +18186,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_beteg_als_je_griep_hebt",
@@ -17645,7 +18200,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_patiënt_persoon_bij_de_dokter",
@@ -17658,7 +18214,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_beteg_persoon_bij_de_dokter",
@@ -17671,7 +18228,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_winkelcentrum_veel_winkels_onder_één_dak",
@@ -17684,7 +18242,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_bevásárlóközpont_veel_winkels_onder_één_dak",
@@ -17697,7 +18256,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_fiets_twee_wielen_en_trappers",
@@ -17763,7 +18323,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_biztonságos_zonder_gevaar",
@@ -17776,7 +18337,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_wijnhuis_hier_drink_je_wijn",
@@ -17789,7 +18351,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_borozó_hier_drink_je_wijn",
@@ -17802,7 +18365,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_bushalte_hier_stap_je_in_de_bus",
@@ -17815,7 +18379,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_buszmegálló_hier_stap_je_in_de_bus",
@@ -17828,7 +18393,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_stinkend_ruikt_slecht",
@@ -17867,7 +18433,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_cukrászda_taart_en_gebak",
@@ -17880,7 +18447,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_stilte_geen_enkel_geluid",
@@ -17893,7 +18461,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_csend_geen_enkel_geluid",
@@ -17906,7 +18475,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_stil_rustig,_zonder_lawaai",
@@ -17919,7 +18489,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_csendes_rustig,_zonder_lawaai",
@@ -17932,7 +18503,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_donderdag_vierde_dag_van_de_week",
@@ -17944,8 +18516,10 @@
       "example": "Ma csütörtök van.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
-      ]
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_csütörtök_vierde_dag_van_de_week",
@@ -17957,8 +18531,10 @@
       "example": "Ma csütörtök van.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
-      ]
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_op_donderdag_wanneer,_vierde_dag_van_de_week",
@@ -17971,7 +18547,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_csütörtökön_wanneer,_vierde_dag_van_de_week",
@@ -17984,7 +18561,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_middag_12_uur",
@@ -18257,7 +18835,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_egyedül_zonder_anderen",
@@ -18270,7 +18849,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_recht_niet_krom",
@@ -18569,7 +19149,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_foglalt_de_plaats_is_niet_vrij",
@@ -18582,7 +19163,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_voorstelling_in_het_theater",
@@ -18725,7 +19307,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_erdő_veel_bomen",
@@ -18738,7 +19321,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_avond_na_het_eten",
@@ -18750,8 +19334,10 @@
       "example": "Este van.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
-      ]
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_este_na_het_eten",
@@ -18763,8 +19349,10 @@
       "example": "Este van.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
-      ]
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_middel_gereedschap_of_hulpmiddel",
@@ -18906,7 +19494,8 @@
       "example": "Fél nyolc van.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -18919,7 +19508,8 @@
       "example": "Fél nyolc van.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -19036,7 +19626,8 @@
       "example": "A film hosszú.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -19049,7 +19640,8 @@
       "example": "A film hosszú.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -19245,7 +19837,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_forrás_hier_komt_water_uit_de_grond",
@@ -19258,7 +19851,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_gotisch_bouwstijl_met_spitse_bogen",
@@ -19375,7 +19969,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_gyógyszertár_hier_haal_je_medicijnen",
@@ -19388,7 +19983,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_snel_tegenovergestelde_van_lassú",
@@ -19545,7 +20141,8 @@
       "example": "Háromnegyed négy van.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -19558,7 +20155,8 @@
       "example": "Háromnegyed négy van.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -19598,7 +20196,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_hegy_hoog_stuk_land",
@@ -19611,7 +20210,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_plaats_waar_iets_is",
@@ -19623,7 +20223,8 @@
       "example": "Ez egy szép hely.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -19638,7 +20239,8 @@
       "example": "Ez egy szép hely.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -20213,7 +20815,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_kávézó_hier_drink_je_koffie",
@@ -20226,7 +20829,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_dinsdag_tweede_dag_van_de_week",
@@ -20370,7 +20974,8 @@
       "example": "Mikor kezdődik az előadás?",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -20383,7 +20988,8 @@
       "example": "Mikor kezdődik az előadás?",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -20423,7 +21029,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_kint_tegenovergestelde_van_bent",
@@ -20436,7 +21043,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_kleine_stad_groter_dan_een_dorp",
@@ -20500,8 +21108,10 @@
       "example": "A kocsi a parkolóban van.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
-      ]
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_kroeg_hier_drink_je_een_biertje",
@@ -20723,7 +21333,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_könyvesbolt_hier_koop_je_boeken",
@@ -20736,7 +21347,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_bibliotheek_hier_leen_je_boeken",
@@ -20749,7 +21361,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_könyvtár_hier_leen_je_boeken",
@@ -20762,7 +21375,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_buurt_de_omgeving_van_je_huis",
@@ -21021,7 +21635,8 @@
       "example": "Anna a Maros utcában lakik.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -21113,7 +21728,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_marad_niet_weggaan",
@@ -21126,7 +21742,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_tot_hoe_laat_vraag_naar_het_einde",
@@ -21703,7 +22320,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_mozi_hier_kijk_je_films",
@@ -21716,7 +22334,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_werktijd_de_uren_dat_je_werkt",
@@ -21871,7 +22490,8 @@
       "example": "Milyen nap van ma?",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -21884,7 +22504,8 @@
       "example": "Milyen nap van ma?",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -21923,7 +22544,8 @@
       "example": "Negyed négy van.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -21936,7 +22558,8 @@
       "example": "Negyed négy van.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -22197,7 +22820,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_oda_richting_die_plek",
@@ -22210,7 +22834,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_olympiade_grote_sportwedstrijd_om_de_vier_jaar",
@@ -22434,7 +23059,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_például_om_iets_te_illustreren",
@@ -22447,7 +23073,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_vrijdag_vijfde_dag_van_de_week",
@@ -22641,7 +23268,8 @@
       "example": "A posta közel van.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -22654,7 +23282,8 @@
       "example": "A posta közel van.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -23854,7 +24483,8 @@
       "example": "A tenger kék.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -23867,7 +24497,8 @@
       "example": "A tenger kék.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -24140,7 +24771,8 @@
       "example": "Az út hosszú.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -24153,7 +24785,8 @@
       "example": "Az út hosszú.",
       "example_lang": "hu",
       "groups": [
-        "MagyarOK 1.5-6"
+        "MagyarOK 1.5-6",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -24167,7 +24800,8 @@
       "example_lang": "hu",
       "groups": [
         "MagyarOK 1.5-6"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_routebeschrijving_uitleg_hoe_je_ergens_komt",
@@ -25053,7 +25687,8 @@
       "example": "Harminc perc van hátra.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -25066,7 +25701,8 @@
       "example": "Harminc perc van hátra.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -25262,7 +25898,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_nadrág_draag_je_om_je_benen",
@@ -25275,7 +25912,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_blauw_kleur_van_de_lucht",
@@ -25288,7 +25926,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_kék_kleur_van_de_lucht",
@@ -25301,7 +25940,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_zijn_moeder_moeder_van_een_man",
@@ -25314,7 +25954,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_anyja_moeder_van_een_man",
@@ -25327,7 +25968,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_bank_zitmeubel_in_de_woonkamer",
@@ -25340,7 +25982,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_kanapé_zitmeubel_in_de_woonkamer",
@@ -25353,7 +25996,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_bellen_met_de_telefoon",
@@ -25449,7 +26093,8 @@
       "example": "A munka fontos.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -25462,7 +26107,8 @@
       "example": "A munka fontos.",
       "example_lang": "hu",
       "groups": [
-        "Magyar Óra 2.7"
+        "Magyar Óra 2.7",
+        "Magyar Óra 2.8"
       ]
     },
     {
@@ -25737,7 +26383,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_vár_versterkt_gebouw_met_muren",
@@ -25750,7 +26397,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_oudere_broer_familie,_ouder_dan_jij",
@@ -25763,7 +26411,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_hu_nl_báty_familie,_ouder_dan_jij",
@@ -25776,7 +26425,8 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"
-      ]
+      ],
+      "verified": true
     },
     {
       "id": "c_nl_hu_printer_zet_tekst_op_papier",
@@ -25854,6 +26504,1225 @@
       "example_lang": "hu",
       "groups": [
         "Magyar Óra 2.7"
+      ]
+    },
+    {
+      "id": "c_nl_hu_lesboek_boek_dat_je_in_de_klas_gebruikt",
+      "source_word_id": "w_nl_lesboek",
+      "context_source": "boek dat je in de klas gebruikt",
+      "target_word_ids": [
+        "w_hu_tankönyv"
+      ],
+      "example": "A tankönyv a táskámban van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_tankönyv_boek_dat_je_in_de_klas_gebruikt",
+      "source_word_id": "w_hu_tankönyv",
+      "context_source": "boek dat je in de klas gebruikt",
+      "target_word_ids": [
+        "w_nl_lesboek"
+      ],
+      "example": "A tankönyv a táskámban van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_boek_heeft_bladzijden",
+      "source_word_id": "w_nl_boek",
+      "context_source": "heeft bladzijden",
+      "target_word_ids": [
+        "w_hu_könyv"
+      ],
+      "example": "Ez egy magyar könyv.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_könyv_heeft_bladzijden",
+      "source_word_id": "w_hu_könyv",
+      "context_source": "heeft bladzijden",
+      "target_word_ids": [
+        "w_nl_boek"
+      ],
+      "example": "Ez egy magyar könyv.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_werkboek_schrift_met_opdrachten",
+      "source_word_id": "w_nl_werkboek",
+      "context_source": "schrift met opdrachten",
+      "target_word_ids": [
+        "w_hu_munkafüzet"
+      ],
+      "example": "A munkafüzet az asztalon van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_munkafüzet_schrift_met_opdrachten",
+      "source_word_id": "w_hu_munkafüzet",
+      "context_source": "schrift met opdrachten",
+      "target_word_ids": [
+        "w_nl_werkboek"
+      ],
+      "example": "A munkafüzet az asztalon van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_fotokopie_kopie_van_papier",
+      "source_word_id": "w_nl_fotokopie",
+      "context_source": "kopie van papier",
+      "target_word_ids": [
+        "w_hu_fénymásolat"
+      ],
+      "example": "Ez egy fénymásolat.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_fénymásolat_kopie_van_papier",
+      "source_word_id": "w_hu_fénymásolat",
+      "context_source": "kopie van papier",
+      "target_word_ids": [
+        "w_nl_fotokopie"
+      ],
+      "example": "Ez egy fénymásolat.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_leren_infinitief,_kennis_opdoen",
+      "source_word_id": "w_nl_leren",
+      "context_source": "werkwoord · infinitief · kennis opdoen",
+      "target_word_ids": [
+        "w_hu_tanulni"
+      ],
+      "example": "Szeretek magyarul tanulni.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8",
+        "Werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_leert_3e_persoon,_kennis_opdoen",
+      "source_word_id": "w_nl_leert",
+      "context_source": "3e persoon, kennis opdoen",
+      "target_word_ids": [
+        "w_hu_39"
+      ],
+      "example": "Anna minden nap tanul.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_eenenveertig_het_getal_41",
+      "source_word_id": "w_nl_eenenveertig",
+      "context_source": "het getal 41",
+      "target_word_ids": [
+        "w_hu_negyvenegy"
+      ],
+      "example": "Anna negyvenegy éves.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_negyvenegy_het_getal_41",
+      "source_word_id": "w_hu_negyvenegy",
+      "context_source": "het getal 41",
+      "target_word_ids": [
+        "w_nl_eenenveertig"
+      ],
+      "example": "Anna negyvenegy éves.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_kok_werkt_in_de_keuken_van_een_restaurant",
+      "source_word_id": "w_nl_kok",
+      "context_source": "werkt in de keuken van een restaurant",
+      "target_word_ids": [
+        "w_hu_szakács"
+      ],
+      "example": "A szakács jól főz.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_szakács_werkt_in_de_keuken_van_een_restaurant",
+      "source_word_id": "w_hu_szakács",
+      "context_source": "werkt in de keuken van een restaurant",
+      "target_word_ids": [
+        "w_nl_kok"
+      ],
+      "example": "A szakács jól főz.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_interessant_niet_saai",
+      "source_word_id": "w_nl_interessant",
+      "context_source": "niet saai",
+      "target_word_ids": [
+        "w_hu_érdekes"
+      ],
+      "example": "A film érdekes.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_érdekes_niet_saai",
+      "source_word_id": "w_hu_érdekes",
+      "context_source": "niet saai",
+      "target_word_ids": [
+        "w_nl_interessant"
+      ],
+      "example": "A film érdekes.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_beroep_wat_je_doet_voor_je_werk",
+      "source_word_id": "w_nl_beroep",
+      "context_source": "wat je doet voor je werk",
+      "target_word_ids": [
+        "w_hu_foglalkozás"
+      ],
+      "example": "A szakács érdekes foglalkozás.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_foglalkozás_wat_je_doet_voor_je_werk",
+      "source_word_id": "w_hu_foglalkozás",
+      "context_source": "wat je doet voor je werk",
+      "target_word_ids": [
+        "w_nl_beroep"
+      ],
+      "example": "A szakács érdekes foglalkozás.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_reist_3e_persoon,_naar_een_ander_land_gaan",
+      "source_word_id": "w_nl_reist",
+      "context_source": "3e persoon, naar een ander land gaan",
+      "target_word_ids": [
+        "w_hu_utazik"
+      ],
+      "example": "Péter sokat utazik.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_utazik_3e_persoon,_naar_een_ander_land_gaan",
+      "source_word_id": "w_hu_utazik",
+      "context_source": "3e persoon, naar een ander land gaan",
+      "target_word_ids": [
+        "w_nl_reist"
+      ],
+      "example": "Péter sokat utazik.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_reis_tocht_naar_een_andere_plek",
+      "source_word_id": "w_nl_reis",
+      "context_source": "tocht naar een andere plek",
+      "target_word_ids": [
+        "w_hu_út"
+      ],
+      "example": "Az út Budapestre hosszú volt.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_út_tocht_naar_een_andere_plek",
+      "source_word_id": "w_hu_út",
+      "context_source": "tocht naar een andere plek",
+      "target_word_ids": [
+        "w_nl_reis"
+      ],
+      "example": "Az út Budapestre hosszú volt.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_wonen_infinitief,_je_adres_is_daar",
+      "source_word_id": "w_nl_wonen",
+      "context_source": "werkwoord · infinitief · je adres is daar",
+      "target_word_ids": [
+        "w_hu_élni"
+      ],
+      "example": "Jó Utrechtben élni.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8",
+        "Werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_leeft_3e_persoon,_in_leven_zijn",
+      "source_word_id": "w_nl_leeft",
+      "context_source": "3e persoon, in leven zijn",
+      "target_word_ids": [
+        "w_hu_él"
+      ],
+      "example": "A nagymamám még él.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_jongen_tegenovergestelde_van_lány",
+      "source_word_id": "w_nl_jongen",
+      "context_source": "tegenovergestelde van lány",
+      "target_word_ids": [
+        "w_hu_fiú"
+      ],
+      "example": "A fiú magas.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_fiú_tegenovergestelde_van_lány",
+      "source_word_id": "w_hu_fiú",
+      "context_source": "tegenovergestelde van lány",
+      "target_word_ids": [
+        "w_nl_jongen"
+      ],
+      "example": "A fiú magas.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_spaans_uit_spanje",
+      "source_word_id": "w_nl_spaans",
+      "context_source": "uit Spanje",
+      "target_word_ids": [
+        "w_hu_spanyol"
+      ],
+      "example": "A spanyol nyelv szép.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_spanyol_uit_spanje",
+      "source_word_id": "w_hu_spanyol",
+      "context_source": "uit Spanje",
+      "target_word_ids": [
+        "w_nl_spaans"
+      ],
+      "example": "A spanyol nyelv szép.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_zon_geel_en_warm_aan_de_hemel",
+      "source_word_id": "w_nl_zon",
+      "context_source": "geel en warm aan de hemel",
+      "target_word_ids": [
+        "w_hu_nap"
+      ],
+      "example": "A nap süt.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_nap_geel_en_warm_aan_de_hemel",
+      "source_word_id": "w_hu_nap",
+      "context_source": "geel en warm aan de hemel",
+      "target_word_ids": [
+        "w_nl_zon"
+      ],
+      "example": "A nap süt.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_londens_uit_de_hoofdstad_van_engeland",
+      "source_word_id": "w_nl_londens",
+      "context_source": "uit de hoofdstad van Engeland",
+      "target_word_ids": [
+        "w_hu_londoni"
+      ],
+      "example": "Nem vagyok londoni.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_londoni_uit_de_hoofdstad_van_engeland",
+      "source_word_id": "w_hu_londoni",
+      "context_source": "uit de hoofdstad van Engeland",
+      "target_word_ids": [
+        "w_nl_londens"
+      ],
+      "example": "Nem vagyok londoni.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_utrechts_uit_de_stad_met_de_dom",
+      "source_word_id": "w_nl_utrechts",
+      "context_source": "uit de stad met de Dom",
+      "target_word_ids": [
+        "w_hu_utrechti"
+      ],
+      "example": "Utrechti vagyok.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_utrechti_uit_de_stad_met_de_dom",
+      "source_word_id": "w_hu_utrechti",
+      "context_source": "uit de stad met de Dom",
+      "target_word_ids": [
+        "w_nl_utrechts"
+      ],
+      "example": "Utrechti vagyok.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_wat_vraag_naar_een_ding",
+      "source_word_id": "w_nl_wat",
+      "context_source": "vraag naar een ding",
+      "target_word_ids": [
+        "w_hu_13"
+      ],
+      "example": "Mi nincs Magyarországon?",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_mi_vraag_naar_een_ding",
+      "source_word_id": "w_hu_13",
+      "context_source": "vraag naar een ding",
+      "target_word_ids": [
+        "w_nl_wat"
+      ],
+      "example": "Mi nincs Magyarországon?",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_is_er_niet_ontkenning_van_van",
+      "source_word_id": "w_nl_is_er_niet",
+      "context_source": "ontkenning van van",
+      "target_word_ids": [
+        "w_hu_nincs"
+      ],
+      "example": "Tenger nincs Magyarországon.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_nincs_ontkenning_van_van",
+      "source_word_id": "w_hu_nincs",
+      "context_source": "ontkenning van van",
+      "target_word_ids": [
+        "w_nl_is_er_niet"
+      ],
+      "example": "Tenger nincs Magyarországon.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_hongarije_land_met_budapest_als_hoofdstad",
+      "source_word_id": "w_nl_hongarije",
+      "context_source": "land met Budapest als hoofdstad",
+      "target_word_ids": [
+        "w_hu_magyarország"
+      ],
+      "example": "Magyarország szép.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_magyarország_land_met_budapest_als_hoofdstad",
+      "source_word_id": "w_hu_magyarország",
+      "context_source": "land met Budapest als hoofdstad",
+      "target_word_ids": [
+        "w_nl_hongarije"
+      ],
+      "example": "Magyarország szép.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_zingt_3e_persoon,_muziek_met_je_stem",
+      "source_word_id": "w_nl_zingt",
+      "context_source": "3e persoon, muziek met je stem",
+      "target_word_ids": [
+        "w_hu_énekel"
+      ],
+      "example": "Anna szépen énekel.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_énekel_3e_persoon,_muziek_met_je_stem",
+      "source_word_id": "w_hu_énekel",
+      "context_source": "3e persoon, muziek met je stem",
+      "target_word_ids": [
+        "w_nl_zingt"
+      ],
+      "example": "Anna szépen énekel.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_postbode_brengt_brieven_rond",
+      "source_word_id": "w_nl_postbode",
+      "context_source": "brengt brieven rond",
+      "target_word_ids": [
+        "w_hu_postás"
+      ],
+      "example": "A postás lusta.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_postás_brengt_brieven_rond",
+      "source_word_id": "w_hu_postás",
+      "context_source": "brengt brieven rond",
+      "target_word_ids": [
+        "w_nl_postbode"
+      ],
+      "example": "A postás lusta.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_potlood_schrijft_grijs,_kun_je_gummen",
+      "source_word_id": "w_nl_potlood",
+      "context_source": "schrijft grijs, kun je gummen",
+      "target_word_ids": [
+        "w_hu_ceruza"
+      ],
+      "example": "A ceruza az asztalon van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_ceruza_schrijft_grijs,_kun_je_gummen",
+      "source_word_id": "w_hu_ceruza",
+      "context_source": "schrijft grijs, kun je gummen",
+      "target_word_ids": [
+        "w_nl_potlood"
+      ],
+      "example": "A ceruza az asztalon van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_kantoor_hier_werk_je_achter_een_bureau",
+      "source_word_id": "w_nl_kantoor",
+      "context_source": "hier werk je achter een bureau",
+      "target_word_ids": [
+        "w_hu_iroda"
+      ],
+      "example": "Az iroda a belvárosban van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_iroda_hier_werk_je_achter_een_bureau",
+      "source_word_id": "w_hu_iroda",
+      "context_source": "hier werk je achter een bureau",
+      "target_word_ids": [
+        "w_nl_kantoor"
+      ],
+      "example": "Az iroda a belvárosban van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_pen_om_mee_te_schrijven",
+      "source_word_id": "w_nl_pen",
+      "context_source": "om mee te schrijven",
+      "target_word_ids": [
+        "w_hu_toll"
+      ],
+      "example": "A toll kék.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_toll_om_mee_te_schrijven",
+      "source_word_id": "w_hu_toll",
+      "context_source": "om mee te schrijven",
+      "target_word_ids": [
+        "w_nl_pen"
+      ],
+      "example": "A toll kék.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_veer_zit_op_een_vogel",
+      "source_word_id": "w_nl_veer",
+      "context_source": "zit op een vogel",
+      "target_word_ids": [
+        "w_hu_toll"
+      ],
+      "example": "Ez egy fehér toll.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_toll_zit_op_een_vogel",
+      "source_word_id": "w_hu_toll",
+      "context_source": "zit op een vogel",
+      "target_word_ids": [
+        "w_nl_veer"
+      ],
+      "example": "Ez egy fehér toll.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_laptop_draagbare_computer",
+      "source_word_id": "w_nl_laptop",
+      "context_source": "draagbare computer",
+      "target_word_ids": [
+        "w_hu_laptop"
+      ],
+      "example": "A laptop drága.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_laptop_draagbare_computer",
+      "source_word_id": "w_hu_laptop",
+      "context_source": "draagbare computer",
+      "target_word_ids": [
+        "w_nl_laptop"
+      ],
+      "example": "A laptop drága.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_vogelveer_samenstelling,_van_een_vogel",
+      "source_word_id": "w_nl_vogelveer",
+      "context_source": "samenstelling, van een vogel",
+      "target_word_ids": [
+        "w_hu_madártoll"
+      ],
+      "example": "Ez egy madártoll.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_madártoll_samenstelling,_van_een_vogel",
+      "source_word_id": "w_hu_madártoll",
+      "context_source": "samenstelling, van een vogel",
+      "target_word_ids": [
+        "w_nl_vogelveer"
+      ],
+      "example": "Ez egy madártoll.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_meteen_zonder_te_wachten",
+      "source_word_id": "w_nl_meteen",
+      "context_source": "zonder te wachten",
+      "target_word_ids": [
+        "w_hu_rögtön"
+      ],
+      "example": "Rögtön jövök.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_rögtön_zonder_te_wachten",
+      "source_word_id": "w_hu_rögtön",
+      "context_source": "zonder te wachten",
+      "target_word_ids": [
+        "w_nl_meteen"
+      ],
+      "example": "Rögtön jövök.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_direct_synoniem_van_rögtön",
+      "source_word_id": "w_nl_direct",
+      "context_source": "synoniem van rögtön",
+      "target_word_ids": [
+        "w_hu_máris"
+      ],
+      "example": "Máris jövök.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_máris_synoniem_van_rögtön",
+      "source_word_id": "w_hu_máris",
+      "context_source": "synoniem van rögtön",
+      "target_word_ids": [
+        "w_nl_direct"
+      ],
+      "example": "Máris jövök.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_in_de_nacht_bijwoord,_tijdens_het_donker",
+      "source_word_id": "w_nl_in_de_nacht",
+      "context_source": "bijwoord, tijdens het donker",
+      "target_word_ids": [
+        "w_hu_éjjel"
+      ],
+      "example": "Éjjel alszom.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_éjjel_bijwoord,_tijdens_het_donker",
+      "source_word_id": "w_hu_éjjel",
+      "context_source": "bijwoord, tijdens het donker",
+      "target_word_ids": [
+        "w_nl_in_de_nacht"
+      ],
+      "example": "Éjjel alszom.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_éj_dichterlijk,_synoniem_van_éjszaka",
+      "source_word_id": "w_hu_éj",
+      "context_source": "dichterlijk, synoniem van éjszaka",
+      "target_word_ids": [
+        "w_nl_nacht"
+      ],
+      "example": "Csendes az éj.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_uit_győr_bijvoeglijk,_stad_in_west-hongarije",
+      "source_word_id": "w_nl_uit_győr",
+      "context_source": "bijvoeglijk, stad in West-Hongarije",
+      "target_word_ids": [
+        "w_hu_győri"
+      ],
+      "example": "Ez egy győri gyufa.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_győri_bijvoeglijk,_stad_in_west-hongarije",
+      "source_word_id": "w_hu_győri",
+      "context_source": "bijvoeglijk, stad in West-Hongarije",
+      "target_word_ids": [
+        "w_nl_uit_győr"
+      ],
+      "example": "Ez egy győri gyufa.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_fabriek_hier_maakt_men_producten",
+      "source_word_id": "w_nl_fabriek",
+      "context_source": "hier maakt men producten",
+      "target_word_ids": [
+        "w_hu_gyár"
+      ],
+      "example": "A gyár nagy.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_gyár_hier_maakt_men_producten",
+      "source_word_id": "w_hu_gyár",
+      "context_source": "hier maakt men producten",
+      "target_word_ids": [
+        "w_nl_fabriek"
+      ],
+      "example": "A gyár nagy.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_luciferfabriek_samenstelling_van_gyufa_en_gyár",
+      "source_word_id": "w_nl_luciferfabriek",
+      "context_source": "samenstelling van gyufa en gyár",
+      "target_word_ids": [
+        "w_hu_gyufagyár"
+      ],
+      "example": "A gyufagyár Győrben van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_gyufagyár_samenstelling_van_gyufa_en_gyár",
+      "source_word_id": "w_hu_gyufagyár",
+      "context_source": "samenstelling van gyufa en gyár",
+      "target_word_ids": [
+        "w_nl_luciferfabriek"
+      ],
+      "example": "A gyufagyár Győrben van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_aansteken_infinitief,_vuur_maken",
+      "source_word_id": "w_nl_aansteken",
+      "context_source": "werkwoord · infinitief · vuur maken",
+      "target_word_ids": [
+        "w_hu_gyújtani"
+      ],
+      "example": "Tüzet kell gyújtani.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8",
+        "Werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_gyújtani_infinitief,_vuur_maken",
+      "source_word_id": "w_hu_gyújtani",
+      "context_source": "werkwoord · infinitief · vuur maken",
+      "target_word_ids": [
+        "w_nl_aansteken"
+      ],
+      "example": "Tüzet kell gyújtani.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8",
+        "Werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_steekt_aan_3e_persoon,_vuur_maken",
+      "source_word_id": "w_nl_steekt_aan",
+      "context_source": "3e persoon, vuur maken",
+      "target_word_ids": [
+        "w_hu_gyújt"
+      ],
+      "example": "Péter tüzet gyújt.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_gyújt_3e_persoon,_vuur_maken",
+      "source_word_id": "w_hu_gyújt",
+      "context_source": "3e persoon, vuur maken",
+      "target_word_ids": [
+        "w_nl_steekt_aan"
+      ],
+      "example": "Péter tüzet gyújt.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_brandstichten_infinitief,_steeds_opzettelijk_vuur_maken",
+      "source_word_id": "w_nl_brandstichten",
+      "context_source": "werkwoord · infinitief · steeds opzettelijk vuur maken",
+      "target_word_ids": [
+        "w_hu_gyújtogatni"
+      ],
+      "example": "Tilos gyújtogatni.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8",
+        "Werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_gyújtogatni_infinitief,_steeds_opzettelijk_vuur_maken",
+      "source_word_id": "w_hu_gyújtogatni",
+      "context_source": "werkwoord · infinitief · steeds opzettelijk vuur maken",
+      "target_word_ids": [
+        "w_nl_brandstichten"
+      ],
+      "example": "Tilos gyújtogatni.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8",
+        "Werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_sticht_brand_3e_persoon,_steeds_opzettelijk_vuur_maken",
+      "source_word_id": "w_nl_sticht_brand",
+      "context_source": "3e persoon, steeds opzettelijk vuur maken",
+      "target_word_ids": [
+        "w_hu_gyújtogat"
+      ],
+      "example": "A gyerek gyufával gyújtogat.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_gyújtogat_3e_persoon,_steeds_opzettelijk_vuur_maken",
+      "source_word_id": "w_hu_gyújtogat",
+      "context_source": "3e persoon, steeds opzettelijk vuur maken",
+      "target_word_ids": [
+        "w_nl_sticht_brand"
+      ],
+      "example": "A gyerek gyufával gyújtogat.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_beginnen_infinitief,_iets_begint_vanzelf,_ikes_werkwoord",
+      "source_word_id": "w_nl_beginnen",
+      "context_source": "werkwoord · infinitief · iets begint vanzelf, ikes werkwoord",
+      "target_word_ids": [
+        "w_hu_kezdődni"
+      ],
+      "example": "Kilenckor fog kezdődni.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8",
+        "Werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_kezdődni_infinitief,_iets_begint_vanzelf,_ikes_werkwoord",
+      "source_word_id": "w_hu_kezdődni",
+      "context_source": "werkwoord · infinitief · iets begint vanzelf, ikes werkwoord",
+      "target_word_ids": [
+        "w_nl_beginnen"
+      ],
+      "example": "Kilenckor fog kezdődni.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8",
+        "Werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_beginnen_infinitief,_iemand_begint_met_iets",
+      "source_word_id": "w_nl_beginnen",
+      "context_source": "werkwoord · infinitief · iemand begint met iets",
+      "target_word_ids": [
+        "w_hu_kezdeni"
+      ],
+      "example": "Most kell kezdeni.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8",
+        "Werkwoorden"
+      ]
+    },
+    {
+      "id": "c_hu_nl_kezdeni_infinitief,_iemand_begint_met_iets",
+      "source_word_id": "w_hu_kezdeni",
+      "context_source": "werkwoord · infinitief · iemand begint met iets",
+      "target_word_ids": [
+        "w_nl_beginnen"
+      ],
+      "example": "Most kell kezdeni.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8",
+        "Werkwoorden"
+      ]
+    },
+    {
+      "id": "c_nl_hu_begint_3e_persoon,_iemand_begint_met_iets",
+      "source_word_id": "w_nl_begint",
+      "context_source": "3e persoon, iemand begint met iets",
+      "target_word_ids": [
+        "w_hu_kezd"
+      ],
+      "example": "Anna enni kezd.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_kezd_3e_persoon,_iemand_begint_met_iets",
+      "source_word_id": "w_hu_kezd",
+      "context_source": "3e persoon, iemand begint met iets",
+      "target_word_ids": [
+        "w_nl_begint"
+      ],
+      "example": "Anna enni kezd.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_werkwoord_woordsoort_voor_een_handeling",
+      "source_word_id": "w_nl_werkwoord",
+      "context_source": "woordsoort voor een handeling",
+      "target_word_ids": [
+        "w_hu_ige"
+      ],
+      "example": "A kezd egy ige.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_ige_woordsoort_voor_een_handeling",
+      "source_word_id": "w_hu_ige",
+      "context_source": "woordsoort voor een handeling",
+      "target_word_ids": [
+        "w_nl_werkwoord"
+      ],
+      "example": "A kezd egy ige.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_eenentwintig_het_getal_21",
+      "source_word_id": "w_nl_eenentwintig",
+      "context_source": "het getal 21",
+      "target_word_ids": [
+        "w_hu_huszonegy"
+      ],
+      "example": "Huszonegy óra van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_huszonegy_het_getal_21",
+      "source_word_id": "w_hu_huszonegy",
+      "context_source": "het getal 21",
+      "target_word_ids": [
+        "w_nl_eenentwintig"
+      ],
+      "example": "Huszonegy óra van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_veertien_het_getal_14",
+      "source_word_id": "w_nl_veertien",
+      "context_source": "het getal 14",
+      "target_word_ids": [
+        "w_hu_tizennégy"
+      ],
+      "example": "Tizennégy óra van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_tizennégy_het_getal_14",
+      "source_word_id": "w_hu_tizennégy",
+      "context_source": "het getal 14",
+      "target_word_ids": [
+        "w_nl_veertien"
+      ],
+      "example": "Tizennégy óra van.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_vijfenveertig_het_getal_45",
+      "source_word_id": "w_nl_vijfenveertig",
+      "context_source": "het getal 45",
+      "target_word_ids": [
+        "w_hu_negyvenöt"
+      ],
+      "example": "Negyvenöt perc múlva jövök.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_negyvenöt_het_getal_45",
+      "source_word_id": "w_hu_negyvenöt",
+      "context_source": "het getal 45",
+      "target_word_ids": [
+        "w_nl_vijfenveertig"
+      ],
+      "example": "Negyvenöt perc múlva jövök.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_nl_hu_vijftien_het_getal_15",
+      "source_word_id": "w_nl_vijftien",
+      "context_source": "het getal 15",
+      "target_word_ids": [
+        "w_hu_tizenöt"
+      ],
+      "example": "Tizenöt perc múlva jövök.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
+      ]
+    },
+    {
+      "id": "c_hu_nl_tizenöt_het_getal_15",
+      "source_word_id": "w_hu_tizenöt",
+      "context_source": "het getal 15",
+      "target_word_ids": [
+        "w_nl_vijftien"
+      ],
+      "example": "Tizenöt perc múlva jövök.",
+      "example_lang": "hu",
+      "groups": [
+        "Magyar Óra 2.8"
       ]
     }
   ]
