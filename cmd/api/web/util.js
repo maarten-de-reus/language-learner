@@ -17,6 +17,16 @@ export const wordTypeOptions = (selected = "") =>
   `<option value="">onbekend</option>` +
   WORD_TYPES.map(([c, name]) => `<option value="${c}" ${c === selected ? "selected" : ""}>${name}</option>`).join("");
 
+// formHintHTML: je typte een andere vorm van het gevraagde woord (olvasok bij olvas). Zeg welke
+// regel die vorm maakt, met een link naar die regel in Regels.
+export function formHintHTML(form, input, expected) {
+  if (!form) return "";
+  const what = form.person ? `${form.ruleName}, ${form.person}` : form.ruleName;
+  return `<p class="hint form-hint">Bijna: <b lang="hu">${esc(input.trim())}</b> is <b lang="hu">${esc(form.word)}</b>
+    in de vorm <i>${esc(what)}</i>. Gevraagd werd <b lang="hu">${esc(expected.join(", "))}</b>.
+    <a href="#regels/${encodeURIComponent(form.rule)}">Regel bekijken</a></p>`;
+}
+
 export const LANG = { nl: "Nederlands", hu: "Hongaars", en: "Engels" };
 export const ACCENTS = ["á", "é", "í", "ó", "ö", "ő", "ú", "ü", "ű"];
 const rtf = new Intl.RelativeTimeFormat("nl", { numeric: "auto" });

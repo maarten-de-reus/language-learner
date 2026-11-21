@@ -18,7 +18,9 @@ const TABS = {
 };
 
 function showTab() {
-  const tab = location.hash.slice(1) in TABS ? location.hash.slice(1) : "oefenen";
+  // #regels/ban opent het tabblad Regels met de uitleg van -ban/-ben
+  const name = location.hash.slice(1).split("/")[0];
+  const tab = name in TABS ? name : "oefenen";
   for (const [name, { section }] of Object.entries(TABS)) {
     document.getElementById(section).hidden = name !== tab;
     document.getElementById(`tab-${name}`).setAttribute("aria-current", name === tab ? "page" : "false");

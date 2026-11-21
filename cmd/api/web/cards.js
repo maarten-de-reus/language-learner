@@ -1,7 +1,7 @@
 // Kaarten: woorden vooraf oefenen (bijv. een nieuwe import) met omdraaibare flashcards.
 // Staat los van de spaced repetition: er wordt niets opgeslagen en niets uit de wachtrij gehaald.
 
-import { ACCENTS, LANG, MASTERED_STEP, esc, highlight, insertAtCursor, pulse, shake } from "./util.js";
+import { ACCENTS, LANG, MASTERED_STEP, esc, formHintHTML, highlight, insertAtCursor, pulse, shake } from "./util.js";
 import { api, toast } from "./api.js";
 import { refreshStats } from "./quiz.js";
 
@@ -269,6 +269,7 @@ function fcTypeHTML(card) {
           ${r.otherMeaning ? `<p class="hint">Klopt, <b>${esc(card.prompt)}</b> kan ook
             ‘${esc(r.otherMeaning.answer)}’ betekenen${r.otherMeaning.context ? ` (${esc(r.otherMeaning.context)})` : ""},
             maar hier wordt ‘${esc(r.expected.join(", "))}’ bedoeld.</p>` : ""}
+          ${formHintHTML(r.form, fc.input, r.expected)}
           ${r.accentOnly ? `<span class="hint">Bijna! Alleen de accenten kloppen niet.</span>` : ""}
           ${card.example && card.from !== "hu" ? `<p class="example" lang="hu">“${highlight(card.example, [card.prompt, ...r.expected])}”</p>` : ""}
           ${r.correct ? "" : `<p>Deze kaart komt straks nog een keer.</p>`}
@@ -286,7 +287,7 @@ function fcBindType(card) {
   if (fc.result) {
     fc.result.correct ? pulse(article) : shake(article);
     document.getElementById("fc-override")?.addEventListener("click", () => {
-      Object.assign(fc.result, { correct: true, overridden: true, accentOnly: false, otherMeaning: null });
+      Object.assign(fc.result, { correct: true, overridden: true, accentOnly: false, otherMeaning: null, form: null });
       fcRenderCard();
     });
     const next = document.getElementById("fc-next");

@@ -1,7 +1,7 @@
 // Oefenen: de quizkaart, het nakijken, het eindscherm van een ronde, en de kop met tellers en
 // voortgangsbalk (die ook de andere tabbladen bijwerken met refreshStats).
 
-import { ACCENTS, LANG, MASTERED_STEP, days, esc, highlight, insertAtCursor, pulse, relative, shake } from "./util.js";
+import { ACCENTS, LANG, MASTERED_STEP, days, esc, formHintHTML, highlight, insertAtCursor, pulse, relative, shake } from "./util.js";
 import { api } from "./api.js";
 
 const app = document.getElementById("app");
@@ -237,6 +237,7 @@ function renderFeedback(fb) {
         ${fb.otherMeaning ? `<p class="hint">Klopt, <b>${esc(state.card.prompt)}</b> kan ook
           ‘${esc(fb.otherMeaning.answer)}’ betekenen${fb.otherMeaning.context ? ` (${esc(fb.otherMeaning.context)})` : ""},
           maar hier wordt ‘${esc(fb.expected.join(", "))}’ bedoeld.</p>` : ""}
+        ${formHintHTML(fb.form, fb.input, fb.expected)}
         ${fb.example ? `<p class="example">“${highlight(fb.example, [state.card.prompt, ...fb.expected])}”</p>` : ""}
         ${fb.willRetry ? `<p>Je krijgt dit woord aan het eind van de ronde nog een keer.</p>` : ""}
         ${fb.accentOnly ? `<span class="hint">Bijna! Alleen de accenten kloppen niet.</span>` : ""}

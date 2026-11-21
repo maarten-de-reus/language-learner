@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"hungarian-language-learner/internal/engine"
+	"hungarian-language-learner/internal/grammar"
 	"hungarian-language-learner/internal/storage"
 )
 
@@ -30,6 +31,9 @@ type Feedback struct {
 	// OtherMeaning is gevuld als het antwoord een goede vertaling is van een ándere betekenis
 	// van hetzelfde woord (bijv. idő -> "tijd" terwijl "weer" bedoeld is). Het telt als fout.
 	OtherMeaning *OtherMeaning `json:"otherMeaning,omitempty"`
+	// Form is gevuld als het antwoord een andere vorm van het gevraagde woord is (olvasok bij
+	// olvas): welke regel die vorm maakt. Het telt als fout.
+	Form *grammar.Match `json:"form,omitempty"`
 }
 
 // OtherMeaning beschrijft de andere betekenis waar het antwoord bij hoort
@@ -118,6 +122,9 @@ func (s *Session) answer(input string, unknown bool) (*Feedback, error) {
 	}
 	if !correct && !unknown {
 		s.feedback.OtherMeaning = s.otherMeaning(concept, input)
+		if s.feedback.OtherMeaning == nil && !accentOnly {
+			s.feedback.Form = s.formOf(concept, input)
+		}
 	}
 	if item.retry == 0 {
 		s.mastery(item, stepBefore, concept)
@@ -149,11 +156,12 @@ func (s *Session) logReview(c *storage.TranslationConcept, input string, stepBef
 
 // PracticeResult is de uitslag van een oefenantwoord buiten de planning (Kaarten)
 type PracticeResult struct {
-	Correct      bool          `json:"correct"`
-	AccentOnly   bool          `json:"accentOnly"`
-	Typo         bool          `json:"typo"`
-	Expected     []string      `json:"expected"`
-	OtherMeaning *OtherMeaning `json:"otherMeaning,omitempty"`
+	Correct      bool           `json:"correct"`
+	AccentOnly   bool           `json:"accentOnly"`
+	Typo         bool           `json:"typo"`
+	Expected     []string       `json:"expected"`
+	OtherMeaning *OtherMeaning  `json:"otherMeaning,omitempty"`
+	Form         *grammar.Match `json:"form,omitempty"`
 }
 
 // Practice kijkt een antwoord na zoals Answer, maar verandert niets: geen voortgang, geen log
@@ -168,6 +176,9 @@ func (s *Session) Practice(conceptID, input string) (res PracticeResult, ok bool
 	res.Correct, res.AccentOnly, res.Typo = s.check(concept, input, res.Expected)
 	if !res.Correct {
 		res.OtherMeaning = s.otherMeaning(concept, input)
+		if res.OtherMeaning == nil && !res.AccentOnly {
+			res.Form = s.formOf(concept, input)
+		}
 	}
 	return res, true
 }
@@ -262,6 +273,61 @@ func (s *Session) Unmaster(id string) (bool, error) {
 	c := &s.lib.Concepts[i]
 	c.StepIndex, c.TopStreak, c.NextReview = engine.TopStep, 0, engine.ReviewDate(time.Now(), 1)
 	return true, s.Save()
+}
+
+// formOf kijkt of een fout antwoord naar het Hongaars een andere vorm van het gevraagde woord is:
+// olvasok of olvasni bij olvas, házban bij ház. Bij een infinitief (olvasni) wordt ook de 3e
+// persoon (olvas) herkend, want daaruit maken de regels de andere vormen.
+func (s *Session) formOf(c *storage.TranslationConcept, input string) *grammar.Match {
+	if c.WordType == "" || len(c.TargetWordIDs) == 0 || s.lib.Words[c.TargetWordIDs[0]].Language != "hu" {
+		return nil
+	}
+	for _, id := range c.TargetWordIDs {
+		hu := strings.TrimSpace(s.lib.Words[id].Text)
+		w := grammar.Word{Hungarian: hu, Type: c.WordType, Forms: c.Forms}
+		if c.WordType == "ww" && strings.HasSuffix(hu, "ni") {
+			third, ok := s.thirdPersonOf(hu)
+			if !ok {
+				continue
+			}
+			if engine.Fold(input) == engine.Fold(third.Hungarian) {
+				return &grammar.Match{Word: third.Hungarian, Rule: "ww-onbep", RuleName: "3e persoon enkelvoud"}
+			}
+			w = third
+		}
+		if m, ok := grammar.Analyze(w, input); ok {
+			return &m
+		}
+	}
+	return nil
+}
+
+// thirdPersonOf zoekt in je lijst het werkwoord in de 3e persoon bij een infinitief (olvasni -> olvas)
+func (s *Session) thirdPersonOf(infinitive string) (grammar.Word, bool) {
+	for _, c := range s.lib.Concepts {
+		if c.WordType != "ww" || len(c.TargetWordIDs) == 0 || s.lib.Words[c.SourceWordID].Language != "nl" {
+			continue
+		}
+		for _, id := range c.TargetWordIDs {
+			hu := strings.TrimSpace(s.lib.Words[id].Text)
+			if strings.HasSuffix(hu, "ni") {
+				continue
+			}
+			w := grammar.Word{Hungarian: hu, Type: "ww", Forms: c.Forms}
+			inf := c.Forms["inf"]
+			if inf == "" {
+				if f, ok := grammar.Infinitive(hu); ok {
+					inf = f.Text
+				} else {
+					inf = hu + "ni"
+				}
+			}
+			if inf == infinitive {
+				return w, true
+			}
+		}
+	}
+	return grammar.Word{}, false
 }
 
 // otherMeaning zoekt een ander concept met hetzelfde bronwoord (taal + tekst, niet het ID)
