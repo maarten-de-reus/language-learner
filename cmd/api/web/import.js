@@ -1,7 +1,7 @@
-// Importeren in het beheer: een lijst plakken (hongaars;nederlands;context;voorbeeldzin),
+// Importeren in het beheer: een lijst plakken (hongaars;nederlands;context;voorbeeldzin;woordsoort),
 // controleren, keuzes maken en dan alles in één keer toevoegen.
 
-import { esc } from "./util.js";
+import { wordTypeName, esc } from "./util.js";
 import { api, toast } from "./api.js";
 import { refreshStats } from "./quiz.js";
 import { groupPickerHTML, groupState, pendingGroups } from "./groups.js";
@@ -27,8 +27,8 @@ export function importPanelHTML() {
   return `
     <form class="m-new card m-import" id="m-import">
       <h3>Importeren</h3>
-      <p class="muted">Eén woord per regel: <code>hongaars;nederlands;context;voorbeeldzin</code>.
-        Context en voorbeeldzin mogen leeg blijven; meerdere goede Hongaarse antwoorden scheid je met een komma.
+      <p class="muted">Eén woord per regel: <code>hongaars;nederlands;context;voorbeeldzin;woordsoort</code>.
+        Context, voorbeeldzin en woordsoort mogen leeg blijven (woordsoort: zn, ww, bn, bw, vnw, telw, lw, vw, vz, tw of uitdr, of voluit, bijv. werkwoord); meerdere goede Hongaarse antwoorden scheid je met een komma.
         Nieuwe woorden komen via de wachtrij binnen, volgens je daglimiet.</p>
       <textarea id="imp-text" rows="8" spellcheck="false" data-hu
         placeholder="${esc(IMPORT_EXAMPLE)}">${esc(imp.text)}</textarea>
@@ -65,15 +65,15 @@ function importVisible(c, r) {
   return r.status === f;
 }
 
-// Er valt iets op te slaan: nieuwe woorden, of bestaande woorden die in een groep komen
-const importReady = (c) => c && c.ok && (c.added > 0 || c.grouped > 0);
+// Er valt iets op te slaan: nieuwe woorden, of bestaande woorden die in een groep komen of een woordsoort krijgen
+const importReady = (c) => c && c.ok && (c.added > 0 || c.grouped > 0 || c.typed > 0);
 
 const words = (n) => `${n} ${n === 1 ? "woord" : "woorden"}`;
 
 // Met een groep: noem eerst hoeveel woorden er straks in de groep zitten (nieuwe én bestaande),
 // anders lijkt "67 in de groep" het hele aantal terwijl er ook 48 nieuwe bij komen
 function importLabel(c) {
-  if (!c.added) return `${words(c.grouped)} in de groep zetten`;
+  if (!c.added) return c.grouped ? `${words(c.grouped)} in de groep zetten` : `woordsoort invullen bij ${words(c.typed)}`;
   const release = imp.release ? " · alvast leren" : "";
   if (!pendingGroups("import").length) return `${words(c.added)} importeren${release}`;
   return `${words(c.added)} importeren · ${c.added + c.duplicates} in de groep${release}`;
@@ -97,6 +97,7 @@ function importPreviewHTML(c) {
       ${open > 1 ? `<button type="button" class="linklike imp-skip-open" data-imp-skip-open>alle ${open} open regels overslaan</button>` : ""}
     </div>
     ${c.grouped ? `<p class="muted imp-note">${c.grouped} bestaande ${c.grouped === 1 ? "woord komt" : "woorden komen"} in de groep van deze import.</p>` : ""}
+    ${c.typed ? `<p class="muted imp-note">${c.typed} bestaande ${c.typed === 1 ? "woord krijgt" : "woorden krijgen"} de woordsoort uit de import (een woordsoort die er al stond blijft staan).</p>` : ""}
     ${rows.length
       ? `<ol class="imp-list">${rows.map(importRowHTML).join("")}</ol>`
       : c.results.length ? `<p class="sx-empty">${f === "open" ? "Alles opgelost: niets meer dat aandacht nodig heeft." : "Geen regels in deze selectie."}</p>` : ""}`;
@@ -106,7 +107,8 @@ const IMP_ICON = { added: "✓", duplicate: "↷", choice: "?", error: "✕", sk
 
 function importRowHTML(r) {
   const words = r.dutch || r.hungarian
-    ? `<b lang="hu">${esc(r.hungarian)}</b> → ${esc(r.dutch)}${r.context ? ` <span class="chip">${esc(r.context)}</span>` : ""}`
+    ? `<b lang="hu">${esc(r.hungarian)}</b> → ${esc(r.dutch)}${r.context ? ` <span class="chip">${esc(r.context)}</span>` : ""}${r.wordType
+      ? ` <span class="m-type" title="${esc(wordTypeName(r.wordType))}">${esc(r.wordType)}</span>` : ""}`
     : "";
   return `
     <li class="imp-row ${r.status}" data-row="${r.no}">
@@ -116,7 +118,7 @@ function importRowHTML(r) {
         <div>${words}</div>
         ${r.example ? `<div class="imp-example" lang="hu">“${esc(r.example)}”</div>` : ""}
         ${r.status === "duplicate" ? `<div class="imp-msg">Bestaat al als <b>${esc(r.existing)}</b>${r.grouped
-          ? ` · komt in ${esc(pendingGroups("import").join(", "))}` : ""}</div>`
+          ? ` · komt in ${esc(pendingGroups("import").join(", "))}` : ""}${r.typed ? ` · krijgt woordsoort ${esc(wordTypeName(r.wordType))}` : ""}</div>`
           : r.message && r.status !== "added" && r.status !== "skipped" ? `<div class="imp-msg">${esc(r.message)}</div>` : ""}
         ${r.extraReverse?.length ? `<div class="imp-extra">Ook als vraag: ${r.extraReverse.map((h) => `<b lang="hu">${esc(h)}</b> → ${esc(r.dutch)}`).join(", ")}</div>` : ""}
         ${r.skippedReverse?.length ? `<div class="imp-msg">${r.skippedReverse.map((h) => `<b lang="hu">${esc(h)}</b>`).join(", ")}
@@ -324,6 +326,7 @@ async function runImport() {
     if (res.added) parts.push(`${res.added} nieuw`);
     if (res.duplicates) parts.push(`${res.duplicates} ${res.duplicates === 1 ? "stond" : "stonden"} al in je lijst`);
     if (res.skipped) parts.push(`${res.skipped} overgeslagen`);
+    if (res.typed) parts.push(`${res.typed} kregen een woordsoort`);
     const summary = groups.length
       ? `${words(res.added + res.duplicates)} in ${groups.join(", ")}: ${parts.join(", ")}.`
       : `${parts.join(", ")}.`;

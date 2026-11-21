@@ -25,6 +25,9 @@ type TranslationConcept struct {
 	// Released: alvast leren, ook al is het nog niet goedgekeurd. Het woord komt in de les, maar
 	// blijft bij de controle staan tot het goedgekeurd is.
 	Released bool `json:"released,omitempty"`
+	// WordType: woordsoort (zn, ww, bn, ...; zie catalog.WordTypes), voor beide richtingen gelijk.
+	// Leeg = onbekend. Bepaalt welke grammaticaregels bij het woord horen.
+	WordType string `json:"word_type,omitempty"`
 	// Voortgang: wordt in voortgang.json bewaard (zie ProgressState), nooit in woorden.json
 	StepIndex  int       `json:"-"` // Index voor engine.AnkiIntervals (0 t/m 6; 6 = beheerst)
 	TopStreak  int       `json:"-"` // zoveel keer achter elkaar goed op 90 dagen (naar beheerst)

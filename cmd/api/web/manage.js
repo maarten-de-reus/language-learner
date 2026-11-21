@@ -1,6 +1,6 @@
 // Beheer: zoeken, bladeren, bewerken en toevoegen van woorden, plus de instelling voor nieuwe woorden.
 
-import { ACCENTS, LANG, MASTERED_STEP, esc, fold, insertAtCursor, relative } from "./util.js";
+import { ACCENTS, LANG, MASTERED_STEP, WORD_TYPES, esc, fold, insertAtCursor, relative, wordTypeName, wordTypeOptions } from "./util.js";
 import { api, toast } from "./api.js";
 import { refreshStats } from "./quiz.js";
 import { bindGroupPicker, groupDatalistHTML, groupPickerHTML, groupState, knownGroups, pendingGroups } from "./groups.js";
@@ -18,6 +18,7 @@ export const view = {
   onlyNew: false, // alleen woorden in de wachtrij
   onlyMastered: false, // alleen beheerste woorden
   groupFilter: new Set(), // alleen woorden uit (een van) deze groepen
+  wordType: "", // alleen deze woordsoort; "" = alle, "none" = nog onbekend
   newPerDay: null, // instelling, geladen bij het openen van het beheer
   openId: null, // concept dat nu bewerkt wordt
   adding: false,
@@ -82,6 +83,7 @@ function filtered() {
     (!view.onlyWrong || e.wrong > 0) &&
     (!view.onlyNew || e.new) &&
     (!view.onlyMastered || e.step === MASTERED_STEP) &&
+    (!view.wordType || (e.wordType || "none") === view.wordType) &&
     (!view.groupFilter.size || (e.groups || []).some((g) => view.groupFilter.has(g))));
 }
 
@@ -95,12 +97,12 @@ export function renderManage() {
   const list = filtered();
   // Andere zoekterm of filters: weer de eerste bladzijde. Een geopende of net toegevoegde kaart
   // moet wel in beeld blijven, ook als die verder in de lijst staat.
-  const key = JSON.stringify([view.query, view.direction, view.onlyMeanings, view.onlyNoExample, view.onlyWrong, view.onlyNew, view.onlyMastered, [...view.groupFilter]]);
+  const key = JSON.stringify([view.query, view.direction, view.onlyMeanings, view.onlyNoExample, view.onlyWrong, view.onlyNew, view.onlyMastered, view.wordType, [...view.groupFilter]]);
   if (key !== view.filterKey) Object.assign(view, { filterKey: key, limit: MANAGE_PAGE });
   const needed = Math.max(...list.map((e, i) => (e.id === view.openId || view.flash.has(e.id) ? i + 1 : 0)), 0);
   view.limit = Math.max(view.limit, needed);
   const shown = list.slice(0, view.limit);
-  const anyFilter = view.direction !== "all" || view.onlyMeanings || view.onlyNoExample || view.onlyWrong || view.onlyNew || view.onlyMastered || view.groupFilter.size > 0;
+  const anyFilter = view.direction !== "all" || view.onlyMeanings || view.onlyNoExample || view.onlyWrong || view.onlyNew || view.onlyMastered || view.wordType || view.groupFilter.size > 0;
   const chip = (key, value, label, n) =>
     `<button type="button" class="fchip" data-filter="${key}" data-value="${value}"
        aria-pressed="${view[key] === value}">${label} <span>${n}</span></button>`;
@@ -128,6 +130,7 @@ export function renderManage() {
       ${toggle("onlyWrong", "Fout gehad", count((e) => e.wrong > 0))}
       ${toggle("onlyNew", "In wachtrij", count((e) => e.new))}
       ${count((e) => e.step === MASTERED_STEP) ? toggle("onlyMastered", "★ Beheerst", count((e) => e.step === MASTERED_STEP)) : ""}
+      ${wordTypeFilterHTML()}
       ${knownGroups().length ? `<button type="button" class="fchip" id="m-groups-toggle" aria-expanded="${view.groupsOpen}">
         Groepen${view.groupFilter.size ? ` <span>${view.groupFilter.size} gekozen</span>` : ""} ${view.groupsOpen ? "▴" : "▾"}</button>` : ""}
       ${anyFilter ? `<button type="button" class="linklike m-clear" id="m-clear">filters wissen</button>` : ""}
@@ -171,6 +174,16 @@ function groupFilterHTML() {
   </div>`;
 }
 
+// wordTypeFilterHTML: keuzelijst met de woordsoorten die voorkomen, met aantallen
+function wordTypeFilterHTML() {
+  const n = (code) => count((e) => (e.wordType || "none") === code);
+  const opts = [["none", "woordsoort onbekend"], ...WORD_TYPES].filter(([c]) => n(c) || c === view.wordType);
+  return `<select class="fchip fselect" id="m-type" aria-label="Filter op woordsoort" ${view.wordType ? `aria-pressed="true"` : ""}>
+    <option value="">Alle woordsoorten</option>
+    ${opts.map(([c, name]) => `<option value="${c}" ${c === view.wordType ? "selected" : ""}>${name} (${n(c)})</option>`).join("")}
+  </select>`;
+}
+
 function rowHTML(e) {
   const q = view.query;
   const due = new Date(e.nextReview) <= new Date();
@@ -187,6 +200,7 @@ function rowHTML(e) {
           ${(e.groups || []).map((g) => `<span class="m-group">${markFold(g, q)}</span>`).join("")}
         </span>
         <span class="m-meta">
+          ${e.wordType ? `<span class="m-type" title="${esc(wordTypeName(e.wordType))}">${esc(e.wordType)}</span>` : ""}
           <span class="m-dir">${e.from.toUpperCase()} → ${e.to.toUpperCase()}</span>
           ${e.meanings > 1 ? `<span class="m-badge">${e.meanings} betekenissen</span>` : ""}
           ${e.wrong ? `<span class="m-wrong" title="${e.wrong} van ${e.attempts} keer fout bij de eerste poging">✕ ${e.wrong}/${e.attempts}</span>` : ""}
@@ -216,6 +230,14 @@ function field(id, label, value, { hu = false, placeholder = "", hint = "" } = {
   </label>`;
 }
 
+function typeField(id, value, hint) {
+  return `<label class="m-field" for="${id}">
+    <span>Woordsoort</span>
+    <select id="${id}">${wordTypeOptions(value)}</select>
+    <small class="muted">${hint}</small>
+  </label>`;
+}
+
 function editFormHTML(e) {
   const toHu = e.to === "hu";
   const reverse = (e.reverse || []).length > 0;
@@ -228,6 +250,7 @@ function editFormHTML(e) {
       ${field("e-answers", `Goede antwoorden (${esc(LANG[e.to] || e.to)})`, e.answers.join(", "),
         { hu: toHu, hint: "Meerdere antwoorden scheiden met een komma." })}
       ${field("e-example", "Voorbeeldzin (Hongaars)", e.example || "", { hu: true, placeholder: "bijv. Milyen lesz az idő holnap?" })}
+      ${typeField("e-type", e.wordType || "", "Geldt ook voor de andere richting; bepaalt welke regels bij het woord horen.")}
       ${groupPickerHTML("edit", "Groepen (geldt ook voor de andere richting)")}
       ${accentBar()}
       <p class="m-error" hidden></p>
@@ -270,6 +293,7 @@ function newFormHTML() {
         ${field("n-context", "Hint", "", { placeholder: "bijv. klok ⏰" })}
         ${field("n-hungarian", "Hongaarse vertaling(en)", "", { hu: true, placeholder: "bijv. idő", hint: "Meerdere: scheiden met een komma." })}
         ${field("n-example", "Voorbeeldzin (Hongaars, optioneel)", "", { hu: true, placeholder: "bijv. Nincs elég időm." })}
+        ${typeField("n-type", "", "Optioneel; bepaalt welke regels bij het woord horen.")}
       </div>
       ${groupPickerHTML("new", "Groepen (optioneel)")}
       <label class="m-radio"><input type="checkbox" id="n-release">
@@ -294,12 +318,16 @@ function bindManage() {
     renderManage();
     window.scrollTo(0, y);
   });
+  document.getElementById("m-type").addEventListener("change", (e) => {
+    view.wordType = e.target.value;
+    renderManage();
+  });
   document.getElementById("m-groups-toggle")?.addEventListener("click", () => {
     view.groupsOpen = !view.groupsOpen;
     renderManage();
   });
   document.getElementById("m-clear")?.addEventListener("click", () => {
-    Object.assign(view, { direction: "all", onlyMeanings: false, onlyNoExample: false, onlyWrong: false, onlyNew: false, onlyMastered: false });
+    Object.assign(view, { direction: "all", onlyMeanings: false, onlyNoExample: false, onlyWrong: false, onlyNew: false, onlyMastered: false, wordType: "" });
     view.groupFilter.clear();
     renderManage();
   });
@@ -442,6 +470,7 @@ async function saveEdit(form) {
       answers: splitList(form.querySelector("#e-answers").value),
       groups: pendingGroups("edit"),
       example: form.querySelector("#e-example").value,
+      wordType: form.querySelector("#e-type").value,
     });
     view.entries = res.entries;
     view.openId = null;
@@ -473,7 +502,7 @@ async function deleteConcept(form) {
 async function submitNew(form) {
   const val = (id) => document.getElementById(id).value;
   const req = { dutch: val("n-dutch"), context: val("n-context"), hungarian: val("n-hungarian"), example: val("n-example"), groups: pendingGroups("new"),
-    release: document.getElementById("n-release").checked };
+    release: document.getElementById("n-release").checked, wordType: val("n-type") };
   showError(form, "");
 
   try {

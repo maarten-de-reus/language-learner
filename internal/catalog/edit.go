@@ -27,6 +27,9 @@ type Edit struct {
 	// Groups vervangt de groepen (nil = ongewijzigd). Wat erbij komt of eraf gaat, geldt ook
 	// voor de omgekeerde richting: een groep hoort bij het woord, niet bij één richting.
 	Groups []string `json:"groups"`
+	// WordType: woordsoort (nil = ongewijzigd, "" = onbekend). Geldt ook voor de omgekeerde richting.
+	// Geen inhoudelijke wijziging: het woord hoeft er niet opnieuw voor gecontroleerd te worden.
+	WordType *string `json:"wordType"`
 }
 
 // Update past een concept aan. Alle controles gebeuren vóór er iets aangepast wordt.
@@ -90,6 +93,14 @@ func Update(lib *storage.Library, id string, e Edit) error {
 		}
 	}
 
+	var wordType string
+	if e.WordType != nil {
+		var err error
+		if wordType, err = ParseWordType(*e.WordType); err != nil {
+			return err
+		}
+	}
+
 	example := strings.TrimSpace(e.Example)
 	exampleLanguage := c.ExampleLang
 	if example == "" {
@@ -128,6 +139,11 @@ func Update(lib *storage.Library, id string, e Edit) error {
 		addGroups(&c, groups)
 	}
 	lib.Concepts[i] = c
+	if e.WordType != nil {
+		if err := SetWordType(lib, c.ID, wordType); err != nil {
+			return err
+		}
+	}
 	if changed {
 		for _, id := range append([]string{c.ID}, reverseIDs(lib, c)...) {
 			lib.Concepts[lib.Index(id)].Verified = false

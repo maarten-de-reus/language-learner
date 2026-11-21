@@ -28,6 +28,7 @@ type NewPair struct {
 	Example   string   // optionele Hongaarse voorbeeldzin, voor beide richtingen
 	Groups    []string // groepen voor beide richtingen; een nieuwe naam maakt de groep aan
 	Release   bool     // nieuwe kaarten alvast in de les, ook al zijn ze nog niet goedgekeurd
+	WordType  string   // woordsoort (code of naam, zie WordTypes); leeg = onbekend
 
 	// NL->HU, als het Nederlandse woord al bestaat: óf de Hongaarse woorden toevoegen als extra goede
 	// antwoorden bij een bestaande betekenis (echte synoniemen, bijv. bank (meubel) -> pad, kanapé),
@@ -252,6 +253,10 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 	if err != nil {
 		return res, err
 	}
+	wordType, err := ParseWordType(nc.WordType)
+	if err != nil {
+		return res, err
+	}
 	extendIdx, err := checkForward(lib, nc)
 	if err != nil {
 		return res, err
@@ -295,6 +300,9 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 			c.Example, c.ExampleLang = nc.Example, exampleLang(nc.Example)
 		}
 		addGroups(c, groups)
+		if c.WordType == "" {
+			c.WordType = wordType
+		}
 		c.Verified = false // nieuwe antwoorden: opnieuw laten controleren
 	} else {
 		for id, hint := range nc.ForwardHints {
@@ -308,6 +316,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 		}
 		lib.Concepts = append(lib.Concepts, storage.TranslationConcept{
 			Released:      nc.Release,
+			WordType:      wordType,
 			ID:            uniqueConceptID(lib, base),
 			SourceWordID:  dutchID,
 			ContextSource: nc.Context,
@@ -330,6 +339,9 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 			merged.Example, merged.ExampleLang = nc.Example, exampleLang(nc.Example)
 		}
 		addGroups(merged, groups)
+		if merged.WordType == "" {
+			merged.WordType = wordType
+		}
 	} else {
 		for id, hint := range nc.ExistingHints {
 			if i := lib.Index(id); i >= 0 {
@@ -342,6 +354,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 		}
 		lib.Concepts = append(lib.Concepts, storage.TranslationConcept{
 			Released:      nc.Release,
+			WordType:      wordType,
 			ID:            uniqueConceptID(lib, base),
 			SourceWordID:  reverseSourceID,
 			ContextSource: strings.TrimSpace(nc.ReverseContext),
@@ -362,6 +375,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 		}
 		lib.Concepts = append(lib.Concepts, storage.TranslationConcept{
 			Released:      nc.Release,
+			WordType:      wordType,
 			ID:            uniqueConceptID(lib, base),
 			SourceWordID:  ensureWord(words, "hu", hu),
 			ContextSource: strings.TrimSpace(nc.ReverseContext),

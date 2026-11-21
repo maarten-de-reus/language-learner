@@ -24,6 +24,7 @@ type Entry struct {
 	Reverse    []string  `json:"reverse,omitempty"` // ID's van de omgekeerde richting(en), bijv. kávé -> koffie bij koffie -> kávé
 	New        bool      `json:"new"`               // nog nooit gevraagd: staat in de wachtrij
 	Groups     []string  `json:"groups"`
+	WordType   string    `json:"wordType,omitempty"`   // woordsoort (code), leeg = onbekend
 	Verified   bool      `json:"verified"`             // goedgekeurd door de controleur
 	Released   bool      `json:"released"`             // alvast leren, nog niet goedgekeurd
 	ReviewNote string    `json:"reviewNote,omitempty"` // opmerking van de controleur
@@ -70,6 +71,7 @@ func entriesOf(lib *storage.Library, idx []int) []Entry {
 			Reverse:    idsAt(lib, reverses.Of(c)),
 			New:        c.FirstReview.IsZero(),
 			Groups:     append([]string{}, c.Groups...),
+			WordType:   c.WordType,
 			Verified:   c.Verified,
 			Released:   c.Released,
 			ReviewNote: c.ReviewNote,

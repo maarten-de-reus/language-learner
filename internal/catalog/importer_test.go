@@ -13,7 +13,7 @@ func TestParseImport(t *testing.T) {
 		"\n# opmerking\n" +
 		"kávé;koffie\n" + // context en voorbeeld optioneel
 		"alleen\n" +
-		"a;b;c;d;e\n" +
+		"a;b;c;d;ww;f\n" +
 		";leeg\n" +
 		"egy;een, één\n"
 
@@ -34,6 +34,39 @@ func TestParseImport(t *testing.T) {
 		if !strings.Contains(lines[i].Err, wantErr) {
 			t.Errorf("regel %d: verwacht fout %q, kreeg %+v", lines[i].No, wantErr, lines[i])
 		}
+	}
+}
+
+func TestParseImportWordType(t *testing.T) {
+	lines := ParseImport("olvas;leest;;;werkwoord\nház;huis;;;ZN\nkávé;koffie;;;\nx;y;;;soep")
+	if lines[0].WordType != "ww" || lines[1].WordType != "zn" || lines[2].WordType != "" || lines[2].Err != "" {
+		t.Errorf("woordsoorten: %+v", lines[:3])
+	}
+	if !strings.Contains(lines[3].Err, "onbekende woordsoort") {
+		t.Errorf("onbekende woordsoort moet een fout zijn: %+v", lines[3])
+	}
+}
+
+func TestImportWordType(t *testing.T) {
+	lib := legacyLib() // hallo/Groet -> szia, zonder woordsoort
+	text := "szia;hallo;;;tw\nolvas;leest;;;ww"
+	results, ok := Import(lib, ParseImport(text), nil, ImportOptions{})
+	if !ok || !results[0].Typed || results[1].Status != StatusAdded {
+		t.Fatalf("resultaten: %+v", results)
+	}
+	for _, c := range lib.Concepts {
+		want := "ww"
+		if lib.Words[c.SourceWordID].Text == "szia" || lib.Words[c.SourceWordID].Text == "hallo" {
+			want = "tw"
+		}
+		if c.WordType != want {
+			t.Errorf("%s: woordsoort %q, verwacht %q", c.ID, c.WordType, want)
+		}
+	}
+	// Een bestaande woordsoort wordt door een import niet overschreven
+	results, _ = Import(lib, ParseImport("szia;hallo;;;uitdr"), nil, ImportOptions{})
+	if results[0].Typed || lib.Concepts[0].WordType != "tw" {
+		t.Errorf("woordsoort overschreven: %+v %q", results[0], lib.Concepts[0].WordType)
 	}
 }
 

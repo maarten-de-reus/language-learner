@@ -4,6 +4,19 @@
 // controle per jaar. Overal in goud.
 export const MASTERED_STEP = 6;
 
+// Woordsoorten, zoals de server ze kent (catalog.WordTypes)
+export const WORD_TYPES = [
+  ["zn", "zelfstandig naamwoord"], ["ww", "werkwoord"], ["bn", "bijvoeglijk naamwoord"], ["bw", "bijwoord"],
+  ["vnw", "voornaamwoord"], ["telw", "telwoord"], ["lw", "lidwoord"], ["vw", "voegwoord"],
+  ["vz", "achterzetsel"], ["tw", "tussenwerpsel"], ["uitdr", "uitdrukking"],
+];
+export const wordTypeName = (code) => WORD_TYPES.find(([c]) => c === code)?.[1] ?? "";
+
+// wordTypeOptions: <option>s voor een keuzelijst, met "onbekend" bovenaan
+export const wordTypeOptions = (selected = "") =>
+  `<option value="">onbekend</option>` +
+  WORD_TYPES.map(([c, name]) => `<option value="${c}" ${c === selected ? "selected" : ""}>${name}</option>`).join("");
+
 export const LANG = { nl: "Nederlands", hu: "Hongaars", en: "Engels" };
 export const ACCENTS = ["á", "é", "í", "ó", "ö", "ő", "ú", "ü", "ű"];
 const rtf = new Intl.RelativeTimeFormat("nl", { numeric: "auto" });
