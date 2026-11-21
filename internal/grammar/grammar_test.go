@@ -128,16 +128,18 @@ func TestPresentIndefinite(t *testing.T) {
 
 func TestPresentDefinite(t *testing.T) {
 	for verb, want := range map[string][6]string{
-		"olvas":  {"olvasom", "olvasod", "olvassa", "olvassuk", "olvassátok", "olvassák"},
-		"lát":    {"látom", "látod", "látja", "látjuk", "látjátok", "látják"},
-		"néz":    {"nézem", "nézed", "nézi", "nézzük", "nézitek", "nézik"},
-		"ért":    {"értem", "érted", "érti", "értjük", "értitek", "értik"},
-		"köszön": {"köszönöm", "köszönöd", "köszöni", "köszönjük", "köszönitek", "köszönik"},
-		"tanít":  {"tanítom", "tanítod", "tanítja", "tanítjuk", "tanítjátok", "tanítják"},
-		"eszik":  {"eszem", "eszed", "eszi", "esszük", "eszitek", "eszik"},
-		"iszik":  {"iszom", "iszod", "issza", "isszuk", "isszátok", "isszák"},
-		"főz":    {"főzöm", "főzöd", "főzi", "főzzük", "főzitek", "főzik"},
-		"hoz":    {"hozom", "hozod", "hozza", "hozzuk", "hozzátok", "hozzák"},
+		"olvas":   {"olvasom", "olvasod", "olvassa", "olvassuk", "olvassátok", "olvassák"},
+		"mond":    {"mondom", "mondod", "mondja", "mondjuk", "mondjátok", "mondják"},
+		"játszik": {"játszom", "játszod", "játssza", "játsszuk", "játsszátok", "játsszák"},
+		"lát":     {"látom", "látod", "látja", "látjuk", "látjátok", "látják"},
+		"néz":     {"nézem", "nézed", "nézi", "nézzük", "nézitek", "nézik"},
+		"ért":     {"értem", "érted", "érti", "értjük", "értitek", "értik"},
+		"köszön":  {"köszönöm", "köszönöd", "köszöni", "köszönjük", "köszönitek", "köszönik"},
+		"tanít":   {"tanítom", "tanítod", "tanítja", "tanítjuk", "tanítjátok", "tanítják"},
+		"eszik":   {"eszem", "eszed", "eszi", "esszük", "eszitek", "eszik"},
+		"iszik":   {"iszom", "iszod", "issza", "isszuk", "isszátok", "isszák"},
+		"főz":     {"főzöm", "főzöd", "főzi", "főzzük", "főzitek", "főzik"},
+		"hoz":     {"hozom", "hozod", "hozza", "hozzuk", "hozzátok", "hozzák"},
 	} {
 		for p, form := range want {
 			f, ok := Present(verb, Person(p), true)

@@ -97,9 +97,29 @@ Woorden die de app al kent als uitzondering (geen kolom 6 nodig): haj, lyuk, von
 
 Als regelmatig bekend (ook als laatste deel van een samenstelling): alak, arc, asztal, bank, város, beteg, bolt, busz, citrom, csend, csütörtök, cím, dokumentum, dzsip, dzsungel, szünet, eszköz, fejezet, feladat, felület, film, fjord, orvos, fotel, másolat, fókusz, főnök, gyakorlat, gyalogos, gyerek, gép, hang, hegy, helyzet, nap, hónap, hőmérséklet, internet, jog, kedd, kozmetikus, kukac, kép, laptop, lány, jegy, telefon, mondat, motor, füzet, mérséklet, szak, nyelv, nyelvtan, nyugat, park, perc, program, udvar, péntek, rag, reggel, sport, szombat, szám, szín, sör, templom, tenger, természet, tyúk, típus, tök, vicc, villamos, vonat, xilofon, áram, szer, épület, év, üveg, üzlet, kert, kés, pénz, szék, ablak, húg, amszterdam, főváros, rész, barát, sor, kör, bor, tej.
 
-*Werkwoorden, onbepaald* (stam = 3e persoon zonder -ik): én -ok/-ek/-ök (-ik-werkwoorden -om/-em/-öm), te -sz (na s/sz/z: -ol/-el/-öl; na -ít of twee medeklinkers: -asz/-esz), mi -unk/-ünk, ti -tok/-tek/-tök (na -ít of medeklinker + t/s/sz/z: -otok/-etek/-ötök), ők -nak/-nek (na -ít of twee medeklinkers: -anak/-enek). Infinitief: stam + -ni (na -ít of twee medeklinkers -ani/-eni).
+*Werkwoorden, onbepaald.* De stam is de 3e persoon zonder -ik (lakik -> lak). "Twee medeklinkers" betekent: de stam eindigt op twee verschillende medeklinkerklanken, zoals -nd (mond), -ld (küld), -rt (tart, ért), -st (fest), -jt (gyújt), -tsz (játszik). Een klank van twee letters (sz, gy, ny, zs, cs, ly, ty) telt als één medeklinker; een dubbele (áll, hall) telt niet als twee.
 
-*Werkwoorden, bepaald:* -om/-od/-ja/-juk/-játok/-ják (achter), -em/-ed/-i/-jük/-itek/-ik (voor; rond -öm/-öd); na s/sz/z wordt de j gelijk (olvassa, nézzük). -ik-werkwoorden hebben geen bepaalde vervoeging, behalve eszik, iszik, játszik.
+| persoon | gewoon | na s, sz, z | na -ít of twee medeklinkers |
+|---|---|---|---|
+| én | -ok/-ek/-ök (-ik-ww: -om/-em/-öm) | zelfde | zelfde (mondok, értek) |
+| te | -sz (tanulsz) | -ol/-el/-öl (olvasol, nézel, főzöl) | -asz/-esz (mondasz, küldesz, tanítasz, értesz) |
+| ő | de stam (+ -ik) | | |
+| mi | -unk/-ünk | zelfde | zelfde |
+| ti | -tok/-tek/-tök | zelfde (olvastok) | **alleen** na -ít of na medeklinker + t/s/sz/z: -otok/-etek/-ötök (tanítotok, tartotok, értetek, festetek, játszotok); na -nd, -ld, -zd enz. gewoon: mondtok, küldtök, kezdtek |
+| ők | -nak/-nek | zelfde (olvasnak) | -anak/-enek (mondanak, küldenek, tartanak, játszanak) |
+
+Klinkerharmonie bepaalt de variant (achter -ok/-unk/-nak, voor -ek/-ünk/-nek, rond -ök/-tök); bij -asz/-esz, -unk/-ünk, -nak/-nek en -anak/-enek telt rond als voor. Infinitief: stam + -ni (olvasni, lakni); na -ít of twee medeklinkers -ani/-eni (mondani, küldeni, tartani, érteni, tanítani, játszani); -ni zelf doet niet mee aan harmonie.
+
+Voorbeelden zoals de app ze maakt:
+- mond: mondok, mondasz, mond, mondunk, mondtok, mondanak; mondani
+- küld: küldök, küldesz, küld, küldünk, küldtök, küldenek; küldeni
+- tart: tartok, tartasz, tart, tartunk, tartotok, tartanak; tartani
+- ért: értek, értesz, ért, értünk, értetek, értenek; érteni
+- segít: segítek, segítesz, segít, segítünk, segítetek, segítenek; segíteni
+- játszik: játszom, játszol, játszik, játszunk, játszotok, játszanak; játszani
+- olvas: olvasok, olvasol, olvas, olvasunk, olvastok, olvasnak; olvasni
+
+*Werkwoorden, bepaald:* -om/-od/-ja/-juk/-játok/-ják (achter), -em/-ed/-i/-jük/-itek/-ik (voor; rond -öm/-öd), ook na twee medeklinkers zonder extra klinker (mondom, mondod, mondja, mondjuk, mondjátok, mondják; értem, érted, érti, értjük, értitek, értik). Na s/sz/z wordt de j gelijk aan die medeklinker (olvassa, olvassuk, nézzük, játssza). -ik-werkwoorden hebben geen bepaalde vervoeging, behalve eszik, iszik, játszik.
 
 Onregelmatige werkwoorden die de app kent (ook met voorvoegsel, elmegy = el + megy): van, lesz, megy, jön, eszik, iszik, alszik, fekszik, haragszik, tesz, vesz, visz, hisz, fürdik, hall, áll, száll. Zonder bepaalde vervoeging bekend: van, lesz, megy, jön, él, marad, sétál, táncol, fordul, jár, nyaral, pihen, ebédel, vacsorázik, reggelizik, koncentrál, dönt, tankol, áll, száll, fut, ül, siet. Niet vervoegd: nincs, lehet, kell, szabad, tilos.
 
