@@ -313,3 +313,28 @@ func TestReviewNoteAndPriority(t *testing.T) {
 		t.Errorf("na een inhoudelijke aanpassing opnieuw te controleren: %+v", c)
 	}
 }
+
+func TestReleaseLetsAWordInWithoutApproval(t *testing.T) {
+	s, h := newTestServer(t)
+	call(t, h, "POST", "/api/concepts", `{"dutch":"tijd","context":"klok","hungarian":"idő","existingHints":{"c_hu_nl_idő":"buiten"}}`)
+	id := s.lib.Concepts[len(s.lib.Concepts)-2].ID
+	before := s.session.Stats()
+	if before.NewUnverified != 1 {
+		t.Fatalf("voor het vrijgeven: 1 woord wacht op controle, kreeg %d", before.NewUnverified)
+	}
+	code, out := call(t, h, "POST", "/api/concepts/"+url.PathEscape(id)+"/release", `{"released":true}`)
+	if code != http.StatusOK || !strings.Contains(string(out["ids"]), "c_hu_nl_idő_klok") {
+		t.Fatalf("vrijgeven moet beide richtingen raken: %d %s", code, out["ids"])
+	}
+	for _, c := range s.lib.Concepts[len(s.lib.Concepts)-2:] {
+		if !c.Released || c.Verified {
+			t.Errorf("%s: alvast leren, maar nog niet goedgekeurd: %+v", c.ID, c)
+		}
+	}
+	if st := s.session.Stats(); st.NewUnverified != 0 || st.DueNew != before.DueNew+1 {
+		t.Errorf("na vrijgeven: niets geblokkeerd en 1 nieuw woord meer te leren (was %d), kreeg %+v", before.DueNew, st)
+	}
+	if code, _ := call(t, h, "POST", "/api/concepts/bestaat-niet/release", `{"released":true}`); code != http.StatusNotFound {
+		t.Errorf("onbekend concept: verwacht 404, kreeg %d", code)
+	}
+}

@@ -203,7 +203,7 @@ func Buried(all []storage.TranslationConcept, now time.Time) map[string]bool {
 
 // DueCandidates geeft alles wat vandaag gevraagd kan worden: herhalingen die aan de beurt zijn en
 // nieuwe woorden tot newAllowance (Unlimited = geen limiet). Nieuwe woorden moeten goedgekeurd zijn
-// (Verified) en komen in de volgorde waarin ze zijn toegevoegd, met voorrang (Priority) vooraan.
+// (Verified) of alvast vrijgegeven (Released) en komen in de volgorde waarin ze zijn toegevoegd, met voorrang (Priority) vooraan.
 // Concepten waarvan vandaag al een andere richting gevraagd is, wachten tot morgen, en van een
 // nieuw woord komt per dag één richting: "Nog 10" is zo ook echt 10 woorden.
 func DueCandidates(all []storage.TranslationConcept, now time.Time, newAllowance int) []storage.TranslationConcept {
@@ -216,7 +216,7 @@ func DueCandidates(all []storage.TranslationConcept, now time.Time, newAllowance
 		switch {
 		case !IsNew(c):
 			due = append(due, c) // al in de herhalingen: daar is geen controle meer voor nodig
-		case c.Verified:
+		case c.Verified || c.Released:
 			queue = append(queue, c)
 		}
 	}

@@ -39,7 +39,7 @@ func (s *Session) unverifiedWords() int {
 	counted := map[string]bool{}
 	n := 0
 	for _, c := range s.lib.Concepts {
-		if !engine.IsNew(c) || c.Verified || counted[c.ID] {
+		if !engine.IsNew(c) || c.Verified || c.Released || counted[c.ID] {
 			continue
 		}
 		n++

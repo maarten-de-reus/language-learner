@@ -22,6 +22,9 @@ type TranslationConcept struct {
 	// ReviewNote is een opmerking van de controleur (bijv. waarom het nog niet klopt).
 	Verified   bool   `json:"verified,omitempty"`
 	ReviewNote string `json:"review_note,omitempty"`
+	// Released: alvast leren, ook al is het nog niet goedgekeurd. Het woord komt in de les, maar
+	// blijft bij de controle staan tot het goedgekeurd is.
+	Released bool `json:"released,omitempty"`
 	// Voortgang: wordt in voortgang.json bewaard (zie ProgressState), nooit in woorden.json
 	StepIndex  int       `json:"-"` // Index voor engine.AnkiIntervals (0 t/m 6; 6 = beheerst)
 	TopStreak  int       `json:"-"` // zoveel keer achter elkaar goed op 90 dagen (naar beheerst)

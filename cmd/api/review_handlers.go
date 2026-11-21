@@ -39,6 +39,32 @@ func (s *server) handleReview(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, map[string][]string{"ids": ids})
 }
 
+// handleRelease zet een woord alvast in de les (of haalt het eruit) zonder het goed te keuren
+func (s *server) handleRelease(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		Released bool `json:"released"`
+	}
+	if !decode(w, r, &body) {
+		return
+	}
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	snapshot := s.lib.Clone()
+	ids, err := catalog.Release(s.lib, r.PathValue("id"), body.Released)
+	if err != nil {
+		writeError(w, statusFor(err), err)
+		return
+	}
+	if err := storage.SaveWords(s.wordsPath, s.lib.Words, s.lib.Concepts); err != nil {
+		*s.lib = *snapshot
+		log.Printf("Alvast leren niet opgeslagen: %v", err)
+		writeError(w, http.StatusInternalServerError, errors.New("woorden konden niet worden opgeslagen: "+err.Error()))
+		return
+	}
+	writeJSON(w, http.StatusOK, map[string][]string{"ids": ids})
+}
+
 // handlePriority geeft een nieuw woord voorrang in de wachtrij (vanuit Kaarten). Dat is voortgang,
 // dus het komt in voortgang.json.
 func (s *server) handlePriority(w http.ResponseWriter, r *http.Request) {

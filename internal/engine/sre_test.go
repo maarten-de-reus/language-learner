@@ -445,3 +445,16 @@ func TestMasteredAfterFourTimesRightAtNinetyDays(t *testing.T) {
 		t.Errorf("fout bij de controle: naar 40 dagen (kreeg %d), accentfout naar 90 (kreeg %d)", wrong.StepIndex, accentSlip.StepIndex)
 	}
 }
+
+func TestReleasedWordsJoinTheQueueWithoutApproval(t *testing.T) {
+	cs := newWords(3)
+	cs[0].Verified, cs[1].Verified, cs[2].Verified = false, false, true
+	cs[1].Released = true // nog niet goedgekeurd, maar alvast leren
+	var ids []string
+	for _, c := range DueCandidates(cs, time.Now(), Unlimited) {
+		ids = append(ids, c.ID)
+	}
+	if !slices.Equal(ids, []string{"c_new_01", "c_new_02"}) {
+		t.Errorf("alvast leren en goedgekeurd komen in de wachtrij, de rest wacht: kreeg %v", ids)
+	}
+}

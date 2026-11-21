@@ -46,7 +46,9 @@ function reviewItems() {
     cards.forEach((g) => used.add(g.id));
     if (cards.every((g) => g.verified)) continue;
     // In de wachtrij = het blokkeert: een nieuwe kaart die nog niet goedgekeurd is
-    items.push({ main, cards, queue: cards.some((g) => g.new && !g.verified), note: cards.find((g) => g.reviewNote)?.reviewNote ?? "" });
+    // released: alvast in de les gezet, nog niet goedgekeurd (blijft hier staan)
+    items.push({ main, cards, queue: cards.some((g) => g.new && !g.verified), released: cards.some((g) => g.released && !g.verified),
+      note: cards.find((g) => g.reviewNote)?.reviewNote ?? "" });
   }
   // Wat de wachtrij blokkeert eerst
   return items.sort((a, b) => b.queue - a.queue);
@@ -58,7 +60,9 @@ function renderReview() {
   const filter = rv.filter ?? (counts.queue ? "queue" : "all");
   const q = fold(rv.query.trim());
   const items = all.filter((i) => (filter === "all" || (filter === "queue" ? i.queue : i.note)) &&
-    (!q || i.cards.some((e) => fold([e.prompt, ...e.answers, e.context].join(" ")).includes(q))));
+    (!q || i.cards.some((e) => fold([e.prompt, ...e.answers, e.context, ...(e.groups || [])].join(" ")).includes(q))));
+  // Wat met "alvast leren" in de les kan: nieuw, nog niet goedgekeurd en nog niet vrijgegeven
+  const releasable = items.filter((i) => i.queue && !i.released);
   const shown = items.slice(0, rv.limit);
   // Het huidige woord voor de sneltoetsen: blijft staan, of schuift door als het weg is
   if (!shown.some((i) => i.main.id === rv.current)) rv.current = shown[Math.min(rv.currentIndex ?? 0, shown.length - 1)]?.main.id ?? null;
@@ -76,10 +80,12 @@ function renderReview() {
           in Beheer of laat een opmerking achter; dan wacht het woord. Woorden die al in de herhalingen zitten lopen gewoon door.</p>
         <p class="muted">Sneltoetsen: <kbd>J</kbd>/<kbd>K</kbd> volgende/vorige · <kbd>A</kbd> goedkeuren ·
           <kbd>O</kbd> opmerking · <kbd>B</kbd> verbeteren in Beheer</p>
+        <p class="muted"><b>Alvast leren</b> zet een woord al in de les voordat het is goedgekeurd; het blijft hier staan
+          tot iemand het goedkeurt. Zoek op een groep (bijv. <i>2.8</i>) om een hele les in één keer vrij te geven.</p>
       </details>
       <label class="search rv-search">
         <span aria-hidden="true">⌕</span>
-        <input id="rv-search" type="search" placeholder="Zoek een woord…" value="${esc(rv.query)}"
+        <input id="rv-search" type="search" placeholder="Zoek een woord of groep…" value="${esc(rv.query)}"
                autocomplete="off" spellcheck="false" aria-label="Zoeken">
       </label>
       <div class="m-filters">
@@ -92,6 +98,8 @@ function renderReview() {
       : `<p class="sx-empty rv-empty">${all.length ? "Niets te controleren in deze selectie." : "Alles is gecontroleerd. 🎉"}</p>`}
     <div class="rv-more">
       ${shown.length > 1 ? `<button type="button" class="btn secondary" data-rv-approve-shown>Deze ${shown.length} goedkeuren</button>` : ""}
+      ${releasable.length > 1 ? `<button type="button" class="btn secondary" data-rv-release-all="${releasable.map((i) => esc(i.main.id)).join(" ")}"
+        title="Alle woorden in deze selectie alvast in de les zetten; ze blijven hier staan tot ze zijn goedgekeurd">Alle ${releasable.length} alvast leren</button>` : ""}
       ${items.length > shown.length ? `<button type="button" class="btn secondary" data-rv-more>Meer tonen (nog ${items.length - shown.length})</button>` : ""}
     </div>`;
 }
@@ -109,7 +117,8 @@ function reviewItemHTML(item) {
         ${rest.map((e) => `<div class="rv-rev muted">${card(e)}</div>`).join("")}
         ${example ? `<p class="example" lang="hu">“${esc(example)}”</p>` : ""}
         <div class="rv-tags">
-          ${item.queue ? `<span class="m-queued">in de wachtrij</span>` : `<span class="m-group">al in de herhalingen</span>`}
+          ${item.released ? `<span class="m-released">wordt al geleerd</span>`
+            : item.queue ? `<span class="m-queued">in de wachtrij</span>` : `<span class="m-group">al in de herhalingen</span>`}
           ${groups.map((g) => `<span class="m-group">${esc(g)}</span>`).join("")}
         </div>
         ${item.note ? `<p class="m-warn rv-note">Opmerking: ${esc(item.note)}</p>` : ""}
@@ -117,6 +126,7 @@ function reviewItemHTML(item) {
       <div class="rv-actions">
         <button type="button" class="btn" data-rv-approve>Goedkeuren</button>
         <button type="button" class="btn secondary" data-rv-note>Opmerking</button>
+        ${item.queue ? `<button type="button" class="linklike" data-rv-release="${item.released ? "off" : "on"}">${item.released ? "Niet alvast leren" : "Alvast leren"}</button>` : ""}
         <button type="button" class="linklike" data-rv-fix>Verbeteren</button>
       </div>
       ${rv.noteFor === main.id ? `
@@ -131,6 +141,12 @@ function reviewItemHTML(item) {
 }
 
 // Legt de controle vast en werkt de lijst bij; de server geeft terug welke kaarten geraakt zijn
+// Zet een woord alvast in de les (of haalt het eruit) zonder het goed te keuren
+async function releaseWord(id, on) {
+  const res = await api("POST", `/api/concepts/${encodeURIComponent(id)}/release`, { released: on });
+  for (const e of rv.entries) if (res.ids.includes(e.id)) e.released = on;
+}
+
 async function reviewWord(id, verified, note = "") {
   const res = await api("POST", `/api/concepts/${encodeURIComponent(id)}/review`, { verified, note });
   for (const e of rv.entries) {
@@ -179,6 +195,18 @@ reviewEl.addEventListener("click", async (e) => {
     } else if (b.matches("[data-rv-note-cancel]")) {
       rv.noteFor = null;
       rerenderReview();
+    } else if (b.matches("[data-rv-release]")) {
+      b.disabled = true;
+      await releaseWord(id, b.dataset.rvRelease === "on");
+      rerenderReview();
+      refreshStats();
+    } else if (b.matches("[data-rv-release-all]")) {
+      const ids = b.dataset.rvReleaseAll.split(" ");
+      b.disabled = true;
+      for (const one of ids) await releaseWord(one, true);
+      toast(`${ids.length} woorden worden alvast geleerd; ze blijven hier staan tot ze zijn goedgekeurd`);
+      rerenderReview();
+      refreshStats();
     } else if (b.matches("[data-rv-fix]")) {
       const main = rv.entries.find((x) => x.id === id);
       view.query = main.prompt; // zoekterm voor het beheer

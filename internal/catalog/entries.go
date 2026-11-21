@@ -25,6 +25,7 @@ type Entry struct {
 	New        bool      `json:"new"`               // nog nooit gevraagd: staat in de wachtrij
 	Groups     []string  `json:"groups"`
 	Verified   bool      `json:"verified"`             // goedgekeurd door de controleur
+	Released   bool      `json:"released"`             // alvast leren, nog niet goedgekeurd
 	ReviewNote string    `json:"reviewNote,omitempty"` // opmerking van de controleur
 	Priority   bool      `json:"priority"`             // voorrang in de wachtrij (gemarkeerd in Kaarten)
 	Attempts   int       `json:"attempts"`             // eerste pogingen volgens het antwoordenlog (ingevuld door de API)
@@ -70,6 +71,7 @@ func entriesOf(lib *storage.Library, idx []int) []Entry {
 			New:        c.FirstReview.IsZero(),
 			Groups:     append([]string{}, c.Groups...),
 			Verified:   c.Verified,
+			Released:   c.Released,
 			ReviewNote: c.ReviewNote,
 			Priority:   c.Priority,
 			Step:       c.StepIndex,

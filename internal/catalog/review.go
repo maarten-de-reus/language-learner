@@ -44,3 +44,17 @@ func SetPriority(lib *storage.Library, id string, on bool) ([]string, error) {
 	}
 	return changed, nil
 }
+
+// Release zet een woord (in beide richtingen) alvast in de les, of haalt het er weer uit, zonder
+// het goed te keuren: het blijft bij de controle staan. Geeft de aangepaste concepten.
+func Release(lib *storage.Library, id string, on bool) ([]string, error) {
+	i := lib.Index(id)
+	if i < 0 {
+		return nil, ErrNotFound
+	}
+	ids := append([]string{id}, reverseIDs(lib, lib.Concepts[i])...)
+	for _, cid := range ids {
+		lib.Concepts[lib.Index(cid)].Released = on
+	}
+	return ids, nil
+}
