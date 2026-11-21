@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"strings"
 
+	"hungarian-language-learner/internal/grammar"
 	"hungarian-language-learner/internal/storage"
 )
 
-// ImportLine is één regel uit een geplakte lijst: hongaars;nederlands;context;voorbeeldzin;woordsoort
+// ImportLine is één regel uit een geplakte lijst: hongaars;nederlands;context;voorbeeldzin;woordsoort;vormen
 type ImportLine struct {
 	No        int    `json:"no"` // regelnummer in de geplakte tekst (vanaf 1)
 	Hungarian string `json:"hungarian"`
@@ -16,11 +17,12 @@ type ImportLine struct {
 	Context   string `json:"context"`
 	Example   string `json:"example"`
 	WordType  string `json:"wordType,omitempty"` // code, na controle (zie ParseWordType)
+	Forms     string `json:"forms,omitempty"`    // afwijkende vormen, bijv. "t=házat, k=házak" (zie grammar.ParseForms)
 	Err       string `json:"error,omitempty"`    // fout bij het lezen van de regel
 }
 
 // ParseImport leest een geplakte lijst. Kolommen worden gescheiden door ; (spaties eromheen
-// mogen, hoeven niet). Context, voorbeeldzin en woordsoort zijn optioneel. Lege regels, regels die met #
+// mogen, hoeven niet). Context, voorbeeldzin, woordsoort en afwijkende vormen zijn optioneel. Lege regels, regels die met #
 // beginnen en een kopregel ("hongaars;nederlands;...") worden overgeslagen.
 func ParseImport(text string) []ImportLine {
 	var lines []ImportLine
@@ -37,17 +39,21 @@ func ParseImport(text string) []ImportLine {
 		switch {
 		case len(fields) < 2:
 			line.Err = "te weinig kolommen: minstens hongaars;nederlands"
-		case len(fields) > 5:
-			line.Err = "te veel kolommen: maximaal hongaars;nederlands;context;voorbeeldzin;woordsoort (een ; in de voorbeeldzin kan niet)"
+		case len(fields) > 6:
+			line.Err = "te veel kolommen: maximaal hongaars;nederlands;context;voorbeeldzin;woordsoort;vormen (een ; in de voorbeeldzin kan niet)"
 		}
 		if line.Err == "" {
-			fields = append(fields, "", "", "")
+			fields = append(fields, "", "", "", "")
 			line.Hungarian, line.Dutch, line.Context, line.Example = fields[0], fields[1], fields[2], fields[3]
 			wordType, err := ParseWordType(fields[4])
 			line.WordType = wordType
+			forms, formErr := grammar.ParseForms(fields[5])
+			line.Forms = grammar.FormatForms(forms)
 			switch {
 			case err != nil:
 				line.Err = err.Error()
+			case formErr != nil:
+				line.Err = formErr.Error()
 			case line.Hungarian == "":
 				line.Err = "Hongaars woord ontbreekt"
 			case line.Dutch == "":
@@ -107,7 +113,7 @@ type ImportResult struct {
 	// Bij een woord dat al bestaat: zo staat het er, en of het de groepen van de import erbij kreeg
 	Existing string `json:"existing,omitempty"`
 	Grouped  bool   `json:"grouped,omitempty"`
-	Typed    bool   `json:"typed,omitempty"` // kreeg de woordsoort van de import (had er nog geen)
+	Typed    bool   `json:"typed,omitempty"` // kreeg de woordsoort en/of afwijkende vormen van de import (had er nog geen)
 	// Synoniemen op de regel: wie een eigen HU->NL kaart krijgt, en wie al een andere betekenis heeft
 	ExtraReverse   []string `json:"extraReverse,omitempty"`
 	SkippedReverse []string `json:"skippedReverse,omitempty"`
@@ -160,6 +166,7 @@ func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportCho
 	nc.Groups = opts.Groups
 	nc.Release = opts.Release
 	nc.WordType = line.WordType
+	nc.Forms = line.Forms
 	if existing := Existing(lib, nc); existing != nil {
 		gs, err := NormalizeGroups(lib, opts.Groups)
 		if err != nil {
@@ -176,6 +183,9 @@ func importLine(lib *storage.Library, line ImportLine, choices map[int]ImportCho
 			res.Grouped = GroupExisting(lib, i, gs) || res.Grouped
 			// Een bestaand woord zonder woordsoort krijgt die van de import; een andere laat het staan
 			res.Typed = setWordType(lib, i, line.WordType, true) || res.Typed
+			if forms, _ := grammar.ParseForms(line.Forms); setForms(lib, i, forms, true) {
+				res.Typed = true
+			}
 		}
 		res.Existing = strings.Join(names, " en ")
 		return fail(StatusDuplicate, "bestaat al")

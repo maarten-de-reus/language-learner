@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"hungarian-language-learner/internal/engine"
+	"hungarian-language-learner/internal/grammar"
 	"hungarian-language-learner/internal/storage"
 )
 
@@ -25,6 +26,7 @@ type Entry struct {
 	New        bool      `json:"new"`               // nog nooit gevraagd: staat in de wachtrij
 	Groups     []string  `json:"groups"`
 	WordType   string    `json:"wordType,omitempty"`   // woordsoort (code), leeg = onbekend
+	Forms      string    `json:"forms,omitempty"`      // afwijkende vormen als tekst: "t=házat, k=házak"
 	Verified   bool      `json:"verified"`             // goedgekeurd door de controleur
 	Released   bool      `json:"released"`             // alvast leren, nog niet goedgekeurd
 	ReviewNote string    `json:"reviewNote,omitempty"` // opmerking van de controleur
@@ -72,6 +74,7 @@ func entriesOf(lib *storage.Library, idx []int) []Entry {
 			New:        c.FirstReview.IsZero(),
 			Groups:     append([]string{}, c.Groups...),
 			WordType:   c.WordType,
+			Forms:      grammar.FormatForms(c.Forms),
 			Verified:   c.Verified,
 			Released:   c.Released,
 			ReviewNote: c.ReviewNote,

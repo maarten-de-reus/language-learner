@@ -21,7 +21,8 @@ type Word struct {
 	Hungarian string
 	Dutch     string
 	Type      string
-	Known     bool // al eens geoefend in de herhalingen
+	Known     bool              // al eens geoefend in de herhalingen
+	Forms     map[string]string // afwijkende vormen bij het woord (zie ParseForms)
 }
 
 // Words haalt de bruikbare woorden uit de woordenschat: per Hongaars woord één keer, met de
@@ -46,10 +47,13 @@ func Words(lib *storage.Library) []Word {
 			key := strings.ToLower(hu) + "|" + c.WordType
 			if i, ok := seen[key]; ok {
 				out[i].Known = out[i].Known || !c.FirstReview.IsZero()
+				if out[i].Forms == nil {
+					out[i].Forms = c.Forms
+				}
 				continue
 			}
 			seen[key] = len(out)
-			out = append(out, Word{Hungarian: hu, Dutch: dutch, Type: c.WordType, Known: !c.FirstReview.IsZero()})
+			out = append(out, Word{Hungarian: hu, Dutch: dutch, Type: c.WordType, Known: !c.FirstReview.IsZero(), Forms: c.Forms})
 		}
 	}
 	sort.SliceStable(out, func(i, j int) bool { return engine.Fold(out[i].Hungarian) < engine.Fold(out[j].Hungarian) })
@@ -73,9 +77,9 @@ func meaningHint(hint string) string {
 }
 
 // persons geeft de personen waarvoor de regel een vorm heeft (bij gewone regels alleen Sg3)
-func (r Rule) persons(word string) []Person {
+func (r Rule) persons(w Word) []Person {
 	if !r.Persons {
-		if _, ok := r.Make(word, Sg3); ok {
+		if _, ok := r.MakeFor(w, Sg3); ok {
 			return []Person{Sg3}
 		}
 		return nil
@@ -85,7 +89,7 @@ func (r Rule) persons(word string) []Person {
 		if r.ID == "ww-onbep" && p == Sg3 {
 			continue // die staat al op je kaart
 		}
-		if _, ok := r.Make(word, p); ok {
+		if _, ok := r.MakeFor(w, p); ok {
 			ps = append(ps, p)
 		}
 	}
@@ -96,11 +100,21 @@ func (r Rule) persons(word string) []Person {
 func (r Rule) Applicable(words []Word) []Word {
 	var out []Word
 	for _, w := range words {
-		if w.Type == r.WordType && len(r.persons(w.Hungarian)) > 0 {
+		if w.Type == r.WordType && len(r.persons(w)) > 0 {
 			out = append(out, w)
 		}
 	}
 	return out
+}
+
+// FindWord zoekt een woord uit je lijst op (met zijn afwijkende vormen); onbekend geeft een kaal woord
+func FindWord(words []Word, hungarian string) Word {
+	for _, w := range words {
+		if w.Hungarian == hungarian {
+			return w
+		}
+	}
+	return Word{Hungarian: hungarian}
 }
 
 // Exercise is één opgave. Het antwoord gaat niet mee: dat rekent Check opnieuw uit.
@@ -162,7 +176,7 @@ func Next(words []Word, active []string, scores map[string]Score, avoid string, 
 	if w.Hungarian == avoid && len(pool) > 1 {
 		w = pool[(slices.IndexFunc(pool, func(x Word) bool { return x.Hungarian == avoid })+1)%len(pool)]
 	}
-	ps := o.rule.persons(w.Hungarian)
+	ps := o.rule.persons(w)
 	p := ps[rng.IntN(len(ps))]
 	ex := Exercise{Rule: o.rule.ID, Word: w.Hungarian, Dutch: w.Dutch, Person: int(p)}
 	if o.rule.Persons {
@@ -179,12 +193,12 @@ type Result struct {
 }
 
 // Check kijkt een antwoord na. ok is false als de regel of het woord niet (meer) bestaat.
-func Check(ruleID, word string, person int, input string) (Result, bool) {
+func Check(ruleID string, word Word, person int, input string) (Result, bool) {
 	r, ok := RuleByID(ruleID)
 	if !ok || person < 0 || person > int(Pl3) {
 		return Result{}, false
 	}
-	f, ok := r.Make(word, Person(person))
+	f, ok := r.MakeFor(word, Person(person))
 	if !ok {
 		return Result{}, false
 	}
@@ -266,11 +280,9 @@ func (r Rule) Examples(words []Word, n int) []Example {
 		if len(out) >= n || slices.ContainsFunc(out, func(e Example) bool { return e.Word == w.Hungarian }) {
 			return
 		}
-		p := r.persons(w.Hungarian)[0]
-		if r.Persons && len(r.persons(w.Hungarian)) > 1 {
-			p = r.persons(w.Hungarian)[len(out)%len(r.persons(w.Hungarian))]
-		}
-		f, _ := r.Make(w.Hungarian, p)
+		ps := r.persons(w)
+		p := ps[len(out)%len(ps)]
+		f, _ := r.MakeFor(w, p)
 		end := ending(w.Hungarian, f.Text)
 		if distinct && endings[end] {
 			return

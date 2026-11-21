@@ -18,6 +18,7 @@ type conceptRequest struct {
 	Groups           []string          `json:"groups"`
 	Release          bool              `json:"release"`       // nieuwe kaarten alvast leren
 	WordType         string            `json:"wordType"`      // woordsoort (code), leeg = onbekend
+	Forms            string            `json:"forms"`         // afwijkende vormen, bijv. "t=házat, k=házak"
 	ExtendForward    string            `json:"extendForward"` // bestaand NL->HU concept aanvullen; leeg = nieuwe betekenis
 	ForwardHints     map[string]string `json:"forwardHints"`
 	MergeReverseInto string            `json:"mergeReverseInto"`
@@ -104,6 +105,7 @@ func (s *server) handleAddConcept(w http.ResponseWriter, r *http.Request) {
 	nc.Groups = req.Groups
 	nc.Release = req.Release
 	nc.WordType = req.WordType
+	nc.Forms = req.Forms
 	nc.ExtendForward = req.ExtendForward
 	nc.ForwardHints = req.ForwardHints
 	nc.MergeReverseInto = req.MergeReverseInto

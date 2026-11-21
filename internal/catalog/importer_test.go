@@ -13,7 +13,7 @@ func TestParseImport(t *testing.T) {
 		"\n# opmerking\n" +
 		"kávé;koffie\n" + // context en voorbeeld optioneel
 		"alleen\n" +
-		"a;b;c;d;ww;f\n" +
+		"a;b;c;d;ww;t=x;g\n" +
 		";leeg\n" +
 		"egy;een, één\n"
 
@@ -67,6 +67,39 @@ func TestImportWordType(t *testing.T) {
 	results, _ = Import(lib, ParseImport("szia;hallo;;;uitdr"), nil, ImportOptions{})
 	if results[0].Typed || lib.Concepts[0].WordType != "tw" {
 		t.Errorf("woordsoort overschreven: %+v %q", results[0], lib.Concepts[0].WordType)
+	}
+}
+
+func TestImportForms(t *testing.T) {
+	lines := ParseImport("ház;huis;;;zn;t=házat, k=házak\nló;paard;;;zn;T = lovat,bol=lóból\nx;y;;;zn;soep=1")
+	if lines[0].Forms != "k=házak, t=házat" || lines[1].Forms != "ból=lóból, t=lovat" || lines[0].Err != "" {
+		t.Errorf("vormen: %+v", lines[:2])
+	}
+	if !strings.Contains(lines[2].Err, "onbekende sleutel") {
+		t.Errorf("onbekende sleutel moet een fout zijn: %+v", lines[2])
+	}
+	lib := newLib()
+	if _, ok := Import(lib, lines[:1], nil, ImportOptions{}); !ok {
+		t.Fatal("import mislukt")
+	}
+	for _, c := range lib.Concepts {
+		if c.Forms["t"] != "házat" || c.Forms["k"] != "házak" {
+			t.Errorf("%s: vormen %v, verwacht voor beide richtingen", c.ID, c.Forms)
+		}
+	}
+	// Bestaand woord zonder vormen krijgt ze; met vormen blijven ze staan
+	results, _ := Import(lib, ParseImport("ház;huis;;;zn;t=hazat"), nil, ImportOptions{})
+	if results[0].Typed || lib.Concepts[0].Forms["t"] != "házat" {
+		t.Errorf("bestaande vormen overschreven: %+v %v", results[0], lib.Concepts[0].Forms)
+	}
+	// Bewerken: vervangen en wissen
+	f := "t=házat"
+	if err := Update(lib, lib.Concepts[0].ID, Edit{Answers: TargetTexts(lib, lib.Concepts[0]), Forms: &f}); err != nil || len(lib.Concepts[1].Forms) != 1 {
+		t.Errorf("bewerken: %v %v", err, lib.Concepts[1].Forms)
+	}
+	f = ""
+	if err := Update(lib, lib.Concepts[0].ID, Edit{Answers: TargetTexts(lib, lib.Concepts[0]), Forms: &f}); err != nil || lib.Concepts[1].Forms != nil {
+		t.Errorf("wissen: %v %v", err, lib.Concepts[1].Forms)
 	}
 }
 

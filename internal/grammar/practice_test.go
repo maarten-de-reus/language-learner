@@ -51,16 +51,16 @@ func TestWordsAndNext(t *testing.T) {
 }
 
 func TestCheckAndScores(t *testing.T) {
-	if r, _ := Check("ban", "ház", 0, " Házban "); !r.Correct {
+	if r, _ := Check("ban", Word{Hungarian: "ház"}, 0, " Házban "); !r.Correct {
 		t.Errorf("házban moet goed zijn: %+v", r)
 	}
-	if r, _ := Check("ban", "ház", 0, "hazban"); r.Correct || !r.AccentOnly || r.Form.Text != "házban" {
+	if r, _ := Check("ban", Word{Hungarian: "ház"}, 0, "hazban"); r.Correct || !r.AccentOnly || r.Form.Text != "házban" {
 		t.Errorf("hazban: alleen accenten fout: %+v", r)
 	}
-	if r, _ := Check("ww-onbep", "olvas", int(Sg2), "olvassz"); r.Correct || r.Form.Text != "olvasol" || len(r.Form.Steps) == 0 {
+	if r, _ := Check("ww-onbep", Word{Hungarian: "olvas"}, int(Sg2), "olvassz"); r.Correct || r.Form.Text != "olvasol" || len(r.Form.Steps) == 0 {
 		t.Errorf("olvas, te: %+v", r)
 	}
-	if _, ok := Check("bestaat-niet", "ház", 0, "x"); ok {
+	if _, ok := Check("bestaat-niet", Word{Hungarian: "ház"}, 0, "x"); ok {
 		t.Error("onbekende regel")
 	}
 	var log []storage.GrammarAttempt
@@ -79,5 +79,39 @@ func TestExamplesVary(t *testing.T) {
 	ex := r.Examples(words, 2)
 	if len(ex) != 2 || ex[0].Form != "házban" || ex[1].Form != "kertben" {
 		t.Errorf("voorbeelden moeten -ban én -ben laten zien: %+v", ex)
+	}
+}
+
+func TestOverrides(t *testing.T) {
+	forms, err := ParseForms("t=szekeret, k=szekerek, on=?, te=mész")
+	if err != nil {
+		t.Fatal(err)
+	}
+	w := Word{Hungarian: "szekér", Type: "zn", Forms: forms}
+	if r, _ := Check("t", w, 0, "szekeret"); !r.Correct {
+		t.Errorf("afwijkende vorm moet voorgaan: %+v", r)
+	}
+	on, _ := RuleByID("on")
+	if len(on.persons(w)) != 0 {
+		t.Error("on=? betekent: niet oefenen")
+	}
+	if r, _ := Check("ban", w, 0, "szekérben"); !r.Correct {
+		t.Errorf("zonder afwijking gewoon de regel: %+v", r)
+	}
+	v := Word{Hungarian: "xmegy", Type: "ww", Forms: forms}
+	if r, _ := Check("ww-onbep", v, int(Sg2), "mész"); !r.Correct {
+		t.Errorf("persoon te: %+v", r)
+	}
+	if FormatForms(forms) != "k=szekerek, on=?, t=szekeret, te=mész" {
+		t.Errorf("tekst: %q", FormatForms(forms))
+	}
+	noDef, _ := ParseForms("bep=?")
+	if bep, _ := RuleByID("ww-bep"); len(bep.persons(Word{Hungarian: "olvas", Forms: noDef})) != 0 {
+		t.Error("bep=? betekent: geen bepaalde vervoeging")
+	}
+	for _, bad := range []string{"t", "x=y", "t=twee woorden", "bep=olvasom"} {
+		if _, err := ParseForms(bad); err == nil {
+			t.Errorf("%q moet een fout geven", bad)
+		}
 	}
 }

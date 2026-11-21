@@ -2,10 +2,12 @@ package catalog
 
 import (
 	"errors"
+	"maps"
 	"slices"
 	"strings"
 
 	"hungarian-language-learner/internal/engine"
+	"hungarian-language-learner/internal/grammar"
 	"hungarian-language-learner/internal/storage"
 )
 
@@ -30,6 +32,8 @@ type Edit struct {
 	// WordType: woordsoort (nil = ongewijzigd, "" = onbekend). Geldt ook voor de omgekeerde richting.
 	// Geen inhoudelijke wijziging: het woord hoeft er niet opnieuw voor gecontroleerd te worden.
 	WordType *string `json:"wordType"`
+	// Forms: afwijkende vormen als tekst (nil = ongewijzigd, "" = geen). Ook voor de omgekeerde richting.
+	Forms *string `json:"forms"`
 }
 
 // Update past een concept aan. Alle controles gebeuren vóór er iets aangepast wordt.
@@ -93,6 +97,13 @@ func Update(lib *storage.Library, id string, e Edit) error {
 		}
 	}
 
+	var forms map[string]string
+	if e.Forms != nil {
+		var err error
+		if forms, err = grammar.ParseForms(*e.Forms); err != nil {
+			return err
+		}
+	}
 	var wordType string
 	if e.WordType != nil {
 		var err error
@@ -142,6 +153,11 @@ func Update(lib *storage.Library, id string, e Edit) error {
 	if e.WordType != nil {
 		if err := SetWordType(lib, c.ID, wordType); err != nil {
 			return err
+		}
+	}
+	if e.Forms != nil {
+		for _, j := range append([]int{i}, storage.NewReverses(lib.Concepts).Of(lib.Concepts[i])...) {
+			lib.Concepts[j].Forms = maps.Clone(forms)
 		}
 	}
 	if changed {

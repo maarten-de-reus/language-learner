@@ -5,6 +5,7 @@ package catalog
 
 import (
 	"fmt"
+	"maps"
 	"strings"
 
 	"hungarian-language-learner/internal/storage"
@@ -64,6 +65,24 @@ func setWordType(lib *storage.Library, i int, code string, onlyEmpty bool) bool 
 			continue
 		}
 		c.WordType = code
+		changed = true
+	}
+	return changed
+}
+
+// setForms geeft concept i en zijn omgekeerde richting(en) deze afwijkende vormen (zie
+// grammar.ParseForms). Met onlyEmpty alleen bij woorden die er nog geen hebben.
+func setForms(lib *storage.Library, i int, forms map[string]string, onlyEmpty bool) bool {
+	if len(forms) == 0 {
+		return false
+	}
+	changed := false
+	for _, j := range append([]int{i}, storage.NewReverses(lib.Concepts).Of(lib.Concepts[i])...) {
+		c := &lib.Concepts[j]
+		if maps.Equal(c.Forms, forms) || (onlyEmpty && len(c.Forms) > 0) {
+			continue
+		}
+		c.Forms = maps.Clone(forms)
 		changed = true
 	}
 	return changed

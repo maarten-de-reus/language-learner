@@ -6,11 +6,13 @@ package catalog
 import (
 	"errors"
 	"fmt"
+	"maps"
 	"slices"
 	"strings"
 	"time"
 
 	"hungarian-language-learner/internal/engine"
+	"hungarian-language-learner/internal/grammar"
 	"hungarian-language-learner/internal/storage"
 )
 
@@ -29,6 +31,7 @@ type NewPair struct {
 	Groups    []string // groepen voor beide richtingen; een nieuwe naam maakt de groep aan
 	Release   bool     // nieuwe kaarten alvast in de les, ook al zijn ze nog niet goedgekeurd
 	WordType  string   // woordsoort (code of naam, zie WordTypes); leeg = onbekend
+	Forms     string   // afwijkende vormen, bijv. "t=házat, k=házak" (zie grammar.ParseForms)
 
 	// NL->HU, als het Nederlandse woord al bestaat: óf de Hongaarse woorden toevoegen als extra goede
 	// antwoorden bij een bestaande betekenis (echte synoniemen, bijv. bank (meubel) -> pad, kanapé),
@@ -257,6 +260,10 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 	if err != nil {
 		return res, err
 	}
+	forms, err := grammar.ParseForms(nc.Forms)
+	if err != nil {
+		return res, err
+	}
 	extendIdx, err := checkForward(lib, nc)
 	if err != nil {
 		return res, err
@@ -303,6 +310,9 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 		if c.WordType == "" {
 			c.WordType = wordType
 		}
+		if len(c.Forms) == 0 {
+			c.Forms = maps.Clone(forms)
+		}
 		c.Verified = false // nieuwe antwoorden: opnieuw laten controleren
 	} else {
 		for id, hint := range nc.ForwardHints {
@@ -317,6 +327,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 		lib.Concepts = append(lib.Concepts, storage.TranslationConcept{
 			Released:      nc.Release,
 			WordType:      wordType,
+			Forms:         maps.Clone(forms),
 			ID:            uniqueConceptID(lib, base),
 			SourceWordID:  dutchID,
 			ContextSource: nc.Context,
@@ -342,6 +353,9 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 		if merged.WordType == "" {
 			merged.WordType = wordType
 		}
+		if len(merged.Forms) == 0 {
+			merged.Forms = maps.Clone(forms)
+		}
 	} else {
 		for id, hint := range nc.ExistingHints {
 			if i := lib.Index(id); i >= 0 {
@@ -355,6 +369,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 		lib.Concepts = append(lib.Concepts, storage.TranslationConcept{
 			Released:      nc.Release,
 			WordType:      wordType,
+			Forms:         maps.Clone(forms),
 			ID:            uniqueConceptID(lib, base),
 			SourceWordID:  reverseSourceID,
 			ContextSource: strings.TrimSpace(nc.ReverseContext),
@@ -376,6 +391,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 		lib.Concepts = append(lib.Concepts, storage.TranslationConcept{
 			Released:      nc.Release,
 			WordType:      wordType,
+			Forms:         maps.Clone(forms),
 			ID:            uniqueConceptID(lib, base),
 			SourceWordID:  ensureWord(words, "hu", hu),
 			ContextSource: strings.TrimSpace(nc.ReverseContext),

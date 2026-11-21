@@ -131,14 +131,13 @@ func (s *server) handleGrammarCheck(w http.ResponseWriter, r *http.Request) {
 	if !decode(w, r, &req) {
 		return
 	}
-	res, ok := grammar.Check(req.Rule, req.Word, req.Person, req.Input)
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	res, ok := grammar.Check(req.Rule, grammar.FindWord(grammar.Words(s.lib), req.Word), req.Person, req.Input)
 	if !ok {
 		writeError(w, http.StatusBadRequest, errors.New("deze opgave bestaat niet (meer)"))
 		return
 	}
-
-	s.mu.Lock()
-	defer s.mu.Unlock()
 	a := storage.GrammarAttempt{Time: time.Now(), Rule: req.Rule, Word: req.Word, Person: req.Person, Input: req.Input, Correct: res.Correct}
 	resp := grammarCheckResponse{Result: res}
 	if s.grammarPath != "" {

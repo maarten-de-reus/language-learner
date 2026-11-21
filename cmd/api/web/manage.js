@@ -201,6 +201,7 @@ function rowHTML(e) {
         </span>
         <span class="m-meta">
           ${e.wordType ? `<span class="m-type" title="${esc(wordTypeName(e.wordType))}">${esc(e.wordType)}</span>` : ""}
+          ${e.forms ? `<span class="m-type" title="Afwijkende vormen: ${esc(e.forms)}">uitzondering</span>` : ""}
           <span class="m-dir">${e.from.toUpperCase()} → ${e.to.toUpperCase()}</span>
           ${e.meanings > 1 ? `<span class="m-badge">${e.meanings} betekenissen</span>` : ""}
           ${e.wrong ? `<span class="m-wrong" title="${e.wrong} van ${e.attempts} keer fout bij de eerste poging">✕ ${e.wrong}/${e.attempts}</span>` : ""}
@@ -251,6 +252,8 @@ function editFormHTML(e) {
         { hu: toHu, hint: "Meerdere antwoorden scheiden met een komma." })}
       ${field("e-example", "Voorbeeldzin (Hongaars)", e.example || "", { hu: true, placeholder: "bijv. Milyen lesz az idő holnap?" })}
       ${typeField("e-type", e.wordType || "", "Geldt ook voor de andere richting; bepaalt welke regels bij het woord horen.")}
+      ${field("e-forms", "Afwijkende vormen (optioneel)", e.forms || "", { hu: true, placeholder: "bijv. t=házat, k=házak",
+        hint: "Uitzonderingen die de regels niet zelf kunnen maken; gaan vóór de regels. ? = niet oefenen (k=?)." })}
       ${groupPickerHTML("edit", "Groepen (geldt ook voor de andere richting)")}
       ${accentBar()}
       <p class="m-error" hidden></p>
@@ -294,6 +297,7 @@ function newFormHTML() {
         ${field("n-hungarian", "Hongaarse vertaling(en)", "", { hu: true, placeholder: "bijv. idő", hint: "Meerdere: scheiden met een komma." })}
         ${field("n-example", "Voorbeeldzin (Hongaars, optioneel)", "", { hu: true, placeholder: "bijv. Nincs elég időm." })}
         ${typeField("n-type", "", "Optioneel; bepaalt welke regels bij het woord horen.")}
+        ${field("n-forms", "Afwijkende vormen (optioneel)", "", { hu: true, placeholder: "bijv. t=házat, k=házak" })}
       </div>
       ${groupPickerHTML("new", "Groepen (optioneel)")}
       <label class="m-radio"><input type="checkbox" id="n-release">
@@ -471,6 +475,7 @@ async function saveEdit(form) {
       groups: pendingGroups("edit"),
       example: form.querySelector("#e-example").value,
       wordType: form.querySelector("#e-type").value,
+      forms: form.querySelector("#e-forms").value,
     });
     view.entries = res.entries;
     view.openId = null;
@@ -502,7 +507,7 @@ async function deleteConcept(form) {
 async function submitNew(form) {
   const val = (id) => document.getElementById(id).value;
   const req = { dutch: val("n-dutch"), context: val("n-context"), hungarian: val("n-hungarian"), example: val("n-example"), groups: pendingGroups("new"),
-    release: document.getElementById("n-release").checked, wordType: val("n-type") };
+    release: document.getElementById("n-release").checked, wordType: val("n-type"), forms: val("n-forms") };
   showError(form, "");
 
   try {
