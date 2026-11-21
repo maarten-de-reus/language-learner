@@ -1,7 +1,7 @@
 // Regels: Hongaarse vormen leren maken (naamvallen, meervoud, vervoegen) met je eigen woorden.
 // Je kiest zelf welke regels je oefent; de antwoorden tellen niet mee voor je planning.
 
-import { ACCENTS, esc, insertAtCursor, pulse, shake } from "./util.js";
+import { ACCENTS, diffHTML, esc, insertAtCursor, pulse, shake } from "./util.js";
 import { api, toast } from "./api.js";
 import { refreshStats } from "./quiz.js";
 
@@ -217,6 +217,7 @@ function feedbackHTML(r, rule) {
       <div>
         <strong>${r.correct ? "Goed zo!" : r.unknown ? "Zo maak je hem" : r.accentOnly ? "Bijna! Alleen de accenten kloppen niet" : "Nog niet"}</strong>
         ${r.correct && !r.form.also?.length ? "" : `<p>${r.correct ? "Allebei goed" : "De vorm"}: ${forms}</p>`}
+        ${r.correct || r.unknown ? "" : diffHTML(g.input, [r.form.text, ...(r.form.also || [])])}
         <ol class="gr-steps">${r.form.steps.filter(Boolean).map((s) => `<li>${esc(s)}</li>`).join("")}</ol>
         <p class="gr-rule-score">${esc(rule.name)}: ${scoreText(r.score)}
           ${["i", "kor", "pers"].includes(rule.id) ? "" : r.doubted

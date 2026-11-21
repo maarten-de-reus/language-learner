@@ -953,3 +953,12 @@ button.rv-form:hover { border-color: var(--bad); }
 .rv-doubt input { font: inherit; font-size: 14px; padding: 6px 10px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--bg); color: var(--text); width: 10em; }
 .rv-doubt .btn { min-height: 34px; font-size: 13px; padding: 0 12px; }
 .form-hint a { color: inherit; }
+
+/* Per letter: waar je antwoord afwijkt */
+.diff-word { font-size: 18px; font-weight: 600; letter-spacing: .02em; color: var(--text); }
+.diff-word { display: inline-block; padding: 1px 6px; border-radius: 6px; background: var(--surface); }
+.diff-word mark { border-radius: 3px; padding: 0 1px; background: none; box-shadow: inset 0 -3px 0 currentColor; }
+.diff-word .d-miss { color: var(--good); }
+.diff-word .d-sub { color: var(--bad); }
+.diff-word .d-acc { color: var(--warn); }
+.diff-word .d-extra { color: var(--bad); text-decoration: line-through; font-weight: 400; opacity: .8; }

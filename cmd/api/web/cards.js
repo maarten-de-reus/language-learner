@@ -1,7 +1,7 @@
 // Kaarten: woorden vooraf oefenen (bijv. een nieuwe import) met omdraaibare flashcards.
 // Staat los van de spaced repetition: er wordt niets opgeslagen en niets uit de wachtrij gehaald.
 
-import { ACCENTS, LANG, MASTERED_STEP, esc, formHintHTML, highlight, insertAtCursor, pulse, shake } from "./util.js";
+import { ACCENTS, LANG, MASTERED_STEP, diffHTML, esc, formHintHTML, highlight, insertAtCursor, pulse, shake } from "./util.js";
 import { api, toast } from "./api.js";
 import { refreshStats } from "./quiz.js";
 
@@ -270,6 +270,7 @@ function fcTypeHTML(card) {
             ‘${esc(r.otherMeaning.answer)}’ betekenen${r.otherMeaning.context ? ` (${esc(r.otherMeaning.context)})` : ""},
             maar hier wordt ‘${esc(r.expected.join(", "))}’ bedoeld.</p>` : ""}
           ${formHintHTML(r.form, fc.input, r.expected)}
+          ${!r.correct && !r.unknown && !r.form && !r.otherMeaning ? diffHTML(fc.input, r.expected) : ""}
           ${r.accentOnly ? `<span class="hint">Bijna! Alleen de accenten kloppen niet.</span>` : ""}
           ${card.example && card.from !== "hu" ? `<p class="example" lang="hu">“${highlight(card.example, [card.prompt, ...r.expected])}”</p>` : ""}
           ${r.correct ? "" : `<p>Deze kaart komt straks nog een keer.</p>`}

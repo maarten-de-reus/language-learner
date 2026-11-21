@@ -17,6 +17,66 @@ export const wordTypeOptions = (selected = "") =>
   `<option value="">onbekend</option>` +
   WORD_TYPES.map(([c, name]) => `<option value="${c}" ${c === selected ? "selected" : ""}>${name}</option>`).join("");
 
+// ---------- Per letter laten zien waar je antwoord afwijkt ----------
+
+const letters = (s) => Array.from(String(s ?? "").normalize("NFC").trim().toLowerCase());
+const base = (c) => c.normalize("NFD").replace(/\p{M}/gu, "");
+
+// alignLetters zet je antwoord en het goede antwoord letter voor letter naast elkaar (Levenshtein
+// met terugweg). Stappen: same, acc (alleen het accent anders), sub (andere letter), miss (ontbrak),
+// extra (te veel getypt).
+function alignLetters(input, expected) {
+  const a = letters(input), b = letters(expected);
+  const d = Array.from({ length: a.length + 1 }, (_, i) => Array.from({ length: b.length + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0)));
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : base(a[i - 1]) === base(b[j - 1]) ? 0.5 : 1;
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
+    }
+  }
+  const steps = [];
+  let i = a.length, j = b.length;
+  while (i > 0 || j > 0) {
+    const cost = i > 0 && j > 0 ? (a[i - 1] === b[j - 1] ? 0 : base(a[i - 1]) === base(b[j - 1]) ? 0.5 : 1) : Infinity;
+    if (i > 0 && j > 0 && d[i][j] === d[i - 1][j - 1] + cost) {
+      steps.unshift({ op: cost === 0 ? "same" : cost === 0.5 ? "acc" : "sub", got: a[i - 1], want: b[j - 1] });
+      i--; j--;
+    } else if (j > 0 && d[i][j] === d[i][j - 1] + 1) {
+      steps.unshift({ op: "miss", want: b[j - 1] });
+      j--;
+    } else {
+      steps.unshift({ op: "extra", got: a[i - 1] });
+      i--;
+    }
+  }
+  return { steps, distance: d[a.length][b.length] };
+}
+
+// diffHTML: het goede antwoord met daarin gemarkeerd wat er anders was dan wat je typte. Leeg als
+// je niets typte of als je antwoord er te ver van af zit (dan is het een ander woord, geen tikfout).
+export function diffHTML(input, expected) {
+  if (!String(input ?? "").trim() || !expected?.length) return "";
+  const best = expected.map((e) => ({ e, ...alignLetters(input, e) })).sort((x, y) => x.distance - y.distance)[0];
+  const len = letters(best.e).length;
+  if (best.distance === 0 || best.distance > Math.max(2, Math.ceil(len / 2))) return "";
+  const html = best.steps.map((s) => {
+    switch (s.op) {
+      case "same": return esc(s.want);
+      case "acc": return `<mark class="d-acc" title="accent: jij typte ${esc(s.got)}">${esc(s.want)}</mark>`;
+      case "sub": return `<del class="d-extra" title="jij typte ${esc(s.got)}">${esc(s.got)}</del><mark class="d-sub" title="hier hoort ${esc(s.want)}">${esc(s.want)}</mark>`;
+      case "miss": return `<mark class="d-miss" title="deze letter ontbrak">${esc(s.want)}</mark>`;
+      default: return `<del class="d-extra" title="te veel getypt">${esc(s.got)}</del>`;
+    }
+  }).join("");
+  const n = (op) => best.steps.filter((s) => s.op === op).length;
+  const parts = [];
+  if (n("acc")) parts.push(n("acc") === 1 ? "1 accent" : `${n("acc")} accenten`);
+  if (n("sub")) parts.push(n("sub") === 1 ? "1 verkeerde letter" : `${n("sub")} verkeerde letters`);
+  if (n("miss")) parts.push(n("miss") === 1 ? "1 letter vergeten" : `${n("miss")} letters vergeten`);
+  if (n("extra")) parts.push(n("extra") === 1 ? "1 letter te veel" : `${n("extra")} letters te veel`);
+  return `<p class="diff">Waar het verschilt: <span class="diff-word">${html}</span> <span class="muted">(${parts.join(", ")})</span></p>`;
+}
+
 // formHintHTML: je typte een andere vorm van het gevraagde woord (olvasok bij olvas). Zeg welke
 // regel die vorm maakt, met een link naar die regel in Regels.
 export function formHintHTML(form, input, expected) {
