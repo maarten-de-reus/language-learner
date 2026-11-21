@@ -74,7 +74,9 @@ var Rules = func() []Rule {
 		{ID: "k", Group: "Meervoud en lijdend voorwerp", Name: "-k", Meaning: "meervoud", WordType: "zn", Example: "alma → almák, ablak → ablakok",
 			Explain: "Meervoud: -k. Na een klinker direct (autó → autók, alma → almák). Na een medeklinker met verbindingsklinker -ok, -ek of -ök (ablakok, kertek, gyümölcsök).\nOok hier wijken korte woorden vaak af (ház → házak, madár → madarak)." + harmonyNote},
 		{ID: "i", Group: "Afleidingen", Name: "-i", Meaning: "uit, van (plaats of tijd)", WordType: "zn", Example: "Budapest → budapesti",
-			Explain: "Van een plaats of tijd een bijvoeglijk naamwoord maken: -i, voor alle woorden hetzelfde, zonder verlenging (Amerika → amerikai) en met een kleine letter. Eindigt het woord al op -i, dan komt er niets bij."},
+			Explain: "Van een plaats of tijd een bijvoeglijk naamwoord maken: -i, voor alle woorden hetzelfde, zonder verlenging (Amerika → amerikai) en met een kleine letter. Eindigt het woord al op -i, dan komt er niets bij.\n" +
+				"Een paar worden korter: este → esti, hét → heti, hónap → havi, Eger → egri.\n" +
+				"Geoefend met een vaste lijst plaatsen en tijdwoorden: achter andere woorden betekent -i meestal iets anders (kávéi = zijn koffies). Plaatsnamen hoef je niet als woord te leren."},
 		{ID: "ww-onbep", Group: "Werkwoorden", Name: "Tegenwoordige tijd, onbepaald", Meaning: "ik lees, jij leest …", WordType: "ww", Persons: true, Example: "olvas → olvasok, olvasol",
 			Explain: "Uitgangen achter de stam (de 3e persoon enkelvoud, zonder -ik): én -ok/-ek/-ök, te -sz, ő –, mi -unk/-ünk, ti -tok/-tek/-tök, ők -nak/-nek.\n" +
 				"Eindigt de stam op s, sz of z, dan wordt 'te' -ol/-el/-öl (olvasol, nézel). Eindigt hij op -ít of twee medeklinkers, dan komt er een verbindingsklinker bij -sz en -nak (tanítasz, mondanak).\n" +

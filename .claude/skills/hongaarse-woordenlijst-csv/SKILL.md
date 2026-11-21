@@ -32,7 +32,8 @@ Deze skill volgt de regels in de app (`internal/grammar`, stand 2026-11-21). Kom
 - Zet zo'n vorm om naar het woord waar het over gaat (városban -> város, fül/ed -> fül, barátom -> barát, éjfélkor -> éjfél) en neem alleen dat op. Een slash die een uitgang afscheidt (`szomszéd/od`) betekent alleen het basiswoord (szomszéd).
 - Uitzondering: woorden die als vaste uitdrukking een eigen betekenis hebben blijven (általában, rendben, balra, jobbra, magyarul). Twijfel je, meld het.
 - Zit er een kleinere stam of los woord in een samenstelling of afleiding, neem dat dan eventueel ook op als eigen regel (bevásárlóközpont -> ook központ; szerencsére -> szerencse; nemzetiségű -> nemzetiség), als dat nuttig is om te leren.
-- Echte afleidingen die een nieuw woord vormen (bijvoeglijke naamwoorden op -i, -s, -ú/-ű, bijwoorden op -an/-en, samenstellingen) zijn wel aparte woorden.
+- Geen bijvoeglijke naamwoorden op -i van een plaats of tijd (budapesti, londoni, utrechti, győri, reggeli, nyári, heti): die maakt de app met de -i-regel, uit een eigen lijst met plaatsen en tijdwoorden. Plaatsnamen zelf hoef je ook niet op te nemen, tenzij ze als woord in de les staan (magyarország).
+- Echte afleidingen die een nieuw woord met een eigen betekenis vormen zijn wel aparte woorden: bijvoeglijke naamwoorden op -i met een eigen betekenis (közlekedési, emberi, nemzetközi, külföldi), op -s, -ú/-ű, bijwoorden op -an/-en (ritkán, nagyon), samenstellingen.
 
 ## Werkwoorden
 - Neem van elk werkwoord alleen de infinitief en de 3e persoon enkelvoud op, elk als eigen regel. De app maakt de andere personen zelf uit de 3e persoon.
@@ -89,7 +90,7 @@ Leeg, tenzij de regels van de app (hieronder) voor dit woord een verkeerde vorm 
 
 *Klinkerharmonie.* Na de laatste achterklinker (a á o ó u ú) alleen nog i/í/é of niets: achter (-ban, -hoz). Anders voor (-ben, -hez); bij drie varianten rond (-höz, -öt) als de laatste klinker ö ő ü ű is. Samenstellingen op gép, kép, szék, rész, nép, hír, év zijn voor (számítógépben). Achterklinker + e (hotel, fotel) of + twee keer i/í/é (ábécé): beide varianten goed. Uitzonderingen die de app kent: híd, íj, nyíl, zsír (achter), en de werkwoorden ír, nyit, szív, hív, sír, nyír, iszik (achter).
 
-*Naamvallen.* Basiswoord + uitgang; eind-a/-e wordt á/é (alma -> almában). -n na een klinker, anders -on/-en/-ön. -val/-vel en -vá/-vé: na een medeklinker wordt de v gelijk aan die medeklinker (busz -> busszal, kanál -> kanállal, toll -> tollal). -i zonder verlenging, kleine letter (Amerika -> amerikai).
+*Naamvallen.* Basiswoord + uitgang; eind-a/-e wordt á/é (alma -> almában). -n na een klinker, anders -on/-en/-ön. -val/-vel en -vá/-vé: na een medeklinker wordt de v gelijk aan die medeklinker (busz -> busszal, kanál -> kanállal, toll -> tollal). -i zonder verlenging, kleine letter (Amerika -> amerikai); die regel oefent alleen met de vaste lijst plaatsen en tijdwoorden in de app (Budapest, Győr, Bécs, London, reggel, este -> esti, hét -> heti, hónap -> havi …), dus de sleutel `i` heb je bijna nooit nodig.
 
 *-t en -k.* Na een klinker direct (met á/é). -t direct na j, l, ly, n, ny, r, s, sz, z, zs; anders -ot/-et/-öt. Meervoud altijd met verbindingsklinker -ok/-ek/-ök. **Maar:** eenlettergrepige woorden en woorden die eindigen op korte klinker + losse medeklinker (sarok, asztal, bokor) oefent de app voor -t en -k **niet**, tenzij ze in de lijsten staan. Vul bij zulke woorden dus altijd `t=` en `k=` in, ook als ze regelmatig zijn (`kar;arm;lichaamsdeel;Eltört a kar.;zn;t=kart, k=karok`), anders worden ze niet geoefend.
 

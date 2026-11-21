@@ -115,3 +115,22 @@ func TestOverrides(t *testing.T) {
 		}
 	}
 }
+
+func TestIRuleUsesPlaces(t *testing.T) {
+	r, _ := RuleByID("i")
+	own := []Word{{Hungarian: "kávé", Type: "zn", Known: true}, {Hungarian: "reggel", Dutch: "ochtend (mijn kaart)", Type: "zn", Known: true}}
+	pool := r.Applicable(own)
+	for _, w := range pool {
+		if w.Hungarian == "kávé" {
+			t.Error("kávé hoort niet bij de -i-regel (kávéi = zijn koffies)")
+		}
+		if w.Hungarian == "reggel" && (!w.Known || w.Dutch != "ochtend (mijn kaart)") {
+			t.Errorf("eigen woord moet als bekend tellen: %+v", w)
+		}
+	}
+	for word, want := range map[string]string{"Budapest": "budapesti", "este": "esti", "hónap": "havi", "Eger": "egri", "Hollandia": "hollandiai", "szerda": "szerdai"} {
+		if res, ok := Check("i", FindWord(nil, word), 0, want); !ok || !res.Correct {
+			t.Errorf("%s -> %s: %+v", word, want, res)
+		}
+	}
+}

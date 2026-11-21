@@ -98,6 +98,9 @@ func (r Rule) persons(w Word) []Person {
 
 // Applicable geeft de woorden waarop de regel werkt
 func (r Rule) Applicable(words []Word) []Word {
+	if r.ID == "i" {
+		return iPool(words) // plaatsen en tijd, niet al je zelfstandige naamwoorden
+	}
 	var out []Word
 	for _, w := range words {
 		if w.Type == r.WordType && len(r.persons(w)) > 0 {
@@ -107,8 +110,12 @@ func (r Rule) Applicable(words []Word) []Word {
 	return out
 }
 
-// FindWord zoekt een woord uit je lijst op (met zijn afwijkende vormen); onbekend geeft een kaal woord
+// FindWord zoekt een woord uit je lijst op (met zijn afwijkende vormen), of uit de lijst van de
+// -i-regel; onbekend geeft een kaal woord
 func FindWord(words []Word, hungarian string) Word {
+	if w, ok := findIWord(hungarian); ok {
+		return w
+	}
 	for _, w := range words {
 		if w.Hungarian == hungarian {
 			return w
