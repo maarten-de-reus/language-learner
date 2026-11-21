@@ -19340,7 +19340,7 @@
     {
       "id": "c_nl_hu_fietst_doe_je_op_twee_wielen",
       "source_word_id": "w_nl_fietst",
-      "context_source": "doe je op twee wielen",
+      "context_source": "werkwoord · 3e persoon enkelvoud · doe je op twee wielen",
       "target_word_ids": [
         "w_hu_biciklizik"
       ],
@@ -19355,7 +19355,7 @@
     {
       "id": "c_hu_nl_biciklizik_doe_je_op_twee_wielen",
       "source_word_id": "w_hu_biciklizik",
-      "context_source": "doe je op twee wielen",
+      "context_source": "werkwoord · 3e persoon enkelvoud · doe je op twee wielen",
       "target_word_ids": [
         "w_nl_fietst"
       ],
@@ -19750,7 +19750,7 @@
     {
       "id": "c_nl_hu_beslist_een_keuze_maken",
       "source_word_id": "w_nl_beslist",
-      "context_source": "een keuze maken",
+      "context_source": "werkwoord · 3e persoon enkelvoud · een keuze maken",
       "target_word_ids": [
         "w_hu_dönt"
       ],
@@ -19765,7 +19765,7 @@
     {
       "id": "c_hu_nl_dönt_een_keuze_maken",
       "source_word_id": "w_hu_dönt",
-      "context_source": "een keuze maken",
+      "context_source": "werkwoord · 3e persoon enkelvoud · een keuze maken",
       "target_word_ids": [
         "w_nl_beslist"
       ],
@@ -19808,7 +19808,7 @@
     {
       "id": "c_nl_hu_luncht_middageten",
       "source_word_id": "w_nl_luncht",
-      "context_source": "middageten",
+      "context_source": "werkwoord · 3e persoon enkelvoud · middageten",
       "target_word_ids": [
         "w_hu_ebédel"
       ],
@@ -19823,7 +19823,7 @@
     {
       "id": "c_hu_nl_ebédel_middageten",
       "source_word_id": "w_hu_ebédel",
-      "context_source": "middageten",
+      "context_source": "werkwoord · 3e persoon enkelvoud · middageten",
       "target_word_ids": [
         "w_nl_luncht"
       ],
@@ -20520,7 +20520,7 @@
     {
       "id": "c_nl_hu_ontwikkelt_wordt_beter_of_groter",
       "source_word_id": "w_nl_ontwikkelt",
-      "context_source": "wordt beter of groter",
+      "context_source": "werkwoord · 3e persoon enkelvoud · wordt beter of groter",
       "target_word_ids": [
         "w_hu_fejlődik"
       ],
@@ -20535,7 +20535,7 @@
     {
       "id": "c_hu_nl_fejlődik_wordt_beter_of_groter",
       "source_word_id": "w_hu_fejlődik",
-      "context_source": "wordt beter of groter",
+      "context_source": "werkwoord · 3e persoon enkelvoud · wordt beter of groter",
       "target_word_ids": [
         "w_nl_ontwikkelt"
       ],
@@ -20866,7 +20866,7 @@
     {
       "id": "c_nl_hu_slaat_af_links_of_rechts_gaan",
       "source_word_id": "w_nl_slaat_af",
-      "context_source": "links of rechts gaan",
+      "context_source": "werkwoord · 3e persoon enkelvoud · links of rechts gaan",
       "target_word_ids": [
         "w_hu_fordul"
       ],
@@ -20881,7 +20881,7 @@
     {
       "id": "c_hu_nl_fordul_links_of_rechts_gaan",
       "source_word_id": "w_hu_fordul",
-      "context_source": "links of rechts gaan",
+      "context_source": "werkwoord · 3e persoon enkelvoud · links of rechts gaan",
       "target_word_ids": [
         "w_nl_slaat_af"
       ],
@@ -21702,7 +21702,7 @@
     {
       "id": "c_nl_hu_gaat_geregeld_steeds_weer_ergens_heen",
       "source_word_id": "w_nl_gaat_geregeld",
-      "context_source": "steeds weer ergens heen",
+      "context_source": "werkwoord · 3e persoon enkelvoud · steeds weer ergens heen",
       "target_word_ids": [
         "w_hu_jár"
       ],
@@ -21717,7 +21717,7 @@
     {
       "id": "c_hu_nl_jár_steeds_weer_ergens_heen",
       "source_word_id": "w_hu_jár",
-      "context_source": "steeds weer ergens heen",
+      "context_source": "werkwoord · 3e persoon enkelvoud · steeds weer ergens heen",
       "target_word_ids": [
         "w_nl_gaat_geregeld"
       ],
@@ -21732,7 +21732,7 @@
     {
       "id": "c_nl_hu_speelt_doen_kinderen_graag",
       "source_word_id": "w_nl_speelt",
-      "context_source": "doen kinderen graag",
+      "context_source": "werkwoord · 3e persoon enkelvoud · doen kinderen graag",
       "target_word_ids": [
         "w_hu_játszik"
       ],
@@ -21747,7 +21747,7 @@
     {
       "id": "c_hu_nl_játszik_doen_kinderen_graag",
       "source_word_id": "w_hu_játszik",
-      "context_source": "doen kinderen graag",
+      "context_source": "werkwoord · 3e persoon enkelvoud · doen kinderen graag",
       "target_word_ids": [
         "w_nl_speelt"
       ],
@@ -22018,7 +22018,7 @@
     {
       "id": "c_nl_hu_begint_tegenovergestelde_van_eindigen",
       "source_word_id": "w_nl_begint",
-      "context_source": "tegenovergestelde van eindigen",
+      "context_source": "werkwoord · 3e persoon enkelvoud · tegenovergestelde van eindigen",
       "target_word_ids": [
         "w_hu_kezdődik"
       ],
@@ -22035,7 +22035,7 @@
     {
       "id": "c_hu_nl_kezdődik_tegenovergestelde_van_eindigen",
       "source_word_id": "w_hu_kezdődik",
-      "context_source": "tegenovergestelde van eindigen",
+      "context_source": "werkwoord · 3e persoon enkelvoud · tegenovergestelde van eindigen",
       "target_word_ids": [
         "w_nl_begint"
       ],
@@ -22267,7 +22267,7 @@
     {
       "id": "c_nl_hu_concentreert_aandacht_op_één_ding",
       "source_word_id": "w_nl_concentreert",
-      "context_source": "aandacht op één ding",
+      "context_source": "werkwoord · 3e persoon enkelvoud · aandacht op één ding",
       "target_word_ids": [
         "w_hu_koncentrál"
       ],
@@ -22282,7 +22282,7 @@
     {
       "id": "c_hu_nl_koncentrál_aandacht_op_één_ding",
       "source_word_id": "w_hu_koncentrál",
-      "context_source": "aandacht op één ding",
+      "context_source": "werkwoord · 3e persoon enkelvoud · aandacht op één ding",
       "target_word_ids": [
         "w_nl_concentreert"
       ],
@@ -22637,7 +22637,7 @@
     {
       "id": "c_nl_hu_reist_zich_verplaatsen_in_de_stad",
       "source_word_id": "w_nl_reist",
-      "context_source": "zich verplaatsen in de stad",
+      "context_source": "werkwoord · 3e persoon enkelvoud · zich verplaatsen in de stad",
       "target_word_ids": [
         "w_hu_közlekedik"
       ],
@@ -22652,7 +22652,7 @@
     {
       "id": "c_hu_nl_közlekedik_zich_verplaatsen_in_de_stad",
       "source_word_id": "w_hu_közlekedik",
-      "context_source": "zich verplaatsen in de stad",
+      "context_source": "werkwoord · 3e persoon enkelvoud · zich verplaatsen in de stad",
       "target_word_ids": [
         "w_nl_reist"
       ],
@@ -22737,7 +22737,7 @@
     {
       "id": "c_hu_nl_lakik_je_adres_is_daar",
       "source_word_id": "w_hu_lakik",
-      "context_source": "je adres is daar",
+      "context_source": "werkwoord · 3e persoon enkelvoud · je adres is daar",
       "target_word_ids": [
         "w_nl_woont"
       ],
@@ -22782,7 +22782,7 @@
     {
       "id": "c_nl_hu_kan_het_is_toegestaan_of_mogelijk",
       "source_word_id": "w_nl_kan",
-      "context_source": "het is toegestaan of mogelijk",
+      "context_source": "werkwoord · 3e persoon enkelvoud · het is toegestaan of mogelijk",
       "target_word_ids": [
         "w_hu_lehet"
       ],
@@ -22797,7 +22797,7 @@
     {
       "id": "c_hu_nl_lehet_het_is_toegestaan_of_mogelijk",
       "source_word_id": "w_hu_lehet",
-      "context_source": "het is toegestaan of mogelijk",
+      "context_source": "werkwoord · 3e persoon enkelvoud · het is toegestaan of mogelijk",
       "target_word_ids": [
         "w_nl_kan"
       ],
@@ -22840,7 +22840,7 @@
     {
       "id": "c_nl_hu_blijft_niet_weggaan",
       "source_word_id": "w_nl_blijft",
-      "context_source": "niet weggaan",
+      "context_source": "werkwoord · 3e persoon enkelvoud · niet weggaan",
       "target_word_ids": [
         "w_hu_marad"
       ],
@@ -22850,13 +22850,12 @@
         "MagyarOK 1.5-6",
         "Werkwoorden"
       ],
-      "verified": true,
       "word_type": "ww"
     },
     {
       "id": "c_hu_nl_marad_niet_weggaan",
       "source_word_id": "w_hu_marad",
-      "context_source": "niet weggaan",
+      "context_source": "werkwoord · 3e persoon enkelvoud · niet weggaan",
       "target_word_ids": [
         "w_nl_blijft"
       ],
@@ -22866,7 +22865,6 @@
         "MagyarOK 1.5-6",
         "Werkwoorden"
       ],
-      "verified": true,
       "word_type": "ww"
     },
     {
@@ -23797,7 +23795,7 @@
     {
       "id": "c_nl_hu_is_op_vakantie_vrije_tijd_in_de_zomer",
       "source_word_id": "w_nl_is_op_vakantie",
-      "context_source": "vrije tijd in de zomer",
+      "context_source": "werkwoord · 3e persoon enkelvoud · vrije tijd in de zomer",
       "target_word_ids": [
         "w_hu_nyaral"
       ],
@@ -23812,7 +23810,7 @@
     {
       "id": "c_hu_nl_nyaral_vrije_tijd_in_de_zomer",
       "source_word_id": "w_hu_nyaral",
-      "context_source": "vrije tijd in de zomer",
+      "context_source": "werkwoord · 3e persoon enkelvoud · vrije tijd in de zomer",
       "target_word_ids": [
         "w_nl_is_op_vakantie"
       ],
@@ -24310,7 +24308,7 @@
     {
       "id": "c_nl_hu_rust_niets_doen_na_het_werk",
       "source_word_id": "w_nl_rust",
-      "context_source": "niets doen na het werk",
+      "context_source": "werkwoord · 3e persoon enkelvoud · niets doen na het werk",
       "target_word_ids": [
         "w_hu_pihen"
       ],
@@ -24325,7 +24323,7 @@
     {
       "id": "c_hu_nl_pihen_niets_doen_na_het_werk",
       "source_word_id": "w_hu_pihen",
-      "context_source": "niets doen na het werk",
+      "context_source": "werkwoord · 3e persoon enkelvoud · niets doen na het werk",
       "target_word_ids": [
         "w_nl_rust"
       ],
@@ -24962,7 +24960,7 @@
     {
       "id": "c_nl_hu_wandelt_rustig_lopen_voor_je_plezier",
       "source_word_id": "w_nl_wandelt",
-      "context_source": "rustig lopen voor je plezier",
+      "context_source": "werkwoord · 3e persoon enkelvoud · rustig lopen voor je plezier",
       "target_word_ids": [
         "w_hu_sétál"
       ],
@@ -24977,7 +24975,7 @@
     {
       "id": "c_hu_nl_sétál_rustig_lopen_voor_je_plezier",
       "source_word_id": "w_hu_sétál",
-      "context_source": "rustig lopen voor je plezier",
+      "context_source": "werkwoord · 3e persoon enkelvoud · rustig lopen voor je plezier",
       "target_word_ids": [
         "w_nl_wandelt"
       ],
@@ -25512,7 +25510,7 @@
     {
       "id": "c_nl_hu_danst_bewegen_op_muziek",
       "source_word_id": "w_nl_danst",
-      "context_source": "bewegen op muziek",
+      "context_source": "werkwoord · 3e persoon enkelvoud · bewegen op muziek",
       "target_word_ids": [
         "w_hu_táncol"
       ],
@@ -25527,7 +25525,7 @@
     {
       "id": "c_hu_nl_táncol_bewegen_op_muziek",
       "source_word_id": "w_hu_táncol",
-      "context_source": "bewegen op muziek",
+      "context_source": "werkwoord · 3e persoon enkelvoud · bewegen op muziek",
       "target_word_ids": [
         "w_nl_danst"
       ],
@@ -25542,7 +25540,7 @@
     {
       "id": "c_nl_hu_tankt_benzine_in_de_auto_doen",
       "source_word_id": "w_nl_tankt",
-      "context_source": "benzine in de auto doen",
+      "context_source": "werkwoord · 3e persoon enkelvoud · benzine in de auto doen",
       "target_word_ids": [
         "w_hu_tankol"
       ],
@@ -25557,7 +25555,7 @@
     {
       "id": "c_hu_nl_tankol_benzine_in_de_auto_doen",
       "source_word_id": "w_hu_tankol",
-      "context_source": "benzine in de auto doen",
+      "context_source": "werkwoord · 3e persoon enkelvoud · benzine in de auto doen",
       "target_word_ids": [
         "w_nl_tankt"
       ],
@@ -25572,7 +25570,7 @@
     {
       "id": "c_nl_hu_duurt_hoeveel_tijd_iets_kost",
       "source_word_id": "w_nl_duurt",
-      "context_source": "hoeveel tijd iets kost",
+      "context_source": "werkwoord · 3e persoon enkelvoud · hoeveel tijd iets kost",
       "target_word_ids": [
         "w_hu_tart"
       ],
@@ -25587,7 +25585,7 @@
     {
       "id": "c_hu_nl_tart_hoeveel_tijd_iets_kost",
       "source_word_id": "w_hu_tart",
-      "context_source": "hoeveel tijd iets kost",
+      "context_source": "werkwoord · 3e persoon enkelvoud · hoeveel tijd iets kost",
       "target_word_ids": [
         "w_nl_duurt"
       ],
@@ -25886,7 +25884,7 @@
     {
       "id": "c_nl_hu_zwemt_bewegen_in_het_water",
       "source_word_id": "w_nl_zwemt",
-      "context_source": "bewegen in het water",
+      "context_source": "werkwoord · 3e persoon enkelvoud · bewegen in het water",
       "target_word_ids": [
         "w_hu_úszik"
       ],
@@ -25901,7 +25899,7 @@
     {
       "id": "c_hu_nl_úszik_bewegen_in_het_water",
       "source_word_id": "w_hu_úszik",
-      "context_source": "bewegen in het water",
+      "context_source": "werkwoord · 3e persoon enkelvoud · bewegen in het water",
       "target_word_ids": [
         "w_nl_zwemt"
       ],
@@ -26259,7 +26257,7 @@
     {
       "id": "c_nl_hu_koopt_doe_je_in_een_winkel",
       "source_word_id": "w_nl_koopt",
-      "context_source": "doe je in een winkel",
+      "context_source": "werkwoord · 3e persoon enkelvoud · doe je in een winkel",
       "target_word_ids": [
         "w_hu_vásárol"
       ],
@@ -26274,7 +26272,7 @@
     {
       "id": "c_hu_nl_vásárol_doe_je_in_een_winkel",
       "source_word_id": "w_hu_vásárol",
-      "context_source": "doe je in een winkel",
+      "context_source": "werkwoord · 3e persoon enkelvoud · doe je in een winkel",
       "target_word_ids": [
         "w_nl_koopt"
       ],
@@ -27825,7 +27823,7 @@
     {
       "id": "c_nl_hu_leert_3e_persoon,_kennis_opdoen",
       "source_word_id": "w_nl_leert",
-      "context_source": "3e persoon, kennis opdoen",
+      "context_source": "werkwoord · 3e persoon enkelvoud · kennis opdoen",
       "target_word_ids": [
         "w_hu_39"
       ],
@@ -27961,7 +27959,7 @@
     {
       "id": "c_nl_hu_reist_3e_persoon,_naar_een_ander_land_gaan",
       "source_word_id": "w_nl_reist",
-      "context_source": "3e persoon, naar een ander land gaan",
+      "context_source": "werkwoord · 3e persoon enkelvoud · naar een ander land gaan",
       "target_word_ids": [
         "w_hu_utazik"
       ],
@@ -27977,7 +27975,7 @@
     {
       "id": "c_hu_nl_utazik_3e_persoon,_naar_een_ander_land_gaan",
       "source_word_id": "w_hu_utazik",
-      "context_source": "3e persoon, naar een ander land gaan",
+      "context_source": "werkwoord · 3e persoon enkelvoud · naar een ander land gaan",
       "target_word_ids": [
         "w_nl_reist"
       ],
@@ -28040,7 +28038,7 @@
     {
       "id": "c_nl_hu_leeft_3e_persoon,_in_leven_zijn",
       "source_word_id": "w_nl_leeft",
-      "context_source": "3e persoon, in leven zijn",
+      "context_source": "werkwoord · 3e persoon enkelvoud · in leven zijn",
       "target_word_ids": [
         "w_hu_él"
       ],
@@ -28176,7 +28174,7 @@
     {
       "id": "c_nl_hu_is_er_niet_ontkenning_van_van",
       "source_word_id": "w_nl_is_er_niet",
-      "context_source": "ontkenning van van",
+      "context_source": "werkwoord · 3e persoon enkelvoud · ontkenning van van",
       "target_word_ids": [
         "w_hu_nincs"
       ],
@@ -28192,7 +28190,7 @@
     {
       "id": "c_hu_nl_nincs_ontkenning_van_van",
       "source_word_id": "w_hu_nincs",
-      "context_source": "ontkenning van van",
+      "context_source": "werkwoord · 3e persoon enkelvoud · ontkenning van van",
       "target_word_ids": [
         "w_nl_is_er_niet"
       ],
@@ -28238,7 +28236,7 @@
     {
       "id": "c_nl_hu_zingt_3e_persoon,_muziek_met_je_stem",
       "source_word_id": "w_nl_zingt",
-      "context_source": "3e persoon, muziek met je stem",
+      "context_source": "werkwoord · 3e persoon enkelvoud · muziek met je stem",
       "target_word_ids": [
         "w_hu_énekel"
       ],
@@ -28254,7 +28252,7 @@
     {
       "id": "c_hu_nl_énekel_3e_persoon,_muziek_met_je_stem",
       "source_word_id": "w_hu_énekel",
-      "context_source": "3e persoon, muziek met je stem",
+      "context_source": "werkwoord · 3e persoon enkelvoud · muziek met je stem",
       "target_word_ids": [
         "w_nl_zingt"
       ],
@@ -28677,7 +28675,7 @@
     {
       "id": "c_nl_hu_steekt_aan_3e_persoon,_vuur_maken",
       "source_word_id": "w_nl_steekt_aan",
-      "context_source": "3e persoon, vuur maken",
+      "context_source": "werkwoord · 3e persoon enkelvoud · vuur maken",
       "target_word_ids": [
         "w_hu_gyújt"
       ],
@@ -28693,7 +28691,7 @@
     {
       "id": "c_hu_nl_gyújt_3e_persoon,_vuur_maken",
       "source_word_id": "w_hu_gyújt",
-      "context_source": "3e persoon, vuur maken",
+      "context_source": "werkwoord · 3e persoon enkelvoud · vuur maken",
       "target_word_ids": [
         "w_nl_steekt_aan"
       ],
@@ -28741,7 +28739,7 @@
     {
       "id": "c_nl_hu_sticht_brand_3e_persoon,_steeds_opzettelijk_vuur_maken",
       "source_word_id": "w_nl_sticht_brand",
-      "context_source": "3e persoon, steeds opzettelijk vuur maken",
+      "context_source": "werkwoord · 3e persoon enkelvoud · steeds opzettelijk vuur maken",
       "target_word_ids": [
         "w_hu_gyújtogat"
       ],
@@ -28757,7 +28755,7 @@
     {
       "id": "c_hu_nl_gyújtogat_3e_persoon,_steeds_opzettelijk_vuur_maken",
       "source_word_id": "w_hu_gyújtogat",
-      "context_source": "3e persoon, steeds opzettelijk vuur maken",
+      "context_source": "werkwoord · 3e persoon enkelvoud · steeds opzettelijk vuur maken",
       "target_word_ids": [
         "w_nl_sticht_brand"
       ],
@@ -28837,7 +28835,7 @@
     {
       "id": "c_nl_hu_begint_3e_persoon,_iemand_begint_met_iets",
       "source_word_id": "w_nl_begint",
-      "context_source": "3e persoon, iemand begint met iets",
+      "context_source": "werkwoord · 3e persoon enkelvoud · iemand begint met iets",
       "target_word_ids": [
         "w_hu_kezd"
       ],
@@ -28853,7 +28851,7 @@
     {
       "id": "c_hu_nl_kezd_3e_persoon,_iemand_begint_met_iets",
       "source_word_id": "w_hu_kezd",
-      "context_source": "3e persoon, iemand begint met iets",
+      "context_source": "werkwoord · 3e persoon enkelvoud · iemand begint met iets",
       "target_word_ids": [
         "w_nl_begint"
       ],
