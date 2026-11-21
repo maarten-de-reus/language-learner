@@ -34,6 +34,12 @@ function scoreClass(s) {
 
 export async function showGrammar() {
   refreshStats();
+  // Vanuit de feedback in Oefenen of Kaarten: #regels/ww-onbep opent die regel
+  const wanted = decodeURIComponent(location.hash.split("/")[1] ?? "");
+  if (wanted) {
+    g.open.add(wanted);
+    Object.assign(g, { view: "overview", ex: null });
+  }
   if (g.view === "practice" && g.ex) return renderPractice();
   grammarEl.innerHTML = `<div class="skeleton"></div>`;
   try {
@@ -43,6 +49,7 @@ export async function showGrammar() {
     return;
   }
   renderOverview();
+  if (wanted) grammarEl.querySelector(`[data-rule-open="${CSS.escape(wanted)}"]`)?.scrollIntoView({ block: "center" });
 }
 
 // ---------- Overzicht ----------
@@ -211,7 +218,10 @@ function feedbackHTML(r, rule) {
         <strong>${r.correct ? "Goed zo!" : r.unknown ? "Zo maak je hem" : r.accentOnly ? "Bijna! Alleen de accenten kloppen niet" : "Nog niet"}</strong>
         ${r.correct && !r.form.also?.length ? "" : `<p>${r.correct ? "Allebei goed" : "De vorm"}: ${forms}</p>`}
         <ol class="gr-steps">${r.form.steps.filter(Boolean).map((s) => `<li>${esc(s)}</li>`).join("")}</ol>
-        <p class="gr-rule-score">${esc(rule.name)}: ${scoreText(r.score)}</p>
+        <p class="gr-rule-score">${esc(rule.name)}: ${scoreText(r.score)}
+          ${["i", "kor", "pers"].includes(rule.id) ? "" : r.doubted
+            ? ` · <span class="gr-doubted">gemeld: wordt niet meer gevraagd tot het in Controleren is opgelost</span>`
+            : ` · <button type="button" class="linklike" id="gr-doubt" title="Deze vorm lijkt niet te kloppen: niet meer vragen en laten nakijken in Controleren">Klopt de vorm niet?</button>`}</p>
         ${r.saveError ? `<p class="hint">${esc(r.saveError)}</p>` : ""}
       </div>
     </div>
@@ -230,6 +240,7 @@ function bindPractice() {
     g.result.correct ? pulse(card) : shake(card);
     const next = document.getElementById("gr-next");
     next.addEventListener("click", nextExercise);
+    document.getElementById("gr-doubt")?.addEventListener("click", reportDoubt);
     next.focus();
     return;
   }
@@ -249,6 +260,19 @@ function bindPractice() {
       check("", true);
     }
   });
+}
+
+// reportDoubt: de vorm van deze opgave klopt volgens jou niet. Het woord wordt voor deze vorm niet
+// meer gevraagd en komt in Controleren, waar iemand de goede vorm kan invullen.
+async function reportDoubt() {
+  try {
+    await api("POST", "/api/grammar/doubt", { rule: g.ex.rule, word: g.ex.word, person: g.ex.person });
+    g.result.doubted = true;
+    toast(`Gemeld: ${g.ex.word} staat nu in Controleren`);
+    renderPractice();
+  } catch (err) {
+    toast(err.message);
+  }
 }
 
 async function check(value, unknown = false) {

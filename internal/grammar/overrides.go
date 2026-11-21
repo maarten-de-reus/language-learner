@@ -101,6 +101,9 @@ func FormatForms(m map[string]string) string {
 
 // MakeFor maakt de vorm voor een woord uit je lijst: een afwijkende vorm bij het woord gaat voor
 func (r Rule) MakeFor(w Word, p Person) (Form, bool) {
+	if _, doubt := w.Doubts[FormKey(r.ID, p)]; doubt {
+		return Form{}, false // iemand twijfelt aan deze vorm: niet oefenen tot het is opgelost
+	}
 	if r.ID == "ww-bep" && w.Forms["bep"] == "?" {
 		return Form{}, false
 	}

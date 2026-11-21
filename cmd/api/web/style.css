@@ -933,3 +933,23 @@ body.mode-manage .shell { max-width: 820px; }
   .gr-explain { padding-left: 16px; }
 }
 .imp-note-row { color: var(--warn); }
+.gr-doubted { color: var(--warn); }
+
+/* Controleren: vormen en twijfels */
+.rv-forms { margin-top: 10px; font-size: 13px; }
+.rv-forms summary { cursor: pointer; color: var(--text-2); }
+.rv-form-row { display: flex; flex-wrap: wrap; gap: 4px; align-items: baseline; margin-top: 6px; }
+.rv-form {
+  font: inherit; font-size: 13px; padding: 2px 8px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer;
+}
+button.rv-form:hover { border-color: var(--bad); }
+.rv-form small { color: var(--muted); font-size: 11px; margin-right: 2px; }
+.rv-form.fixed { border-style: dashed; }
+.rv-form.unsure { color: var(--muted); cursor: default; }
+.rv-form.doubt { background: var(--warn-bg); color: var(--warn); cursor: default; }
+.rv-doubts { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.rv-doubt { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.rv-doubt input { font: inherit; font-size: 14px; padding: 6px 10px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--bg); color: var(--text); width: 10em; }
+.rv-doubt .btn { min-height: 34px; font-size: 13px; padding: 0 12px; }
+.form-hint a { color: inherit; }

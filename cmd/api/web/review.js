@@ -16,6 +16,7 @@ const rv = {
   noteFor: null, // woord waarbij het opmerkingenveld open staat
   query: "", // zoeken, zonder op accenten te letten
   current: null, // woord waar de sneltoetsen op werken
+  forms: {}, // per kaart: de vormen die de regels van het woord maken (POST /api/grammar/forms)
 };
 
 export async function showReview() {
@@ -27,7 +28,21 @@ export async function showReview() {
     reviewEl.innerHTML = `<p class="error">Kon de woorden niet laden: ${esc(err.message)}</p>`;
     return;
   }
+  rv.forms = {};
   renderReview();
+}
+
+// loadForms haalt de vormen op van de getoonde woorden die we nog niet hebben, en tekent dan opnieuw
+async function loadForms() {
+  const ids = [...reviewEl.querySelectorAll("[data-rv-id]")].map((el) => el.dataset.rvId).filter((id) => !(id in rv.forms));
+  if (!ids.length) return;
+  try {
+    const res = await api("POST", "/api/grammar/forms", { ids });
+    for (const id of ids) rv.forms[id] = res.forms[id] ?? null;
+    rerenderReview();
+  } catch {
+    for (const id of ids) rv.forms[id] = null; // geen vormen: dan alleen het woord
+  }
 }
 
 // Een woord is een kaart met zijn omgekeerde richting(en), met de Nederlandse kant voorop.
@@ -44,22 +59,29 @@ function reviewItems() {
     const cards = [main, ...reverses(main).filter((g) => g !== main)];
     if (!cards.includes(e)) cards.push(e);
     cards.forEach((g) => used.add(g.id));
-    if (cards.every((g) => g.verified)) continue;
+    // Twijfels over vormen ("Klopt niet" in Regels): ook bij goedgekeurde woorden
+    const doubts = Object.assign({}, ...cards.map((g) => g.doubts || {}));
+    if (cards.every((g) => g.verified) && !Object.keys(doubts).length) continue;
     // In de wachtrij = het blokkeert: een nieuwe kaart die nog niet goedgekeurd is
     // released: alvast in de les gezet, nog niet goedgekeurd (blijft hier staan)
     items.push({ main, cards, queue: cards.some((g) => g.new && !g.verified), released: cards.some((g) => g.released && !g.verified),
-      note: cards.find((g) => g.reviewNote)?.reviewNote ?? "" });
+      note: cards.find((g) => g.reviewNote)?.reviewNote ?? "", doubts, verified: cards.every((g) => g.verified),
+      doubtId: cards.find((g) => g.doubts && Object.keys(g.doubts).length)?.id ?? main.id });
   }
-  // Wat de wachtrij blokkeert eerst
-  return items.sort((a, b) => b.queue - a.queue);
+  // Twijfels en wat de wachtrij blokkeert eerst
+  const hasDoubts = (i) => Object.keys(i.doubts).length > 0;
+  return items.sort((a, b) => hasDoubts(b) - hasDoubts(a) || b.queue - a.queue);
 }
 
 function renderReview() {
   const all = reviewItems();
-  const counts = { queue: all.filter((i) => i.queue).length, notes: all.filter((i) => i.note).length, all: all.length };
-  const filter = rv.filter ?? (counts.queue ? "queue" : "all");
+  const doubted = (i) => Object.keys(i.doubts).length > 0;
+  const counts = { queue: all.filter((i) => i.queue).length, notes: all.filter((i) => i.note).length,
+    doubts: all.filter(doubted).length, all: all.length };
+  // Eerst de twijfels over vormen (die houden een vorm uit de oefening), dan de wachtrij
+  const filter = rv.filter ?? (counts.doubts ? "doubts" : counts.queue ? "queue" : "all");
   const q = fold(rv.query.trim());
-  const items = all.filter((i) => (filter === "all" || (filter === "queue" ? i.queue : i.note)) &&
+  const items = all.filter((i) => (filter === "all" || (filter === "queue" ? i.queue : filter === "doubts" ? doubted(i) : i.note)) &&
     (!q || i.cards.some((e) => fold([e.prompt, ...e.answers, e.context, ...(e.groups || [])].join(" ")).includes(q))));
   // Wat met "alvast leren" in de les kan: nieuw, nog niet goedgekeurd en nog niet vrijgegeven
   const releasable = items.filter((i) => i.queue && !i.released);
@@ -80,6 +102,10 @@ function renderReview() {
           in Beheer of laat een opmerking achter; dan wacht het woord. Woorden die al in de herhalingen zitten lopen gewoon door.</p>
         <p class="muted">Sneltoetsen: <kbd>J</kbd>/<kbd>K</kbd> volgende/vorige · <kbd>A</kbd> goedkeuren ·
           <kbd>O</kbd> opmerking · <kbd>B</kbd> verbeteren in Beheer</p>
+        <p class="muted"><b>Vormen</b>: onder elk woord staan de vormen die de app er met de regels van maakt
+          (<i>ban</i> = -ban/-ben, <i>t</i> = lijdend voorwerp, <i>én</i> = ik-vorm …). Klopt er een niet, klik hem dan aan:
+          die vorm wordt niet meer geoefend tot de twijfel is opgelost. Een <i>?</i> is een vorm die de regels niet zeker weten
+          en dus niet oefenen.</p>
         <p class="muted"><b>Alvast leren</b> zet een woord al in de les voordat het is goedgekeurd; het blijft hier staan
           tot iemand het goedkeurt. Zoek op een groep (bijv. <i>2.8</i>) om een hele les in één keer vrij te geven.</p>
       </details>
@@ -91,6 +117,7 @@ function renderReview() {
       <div class="m-filters">
         ${chip("queue", "In de wachtrij")}
         ${chip("notes", "Met opmerking")}
+        ${counts.doubts ? chip("doubts", "Twijfel over vormen") : ""}
         ${chip("all", "Alles")}
       </div>
     </article>
@@ -102,6 +129,51 @@ function renderReview() {
         title="Alle woorden in deze selectie alvast in de les zetten; ze blijven hier staan tot ze zijn goedgekeurd">Alle ${releasable.length} alvast leren</button>` : ""}
       ${items.length > shown.length ? `<button type="button" class="btn secondary" data-rv-more>Meer tonen (nog ${items.length - shown.length})</button>` : ""}
     </div>`;
+  loadForms();
+}
+
+// formsHTML: de vormen van het woord als kleine knoppen; aanklikken = "klopt niet"
+function formsHTML(item) {
+  const f = rv.forms[item.main.id];
+  if (!f) return "";
+  if (f.note) return `<p class="rv-forms muted">${esc(f.note)}</p>`;
+  const groups = [];
+  for (const r of f.rows) {
+    const last = groups[groups.length - 1];
+    if (last?.rule === r.rule) last.rows.push(r);
+    else groups.push({ rule: r.rule, name: r.ruleName, rows: [r] });
+  }
+  const formHTML = (r) => {
+    if (r.doubt != null) return `<span class="rv-form doubt" title="${esc(r.label)}: twijfel, zie hierboven"><small>${esc(r.key)}</small> ${esc(r.doubt || "–")}</span>`;
+    if (!r.text) return `<span class="rv-form unsure" title="${esc(r.label)}: ${r.fixed ? "niet oefenen (bij het woord)" : "de regels weten deze vorm niet zeker; wordt niet geoefend"}"><small>${esc(r.key)}</small> ?</span>`;
+    return `<button type="button" class="rv-form ${r.fixed ? "fixed" : ""}" data-rv-doubt="${esc(r.key)}" data-rv-form="${esc(r.text)}"
+      title="${esc(r.label)}${r.fixed ? " (uitzondering bij het woord)" : ""} · klik als deze vorm niet klopt"><small>${esc(r.key)}</small> <span lang="hu">${esc(r.text)}</span></button>`;
+  };
+  // Werkwoorden per regel op een regel; zelfstandige naamwoorden alles bij elkaar
+  const verb = groups.some((g) => g.rule.startsWith("ww-"));
+  return `<details class="rv-forms" ${item.verified ? "" : "open"}>
+    <summary>Vormen van <b lang="hu">${esc(f.word)}</b></summary>
+    ${verb ? groups.map((g) => `<div class="rv-form-row"><span class="muted">${esc(g.name)}:</span> ${g.rows.map(formHTML).join("")}</div>`).join("")
+      : `<div class="rv-form-row">${f.rows.map(formHTML).join("")}</div>`}
+  </details>`;
+}
+
+// doubtsHTML: de twijfels over vormen van dit woord, met de drie manieren om ze op te lossen
+function doubtsHTML(item) {
+  const keys = Object.keys(item.doubts);
+  if (!keys.length) return "";
+  const label = (k) => rv.forms[item.main.id]?.rows?.find((r) => r.key === k)?.label ?? k;
+  return `<div class="rv-doubts">
+    <p class="m-warn">Twijfel over ${keys.length === 1 ? "een vorm" : `${keys.length} vormen`}: wordt niet geoefend tot het is opgelost.</p>
+    ${keys.map((k) => `
+      <form class="rv-doubt" data-rv-resolve="${esc(k)}" data-rv-concept="${esc(item.doubtId)}">
+        <span><small class="muted">${esc(label(k))}</small> <s lang="hu">${esc(item.doubts[k] || "–")}</s></span>
+        <input name="form" lang="hu" placeholder="goede vorm" value="" autocomplete="off" spellcheck="false" aria-label="Goede vorm">
+        <button type="submit" class="btn secondary" name="fix">Verbeteren</button>
+        <button type="button" class="linklike" data-rv-resolve-action="correct">Klopt toch</button>
+        <button type="button" class="linklike" data-rv-resolve-action="skip">Niet oefenen</button>
+      </form>`).join("")}
+  </div>`;
 }
 
 function reviewItemHTML(item) {
@@ -122,9 +194,11 @@ function reviewItemHTML(item) {
           ${groups.map((g) => `<span class="m-group">${esc(g)}</span>`).join("")}
         </div>
         ${item.note ? `<p class="m-warn rv-note">Opmerking: ${esc(item.note)}</p>` : ""}
+        ${doubtsHTML(item)}
+        ${formsHTML(item)}
       </div>
       <div class="rv-actions">
-        <button type="button" class="btn" data-rv-approve>Goedkeuren</button>
+        ${item.verified ? "" : `<button type="button" class="btn" data-rv-approve>Goedkeuren</button>`}
         <button type="button" class="btn secondary" data-rv-note>Opmerking</button>
         ${item.queue ? `<button type="button" class="linklike" data-rv-release="${item.released ? "off" : "on"}">${item.released ? "Niet alvast leren" : "Alvast leren"}</button>` : ""}
         <button type="button" class="linklike" data-rv-fix>Verbeteren</button>
@@ -207,6 +281,17 @@ reviewEl.addEventListener("click", async (e) => {
       toast(`${ids.length} woorden worden alvast geleerd; ze blijven hier staan tot ze zijn goedgekeurd`);
       rerenderReview();
       refreshStats();
+    } else if (b.dataset.rvDoubt) {
+      // Deze vorm klopt niet: twijfel erop, dan wordt hij niet meer geoefend
+      b.disabled = true;
+      const res = await api("POST", "/api/grammar/doubt", { conceptId: id, key: b.dataset.rvDoubt, form: b.dataset.rvForm });
+      rv.entries = res.entries;
+      delete rv.forms[id];
+      toast(`Gemeld: ${b.dataset.rvForm} wordt niet geoefend tot het is opgelost`);
+      rerenderReview();
+    } else if (b.dataset.rvResolveAction) {
+      const form = b.closest("[data-rv-resolve]");
+      await resolveDoubt(form, b.dataset.rvResolveAction);
     } else if (b.matches("[data-rv-fix]")) {
       const main = rv.entries.find((x) => x.id === id);
       view.query = main.prompt; // zoekterm voor het beheer
@@ -219,7 +304,30 @@ reviewEl.addEventListener("click", async (e) => {
   }
 });
 
+// Een twijfel oplossen: de vorm klopt toch, de goede vorm komt bij het woord, of niet oefenen
+async function resolveDoubt(form, action) {
+  const value = form.querySelector("input").value.trim();
+  if (action === "fix" && !value) return form.querySelector("input").focus();
+  const id = form.dataset.rvConcept;
+  const res = await api("POST", `/api/concepts/${encodeURIComponent(id)}/doubt`, { key: form.dataset.rvResolve, action, form: value });
+  rv.entries = res.entries;
+  const main = form.closest("[data-rv-id]").dataset.rvId;
+  delete rv.forms[main];
+  toast({ correct: "De vorm klopt: hij wordt weer geoefend", fix: `${value} staat nu bij het woord`, skip: "Deze vorm wordt niet geoefend" }[action]);
+  rerenderReview();
+}
+
 reviewEl.addEventListener("submit", async (e) => {
+  const doubtForm = e.target.closest("[data-rv-resolve]");
+  if (doubtForm) {
+    e.preventDefault();
+    try {
+      await resolveDoubt(doubtForm, "fix");
+    } catch (err) {
+      toast(err.message);
+    }
+    return;
+  }
   const form = e.target.closest("[data-rv-note-form]");
   if (!form) return;
   e.preventDefault();

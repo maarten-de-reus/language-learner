@@ -127,6 +127,9 @@ func (s *server) routes() *http.ServeMux {
 	mux.HandleFunc("PUT /api/grammar/active", s.handleGrammarActive)
 	mux.HandleFunc("GET /api/grammar/exercise", s.handleGrammarExercise)
 	mux.HandleFunc("POST /api/grammar/check", s.handleGrammarCheck)
+	mux.HandleFunc("POST /api/grammar/doubt", s.handleGrammarDoubt)
+	mux.HandleFunc("POST /api/grammar/forms", s.handleGrammarForms)
+	mux.HandleFunc("POST /api/concepts/{id}/doubt", s.handleResolveDoubt)
 
 	// Beheer
 	mux.HandleFunc("GET /api/concepts", s.handleListConcepts)

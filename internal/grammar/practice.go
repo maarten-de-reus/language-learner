@@ -23,6 +23,8 @@ type Word struct {
 	Type      string
 	Known     bool              // al eens geoefend in de herhalingen
 	Forms     map[string]string // afwijkende vormen bij het woord (zie ParseForms)
+	Doubts    map[string]string // vormen waar iemand aan twijfelt: worden niet geoefend tot het is opgelost
+	ConceptID string            // de NL->HU kaart van het woord (leeg bij woorden uit een vaste lijst)
 }
 
 // Words haalt de bruikbare woorden uit de woordenschat: per Hongaars woord één keer, met de
@@ -50,10 +52,14 @@ func Words(lib *storage.Library) []Word {
 				if out[i].Forms == nil {
 					out[i].Forms = c.Forms
 				}
+				if out[i].Doubts == nil {
+					out[i].Doubts = c.Doubts
+				}
 				continue
 			}
 			seen[key] = len(out)
-			out = append(out, Word{Hungarian: hu, Dutch: dutch, Type: c.WordType, Known: !c.FirstReview.IsZero(), Forms: c.Forms})
+			out = append(out, Word{Hungarian: hu, Dutch: dutch, Type: c.WordType, Known: !c.FirstReview.IsZero(),
+				Forms: c.Forms, Doubts: c.Doubts, ConceptID: c.ID})
 		}
 	}
 	sort.SliceStable(out, func(i, j int) bool { return engine.Fold(out[i].Hungarian) < engine.Fold(out[j].Hungarian) })

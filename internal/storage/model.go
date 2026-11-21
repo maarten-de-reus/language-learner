@@ -31,6 +31,9 @@ type TranslationConcept struct {
 	// Forms: afwijkende vormen die de regels niet zelf kunnen maken, bijv. {"t": "házat"}
 	// (zie grammar.ParseForms). Ook voor beide richtingen gelijk.
 	Forms map[string]string `json:"forms,omitempty"`
+	// Doubts: vormen waar iemand aan twijfelt ("klopt niet" in Regels of Controleren), met de vorm
+	// zoals de regels hem maakten. Worden niet geoefend tot ze zijn opgelost in Controleren.
+	Doubts map[string]string `json:"doubts,omitempty"`
 	// Voortgang: wordt in voortgang.json bewaard (zie ProgressState), nooit in woorden.json
 	StepIndex  int       `json:"-"` // Index voor engine.AnkiIntervals (0 t/m 6; 6 = beheerst)
 	TopStreak  int       `json:"-"` // zoveel keer achter elkaar goed op 90 dagen (naar beheerst)

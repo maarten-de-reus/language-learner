@@ -14,28 +14,29 @@ import (
 
 // Entry is één concept zoals het beheer het toont
 type Entry struct {
-	ID         string    `json:"id"`
-	From       string    `json:"from"`
-	To         string    `json:"to"`
-	Prompt     string    `json:"prompt"`
-	Context    string    `json:"context"`
-	Answers    []string  `json:"answers"`
-	Example    string    `json:"example,omitempty"`
-	Meanings   int       `json:"meanings"`          // aantal concepten met hetzelfde bronwoord en dezelfde richting
-	Reverse    []string  `json:"reverse,omitempty"` // ID's van de omgekeerde richting(en), bijv. kávé -> koffie bij koffie -> kávé
-	New        bool      `json:"new"`               // nog nooit gevraagd: staat in de wachtrij
-	Groups     []string  `json:"groups"`
-	WordType   string    `json:"wordType,omitempty"`   // woordsoort (code), leeg = onbekend
-	Forms      string    `json:"forms,omitempty"`      // afwijkende vormen als tekst: "t=házat, k=házak"
-	Verified   bool      `json:"verified"`             // goedgekeurd door de controleur
-	Released   bool      `json:"released"`             // alvast leren, nog niet goedgekeurd
-	ReviewNote string    `json:"reviewNote,omitempty"` // opmerking van de controleur
-	Priority   bool      `json:"priority"`             // voorrang in de wachtrij (gemarkeerd in Kaarten)
-	Attempts   int       `json:"attempts"`             // eerste pogingen volgens het antwoordenlog (ingevuld door de API)
-	Wrong      int       `json:"wrong"`                // waarvan fout
-	Step       int       `json:"step"`
-	Interval   int       `json:"interval"` // dagen bij de huidige stap
-	NextReview time.Time `json:"nextReview"`
+	ID         string            `json:"id"`
+	From       string            `json:"from"`
+	To         string            `json:"to"`
+	Prompt     string            `json:"prompt"`
+	Context    string            `json:"context"`
+	Answers    []string          `json:"answers"`
+	Example    string            `json:"example,omitempty"`
+	Meanings   int               `json:"meanings"`          // aantal concepten met hetzelfde bronwoord en dezelfde richting
+	Reverse    []string          `json:"reverse,omitempty"` // ID's van de omgekeerde richting(en), bijv. kávé -> koffie bij koffie -> kávé
+	New        bool              `json:"new"`               // nog nooit gevraagd: staat in de wachtrij
+	Groups     []string          `json:"groups"`
+	WordType   string            `json:"wordType,omitempty"`   // woordsoort (code), leeg = onbekend
+	Forms      string            `json:"forms,omitempty"`      // afwijkende vormen als tekst: "t=házat, k=házak"
+	Doubts     map[string]string `json:"doubts,omitempty"`     // vormen waar iemand aan twijfelt (sleutel -> vorm van de regels)
+	Verified   bool              `json:"verified"`             // goedgekeurd door de controleur
+	Released   bool              `json:"released"`             // alvast leren, nog niet goedgekeurd
+	ReviewNote string            `json:"reviewNote,omitempty"` // opmerking van de controleur
+	Priority   bool              `json:"priority"`             // voorrang in de wachtrij (gemarkeerd in Kaarten)
+	Attempts   int               `json:"attempts"`             // eerste pogingen volgens het antwoordenlog (ingevuld door de API)
+	Wrong      int               `json:"wrong"`                // waarvan fout
+	Step       int               `json:"step"`
+	Interval   int               `json:"interval"` // dagen bij de huidige stap
+	NextReview time.Time         `json:"nextReview"`
 }
 
 // Entries geeft alle concepten, gesorteerd op bronwoord (accenten genegeerd) en daarna hint
@@ -75,6 +76,7 @@ func entriesOf(lib *storage.Library, idx []int) []Entry {
 			Groups:     append([]string{}, c.Groups...),
 			WordType:   c.WordType,
 			Forms:      grammar.FormatForms(c.Forms),
+			Doubts:     c.Doubts,
 			Verified:   c.Verified,
 			Released:   c.Released,
 			ReviewNote: c.ReviewNote,

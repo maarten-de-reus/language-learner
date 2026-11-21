@@ -77,3 +77,39 @@ func mustJSON(t *testing.T, out map[string]json.RawMessage) []byte {
 	}
 	return b
 }
+
+func TestGrammarDoubtFlow(t *testing.T) {
+	s, h := newTestServer(t)
+	s.grammarPath = filepath.Join(t.TempDir(), "regels.jsonl")
+	call(t, h, "PUT", "/api/concepts/c_nl_hu_weer", `{"answers":["idő"],"wordType":"zn"}`)
+	call(t, h, "PUT", "/api/grammar/active", `{"active":["t"]}`)
+	if code, _ := call(t, h, "GET", "/api/grammar/exercise", ""); code != http.StatusOK {
+		t.Fatalf("verwacht een opgave idő + -t, kreeg %d", code)
+	}
+	// Klopt niet: idő + -t wordt niet meer gevraagd
+	if code, out := call(t, h, "POST", "/api/grammar/doubt", `{"rule":"t","word":"idő","person":2}`); code != http.StatusOK {
+		t.Fatalf("melden: %d %s", code, out)
+	}
+	if got := s.lib.Concepts[1].Doubts["t"]; got != "időt" {
+		t.Errorf("twijfel op de andere richting met de vorm van de regels: %q", got)
+	}
+	if code, _ := call(t, h, "GET", "/api/grammar/exercise", ""); code != http.StatusNotFound {
+		t.Errorf("met twijfel geen opgave meer, kreeg %d", code)
+	}
+	// Controleren ziet de vormen, met de twijfel
+	code, out := call(t, h, "POST", "/api/grammar/forms", `{"ids":["c_nl_hu_weer"]}`)
+	if code != http.StatusOK || !strings.Contains(string(out["forms"]), `"doubt":"időt"`) {
+		t.Fatalf("vormen: %d %s", code, out["forms"])
+	}
+	// Oplossen: klopt toch
+	if code, out := call(t, h, "POST", "/api/concepts/c_nl_hu_weer/doubt", `{"key":"t","action":"correct"}`); code != http.StatusOK {
+		t.Fatalf("oplossen: %d %s", code, out)
+	}
+	if code, _ := call(t, h, "GET", "/api/grammar/exercise", ""); code != http.StatusOK {
+		t.Errorf("na oplossen weer een opgave, kreeg %d", code)
+	}
+	// Een woord uit een vaste lijst (Budapest bij -i) kan niet gemeld worden
+	if code, _ := call(t, h, "POST", "/api/grammar/doubt", `{"rule":"i","word":"Budapest","person":2}`); code != http.StatusBadRequest {
+		t.Errorf("vaste lijst: verwacht 400, kreeg %d", code)
+	}
+}

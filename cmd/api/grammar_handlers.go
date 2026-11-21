@@ -9,8 +9,10 @@ import (
 	"math/rand/v2"
 	"net/http"
 	"slices"
+	"strings"
 	"time"
 
+	"hungarian-language-learner/internal/catalog"
 	"hungarian-language-learner/internal/grammar"
 	"hungarian-language-learner/internal/storage"
 )
@@ -152,4 +154,104 @@ func (s *server) handleGrammarCheck(w http.ResponseWriter, r *http.Request) {
 	}
 	resp.Score = grammar.Scores(s.grammarLog)[req.Rule]
 	writeJSON(w, http.StatusOK, resp)
+}
+
+// ---------- Twijfels over vormen (Klopt niet) en de vormen in Controleren ----------
+
+type doubtRequest struct {
+	// Vanuit Regels: de opgave
+	Rule   string `json:"rule"`
+	Word   string `json:"word"`
+	Person int    `json:"person"`
+	// Vanuit Controleren: de kaart en de vorm
+	ConceptID string `json:"conceptId"`
+	Key       string `json:"key"`
+	Form      string `json:"form"`
+}
+
+// handleGrammarDoubt: "Klopt niet" bij een vorm. Die vorm wordt dan niet meer geoefend en komt in
+// Controleren tot iemand hem oplost.
+func (s *server) handleGrammarDoubt(w http.ResponseWriter, r *http.Request) {
+	var req doubtRequest
+	if !decode(w, r, &req) {
+		return
+	}
+	s.mutate(w, http.StatusOK, func() error {
+		if req.ConceptID == "" {
+			rule, ok := grammar.RuleByID(req.Rule)
+			if !ok || req.Person < 0 || req.Person > int(grammar.Pl3) {
+				return errors.New("deze opgave bestaat niet (meer)")
+			}
+			word := rule.Lookup(grammar.Words(s.lib), req.Word)
+			req.Key = grammar.FormKey(rule.ID, grammar.Person(req.Person))
+			if word.ConceptID == "" || req.Key == "" {
+				return errors.New("dit woord staat niet in je eigen lijst; meld het in een opmerking")
+			}
+			req.ConceptID = word.ConceptID
+			if f, ok := rule.MakeFor(word, grammar.Person(req.Person)); ok {
+				req.Form = f.Text
+			}
+		}
+		return catalog.SetDoubt(s.lib, req.ConceptID, req.Key, req.Form)
+	})
+}
+
+func (s *server) handleResolveDoubt(w http.ResponseWriter, r *http.Request) {
+	var req struct {
+		Key    string `json:"key"`
+		Action string `json:"action"` // correct | fix | skip
+		Form   string `json:"form"`
+	}
+	if !decode(w, r, &req) {
+		return
+	}
+	s.mutate(w, http.StatusOK, func() error {
+		return catalog.ResolveDoubt(s.lib, r.PathValue("id"), req.Key, req.Action, req.Form)
+	})
+}
+
+type wordForms struct {
+	Word string            `json:"word"`
+	Rows []grammar.FormRow `json:"rows"`
+	Note string            `json:"note,omitempty"`
+}
+
+// handleGrammarForms geeft per kaart de vormen van het Hongaarse woord, voor Controleren
+func (s *server) handleGrammarForms(w http.ResponseWriter, r *http.Request) {
+	var req struct {
+		IDs []string `json:"ids"`
+	}
+	if !decode(w, r, &req) {
+		return
+	}
+	if len(req.IDs) > 200 {
+		writeError(w, http.StatusBadRequest, errors.New("te veel kaarten tegelijk"))
+		return
+	}
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	out := map[string]wordForms{}
+	for _, id := range req.IDs {
+		i := s.lib.Index(id)
+		if i < 0 {
+			continue
+		}
+		c := s.lib.Concepts[i]
+		if c.WordType == "" || len(c.TargetWordIDs) == 0 {
+			continue
+		}
+		hu := s.lib.Words[c.SourceWordID]
+		if hu.Language != "hu" {
+			hu = s.lib.Words[c.TargetWordIDs[0]]
+		}
+		word := grammar.Word{Hungarian: strings.TrimSpace(hu.Text), Type: c.WordType, Forms: c.Forms, Doubts: c.Doubts}
+		wf := wordForms{Word: word.Hungarian, Rows: grammar.AllForms(word)}
+		if c.WordType == "ww" && strings.HasSuffix(word.Hungarian, "ni") {
+			wf.Rows, wf.Note = nil, "infinitief: de vormen staan bij de 3e persoon"
+		}
+		if len(wf.Rows) > 0 || wf.Note != "" {
+			out[id] = wf
+		}
+	}
+	writeJSON(w, http.StatusOK, map[string]map[string]wordForms{"forms": out})
 }
