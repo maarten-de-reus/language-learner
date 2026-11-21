@@ -596,11 +596,6 @@
       "text": "csütörtök"
     },
     {
-      "id": "w_hu_csütörtökön",
-      "language": "hu",
-      "text": "csütörtökön"
-    },
-    {
       "id": "w_hu_cuki",
       "language": "hu",
       "text": "cuki"
@@ -1121,11 +1116,6 @@
       "text": "gyújtogatni"
     },
     {
-      "id": "w_hu_győri",
-      "language": "hu",
-      "text": "győri"
-    },
-    {
       "id": "w_hu_gép",
       "language": "hu",
       "text": "gép"
@@ -1286,11 +1276,6 @@
       "text": "hétfő"
     },
     {
-      "id": "w_hu_hétfőn",
-      "language": "hu",
-      "text": "hétfőn"
-    },
-    {
       "id": "w_hu_hétköznap",
       "language": "hu",
       "text": "hétköznap"
@@ -1299,11 +1284,6 @@
       "id": "w_hu_hétvége",
       "language": "hu",
       "text": "hétvége"
-    },
-    {
-      "id": "w_hu_hétvégén",
-      "language": "hu",
-      "text": "hétvégén"
     },
     {
       "id": "w_hu_hívni",
@@ -1479,11 +1459,6 @@
       "id": "w_hu_kedd",
       "language": "hu",
       "text": "kedd"
-    },
-    {
-      "id": "w_hu_kedden",
-      "language": "hu",
-      "text": "kedden"
     },
     {
       "id": "w_hu_kedvelt",
@@ -1696,9 +1671,9 @@
       "text": "kétszázharmincnégy"
     },
     {
-      "id": "w_hu_kíváni",
+      "id": "w_hu_kívánni",
       "language": "hu",
-      "text": "kíváni"
+      "text": "kívánni"
     },
     {
       "id": "w_hu_kórház",
@@ -1839,11 +1814,6 @@
       "id": "w_hu_lenni",
       "language": "hu",
       "text": "lenni"
-    },
-    {
-      "id": "w_hu_londoni",
-      "language": "hu",
-      "text": "londoni"
     },
     {
       "id": "w_hu_lusta",
@@ -2336,11 +2306,6 @@
       "text": "nyelv"
     },
     {
-      "id": "w_hu_nyelven",
-      "language": "hu",
-      "text": "nyelven"
-    },
-    {
       "id": "w_hu_nyelvtan",
       "language": "hu",
       "text": "nyelvtan"
@@ -2549,11 +2514,6 @@
       "id": "w_hu_péntek",
       "language": "hu",
       "text": "péntek"
-    },
-    {
-      "id": "w_hu_pénteken",
-      "language": "hu",
-      "text": "pénteken"
     },
     {
       "id": "w_hu_rag",
@@ -2826,11 +2786,6 @@
       "text": "szerda"
     },
     {
-      "id": "w_hu_szerdán",
-      "language": "hu",
-      "text": "szerdán"
-    },
-    {
       "id": "w_hu_szerencse",
       "language": "hu",
       "text": "szerencse"
@@ -2874,11 +2829,6 @@
       "id": "w_hu_szombat",
       "language": "hu",
       "text": "szombat"
-    },
-    {
-      "id": "w_hu_szombaton",
-      "language": "hu",
-      "text": "szombaton"
     },
     {
       "id": "w_hu_szomszéd",
@@ -3224,11 +3174,6 @@
       "id": "w_hu_utolsó",
       "language": "hu",
       "text": "utolsó"
-    },
-    {
-      "id": "w_hu_utrechti",
-      "language": "hu",
-      "text": "utrechti"
     },
     {
       "id": "w_hu_utána",
@@ -3666,6 +3611,11 @@
       "text": "úszik"
     },
     {
+      "id": "w_hu_úszni",
+      "language": "hu",
+      "text": "úszni"
+    },
+    {
       "id": "w_hu_út",
       "language": "hu",
       "text": "út"
@@ -3674,11 +3624,6 @@
       "id": "w_hu_útbaigazítás",
       "language": "hu",
       "text": "útbaigazítás"
-    },
-    {
-      "id": "w_hu_úzni",
-      "language": "hu",
-      "text": "úzni"
     },
     {
       "id": "w_hu_ülni",
@@ -5166,11 +5111,6 @@
       "text": "in het hongaars"
     },
     {
-      "id": "w_nl_in_het_weekend",
-      "language": "nl",
-      "text": "in het weekend"
-    },
-    {
       "id": "w_nl_in_orde",
       "language": "nl",
       "text": "in orde"
@@ -5594,11 +5534,6 @@
       "id": "w_nl_links",
       "language": "nl",
       "text": "links"
-    },
-    {
-      "id": "w_nl_londens",
-      "language": "nl",
-      "text": "londens"
     },
     {
       "id": "w_nl_lopen",
@@ -6089,36 +6024,6 @@
       "id": "w_nl_oor",
       "language": "nl",
       "text": "oor"
-    },
-    {
-      "id": "w_nl_op_dinsdag",
-      "language": "nl",
-      "text": "op dinsdag"
-    },
-    {
-      "id": "w_nl_op_donderdag",
-      "language": "nl",
-      "text": "op donderdag"
-    },
-    {
-      "id": "w_nl_op_maandag",
-      "language": "nl",
-      "text": "op maandag"
-    },
-    {
-      "id": "w_nl_op_vrijdag",
-      "language": "nl",
-      "text": "op vrijdag"
-    },
-    {
-      "id": "w_nl_op_woensdag",
-      "language": "nl",
-      "text": "op woensdag"
-    },
-    {
-      "id": "w_nl_op_zaterdag",
-      "language": "nl",
-      "text": "op zaterdag"
     },
     {
       "id": "w_nl_opdracht",
@@ -6701,11 +6606,6 @@
       "text": "tai-csi doen"
     },
     {
-      "id": "w_nl_talen",
-      "language": "nl",
-      "text": "talen"
-    },
-    {
       "id": "w_nl_tandarts",
       "language": "nl",
       "text": "tandarts"
@@ -6841,11 +6741,6 @@
       "text": "u"
     },
     {
-      "id": "w_nl_uit_győr",
-      "language": "nl",
-      "text": "uit győr"
-    },
-    {
       "id": "w_nl_uiterlijk",
       "language": "nl",
       "text": "uiterlijk"
@@ -6859,11 +6754,6 @@
       "id": "w_nl_uitstekend",
       "language": "nl",
       "text": "uitstekend"
-    },
-    {
-      "id": "w_nl_utrechts",
-      "language": "nl",
-      "text": "utrechts"
     },
     {
       "id": "w_nl_uur",
@@ -11805,7 +11695,7 @@
       "source_word_id": "w_nl_zwemmen",
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
-        "w_hu_úzni"
+        "w_hu_úszni"
       ],
       "groups": [
         "Werkwoorden"
@@ -11814,7 +11704,7 @@
     },
     {
       "id": "c_hu_nl_úzni_werkwoord_-_infinitief",
-      "source_word_id": "w_hu_úzni",
+      "source_word_id": "w_hu_úszni",
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_zwemmen"
@@ -12072,7 +11962,7 @@
       "source_word_id": "w_nl_wensen",
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
-        "w_hu_kíváni"
+        "w_hu_kívánni"
       ],
       "groups": [
         "Werkwoorden"
@@ -12081,7 +11971,7 @@
     },
     {
       "id": "c_hu_nl_kíváni_werkwoord_-_infinitief",
-      "source_word_id": "w_hu_kíváni",
+      "source_word_id": "w_hu_kívánni",
       "context_source": "werkwoord · infinitief",
       "target_word_ids": [
         "w_nl_wensen"
@@ -19407,36 +19297,6 @@
       "word_type": "zn"
     },
     {
-      "id": "c_nl_hu_op_donderdag_wanneer,_vierde_dag_van_de_week",
-      "source_word_id": "w_nl_op_donderdag",
-      "context_source": "wanneer, vierde dag van de week",
-      "target_word_ids": [
-        "w_hu_csütörtökön"
-      ],
-      "example": "Csütörtökön sportolok.",
-      "example_lang": "hu",
-      "groups": [
-        "MagyarOK 1.5-6"
-      ],
-      "verified": true,
-      "word_type": "bw"
-    },
-    {
-      "id": "c_hu_nl_csütörtökön_wanneer,_vierde_dag_van_de_week",
-      "source_word_id": "w_hu_csütörtökön",
-      "context_source": "wanneer, vierde dag van de week",
-      "target_word_ids": [
-        "w_nl_op_donderdag"
-      ],
-      "example": "Csütörtökön sportolok.",
-      "example_lang": "hu",
-      "groups": [
-        "MagyarOK 1.5-6"
-      ],
-      "verified": true,
-      "word_type": "bw"
-    },
-    {
       "id": "c_nl_hu_middag_12_uur",
       "source_word_id": "w_nl_middag",
       "context_source": "12 uur",
@@ -21365,34 +21225,6 @@
       "word_type": "zn"
     },
     {
-      "id": "c_nl_hu_op_maandag_wanneer,_eerste_dag_van_de_week",
-      "source_word_id": "w_nl_op_maandag",
-      "context_source": "wanneer, eerste dag van de week",
-      "target_word_ids": [
-        "w_hu_hétfőn"
-      ],
-      "example": "Hétfőn úszni megyek.",
-      "example_lang": "hu",
-      "groups": [
-        "MagyarOK 1.5-6"
-      ],
-      "word_type": "bw"
-    },
-    {
-      "id": "c_hu_nl_hétfőn_wanneer,_eerste_dag_van_de_week",
-      "source_word_id": "w_hu_hétfőn",
-      "context_source": "wanneer, eerste dag van de week",
-      "target_word_ids": [
-        "w_nl_op_maandag"
-      ],
-      "example": "Hétfőn úszni megyek.",
-      "example_lang": "hu",
-      "groups": [
-        "MagyarOK 1.5-6"
-      ],
-      "word_type": "bw"
-    },
-    {
       "id": "c_nl_hu_weekend_zaterdag_en_zondag",
       "source_word_id": "w_nl_weekend",
       "context_source": "zaterdag en zondag",
@@ -21419,34 +21251,6 @@
         "MagyarOK 1.5-6"
       ],
       "word_type": "zn"
-    },
-    {
-      "id": "c_nl_hu_in_het_weekend_wanneer,_zaterdag_en_zondag",
-      "source_word_id": "w_nl_in_het_weekend",
-      "context_source": "wanneer, zaterdag en zondag",
-      "target_word_ids": [
-        "w_hu_hétvégén"
-      ],
-      "example": "Hétvégén sportolok.",
-      "example_lang": "hu",
-      "groups": [
-        "MagyarOK 1.5-6"
-      ],
-      "word_type": "bw"
-    },
-    {
-      "id": "c_hu_nl_hétvégén_wanneer,_zaterdag_en_zondag",
-      "source_word_id": "w_hu_hétvégén",
-      "context_source": "wanneer, zaterdag en zondag",
-      "target_word_ids": [
-        "w_nl_in_het_weekend"
-      ],
-      "example": "Hétvégén sportolok.",
-      "example_lang": "hu",
-      "groups": [
-        "MagyarOK 1.5-6"
-      ],
-      "word_type": "bw"
     },
     {
       "id": "c_nl_hu_waarvandaan_vraag_naar_de_herkomst",
@@ -21913,34 +21717,6 @@
         "MagyarOK 1.5-6"
       ],
       "word_type": "zn"
-    },
-    {
-      "id": "c_nl_hu_op_dinsdag_wanneer,_tweede_dag_van_de_week",
-      "source_word_id": "w_nl_op_dinsdag",
-      "context_source": "wanneer, tweede dag van de week",
-      "target_word_ids": [
-        "w_hu_kedden"
-      ],
-      "example": "Kedden dolgozom.",
-      "example_lang": "hu",
-      "groups": [
-        "MagyarOK 1.5-6"
-      ],
-      "word_type": "bw"
-    },
-    {
-      "id": "c_hu_nl_kedden_wanneer,_tweede_dag_van_de_week",
-      "source_word_id": "w_hu_kedden",
-      "context_source": "wanneer, tweede dag van de week",
-      "target_word_ids": [
-        "w_nl_op_dinsdag"
-      ],
-      "example": "Kedden dolgozom.",
-      "example_lang": "hu",
-      "groups": [
-        "MagyarOK 1.5-6"
-      ],
-      "word_type": "bw"
     },
     {
       "id": "c_nl_hu_geliefd_veel_mensen_vinden_het_leuk",
@@ -24336,34 +24112,6 @@
       "word_type": "zn"
     },
     {
-      "id": "c_nl_hu_op_vrijdag_wanneer,_vijfde_dag_van_de_week",
-      "source_word_id": "w_nl_op_vrijdag",
-      "context_source": "wanneer, vijfde dag van de week",
-      "target_word_ids": [
-        "w_hu_pénteken"
-      ],
-      "example": "Pénteken konditerembe megyek.",
-      "example_lang": "hu",
-      "groups": [
-        "MagyarOK 1.5-6"
-      ],
-      "word_type": "bw"
-    },
-    {
-      "id": "c_hu_nl_pénteken_wanneer,_vijfde_dag_van_de_week",
-      "source_word_id": "w_hu_pénteken",
-      "context_source": "wanneer, vijfde dag van de week",
-      "target_word_ids": [
-        "w_nl_op_vrijdag"
-      ],
-      "example": "Pénteken konditerembe megyek.",
-      "example_lang": "hu",
-      "groups": [
-        "MagyarOK 1.5-6"
-      ],
-      "word_type": "bw"
-    },
-    {
       "id": "c_nl_hu_markt_kraampjes_met_groente",
       "source_word_id": "w_nl_markt",
       "context_source": "kraampjes met groente",
@@ -25450,34 +25198,6 @@
       "word_type": "zn"
     },
     {
-      "id": "c_nl_hu_op_woensdag_wanneer,_derde_dag_van_de_week",
-      "source_word_id": "w_nl_op_woensdag",
-      "context_source": "wanneer, derde dag van de week",
-      "target_word_ids": [
-        "w_hu_szerdán"
-      ],
-      "example": "Szerdán úszni megyek.",
-      "example_lang": "hu",
-      "groups": [
-        "MagyarOK 1.5-6"
-      ],
-      "word_type": "bw"
-    },
-    {
-      "id": "c_hu_nl_szerdán_wanneer,_derde_dag_van_de_week",
-      "source_word_id": "w_hu_szerdán",
-      "context_source": "wanneer, derde dag van de week",
-      "target_word_ids": [
-        "w_nl_op_woensdag"
-      ],
-      "example": "Szerdán úszni megyek.",
-      "example_lang": "hu",
-      "groups": [
-        "MagyarOK 1.5-6"
-      ],
-      "word_type": "bw"
-    },
-    {
       "id": "c_nl_hu_theater_hier_zie_je_toneel",
       "source_word_id": "w_nl_theater",
       "context_source": "hier zie je toneel",
@@ -25588,34 +25308,6 @@
         "MagyarOK 1.5-6"
       ],
       "word_type": "zn"
-    },
-    {
-      "id": "c_nl_hu_op_zaterdag_wanneer,_zesde_dag_van_de_week",
-      "source_word_id": "w_nl_op_zaterdag",
-      "context_source": "wanneer, zesde dag van de week",
-      "target_word_ids": [
-        "w_hu_szombaton"
-      ],
-      "example": "Szombaton otthon maradok.",
-      "example_lang": "hu",
-      "groups": [
-        "MagyarOK 1.5-6"
-      ],
-      "word_type": "bw"
-    },
-    {
-      "id": "c_hu_nl_szombaton_wanneer,_zesde_dag_van_de_week",
-      "source_word_id": "w_hu_szombaton",
-      "context_source": "wanneer, zesde dag van de week",
-      "target_word_ids": [
-        "w_nl_op_zaterdag"
-      ],
-      "example": "Szombaton otthon maradok.",
-      "example_lang": "hu",
-      "groups": [
-        "MagyarOK 1.5-6"
-      ],
-      "word_type": "bw"
     },
     {
       "id": "c_nl_hu_nodig_je_kunt_niet_zonder",
@@ -27258,34 +26950,6 @@
       "word_type": "bw"
     },
     {
-      "id": "c_nl_hu_talen_hoeveel_je_er_spreekt",
-      "source_word_id": "w_nl_talen",
-      "context_source": "hoeveel je er spreekt",
-      "target_word_ids": [
-        "w_hu_nyelven"
-      ],
-      "example": "Hány nyelven beszélsz?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ],
-      "word_type": "zn"
-    },
-    {
-      "id": "c_hu_nl_nyelven_hoeveel_je_er_spreekt",
-      "source_word_id": "w_hu_nyelven",
-      "context_source": "hoeveel je er spreekt",
-      "target_word_ids": [
-        "w_nl_talen"
-      ],
-      "example": "Hány nyelven beszélsz?",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.7"
-      ],
-      "word_type": "zn"
-    },
-    {
       "id": "c_nl_hu_kleur_rood,_groen,_blauw",
       "source_word_id": "w_nl_kleur",
       "context_source": "rood, groen, blauw",
@@ -28461,66 +28125,6 @@
       "word_type": "zn"
     },
     {
-      "id": "c_nl_hu_londens_uit_de_hoofdstad_van_engeland",
-      "source_word_id": "w_nl_londens",
-      "context_source": "uit de hoofdstad van Engeland",
-      "target_word_ids": [
-        "w_hu_londoni"
-      ],
-      "example": "Nem vagyok londoni.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.8"
-      ],
-      "released": true,
-      "word_type": "bn"
-    },
-    {
-      "id": "c_hu_nl_londoni_uit_de_hoofdstad_van_engeland",
-      "source_word_id": "w_hu_londoni",
-      "context_source": "uit de hoofdstad van Engeland",
-      "target_word_ids": [
-        "w_nl_londens"
-      ],
-      "example": "Nem vagyok londoni.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.8"
-      ],
-      "released": true,
-      "word_type": "bn"
-    },
-    {
-      "id": "c_nl_hu_utrechts_uit_de_stad_met_de_dom",
-      "source_word_id": "w_nl_utrechts",
-      "context_source": "uit de stad met de Dom",
-      "target_word_ids": [
-        "w_hu_utrechti"
-      ],
-      "example": "Utrechti vagyok.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.8"
-      ],
-      "released": true,
-      "word_type": "bn"
-    },
-    {
-      "id": "c_hu_nl_utrechti_uit_de_stad_met_de_dom",
-      "source_word_id": "w_hu_utrechti",
-      "context_source": "uit de stad met de Dom",
-      "target_word_ids": [
-        "w_nl_utrechts"
-      ],
-      "example": "Utrechti vagyok.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.8"
-      ],
-      "released": true,
-      "word_type": "bn"
-    },
-    {
       "id": "c_nl_hu_wat_vraag_naar_een_ding",
       "source_word_id": "w_nl_wat",
       "context_source": "vraag naar een ding",
@@ -28954,36 +28558,6 @@
       ],
       "released": true,
       "word_type": "zn"
-    },
-    {
-      "id": "c_nl_hu_uit_győr_bijvoeglijk,_stad_in_west-hongarije",
-      "source_word_id": "w_nl_uit_győr",
-      "context_source": "bijvoeglijk, stad in West-Hongarije",
-      "target_word_ids": [
-        "w_hu_győri"
-      ],
-      "example": "Ez egy győri gyufa.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.8"
-      ],
-      "released": true,
-      "word_type": "bn"
-    },
-    {
-      "id": "c_hu_nl_győri_bijvoeglijk,_stad_in_west-hongarije",
-      "source_word_id": "w_hu_győri",
-      "context_source": "bijvoeglijk, stad in West-Hongarije",
-      "target_word_ids": [
-        "w_nl_uit_győr"
-      ],
-      "example": "Ez egy győri gyufa.",
-      "example_lang": "hu",
-      "groups": [
-        "Magyar Óra 2.8"
-      ],
-      "released": true,
-      "word_type": "bn"
     },
     {
       "id": "c_nl_hu_fabriek_hier_maakt_men_producten",
