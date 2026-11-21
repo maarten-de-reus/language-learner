@@ -29,6 +29,11 @@ var formKeys = map[string]formSlot{
 	"ti": {"ww-onbep", Pl2}, "ők": {"ww-onbep", Pl3},
 	"bep-én": {"ww-bep", Sg1}, "bep-te": {"ww-bep", Sg2}, "bep-ő": {"ww-bep", Sg3}, "bep-mi": {"ww-bep", Pl1},
 	"bep-ti": {"ww-bep", Pl2}, "bep-ők": {"ww-bep", Pl3},
+	"mult-én": {"ww-mult", Sg1}, "mult-te": {"ww-mult", Sg2}, "mult-ő": {"ww-mult", Sg3}, "mult-mi": {"ww-mult", Pl1},
+	"mult-ti": {"ww-mult", Pl2}, "mult-ők": {"ww-mult", Pl3},
+	"multbep-én": {"ww-mult-bep", Sg1}, "multbep-te": {"ww-mult-bep", Sg2}, "multbep-ő": {"ww-mult-bep", Sg3},
+	"multbep-mi": {"ww-mult-bep", Pl1}, "multbep-ti": {"ww-mult-bep", Pl2}, "multbep-ők": {"ww-mult-bep", Pl3},
+	"hat": {"ww-hat", Sg3},
 }
 
 // Zonder accenten mag ook (bol = ból)
@@ -45,7 +50,13 @@ func FormKey(ruleID string, p Person) string {
 	return ""
 }
 
-func isPersonRule(id string) bool { return id == "ww-onbep" || id == "ww-bep" || id == "pers" }
+func isPersonRule(id string) bool {
+	switch id {
+	case "ww-onbep", "ww-bep", "ww-mult", "ww-mult-bep", "ww-hat", "ww-fog", "pers":
+		return true
+	}
+	return false
+}
 
 // ParseForms leest "t=házat, k=házak". Leeg geeft nil.
 func ParseForms(s string) (map[string]string, error) {
@@ -104,8 +115,18 @@ func (r Rule) MakeFor(w Word, p Person) (Form, bool) {
 	if _, doubt := w.Doubts[FormKey(r.ID, p)]; doubt {
 		return Form{}, false // iemand twijfelt aan deze vorm: niet oefenen tot het is opgelost
 	}
-	if r.ID == "ww-bep" && w.Forms["bep"] == "?" {
+	if (r.ID == "ww-bep" || r.ID == "ww-mult-bep") && w.Forms["bep"] == "?" {
 		return Form{}, false
+	}
+	// Afgeleid van een afwijkende infinitief of -hat-vorm bij het woord
+	if r.ID == "ww-fog" && w.Forms["inf"] != "" && w.Forms["inf"] != "?" {
+		return Future(w.Forms["inf"], p)
+	}
+	if r.ID == "ww-hat" && p != Sg3 && w.Forms["hat"] != "" {
+		if w.Forms["hat"] == "?" {
+			return Form{}, false
+		}
+		return conjugateHat(w.Forms["hat"], p, []string{w.Hungarian + " is een uitzondering: " + w.Forms["hat"]}), true
 	}
 	if v, ok := w.Forms[FormKey(r.ID, p)]; ok {
 		if v == "?" {

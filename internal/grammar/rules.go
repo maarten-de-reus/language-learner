@@ -99,6 +99,18 @@ var Rules = func() []Rule {
 		{ID: "ww-bep", Group: "Werkwoorden", Name: "Tegenwoordige tijd, bepaald", Meaning: "ik lees het …", WordType: "ww", Persons: true, Example: "olvas → olvasom, olvassa",
 			Explain: "Met een bepaald lijdend voorwerp (a könyvet): achter: -om, -od, -ja, -juk, -játok, -ják; voor: -em, -ed, -i, -jük, -itek, -ik (rond: -öm, -öd).\n" +
 				"Na s, sz en z wordt de j gelijk aan die medeklinker: olvas + ja → olvassa, néz + jük → nézzük. Werkwoorden zonder lijdend voorwerp (megy, lakik) hebben geen bepaalde vervoeging."},
+		{ID: "ww-mult", Group: "Werkwoorden", Name: "Verleden tijd, onbepaald", Meaning: "ik las, jij las …", WordType: "ww", Persons: true, Example: "tanul → tanultam, olvas → olvasott",
+			Explain: "Verleden tijd: -t- achter de stam, dan de uitgang: én -am/-em, te -ál/-él, mi -unk/-ünk, ti -atok/-etek, ők -ak/-ek (tanultam, tanultál, tanultunk, tanultatok, tanultak; néztem, néztél).\n" +
+				"Na -ít, na medeklinker + t (ért, tart, fest) en bij korte stammen op -t (fut) komt er overal -ott/-ett/-ött tussen: tanítottam, értettem, futottam.\n" +
+				"ő: na j, l, ly, n, ny, r alleen -t (tanult, beszélt, várt, kért); anders -ott/-ett/-ött (olvasott, nézett, főzött, mondott, dolgozott).\n" +
+				"Onregelmatig: van → volt, megy → ment, jön → jött, eszik → evett, iszik → ivott, tesz → tett, vesz → vett, visz → vitt, alszik → aludt, lát → láttam maar látott."},
+		{ID: "ww-mult-bep", Group: "Werkwoorden", Name: "Verleden tijd, bepaald", Meaning: "ik las het …", WordType: "ww", Persons: true, Example: "olvas → olvastam, olvasta",
+			Explain: "Zelfde verleden-stuk als bij onbepaald (olvast-, tanított-), met de bepaalde uitgangen: achter -am, -ad, -a, -uk, -átok, -ák (olvastam, olvastad, olvasta); voor -em, -ed, -e, -ük, -étek, -ék (néztem, nézted, nézte). Alleen bij werkwoorden met een lijdend voorwerp."},
+		{ID: "ww-fog", Group: "Werkwoorden", Name: "Toekomende tijd (fog)", Meaning: "ik zal lezen …", WordType: "ww", Persons: true, Example: "olvas → olvasni fogok",
+			Explain: "fog + infinitief: fogok, fogsz, fog, fogunk, fogtok, fognak met de infinitief ervoor of erna (olvasni fogok / fogok olvasni). Vaak gebruik je gewoon de tegenwoordige tijd met een tijdwoord (holnap olvasok)."},
+		{ID: "ww-hat", Group: "Werkwoorden", Name: "-hat/-het", Meaning: "kunnen, mogen", WordType: "ww", Persons: true, Example: "olvas → olvashat, néz → nézhet",
+			Explain: "-hat (achter) of -het (voor) achter de stam, daarna vervoegd als gewoon werkwoord: olvashatok, olvashatsz, olvashat, olvashatunk, olvashattok, olvashatnak.\n" +
+				"Onregelmatig: van/lesz → lehet, megy → mehet, jön → jöhet, eszik → ehet, iszik → ihat, tesz → tehet, vesz → vehet, visz → vihet, hisz → hihet, alszik → alhat."},
 		{ID: "ww-inf", Group: "Werkwoorden", Name: "Infinitief", Meaning: "lezen, wonen …", WordType: "ww", Example: "olvas → olvasni, tanít → tanítani",
 			Explain: "Stam + -ni (olvasni, lakni). Na -ít of twee medeklinkers komt er een verbindingsklinker: -ani/-eni (tanítani, mondani, érteni). -ni zelf doet niet mee aan klinkerharmonie.\n" +
 				"Onregelmatig: van/lesz → lenni, megy → menni, eszik → enni, iszik → inni, tesz → tenni, vesz → venni, visz → vinni, hisz → hinni, alszik → aludni."},
@@ -135,6 +147,20 @@ var Rules = func() []Rule {
 			r.make = func(w string, p Person) (Form, bool) { return Present(w, p, false) }
 		case "ww-bep":
 			r.make = func(w string, p Person) (Form, bool) { return Present(w, p, true) }
+		case "ww-mult":
+			r.make = func(w string, p Person) (Form, bool) { return Past(w, p, false) }
+		case "ww-mult-bep":
+			r.make = func(w string, p Person) (Form, bool) { return Past(w, p, true) }
+		case "ww-fog":
+			r.make = func(w string, p Person) (Form, bool) {
+				inf, ok := Infinitive(w)
+				if !ok {
+					return Form{}, false
+				}
+				return Future(inf.Text, p)
+			}
+		case "ww-hat":
+			r.make = func(w string, p Person) (Form, bool) { return Potential(w, p) }
 		case "ww-inf":
 			r.make = func(w string, _ Person) (Form, bool) { return Infinitive(w) }
 		}

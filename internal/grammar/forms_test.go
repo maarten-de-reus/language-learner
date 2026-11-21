@@ -28,7 +28,7 @@ func TestAllForms(t *testing.T) {
 	if len(k.persons(w)) != 0 {
 		t.Error("twijfel moet de vorm uit de oefening halen")
 	}
-	if verbs := AllForms(Word{Hungarian: "megy", Type: "ww"}); len(verbs) != 13 {
-		t.Errorf("werkwoord: verwacht 6 onbepaald + 6 bepaald + infinitief, kreeg %d", len(verbs))
+	if verbs := AllForms(Word{Hungarian: "megy", Type: "ww"}); len(verbs) != 37 {
+		t.Errorf("werkwoord: verwacht 6 per tijd (onbepaald, bepaald, verleden, verleden bepaald, fog, -hat) + infinitief, kreeg %d", len(verbs))
 	}
 }

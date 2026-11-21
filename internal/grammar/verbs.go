@@ -57,6 +57,7 @@ var intransitive = map[string]bool{
 	"táncol": true, "fordul": true, "jár": true, "nyaral": true, "pihen": true, "ebédel": true,
 	"vacsorázik": true, "reggelizik": true, "koncentrál": true, "dönt": true, "tankol": true,
 	"áll": true, "száll": true, "fut": true, "ül": true, "siet": true, "lehet": true, "kell": true,
+	"mosolyog": true, "örül": true,
 }
 var transitiveIk = map[string]bool{"eszik": true, "iszik": true, "játszik": true}
 
