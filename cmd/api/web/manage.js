@@ -272,6 +272,8 @@ function newFormHTML() {
         ${field("n-example", "Voorbeeldzin (Hongaars, optioneel)", "", { hu: true, placeholder: "bijv. Nincs elég időm." })}
       </div>
       ${groupPickerHTML("new", "Groepen (optioneel)")}
+      <label class="m-radio"><input type="checkbox" id="n-release">
+        <span>Alvast leren <small class="muted">het woord komt meteen in de les (volgens je daglimiet) en blijft bij Controleren staan tot het is goedgekeurd</small></span></label>
       ${accentBar()}
       <div id="n-meaning"></div>
       <p class="m-error" hidden></p>
@@ -470,7 +472,8 @@ async function deleteConcept(form) {
 // met een andere betekenis?), dan pas opslaan met de gemaakte keuze.
 async function submitNew(form) {
   const val = (id) => document.getElementById(id).value;
-  const req = { dutch: val("n-dutch"), context: val("n-context"), hungarian: val("n-hungarian"), example: val("n-example"), groups: pendingGroups("new") };
+  const req = { dutch: val("n-dutch"), context: val("n-context"), hungarian: val("n-hungarian"), example: val("n-example"), groups: pendingGroups("new"),
+    release: document.getElementById("n-release").checked };
   showError(form, "");
 
   try {

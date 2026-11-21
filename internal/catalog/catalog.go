@@ -27,6 +27,7 @@ type NewPair struct {
 	Hungarian []string // geaccepteerde Hongaarse vertalingen; de eerste nieuwe is de bron van HU->NL
 	Example   string   // optionele Hongaarse voorbeeldzin, voor beide richtingen
 	Groups    []string // groepen voor beide richtingen; een nieuwe naam maakt de groep aan
+	Release   bool     // nieuwe kaarten alvast in de les, ook al zijn ze nog niet goedgekeurd
 
 	// NL->HU, als het Nederlandse woord al bestaat: óf de Hongaarse woorden toevoegen als extra goede
 	// antwoorden bij een bestaande betekenis (echte synoniemen, bijv. bank (meubel) -> pad, kanapé),
@@ -306,6 +307,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 			base += "_" + safeID(nc.Context)
 		}
 		lib.Concepts = append(lib.Concepts, storage.TranslationConcept{
+			Released:      nc.Release,
 			ID:            uniqueConceptID(lib, base),
 			SourceWordID:  dutchID,
 			ContextSource: nc.Context,
@@ -339,6 +341,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 			base += "_" + safeID(nc.ReverseContext)
 		}
 		lib.Concepts = append(lib.Concepts, storage.TranslationConcept{
+			Released:      nc.Release,
 			ID:            uniqueConceptID(lib, base),
 			SourceWordID:  reverseSourceID,
 			ContextSource: strings.TrimSpace(nc.ReverseContext),
@@ -358,6 +361,7 @@ func AddPair(lib *storage.Library, nc NewPair) (AddResult, error) {
 			base += "_" + safeID(nc.ReverseContext)
 		}
 		lib.Concepts = append(lib.Concepts, storage.TranslationConcept{
+			Released:      nc.Release,
 			ID:            uniqueConceptID(lib, base),
 			SourceWordID:  ensureWord(words, "hu", hu),
 			ContextSource: strings.TrimSpace(nc.ReverseContext),

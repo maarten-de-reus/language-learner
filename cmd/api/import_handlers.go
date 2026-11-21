@@ -13,6 +13,7 @@ type importRequest struct {
 	Text    string                       `json:"text"`
 	Choices map[int]catalog.ImportChoice `json:"choices"` // per regelnummer
 	Groups  []string                     `json:"groups"`  // voor alle woorden uit de import
+	Release bool                         `json:"release"` // nieuwe woorden alvast leren
 }
 
 type importResponse struct {
@@ -62,7 +63,7 @@ func (s *server) handleImportCheck(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	results, ok := catalog.Import(s.lib.Clone(), catalog.ParseImport(req.Text), req.Choices, req.Groups)
+	results, ok := catalog.Import(s.lib.Clone(), catalog.ParseImport(req.Text), req.Choices, catalog.ImportOptions{Groups: req.Groups, Release: req.Release})
 	writeJSON(w, http.StatusOK, summarize(results, ok))
 }
 
@@ -80,7 +81,7 @@ func (s *server) handleImport(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	snapshot := s.lib.Clone()
-	results, ok := catalog.Import(s.lib, catalog.ParseImport(req.Text), req.Choices, req.Groups)
+	results, ok := catalog.Import(s.lib, catalog.ParseImport(req.Text), req.Choices, catalog.ImportOptions{Groups: req.Groups, Release: req.Release})
 	resp := summarize(results, ok)
 	if !ok {
 		*s.lib = *snapshot

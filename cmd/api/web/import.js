@@ -13,6 +13,7 @@ export const imp = {
   check: null, // laatste controle-uitkomst van de server
   choices: {}, // per regelnummer: { forward, context, reverse, mergeInto, existingHints, skip }
   busy: false,
+  release: false, // nieuwe woorden alvast leren, zonder op de controle te wachten
   pending: false, // er is iets veranderd tijdens een controle: daarna nog een keer
   filter: null, // welke regels het voorbeeld toont; null = automatisch (eerst wat aandacht nodig heeft)
   touched: new Set(), // regels waar je iets aan veranderd hebt: blijven zichtbaar, ook als ze opgelost zijn
@@ -33,6 +34,8 @@ export function importPanelHTML() {
         placeholder="${esc(IMPORT_EXAMPLE)}">${esc(imp.text)}</textarea>
       ${accentBar()}
       ${groupPickerHTML("import", "Groepen voor alle woorden in deze import (optioneel)")}
+      <label class="m-radio imp-release"><input type="checkbox" id="imp-release" ${imp.release ? "checked" : ""}>
+        <span>Alvast leren <small class="muted">nieuwe woorden komen meteen in de les (volgens je daglimiet) en blijven bij Controleren staan tot ze zijn goedgekeurd</small></span></label>
       <div id="imp-preview">${c ? importPreviewHTML(c) : ""}</div>
       <div class="m-actions" id="imp-actions">${importActionsHTML(c)}</div>
     </form>`;
@@ -71,8 +74,9 @@ const words = (n) => `${n} ${n === 1 ? "woord" : "woorden"}`;
 // anders lijkt "67 in de groep" het hele aantal terwijl er ook 48 nieuwe bij komen
 function importLabel(c) {
   if (!c.added) return `${words(c.grouped)} in de groep zetten`;
-  if (!pendingGroups("import").length) return `${words(c.added)} importeren`;
-  return `${words(c.added)} importeren · ${c.added + c.duplicates} in de groep`;
+  const release = imp.release ? " · alvast leren" : "";
+  if (!pendingGroups("import").length) return `${words(c.added)} importeren${release}`;
+  return `${words(c.added)} importeren · ${c.added + c.duplicates} in de groep${release}`;
 }
 
 function importPreviewHTML(c) {
@@ -226,6 +230,10 @@ export function bindImport() {
 
   form.addEventListener("change", (e) => {
     const el = e.target;
+    if (el.id === "imp-release") {
+      imp.release = el.checked;
+      return renderImportPreview(); // de knop noemt het
+    }
     const row = el.closest(".imp-row");
     if (!row) return;
     const no = Number(row.dataset.row);
@@ -289,7 +297,7 @@ async function checkImport(anchor, focusField = false) {
     do {
       imp.pending = false;
       const cands = imp.check?._cands;
-      imp.check = await api("POST", "/api/import/check", { text: imp.text, choices: imp.choices, groups: pendingGroups("import") });
+      imp.check = await api("POST", "/api/import/check", { text: imp.text, choices: imp.choices, groups: pendingGroups("import"), release: imp.release });
       if (cands) imp.check._cands = cands;
     } while (imp.pending);
     renderImportPreview(imp.focusField);
@@ -307,7 +315,8 @@ async function runImport() {
   imp.busy = true;
   try {
     const groups = pendingGroups("import");
-    const res = await api("POST", "/api/import", { text: imp.text, choices: imp.choices, groups });
+    const release = imp.release;
+    const res = await api("POST", "/api/import", { text: imp.text, choices: imp.choices, groups, release });
     view.entries = res.entries ?? view.entries;
     closeImport();
     // Met een groep eerst het totaal in de groep, dan hoe dat is opgebouwd
@@ -318,7 +327,9 @@ async function runImport() {
     const summary = groups.length
       ? `${words(res.added + res.duplicates)} in ${groups.join(", ")}: ${parts.join(", ")}.`
       : `${parts.join(", ")}.`;
-    toast(`${summary}${res.added ? " Nieuwe woorden komen via de wachtrij binnen; oefen ze vooraf onder Kaarten." : ""}`);
+    toast(`${summary}${!res.added ? ""
+      : release ? " De nieuwe worden alvast geleerd en blijven bij Controleren staan tot ze zijn goedgekeurd."
+      : " Nieuwe woorden komen via de wachtrij binnen; oefen ze vooraf onder Kaarten."}`);
     refreshStats();
   } catch (err) {
     toast(err.message); // bijv. iets veranderd sinds het controleren: opnieuw controleren
@@ -339,7 +350,7 @@ export function openImport() {
 }
 
 export function closeImport() {
-  Object.assign(imp, { open: false, text: "", check: null, choices: {}, filter: null, anchor: null });
+  Object.assign(imp, { open: false, text: "", check: null, choices: {}, filter: null, anchor: null, release: false });
   imp.touched.clear();
   renderManage();
 }

@@ -72,7 +72,7 @@ func TestEditGroupsFollowsReverse(t *testing.T) {
 
 func TestImportAppliesGroups(t *testing.T) {
 	lib := newLib()
-	results, ok := Import(lib, ParseImport("kávé;koffie\ntea;thee"), nil, []string{"Week 2"})
+	results, ok := Import(lib, ParseImport("kávé;koffie\ntea;thee"), nil, ImportOptions{Groups: []string{"Week 2"}})
 	if !ok || len(results) != 2 {
 		t.Fatalf("import: %+v", results)
 	}

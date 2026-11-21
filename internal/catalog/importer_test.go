@@ -40,7 +40,7 @@ func TestParseImport(t *testing.T) {
 func TestImportAddsAndSkipsDuplicates(t *testing.T) {
 	lib := legacyLib() // bevat hallo/Groet -> szia en de woorden koffie, kávé
 	text := "szia;hallo;Groet\nkávé;koffie;Drank;Kérek egy kávét.\nnégy;vier;Getal"
-	results, ok := Import(lib, ParseImport(text), nil, nil)
+	results, ok := Import(lib, ParseImport(text), nil, ImportOptions{})
 	if !ok {
 		t.Fatalf("verwacht geen fouten, kreeg %+v", results)
 	}
@@ -61,28 +61,28 @@ func TestImportAsksForMeaning(t *testing.T) {
 	add(t, lib, "weer", "", "idő") // bestaand, zonder hint
 
 	text := "idő;tijd;klok"
-	results, ok := Import(lib.Clone(), ParseImport(text), nil, nil)
+	results, ok := Import(lib.Clone(), ParseImport(text), nil, ImportOptions{})
 	if ok || results[0].Status != StatusChoice || len(results[0].Candidates) != 1 {
 		t.Fatalf("verwacht een keuze met 1 bestaande betekenis, kreeg %+v", results)
 	}
 	revID := results[0].Candidates[0].ID
 
 	// Andere betekenis zonder hint voor het bestaande concept: nog steeds een keuze nodig
-	results, ok = Import(lib.Clone(), ParseImport(text), map[int]ImportChoice{1: {Reverse: true}}, nil)
+	results, ok = Import(lib.Clone(), ParseImport(text), map[int]ImportChoice{1: {Reverse: true}}, ImportOptions{})
 	if ok || results[0].Status != StatusChoice {
 		t.Errorf("zonder hint voor het bestaande concept moet het geweigerd worden: %+v", results)
 	}
 
 	// Andere betekenis met hint
 	clone := lib.Clone()
-	results, ok = Import(clone, ParseImport(text), map[int]ImportChoice{1: {Reverse: true, ExistingHints: map[string]string{revID: "buiten"}}}, nil)
+	results, ok = Import(clone, ParseImport(text), map[int]ImportChoice{1: {Reverse: true, ExistingHints: map[string]string{revID: "buiten"}}}, ImportOptions{})
 	if !ok || results[0].Status != StatusAdded || len(clone.Concepts) != 4 {
 		t.Errorf("andere betekenis: %+v, %d concepten", results, len(clone.Concepts))
 	}
 
 	// Zelfde betekenis
 	clone = lib.Clone()
-	results, ok = Import(clone, ParseImport(text), map[int]ImportChoice{1: {Reverse: true, MergeInto: revID}}, nil)
+	results, ok = Import(clone, ParseImport(text), map[int]ImportChoice{1: {Reverse: true, MergeInto: revID}}, ImportOptions{})
 	if !ok || len(clone.Concepts) != 3 {
 		t.Errorf("zelfde betekenis: verwacht 3 concepten, kreeg %d (%+v)", len(clone.Concepts), results)
 	}
@@ -91,7 +91,7 @@ func TestImportAsksForMeaning(t *testing.T) {
 func TestImportSeesEarlierLines(t *testing.T) {
 	lib := newLib()
 	text := "idő;weer;buiten\nidő;tijd;klok"
-	results, ok := Import(lib, ParseImport(text), nil, nil)
+	results, ok := Import(lib, ParseImport(text), nil, ImportOptions{})
 	if ok || results[0].Status != StatusAdded || results[1].Status != StatusChoice {
 		t.Fatalf("de tweede regel moet de eerste zien: %+v", results)
 	}
@@ -102,7 +102,7 @@ func TestImportSeesEarlierLines(t *testing.T) {
 
 func TestImportErrorsBlock(t *testing.T) {
 	lib := newLib()
-	results, ok := Import(lib, ParseImport("kávé;koffie\nalleen"), nil, nil)
+	results, ok := Import(lib, ParseImport("kávé;koffie\nalleen"), nil, ImportOptions{})
 	if ok || results[1].Status != StatusError {
 		t.Errorf("een foute regel moet de import blokkeren: %+v", results)
 	}
@@ -115,14 +115,14 @@ func TestImportAsksForDutchMeaning(t *testing.T) {
 
 	// kanapé bij bank (meubel): eerst kiezen of het een extra antwoord of een nieuwe betekenis is
 	text := "kanapé;bank;meubel"
-	results, ok := Import(lib.Clone(), ParseImport(text), nil, nil)
+	results, ok := Import(lib.Clone(), ParseImport(text), nil, ImportOptions{})
 	if ok || results[0].Status != StatusChoice || len(results[0].ForwardCandidates) != 1 {
 		t.Fatalf("verwacht een keuze voor het Nederlandse woord, kreeg %+v", results)
 	}
 
 	// Extra antwoord: geen nieuw NL->HU concept, wel kanapé -> bank
 	clone := lib.Clone()
-	results, ok = Import(clone, ParseImport(text), map[int]ImportChoice{1: {Forward: &ForwardChoice{Extend: nlhu}}}, nil)
+	results, ok = Import(clone, ParseImport(text), map[int]ImportChoice{1: {Forward: &ForwardChoice{Extend: nlhu}}}, ImportOptions{})
 	if !ok || results[0].Status != StatusAdded || len(clone.Concepts) != 3 {
 		t.Fatalf("aanvullen: %+v, %d concepten", results, len(clone.Concepts))
 	}
@@ -131,20 +131,20 @@ func TestImportAsksForDutchMeaning(t *testing.T) {
 	}
 
 	// Nieuwe betekenis met dezelfde hint: een open keuze, op te lossen met een eigen hint in het voorbeeld
-	results, _ = Import(lib.Clone(), ParseImport(text), map[int]ImportChoice{1: {Forward: &ForwardChoice{}}}, nil)
+	results, _ = Import(lib.Clone(), ParseImport(text), map[int]ImportChoice{1: {Forward: &ForwardChoice{}}}, ImportOptions{})
 	if results[0].Status != StatusChoice {
 		t.Errorf("nieuwe betekenis met dezelfde hint moet een open keuze zijn, kreeg %+v", results[0])
 	}
 	hint := "zitbank"
 	clone = lib.Clone()
-	results, ok = Import(clone, ParseImport(text), map[int]ImportChoice{1: {Forward: &ForwardChoice{}, Context: &hint}}, nil)
+	results, ok = Import(clone, ParseImport(text), map[int]ImportChoice{1: {Forward: &ForwardChoice{}, Context: &hint}}, ImportOptions{})
 	if !ok || results[0].Context != "zitbank" || len(ForwardCandidates(clone, "bank")) != 2 {
 		t.Errorf("met een eigen hint in het voorbeeld moet het lukken: %+v", results[0])
 	}
 
 	// Nieuwe betekenis met een andere hint
 	clone = lib.Clone()
-	results, ok = Import(clone, ParseImport("bank;bank;geld"), map[int]ImportChoice{1: {Forward: &ForwardChoice{}}}, nil)
+	results, ok = Import(clone, ParseImport("bank;bank;geld"), map[int]ImportChoice{1: {Forward: &ForwardChoice{}}}, ImportOptions{})
 	if !ok || len(ForwardCandidates(clone, "bank")) != 2 {
 		t.Errorf("nieuwe betekenis bank (geld): %+v", results)
 	}
@@ -153,7 +153,7 @@ func TestImportAsksForDutchMeaning(t *testing.T) {
 func TestImportExtendWithNothingNewIsSkipped(t *testing.T) {
 	lib := newLib()
 	add(t, lib, "koffie", "", "kávé")
-	results, ok := Import(lib, ParseImport("kávé;koffie;drank"), map[int]ImportChoice{1: {Forward: &ForwardChoice{Extend: lib.Concepts[0].ID}}}, nil)
+	results, ok := Import(lib, ParseImport("kávé;koffie;drank"), map[int]ImportChoice{1: {Forward: &ForwardChoice{Extend: lib.Concepts[0].ID}}}, ImportOptions{})
 	if !ok || results[0].Status != StatusDuplicate {
 		t.Errorf("niets nieuws om aan te vullen: verwacht overgeslagen, kreeg %+v", results[0])
 	}
@@ -166,7 +166,7 @@ func TestImportNewMeaningWithInlineHints(t *testing.T) {
 	old := lib.Concepts[0].ID
 	text := "cuki;schattig"
 
-	results, _ := Import(lib.Clone(), ParseImport(text), map[int]ImportChoice{1: {Forward: &ForwardChoice{}}}, nil)
+	results, _ := Import(lib.Clone(), ParseImport(text), map[int]ImportChoice{1: {Forward: &ForwardChoice{}}}, ImportOptions{})
 	if results[0].Status != StatusChoice {
 		t.Fatalf("zonder hints: verwacht een open keuze (geen fout), kreeg %+v", results[0])
 	}
@@ -176,7 +176,7 @@ func TestImportNewMeaningWithInlineHints(t *testing.T) {
 	results, ok := Import(clone, ParseImport(text), map[int]ImportChoice{1: {
 		Forward: &ForwardChoice{Hints: map[string]string{old: "lief"}},
 		Context: &hint,
-	}}, nil)
+	}}, ImportOptions{})
 	if !ok {
 		t.Fatalf("met beide hints moet het lukken: %+v", results)
 	}
@@ -197,7 +197,7 @@ func TestImportNewMeaningWithInlineHints(t *testing.T) {
 func TestImportReportsSynonymCards(t *testing.T) {
 	lib := newLib()
 	add(t, lib, "tijd", "klok", "idő")
-	results, ok := Import(lib, ParseImport("pad,kanapé;bank;meubel\nóra,idő;uur"), nil, nil)
+	results, ok := Import(lib, ParseImport("pad,kanapé;bank;meubel\nóra,idő;uur"), nil, ImportOptions{})
 	if !ok {
 		t.Fatalf("import mislukt: %+v", results)
 	}
@@ -218,7 +218,7 @@ func TestImportExistingWordGetsGroups(t *testing.T) {
 	add(t, lib, "oud", "mensen, dieren", "öreg", func(nc *NewPair) { nc.ForwardHints = map[string]string{lib.Concepts[0].ID: "dingen"} })
 
 	// Zonder hint, met een andere hint of met precies de hint: allemaal het bestaande woord
-	results, ok := Import(lib, ParseImport("régi;oud\nöreg;oud;ouderwets\nrégi;oud;dingen\nfiatal;jong\nrégi,öreg;oud"), nil, []string{"Week 2"})
+	results, ok := Import(lib, ParseImport("régi;oud\nöreg;oud;ouderwets\nrégi;oud;dingen\nfiatal;jong\nrégi,öreg;oud"), nil, ImportOptions{Groups: []string{"Week 2"}})
 	if !ok {
 		t.Fatalf("import mag niet blokkeren: %+v", results)
 	}
@@ -248,15 +248,33 @@ func TestImportSkipLines(t *testing.T) {
 	lib := newLib()
 	add(t, lib, "weer", "buiten", "idő")
 	text := "idő;tijd\nkávé;koffie\n;leeg" // regel 1 vraagt een keuze, regel 3 is een fout
-	if _, ok := Import(lib.Clone(), ParseImport(text), nil, nil); ok {
+	if _, ok := Import(lib.Clone(), ParseImport(text), nil, ImportOptions{}); ok {
 		t.Fatal("zonder overslaan moet de import blokkeren")
 	}
 	skip := map[int]ImportChoice{1: {Skip: true}, 3: {Skip: true}}
-	results, ok := Import(lib, ParseImport(text), skip, nil)
+	results, ok := Import(lib, ParseImport(text), skip, ImportOptions{})
 	if !ok || results[0].Status != StatusSkipped || results[1].Status != StatusAdded || results[2].Status != StatusSkipped {
 		t.Errorf("overgeslagen regels blokkeren niet en worden niet toegevoegd: %+v", results)
 	}
 	if len(ReverseCandidates(lib, "idő")) != 1 {
 		t.Error("idő -> tijd mag niet toegevoegd zijn")
+	}
+}
+
+func TestImportReleaseOnlyTouchesNewWords(t *testing.T) {
+	lib := newLib()
+	add(t, lib, "koffie", "", "kávé")
+	results, ok := Import(lib, ParseImport("kávé;koffie\npad,kanapé;bank;meubel"), nil, ImportOptions{Release: true})
+	if !ok || results[0].Status != StatusDuplicate || results[1].Status != StatusAdded {
+		t.Fatalf("verwacht 1 bestaand en 1 nieuw woord: %+v", results)
+	}
+	for _, c := range lib.Concepts {
+		isNew := c.ID != lib.Concepts[0].ID && c.ID != lib.Concepts[1].ID
+		if c.Released != isNew || c.Verified {
+			t.Errorf("%s: alvast leren alleen voor nieuwe kaarten (ook synoniemen), niet goedgekeurd; kreeg %+v", c.ID, c)
+		}
+	}
+	if n := len(lib.Concepts); n != 2+3 {
+		t.Errorf("verwacht bank -> pad, kanapé met pad en kanapé terug: 5 kaarten, kreeg %d", n)
 	}
 }
