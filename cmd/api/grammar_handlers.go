@@ -133,7 +133,8 @@ func (s *server) handleGrammarCheck(w http.ResponseWriter, r *http.Request) {
 	}
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	res, ok := grammar.Check(req.Rule, grammar.FindWord(grammar.Words(s.lib), req.Word), req.Person, req.Input)
+	rule, _ := grammar.RuleByID(req.Rule)
+	res, ok := grammar.Check(req.Rule, rule.Lookup(grammar.Words(s.lib), req.Word), req.Person, req.Input)
 	if !ok {
 		writeError(w, http.StatusBadRequest, errors.New("deze opgave bestaat niet (meer)"))
 		return

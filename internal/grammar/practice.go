@@ -98,8 +98,14 @@ func (r Rule) persons(w Word) []Person {
 
 // Applicable geeft de woorden waarop de regel werkt
 func (r Rule) Applicable(words []Word) []Word {
-	if r.ID == "i" {
-		return iPool(words) // plaatsen en tijd, niet al je zelfstandige naamwoorden
+	if r.pool != nil {
+		var out []Word // een vaste lijst opgavewoorden (zoals plaatsen bij -i), niet al je woorden
+		for _, w := range r.pool(words) {
+			if len(r.persons(w)) > 0 {
+				out = append(out, w)
+			}
+		}
+		return out
 	}
 	var out []Word
 	for _, w := range words {
@@ -110,11 +116,11 @@ func (r Rule) Applicable(words []Word) []Word {
 	return out
 }
 
-// FindWord zoekt een woord uit je lijst op (met zijn afwijkende vormen), of uit de lijst van de
-// -i-regel; onbekend geeft een kaal woord
-func FindWord(words []Word, hungarian string) Word {
-	if w, ok := findIWord(hungarian); ok {
-		return w
+// Lookup zoekt het woord van een opgave op: in de vaste lijst van de regel als die er een heeft,
+// anders in je eigen woorden (met zijn afwijkende vormen); onbekend geeft een kaal woord
+func (r Rule) Lookup(words []Word, hungarian string) Word {
+	if r.pool != nil {
+		words = r.pool(words)
 	}
 	for _, w := range words {
 		if w.Hungarian == hungarian {

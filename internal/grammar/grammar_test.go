@@ -178,3 +178,48 @@ func TestRulesComplete(t *testing.T) {
 		seen[r.ID] = true
 	}
 }
+
+func TestMoreRules(t *testing.T) {
+	kor, _ := RuleByID("kor")
+	for word, want := range map[string]string{"öt": "ötkor", "éjfél": "éjfélkor", "tizenkettő": "tizenkettőkor", "vacsora": "vacsorakor", "hét": "hétkor"} {
+		if r, ok := Check("kor", kor.Lookup(nil, word), 0, want); !ok || !r.Correct {
+			t.Errorf("%s -kor: %+v, verwacht %s", word, r.Form, want)
+		}
+	}
+	szor, _ := RuleByID("szor")
+	for word, want := range map[string]string{"egy": "egyszer", "kettő": "kétszer", "három": "háromszor", "öt": "ötször",
+		"tíz": "tízszer", "húsz": "húszszor", "ezer": "ezerszer", "sok": "sokszor", "több": "többször", "néhány": "néhányszor"} {
+		if r, ok := Check("szor", szor.Lookup(nil, word), 0, want); !ok || !r.Correct {
+			t.Errorf("%s -szor: %+v, verwacht %s", word, r.Form, want)
+		}
+	}
+	if own := szor.Applicable([]Word{{Hungarian: "huszonöt", Type: "telw"}, {Hungarian: "fél", Type: "telw"}}); !slices.ContainsFunc(own, func(w Word) bool { return w.Hungarian == "huszonöt" }) ||
+		slices.ContainsFunc(own, func(w Word) bool { return w.Hungarian == "fél" }) {
+		t.Error("eigen telwoorden wel, fél niet")
+	}
+	for adj, want := range map[string]string{"drága": "drágább", "fekete": "feketébb", "magas": "magasabb", "kedves": "kedvesebb",
+		"olcsó": "olcsóbb", "késő": "később", "jó": "jobb", "nagy": "nagyobb", "szép": "szebb", "kicsi": "kisebb",
+		"hosszú": "hosszabb", "fiatal": "fiatalabb", "rövid": "rövidebb", "zöld": "zöldebb", "gyors": "gyorsabb", "öreg": "idősebb"} {
+		if f, ok := Comparative(adj); !ok || f.Text != want {
+			t.Errorf("%s: %q, verwacht %q", adj, f.Text, want)
+		}
+		if f, ok := Superlative(adj); !ok || f.Text != "leg"+want {
+			t.Errorf("%s overtreffend: %q", adj, f.Text)
+		}
+	}
+	for _, adj := range []string{"cuki", "magyar", "kisebb", "bal"} {
+		if f, ok := Comparative(adj); ok {
+			t.Errorf("%s: verwacht geen vorm, kreeg %s", adj, f.Text)
+		}
+	}
+	pers, _ := RuleByID("pers")
+	if r, ok := Check("pers", pers.Lookup(nil, "-nál/-nél"), int(Sg1), "nálam"); !ok || !r.Correct {
+		t.Errorf("nálam: %+v", r)
+	}
+	if r, ok := Check("pers", pers.Lookup(nil, "-hoz/-hez/-höz"), int(Pl3), "hozzájuk"); !ok || !r.Correct {
+		t.Errorf("hozzájuk: %+v", r)
+	}
+	if n := len(pers.Applicable(nil)); n != 12 {
+		t.Errorf("persoonsvormen: %d naamvallen", n)
+	}
+}

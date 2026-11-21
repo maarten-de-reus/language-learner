@@ -15,6 +15,7 @@ type Rule struct {
 	Example  string `json:"example"`  // vast voorbeeld: ház → házban
 
 	make func(word string, p Person) (Form, bool)
+	pool func(words []Word) []Word // vaste lijst opgavewoorden; nil = je eigen woorden van WordType
 }
 
 const harmonyNote = "\nWelke variant: kijk naar de klinkers. Achterklinkers (a á o ó u ú) → de eerste variant; voorklinkers (e é i í) → de tweede; " +
@@ -69,6 +70,12 @@ var Rules = func() []Rule {
 			caseSuffix{forms: []string{"ért"}, lengthen: true}),
 		caseRule("kent", "-ként", "als", "tanár → tanárként", "In de rol van: -ként, voor alle woorden hetzelfde.",
 			caseSuffix{forms: []string{"ként"}, lengthen: true}),
+		{ID: "kor", Group: "Naamvallen", Name: "-kor", Meaning: "om (tijdstip)", WordType: "zn", Example: "öt → ötkor, éjfél → éjfélkor",
+			Explain: "Hoe laat, op welk moment? -kor achter een klokuur of feestdag, voor alle woorden hetzelfde: geen klinkerharmonie en geen verlenging (vacsorakor).\n" +
+				"Geoefend met een vaste lijst tijdstippen: dagdelen gaan anders (reggel, délben, este)."},
+		{ID: "pers", Group: "Naamvallen", Name: "Naamval met persoon", Meaning: "bij mij, met jou …", WordType: "vnw", Persons: true, Example: "-nál/-nél → nálam, -val/-vel → veled",
+			Explain: "Naamvallen gaan niet achter én, te, ő: ze krijgen zelf een persoonsuitgang: -m, -d, –, -unk/-ünk, -tok/-tek, -uk/-ük (nálam, nálad, nála, nálunk, nálatok, náluk).\n" +
+				"De stam wisselt per naamval en moet je leren: nek-, nál-, től-, vel-, hozzá-, benn-, belől-, belé-, rajt-, ról-, rá-, ért-."},
 		{ID: "t", Group: "Meervoud en lijdend voorwerp", Name: "-t", Meaning: "lijdend voorwerp", WordType: "zn", Example: "asztal → asztalt, ablak → ablakot",
 			Explain: "Wat zie of koop je? Het lijdend voorwerp krijgt -t. Na een klinker direct (kávé → kávét, alma → almát). Na j, l, ly, n, ny, r, s, sz, z, zs ook direct (asztalt, pénzt). Na andere medeklinkers met verbindingsklinker -ot, -et of -öt (ablakot, könyvet, gyümölcsöt).\nVeel korte woorden wijken af (ház → házat, ló → lovat): die staan in de uitzonderingen." + harmonyNote},
 		{ID: "k", Group: "Meervoud en lijdend voorwerp", Name: "-k", Meaning: "meervoud", WordType: "zn", Example: "alma → almák, ablak → ablakok",
@@ -77,6 +84,14 @@ var Rules = func() []Rule {
 			Explain: "Van een plaats of tijd een bijvoeglijk naamwoord maken: -i, voor alle woorden hetzelfde, zonder verlenging (Amerika → amerikai) en met een kleine letter. Eindigt het woord al op -i, dan komt er niets bij.\n" +
 				"Een paar worden korter: este → esti, hét → heti, hónap → havi, Eger → egri.\n" +
 				"Geoefend met een vaste lijst plaatsen en tijdwoorden: achter andere woorden betekent -i meestal iets anders (kávéi = zijn koffies). Plaatsnamen hoef je niet als woord te leren."},
+		{ID: "szor", Group: "Afleidingen", Name: "-szor/-szer/-ször", Meaning: "… keer", WordType: "telw", Example: "három → háromszor, öt → ötször",
+			Explain: "Hoe vaak? Achter een telwoord -szor, -szer of -ször, met klinkerharmonie en zonder verlenging. Kettő wordt kétszer.\n" +
+				"Geoefend met de getallen en je eigen telwoorden."},
+		{ID: "bb", Group: "Vergelijken", Name: "-bb", Meaning: "groter, mooier (vergrotende trap)", WordType: "bn", Example: "drága → drágább, magas → magasabb",
+			Explain: "Vergrotende trap: na een klinker -bb, eind-a/-e wordt á/é (drága → drágább, fekete → feketébb). Na een medeklinker -abb of -ebb (magas → magasabb, kedves → kedvesebb).\n" +
+				"Uitzonderingen: jó → jobb, sok → több, kicsi → kisebb, szép → szebb, nagy → nagyobb, öreg → idősebb, nehéz → nehezebb, hosszú → hosszabb, lassú → lassabb, könnyű → könnyebb."},
+		{ID: "leg", Group: "Vergelijken", Name: "leg-…-bb", Meaning: "grootst, mooist (overtreffende trap)", WordType: "bn", Example: "nagy → legnagyobb",
+			Explain: "Overtreffende trap: leg- voor de vergrotende trap (legdrágább, legjobb). Wat bij -bb onregelmatig is, blijft dat."},
 		{ID: "ww-onbep", Group: "Werkwoorden", Name: "Tegenwoordige tijd, onbepaald", Meaning: "ik lees, jij leest …", WordType: "ww", Persons: true, Example: "olvas → olvasok, olvasol",
 			Explain: "Uitgangen achter de stam (de 3e persoon enkelvoud, zonder -ik): én -ok/-ek/-ök, te -sz, ő –, mi -unk/-ünk, ti -tok/-tek/-tök, ők -nak/-nek.\n" +
 				"Eindigt de stam op s, sz of z, dan wordt 'te' -ol/-el/-öl (olvasol, nézel). Eindigt hij op -ít of twee medeklinkers, dan komt er een verbindingsklinker bij -sz en -nak (tanítasz, mondanak).\n" +
@@ -101,6 +116,21 @@ var Rules = func() []Rule {
 		case "i":
 			s := caseSuffix{kind: adjective, forms: []string{"i"}}
 			r.make = func(w string, _ Person) (Form, bool) { return applySuffix(w, s) }
+			r.pool = func(words []Word) []Word { return poolOf(iWords, "i", words) }
+		case "kor":
+			r.make = func(w string, _ Person) (Form, bool) { return korForm(w) }
+			r.pool = func(words []Word) []Word { return poolOf(korWords, "kor", words) }
+		case "szor":
+			s := caseSuffix{forms: []string{"szor", "szer", "ször"}}
+			r.make = func(w string, _ Person) (Form, bool) { return applySuffix(w, s) }
+			r.pool = szorPool
+		case "bb":
+			r.make = func(w string, _ Person) (Form, bool) { return Comparative(w) }
+		case "leg":
+			r.make = func(w string, _ Person) (Form, bool) { return Superlative(w) }
+		case "pers":
+			r.make = personalForm
+			r.pool = personalPool
 		case "ww-onbep":
 			r.make = func(w string, p Person) (Form, bool) { return Present(w, p, false) }
 		case "ww-bep":

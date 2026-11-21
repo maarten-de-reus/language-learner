@@ -32,32 +32,24 @@ var iWords = []iWord{
 	{hu: "vasárnap", nl: "zondag"}, {hu: "hétvége", nl: "weekend"},
 }
 
-// iPool: de woorden voor de -i-regel; Known als het woord ook in je eigen lijst staat
-func iPool(words []Word) []Word {
+// poolOf maakt van een vaste lijst opgavewoorden Word's; Known als het woord ook in je eigen
+// lijst staat. De Nederlandse omschrijving komt uit de lijst (twee (uur) bij -kor, niet de hint
+// van je kaart).
+func poolOf(list []iWord, key string, words []Word) []Word {
 	own := map[string]Word{}
 	for _, w := range words {
 		own[strings.ToLower(w.Hungarian)] = w
 	}
-	out := make([]Word, 0, len(iWords))
-	for _, iw := range iWords {
+	out := make([]Word, 0, len(list))
+	for _, iw := range list {
 		w := Word{Hungarian: iw.hu, Dutch: iw.nl, Type: "zn"}
 		if mine, ok := own[strings.ToLower(iw.hu)]; ok {
-			w.Known, w.Dutch = mine.Known, mine.Dutch
+			w.Known = mine.Known
 		}
 		if iw.form != "" {
-			w.Forms = map[string]string{"i": iw.form}
+			w.Forms = map[string]string{key: iw.form}
 		}
 		out = append(out, w)
 	}
 	return out
-}
-
-// findIWord: een woord uit de -i-lijst (voor het nakijken)
-func findIWord(hungarian string) (Word, bool) {
-	for _, w := range iPool(nil) {
-		if w.Hungarian == hungarian {
-			return w, true
-		}
-	}
-	return Word{}, false
 }

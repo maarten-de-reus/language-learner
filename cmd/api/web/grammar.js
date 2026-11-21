@@ -159,6 +159,9 @@ function showOverview() {
 }
 
 function taskText(ex, rule) {
+  if (rule.id === "pers") return `${esc(ex.dutch)} ${["mij", "jou", "hem/haar", "ons", "jullie", "hen"][ex.person]} <span class="muted">· ${esc(ex.personLabel)}</span>`;
+  if (rule.id === "bb") return "vergrotende trap (-bb)";
+  if (rule.id === "leg") return "overtreffende trap (leg-…-bb)";
   if (rule.persons) return `${esc(ex.personLabel)}, ${rule.id === "ww-bep" ? "bepaald (met lijdend voorwerp)" : "onbepaald"}`;
   if (rule.id === "ww-inf") return "de infinitief";
   return `+ <span lang="hu">${esc(rule.name)}</span> <span class="muted">· ${esc(rule.meaning)}</span>`;

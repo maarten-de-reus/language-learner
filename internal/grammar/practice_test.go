@@ -124,12 +124,12 @@ func TestIRuleUsesPlaces(t *testing.T) {
 		if w.Hungarian == "kávé" {
 			t.Error("kávé hoort niet bij de -i-regel (kávéi = zijn koffies)")
 		}
-		if w.Hungarian == "reggel" && (!w.Known || w.Dutch != "ochtend (mijn kaart)") {
+		if w.Hungarian == "reggel" && (!w.Known || w.Dutch != "ochtend") {
 			t.Errorf("eigen woord moet als bekend tellen: %+v", w)
 		}
 	}
 	for word, want := range map[string]string{"Budapest": "budapesti", "este": "esti", "hónap": "havi", "Eger": "egri", "Hollandia": "hollandiai", "szerda": "szerdai"} {
-		if res, ok := Check("i", FindWord(nil, word), 0, want); !ok || !res.Correct {
+		if res, ok := Check("i", r.Lookup(nil, word), 0, want); !ok || !res.Correct {
 			t.Errorf("%s -> %s: %+v", word, want, res)
 		}
 	}

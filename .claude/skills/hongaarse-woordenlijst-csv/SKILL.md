@@ -9,7 +9,7 @@ Gebruik dit wanneer de gebruiker een Hongaarse woordenlijst, glossary-PDF of les
 
 De app leert woorden alleen in hun basisvorm en maakt de andere vormen (naamvallen, meervoud, vervoegingen) zelf met regels, in het tabblad Regels. Dit bestand levert daarom: de basisvormen, hun woordsoort, en per woord de vormen waar die regels de mist in zouden gaan.
 
-Deze skill volgt de regels in de app (`internal/grammar`, stand 2026-11-21). Komt er logica bij in de app, dan wordt deze skill bijgewerkt.
+Deze skill volgt de regels in de app (`internal/grammar`, stand 2026-11-21, versie 3: -kor, -szor, vergelijken, naamval met persoon). Komt er logica bij in de app, dan wordt deze skill bijgewerkt.
 
 ## Bestand
 - CSV, scheidingsteken puntkomma `;`, UTF-8.
@@ -26,7 +26,10 @@ Deze skill volgt de regels in de app (`internal/grammar`, stand 2026-11-21). Kom
 - Woorden die alleen met een koppelteken bestaan (bijv. négyezer-ötszázkilencven) overslaan en dat melden.
 
 ## Alleen het basiswoord, geen vormen die de app zelf maakt
-- Neem geen vormen op met een naamvalsuitgang: -ban/-ben (városban), -ba/-be, -ból/-ből, -n/-on/-en/-ön (hétfőn, kedden), -ra/-re, -ról/-ről, -nál/-nél, -hoz/-hez/-höz, -tól/-től, -nak/-nek, -val/-vel, -vá/-vé, -ig, -ért, -ként, -kor (éjfélkor), -szor/-szer/-ször.
+- Neem geen vormen op met een naamvalsuitgang: -ban/-ben (városban), -ba/-be, -ból/-ből, -n/-on/-en/-ön (hétfőn, kedden), -ra/-re, -ról/-ről, -nál/-nél, -hoz/-hez/-höz, -tól/-től, -nak/-nek, -val/-vel, -vá/-vé, -ig, -ért, -ként, -kor (éjfélkor, ötkor), -szor/-szer/-ször (ötször, egyszer, kétszer).
+- Geen naamvallen met een persoon: nekem, nálam, nála, tőle, velem, vele, hozzá, benne, belőle, rajta, róla, rá, érte (enz.). Die maakt de app met de regel "Naamval met persoon".
+- Geen trappen van vergelijking: kisebb, legkisebb, jobb (beter), nagyobb, legszebb, később. Neem alleen het bijvoeglijk naamwoord zelf op (kicsi, jó, nagy, szép, késő).
+- Uitzondering op deze drie: woorden met een eigen betekenis blijven (sokszor = vaak, először = eerst, legkésőbb = uiterlijk, hánykor = hoe laat). Twijfel je, meld het.
 - Geen lijdend voorwerp (-t/-ot/-et/-öt: szót) en geen meervoud (-k/-ok/-ek/-ök).
 - Geen bezittelijke vormen: -m/-om/-em/-am (barátom), -d/-od/-ed (füled), -a/-e/-ja/-je (háza, neve), meervoudige bezitters enz.
 - Zet zo'n vorm om naar het woord waar het over gaat (városban -> város, fül/ed -> fül, barátom -> barát, éjfélkor -> éjfél) en neem alleen dat op. Een slash die een uitgang afscheidt (`szomszéd/od`) betekent alleen het basiswoord (szomszéd).
@@ -41,8 +44,9 @@ Deze skill volgt de regels in de app (`internal/grammar`, stand 2026-11-21). Kom
   - 3e persoon enkelvoud -> Nederlandse 3e persoon enkelvoud zonder voornaamwoord (alszik = slaapt, megy = gaat).
 - Andere vervoegde vormen (mondok, beszélsz, mosolygunk, ...) niet opnemen; zet ze om naar het werkwoord en neem dan de infinitief en 3e persoon enkelvoud op.
 - Wederkerend 'zich' vervalt als dat nodig is (fejlődik = ontwikkelt).
-- Context altijd in de vaste vorm (zie kolom 3), woordsoort `ww` bij allebei.
-- Meld in de afronding dat de werkwoorden in de groep **Werkwoorden** horen (de groep kies je in de app bij het importeren; importeer de werkwoorden eventueel apart met die groep erbij).
+- Neem altijd **allebei** op, ook als het bronmateriaal er maar één geeft: de app vervoegt vanuit de 3e persoon, en de import waarschuwt als een werkwoord zonder partner binnenkomt. Let op -ik-werkwoorden: dolgozni → dolgozik, esni → esik, reggelizni → reggelizik.
+- Context altijd in de vaste vorm (zie kolom 3), woordsoort `ww` bij allebei. De app zet werkwoorden zelf in de groep Werkwoorden.
+- Heeft het Nederlandse woord al een andere betekenis in de lijst (vraagt = kérdez en kér, koopt = vásárol en vesz), geef dan beide een betekenis in de context: `werkwoord · 3e persoon enkelvoud · om iets vragen`.
 
 ## Kolom 2: nederlands
 - Precies één vertaling per regel. Meerdere betekenissen (gescheiden door , of /) -> aparte regels met hetzelfde Hongaarse woord, elk met een eigen context die de betekenis aanwijst.
@@ -77,13 +81,15 @@ De woordsoort van het **Hongaarse** woord, als code:
 | tw | tussenwerpsel, groet, ja/nee | szia, igen, bocsánat |
 | uitdr | uitdrukking van meer woorden | jó reggelt |
 
-De regels in de app werken op `zn` (naamvallen, -t, -k, -i) en `ww` (vervoegen, infinitief). De woordsoort bepaalt dus welke regels bij het woord horen: kies hem zorgvuldig.
+De regels in de app werken op `zn` (naamvallen, -t, -k), `ww` (vervoegen, infinitief), `bn` (vergrotende en overtreffende trap) en `telw` (-szor/-szer/-ször). De woordsoort bepaalt dus welke regels bij het woord horen: kies hem zorgvuldig. (-i, -kor en de naamval met persoon oefent de app met eigen vaste lijsten.)
 
 ## Kolom 6: vormen (uitzonderingen)
 Leeg, tenzij de regels van de app (hieronder) voor dit woord een verkeerde vorm zouden maken, of het woord anders niet geoefend wordt. Schrijfwijze: `sleutel=vorm`, gescheiden door komma's: `t=házat, k=házak`. Een `?` als vorm betekent "niet zeker, niet oefenen".
 
 **Sleutels**
-- Zelfstandige naamwoorden: `t` (lijdend voorwerp), `k` (meervoud), `ban`, `ba`, `ból`, `on` (de -n/-on/-en/-ön-vorm), `ra`, `ról`, `nál`, `hoz`, `tól`, `nak`, `val`, `vá`, `ig`, `ért`, `ként`, `i` (bijvoeglijk op -i).
+- Zelfstandige naamwoorden: `t` (lijdend voorwerp), `k` (meervoud), `ban`, `ba`, `ból`, `on` (de -n/-on/-en/-ön-vorm), `ra`, `ról`, `nál`, `hoz`, `tól`, `nak`, `val`, `vá`, `ig`, `ért`, `ként`, `i` (bijvoeglijk op -i), `kor`.
+- Bijvoeglijke naamwoorden: `bb` (vergrotende trap), `leg` (overtreffende trap).
+- Telwoorden: `szor` (… keer).
 - Werkwoorden (uit de 3e persoon): `inf` (infinitief); onbepaald `én`, `te`, `ő`, `mi`, `ti`, `ők`; bepaald `bep-én`, `bep-te`, `bep-ő`, `bep-mi`, `bep-ti`, `bep-ők`; en `bep=?` voor een werkwoord zonder lijdend voorwerp (geen bepaalde vervoeging, bijv. sétál, marad).
 
 **Wat de app zelf al goed doet (dan kolom 6 leeg laten)**
@@ -97,6 +103,12 @@ Leeg, tenzij de regels van de app (hieronder) voor dit woord een verkeerde vorm 
 Woorden die de app al kent als uitzondering (geen kolom 6 nodig): haj, lyuk, vonal, szakáll, társ, tár, hely, hét, tér, úr, kút, titok, fakanál, étterem, könyv, föld, fül, ház, fal, hal, toll, vaj, fej, száj, ágy, fog, hold, vár, gyár, nyár, út, híd, madár, kanál, pohár, szamár, kenyér, levél, egér, tél, név, kéz, víz, tűz, ló, tó, hó, kő, fű, mű, szó, sarok, bokor, cukor, szobor, tükör, álom, majom, fogalom, dolog, terem, eper, torony, selyem, lélek, teher, falu. Samenstellingen volgen hun laatste deel (kórház als ház, munkahely als hely) als het eerste deel minstens drie letters heeft; bij een korter eerste deel (fa-, fő-) kolom 6 invullen.
 
 Als regelmatig bekend (ook als laatste deel van een samenstelling): alak, arc, asztal, bank, város, beteg, bolt, busz, citrom, csend, csütörtök, cím, dokumentum, dzsip, dzsungel, szünet, eszköz, fejezet, feladat, felület, film, fjord, orvos, fotel, másolat, fókusz, főnök, gyakorlat, gyalogos, gyerek, gép, hang, hegy, helyzet, nap, hónap, hőmérséklet, internet, jog, kedd, kozmetikus, kukac, kép, laptop, lány, jegy, telefon, mondat, motor, füzet, mérséklet, szak, nyelv, nyelvtan, nyugat, park, perc, program, udvar, péntek, rag, reggel, sport, szombat, szám, szín, sör, templom, tenger, természet, tyúk, típus, tök, vicc, villamos, vonat, xilofon, áram, szer, épület, év, üveg, üzlet, kert, kés, pénz, szék, ablak, húg, amszterdam, főváros, rész, barát, sor, kör, bor, tej.
+
+*-kor en -szor.* -kor: woord + kor, geen harmonie, geen verlenging (ötkor, éjfélkor, vacsorakor); de app oefent het met een vaste lijst klokuren en feestdagen. -szor/-szer/-ször: telwoord + uitgang met klinkerharmonie, zonder verlenging (háromszor, egyszer, ötször); kettő → kétszer. Je eigen telwoorden doen mee (huszonötször).
+
+*Vergelijken (bn).* Na een klinker -bb, eind-a/-e wordt á/é (drága → drágább, fekete → feketébb, olcsó → olcsóbb, késő → később). Na een medeklinker -abb (achter) of -ebb (voor en rond): magas → magasabb, kedves → kedvesebb, zöld → zöldebb. Overtreffend: leg- + vergrotend (legdrágább). De app kent als uitzondering: jó → jobb, sok → több, kicsi/kis → kisebb, szép → szebb, nagy → nagyobb, öreg → idősebb, kevés → kevesebb, nehéz → nehezebb, bő → bővebb, régi → régebbi, hosszú → hosszabb, lassú → lassabb, könnyű → könnyebb, ifjú → ifjabb, bátor → bátrabb, keserű → keserűbb, szomorú → szomorúbb, savanyú → savanyúbb, gyönyörű → gyönyörűbb, egyszerű → egyszerűbb. Niet vergeleken (geen kolom 6 nodig): bal, jobb, nationaliteiten (magyar, holland …), egyéb, külön, fél, első, utolsó, kedvenc, normális. Bijvoeglijke naamwoorden op -i, -ú of -ű die niet in de lijst staan, oefent de app niet.
+
+*Naamval met persoon.* Vaste tabel in de app (nekem, nálam, tőlem, velem, hozzám, bennem, belőlem, belém, rajtam, rólam, rám, értem en de andere personen); daar hoeft niets voor in het bestand.
 
 *Werkwoorden, onbepaald.* De stam is de 3e persoon zonder -ik (lakik -> lak). "Twee medeklinkers" betekent: de stam eindigt op twee verschillende medeklinkerklanken, zoals -nd (mond), -ld (küld), -rt (tart, ért), -st (fest), -jt (gyújt), -tsz (játszik). Een klank van twee letters (sz, gy, ny, zs, cs, ly, ty) telt als één medeklinker; een dubbele (áll, hall) telt niet als twee.
 
@@ -131,6 +143,7 @@ Onregelmatige werkwoorden die de app kent (ook met voorvoegsel, elmegy = el + me
 - Werkwoord met onregelmatige vormen die niet in de lijst staan: de afwijkende personen en/of `inf=`.
 - Werkwoord met stam op klinker + t (lát, süt, köt): de app slaat 'ti' over; vul `ti=` in (láttok, sütötök).
 - Werkwoord met dubbele medeklinker aan het eind (hall, áll) of op medeklinker + sz + ik (alszik, fekszik, dicsekszik) dat niet in de lijst staat: `te=`, `ti=`, `ők=` en `inf=`.
+- Bijvoeglijk naamwoord met een onregelmatige trap die niet in de lijst staat, of op -i, -ú, -ű: `bb=…, leg=…` (bijv. `bb=keserűbb, leg=legkeserűbb`), of `bb=?, leg=?` als het niet te vergelijken is (bijv. een nationaliteit of kleur-afleiding die de app niet kent).
 - Werkwoord zonder lijdend voorwerp dat niet in de lijst staat (bijv. siet, ül zijn al bekend; utazik is een -ik-werkwoord en dus al goed): `bep=?`.
 - Weet je een vorm niet zeker: `sleutel=?` (dan oefent de app die vorm niet) en meld het.
 
@@ -149,7 +162,8 @@ Controleer met een script elke regel:
 - context gevuld; bij `ww` begint de context met `werkwoord · infinitief` of `werkwoord · 3e persoon enkelvoud`; infinitieven eindigen op -ni;
 - voorbeeldzin bevat het exacte woord uit kolom 1 (woordgrens, hoofdletterongevoelig);
 - kolom 5 is een van: zn, ww, bn, bw, vnw, telw, lw, vw, vz, tw, uitdr;
-- kolom 6 is leeg of `sleutel=vorm`-paren gescheiden door komma's, met alleen de sleutels hierboven, één woord of `?` per vorm, `bep` alleen als `bep=?`; alleen bij zn en ww (3e persoon);
+- kolom 6 is leeg of `sleutel=vorm`-paren gescheiden door komma's, met alleen de sleutels hierboven, één woord of `?` per vorm, `bep` alleen als `bep=?`; alleen bij zn, bn, telw en ww (3e persoon);
+- elk werkwoord heeft zowel een infinitief- als een 3e-persoonregel;
 - geen dubbele regels.
 Controleer daarnaast handmatig dat er geen verbogen of bezittelijke vormen of extra werkwoordsvormen in kolom 1 staan. Los fouten op voor het opleveren.
 
@@ -158,5 +172,5 @@ Meld kort:
 - het aantal regels, per woordsoort;
 - de woorden met kolom 6 ingevuld, en waarom (bijv. "szekér: é wordt kort");
 - uitzonderingen die je tegenkwam en die in de app thuishoren in de vaste lijsten (zodat ze daar kunnen worden toegevoegd);
-- de werkwoorden (voor de groep Werkwoorden);
+- werkwoorden waarvan je de partner zelf hebt toegevoegd (de infinitief of de 3e persoon stond niet in het bronmateriaal);
 - keuzes bij twijfelgevallen, wat is overgeslagen, en fouten in het bronmateriaal.

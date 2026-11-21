@@ -24,6 +24,7 @@ var formKeys = map[string]formSlot{
 	"ról": {"rol", Sg3}, "nál": {"nal", Sg3}, "hoz": {"hoz", Sg3}, "tól": {"tol", Sg3}, "nak": {"nak", Sg3},
 	"val": {"val", Sg3}, "vá": {"va", Sg3}, "ig": {"ig", Sg3}, "ért": {"ert", Sg3}, "ként": {"kent", Sg3},
 	"t": {"t", Sg3}, "k": {"k", Sg3}, "i": {"i", Sg3}, "inf": {"ww-inf", Sg3},
+	"kor": {"kor", Sg3}, "szor": {"szor", Sg3}, "bb": {"bb", Sg3}, "leg": {"leg", Sg3},
 	"én": {"ww-onbep", Sg1}, "te": {"ww-onbep", Sg2}, "ő": {"ww-onbep", Sg3}, "mi": {"ww-onbep", Pl1},
 	"ti": {"ww-onbep", Pl2}, "ők": {"ww-onbep", Pl3},
 	"bep-én": {"ww-bep", Sg1}, "bep-te": {"ww-bep", Sg2}, "bep-ő": {"ww-bep", Sg3}, "bep-mi": {"ww-bep", Pl1},
@@ -44,7 +45,7 @@ func FormKey(ruleID string, p Person) string {
 	return ""
 }
 
-func isPersonRule(id string) bool { return id == "ww-onbep" || id == "ww-bep" }
+func isPersonRule(id string) bool { return id == "ww-onbep" || id == "ww-bep" || id == "pers" }
 
 // ParseForms leest "t=házat, k=házak". Leeg geeft nil.
 func ParseForms(s string) (map[string]string, error) {
