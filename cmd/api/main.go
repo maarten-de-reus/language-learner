@@ -125,6 +125,7 @@ func (s *server) routes() *http.ServeMux {
 	// Regels (grammatica)
 	mux.HandleFunc("GET /api/grammar", s.handleGrammar)
 	mux.HandleFunc("PUT /api/grammar/active", s.handleGrammarActive)
+	mux.HandleFunc("PUT /api/grammar/level", s.handleGrammarLevel)
 	mux.HandleFunc("GET /api/grammar/exercise", s.handleGrammarExercise)
 	mux.HandleFunc("POST /api/grammar/check", s.handleGrammarCheck)
 	mux.HandleFunc("POST /api/grammar/doubt", s.handleGrammarDoubt)

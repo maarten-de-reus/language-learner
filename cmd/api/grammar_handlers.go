@@ -21,7 +21,9 @@ type grammarRuleView struct {
 	grammar.Rule
 	Active   bool              `json:"active"`
 	Score    grammar.Score     `json:"score"`
-	Words    int               `json:"words"` // zoveel van je woorden kunnen met deze regel
+	Words    int               `json:"words"` // zoveel woorden die je kent kunnen met deze regel
+	Ready    bool              `json:"ready"` // genoeg bekende woorden om de regel te oefenen
+	Need     int               `json:"need"`  // zoveel bekende woorden heeft een regel nodig
 	Examples []grammar.Example `json:"examples"`
 }
 
@@ -30,6 +32,20 @@ type grammarView struct {
 	Active  []string          `json:"active"`
 	Typed   int               `json:"typed"`   // woorden met een woordsoort
 	Untyped int               `json:"untyped"` // NL->HU kaarten zonder woordsoort
+	MinStep int               `json:"minStep"` // alleen woorden die je minstens op deze stap kent
+}
+
+// minStep: vanaf welke stap een woord meedoet in Regels
+func (s *server) minStep() int {
+	if s.settings.GrammarMinStep == nil {
+		return grammar.DefaultMinStep
+	}
+	return *s.settings.GrammarMinStep
+}
+
+// knownWords: de woorden waar Regels mee oefent
+func (s *server) knownWords() []grammar.Word {
+	return grammar.KnownWords(grammar.Words(s.lib), s.minStep())
 }
 
 // activeRules: je eigen keuze, of de standaardkeuze zolang je niets gekozen hebt
@@ -42,18 +58,20 @@ func (s *server) activeRules() []string {
 
 func (s *server) grammarView() grammarView {
 	words := grammar.Words(s.lib)
+	known := grammar.KnownWords(words, s.minStep())
 	scores := grammar.Scores(s.grammarLog)
 	active := s.activeRules()
-	v := grammarView{Active: active, Typed: len(words)}
+	v := grammarView{Active: active, Typed: len(words), MinStep: s.minStep()}
 	for _, c := range s.lib.Concepts {
 		if c.WordType == "" && len(c.TargetWordIDs) > 0 && s.lib.Words[c.SourceWordID].Language == "nl" {
 			v.Untyped++
 		}
 	}
 	for _, r := range grammar.Rules {
+		n, ready := r.Ready(known)
 		v.Rules = append(v.Rules, grammarRuleView{
 			Rule: r, Active: slices.Contains(active, r.ID), Score: scores[r.ID],
-			Words: len(r.Applicable(words)), Examples: r.Examples(words, 4),
+			Words: n, Ready: ready, Need: grammar.MinWords, Examples: r.Examples(words, 4),
 		})
 	}
 	return v
@@ -97,6 +115,32 @@ func (s *server) handleGrammarActive(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusOK, s.grammarView())
 }
 
+// handleGrammarLevel: vanaf welke stap een woord meedoet in Regels
+func (s *server) handleGrammarLevel(w http.ResponseWriter, r *http.Request) {
+	var req struct {
+		MinStep int `json:"minStep"`
+	}
+	if !decode(w, r, &req) {
+		return
+	}
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	next := s.settings
+	next.GrammarMinStep = &req.MinStep
+	if err := next.Validate(); err != nil {
+		writeError(w, http.StatusBadRequest, err)
+		return
+	}
+	if s.settingsPath != "" {
+		if err := storage.SaveSettings(s.settingsPath, next); err != nil {
+			writeError(w, http.StatusInternalServerError, err)
+			return
+		}
+	}
+	s.settings = next
+	writeJSON(w, http.StatusOK, s.grammarView())
+}
+
 // handleGrammarExercise geeft een opgave. ?rule= beperkt tot één regel (ook als die niet actief
 // is: een regel uitproberen vanuit de uitleg), ?avoid= is het woord van de vorige opgave.
 func (s *server) handleGrammarExercise(w http.ResponseWriter, r *http.Request) {
@@ -107,9 +151,10 @@ func (s *server) handleGrammarExercise(w http.ResponseWriter, r *http.Request) {
 		active = []string{id}
 	}
 	rng := rand.New(rand.NewPCG(rand.Uint64(), rand.Uint64()))
-	ex, ok := grammar.Next(grammar.Words(s.lib), active, grammar.Scores(s.grammarLog), r.URL.Query().Get("avoid"), rng)
+	ex, ok := grammar.Next(s.knownWords(), active, grammar.Scores(s.grammarLog), r.URL.Query().Get("avoid"), rng)
 	if !ok {
-		writeError(w, http.StatusNotFound, errors.New("geen opgave: zet een regel aan, of geef je woorden een woordsoort (Beheer)"))
+		writeError(w, http.StatusNotFound, errors.New("geen opgave: geen van je regels is al klaar. Een regel heeft minstens "+
+			fmt.Sprint(grammar.MinWords)+" woorden nodig die je goed kent; zet een andere regel aan of oefen eerst je woorden"))
 		return
 	}
 	writeJSON(w, http.StatusOK, ex)

@@ -17,6 +17,9 @@ type Settings struct {
 	// GrammarRules: de regels die je oefent (zie grammar.Rules). nil = de standaardkeuze;
 	// een lege lijst = bewust alles uit.
 	GrammarRules []string `json:"grammar_rules"`
+	// GrammarMinStep: Regels oefent alleen met woorden die je minstens op deze stap kent
+	// (0 = 1 dag … 6 = beheerst). nil = grammar.DefaultMinStep.
+	GrammarMinStep *int `json:"grammar_min_step,omitempty"`
 }
 
 func DefaultSettings() Settings {
@@ -27,6 +30,9 @@ func DefaultSettings() Settings {
 func (s Settings) Validate() error {
 	if s.NewPerDay < 0 || s.NewPerDay > 500 {
 		return fmt.Errorf("nieuwe woorden per dag moet tussen 0 (geen limiet) en 500 liggen, niet %d", s.NewPerDay)
+	}
+	if s.GrammarMinStep != nil && (*s.GrammarMinStep < 0 || *s.GrammarMinStep > 6) {
+		return fmt.Errorf("het niveau voor Regels moet tussen 0 en 6 liggen, niet %d", *s.GrammarMinStep)
 	}
 	return nil
 }

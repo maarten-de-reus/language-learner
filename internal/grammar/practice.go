@@ -13,6 +13,39 @@ import (
 	"hungarian-language-learner/internal/storage"
 )
 
+// Alleen woorden die je echt kent: dan zie je wat de regel met het woord doet, zonder eerst de
+// vertaling nodig te hebben. Een regel met te weinig van zulke woorden is nog niet klaar en komt
+// vanzelf vrij als je woordenschat groeit.
+const DefaultMinStep = 2 // standaard: woorden die je minstens op 7 dagen kent
+
+// MinWords: zoveel bekende woorden heeft een regel nodig (een variabele, zodat tests met een paar
+// woorden kunnen werken)
+var MinWords = 5
+
+// KnownWords: de woorden die je minstens op stap minStep kent
+func KnownWords(words []Word, minStep int) []Word {
+	var out []Word
+	for _, w := range words {
+		if w.Step >= minStep {
+			out = append(out, w)
+		}
+	}
+	return out
+}
+
+// Ready: kan de regel geoefend worden met deze (bekende) woorden? Regels met een vaste lijst
+// (plaatsen bij -i, klokuren bij -kor, de persoonstabel) altijd.
+func (r Rule) Ready(words []Word) (n int, ready bool) {
+	n = len(r.Applicable(words))
+	if r.pool != nil && r.ID != "szor" {
+		return n, n > 0
+	}
+	if r.ID == "szor" {
+		return n, n > 0 // de getallen staan in de vaste lijst
+	}
+	return n, n >= MinWords
+}
+
 // DefaultActive is de keuze zolang je zelf nog niets gekozen hebt
 var DefaultActive = []string{"ban", "ba", "bol", "ww-onbep", "ww-inf"}
 
@@ -22,6 +55,7 @@ type Word struct {
 	Dutch     string
 	Type      string
 	Known     bool              // al eens geoefend in de herhalingen
+	Step      int               // hoe goed je het kent: de hoogste stap van zijn kaarten (-1 = nog nooit geoefend)
 	Forms     map[string]string // afwijkende vormen bij het woord (zie ParseForms)
 	Doubts    map[string]string // vormen waar iemand aan twijfelt: worden niet geoefend tot het is opgelost
 	ConceptID string            // de NL->HU kaart van het woord (leeg bij woorden uit een vaste lijst)
@@ -31,6 +65,28 @@ type Word struct {
 // woordsoort van zijn kaart. Werkwoorden alleen in de 3e persoon (olvas, niet olvasni): daaruit
 // maken de regels de andere vormen.
 func Words(lib *storage.Library) []Word {
+	// Hoe goed je elk Hongaars woord kent: de hoogste stap van al zijn kaarten, in beide richtingen
+	step := map[string]int{}
+	for _, c := range lib.Concepts {
+		if c.FirstReview.IsZero() {
+			continue
+		}
+		ids := append([]string{c.SourceWordID}, c.TargetWordIDs...)
+		for _, id := range ids {
+			if w := lib.Words[id]; w.Language == "hu" {
+				k := strings.ToLower(strings.TrimSpace(w.Text))
+				if s, ok := step[k]; !ok || c.StepIndex > s {
+					step[k] = c.StepIndex
+				}
+			}
+		}
+	}
+	stepOf := func(hu string) int {
+		if s, ok := step[strings.ToLower(hu)]; ok {
+			return s
+		}
+		return -1
+	}
 	seen := map[string]int{}
 	var out []Word
 	for _, c := range lib.Concepts {
@@ -58,7 +114,7 @@ func Words(lib *storage.Library) []Word {
 				continue
 			}
 			seen[key] = len(out)
-			out = append(out, Word{Hungarian: hu, Dutch: dutch, Type: c.WordType, Known: !c.FirstReview.IsZero(),
+			out = append(out, Word{Hungarian: hu, Dutch: dutch, Type: c.WordType, Known: !c.FirstReview.IsZero(), Step: stepOf(hu),
 				Forms: c.Forms, Doubts: c.Doubts, ConceptID: c.ID})
 		}
 	}
@@ -164,6 +220,9 @@ func Next(words []Word, active []string, scores map[string]Score, avoid string, 
 	for _, r := range Rules {
 		if !slices.Contains(active, r.ID) {
 			continue
+		}
+		if _, ready := r.Ready(words); !ready {
+			continue // nog niet klaar: te weinig woorden die je kent
 		}
 		if ws := r.Applicable(words); len(ws) > 0 {
 			opts = append(opts, option{r, ws})

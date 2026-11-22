@@ -25,7 +25,15 @@ func practiceLib() *storage.Library {
 	return lib
 }
 
+// fewWords: tests met een paar woorden; een regel heeft er normaal MinWords nodig
+func fewWords(t *testing.T) {
+	old := MinWords
+	MinWords = 1
+	t.Cleanup(func() { MinWords = old })
+}
+
 func TestWordsAndNext(t *testing.T) {
+	fewWords(t)
 	words := Words(practiceLib())
 	if len(words) != 2 || words[0].Hungarian != "ház" || !words[0].Known || words[1].Hungarian != "olvas" {
 		t.Fatalf("woorden: %+v (verwacht ház en olvas: geen infinitief, geen woord zonder woordsoort, HU->NL niet dubbel)", words)
@@ -132,5 +140,34 @@ func TestIRuleUsesPlaces(t *testing.T) {
 		if res, ok := Check("i", r.Lookup(nil, word), 0, want); !ok || !res.Correct {
 			t.Errorf("%s -> %s: %+v", word, want, res)
 		}
+	}
+}
+
+func TestOnlyKnownWords(t *testing.T) {
+	var words []Word
+	for i, hu := range []string{"ház", "kert", "bolt", "asztal", "szék", "ablak"} {
+		words = append(words, Word{Hungarian: hu, Type: "zn", Step: i}) // stap 0 t/m 5
+	}
+	known := KnownWords(words, 2)
+	if len(known) != 4 || known[0].Hungarian != "bolt" {
+		t.Fatalf("vanaf stap 2: %+v", known)
+	}
+	ban, _ := RuleByID("ban")
+	if n, ready := ban.Ready(known); n != 4 || ready {
+		t.Errorf("4 bekende woorden, er zijn er %d nodig: n=%d ready=%v", MinWords, n, ready)
+	}
+	if n, ready := ban.Ready(KnownWords(words, 1)); n != 5 || !ready {
+		t.Errorf("vanaf stap 1: n=%d ready=%v", n, ready)
+	}
+	rng := rand.New(rand.NewPCG(3, 4))
+	if _, ok := Next(known, []string{"ban"}, nil, "", rng); ok {
+		t.Error("een regel die nog niet klaar is geeft geen opgave")
+	}
+	if ex, ok := Next(known, []string{"ban", "i"}, nil, "", rng); !ok || ex.Rule != "i" {
+		t.Errorf("de -i-regel (vaste lijst) is altijd klaar: %+v %v", ex, ok)
+	}
+	w := Words(practiceLib())
+	if w[0].Hungarian != "ház" || w[0].Step != 0 || w[1].Step != -1 {
+		t.Errorf("stap per woord: %+v", w)
 	}
 }

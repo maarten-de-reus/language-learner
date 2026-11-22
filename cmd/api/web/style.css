@@ -999,3 +999,7 @@ button.rv-form:hover { border-color: var(--bad); }
   .cal-day { min-height: 34px; padding: 2px 3px; }
   .cal-n { font-size: 12px; }
 }
+.gr-level { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 8px; margin-top: 14px; font-size: 14px; }
+.gr-level select { font: inherit; font-size: 14px; padding: 4px 8px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--bg); color: var(--text); }
+.gr-level small { flex-basis: 100%; }
+.gr-not-ready { color: var(--warn); font-weight: 600; }

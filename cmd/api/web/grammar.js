@@ -18,6 +18,9 @@ const g = {
   session: { n: 0, good: 0 },
 };
 
+// De niveaus van de herhalingen (engine.AnkiIntervals), voor "woorden die je kent sinds minstens"
+const LEVELS = ["1 dag", "3 dagen", "7 dagen", "16 dagen", "40 dagen", "90 dagen", "beheerst (★)"];
+
 const ruleById = (id) => g.data?.rules.find((r) => r.id === id);
 
 // scoreText: hoe gaat het met deze regel, over de laatste antwoorden
@@ -57,7 +60,8 @@ export async function showGrammar() {
 function renderOverview() {
   g.view = "overview";
   const d = g.data;
-  const active = d.rules.filter((r) => r.active && r.words > 0);
+  const active = d.rules.filter((r) => r.active && r.ready);
+  const waiting = d.rules.filter((r) => r.active && !r.ready);
   const groups = [...new Set(d.rules.map((r) => r.group))];
   grammarEl.innerHTML = `
     <article class="card gr-head">
@@ -66,11 +70,18 @@ function renderOverview() {
         en na je antwoord zie je stap voor stap hoe de vorm ontstaat. <b>Telt niet mee voor je planning.</b></p>
       ${d.untyped ? `<p class="gr-note">${d.untyped} ${d.untyped === 1 ? "kaart heeft" : "kaarten hebben"} nog geen woordsoort en
         ${d.untyped === 1 ? "doet" : "doen"} niet mee. Vul die in bij <a href="#beheer">Beheer</a> (filter <i>woordsoort onbekend</i>).</p>` : ""}
+      <label class="gr-level">Oefen met woorden die je kent sinds minstens
+        <select id="gr-level">${LEVELS.map((l, i) => `<option value="${i}" ${i === d.minStep ? "selected" : ""}>${l}</option>`).join("")}</select>
+        <small class="muted">Dan zie je wat de regel met het woord doet, zonder de vertaling nodig te hebben. Een regel heeft
+          minstens ${d.rules[0]?.need ?? 5} van zulke woorden nodig; tot die tijd is hij nog niet klaar en komt hij vanzelf vrij.</small>
+      </label>
       <div class="gr-start">
         <button class="btn" id="gr-start" type="button" ${active.length ? "" : "disabled"}>Oefenen</button>
         <span class="muted">${active.length
           ? `${active.length} ${active.length === 1 ? "regel" : "regels"} aan: ${esc(active.map((r) => r.name).join(", "))}`
-          : "Zet hieronder een of meer regels aan."}</span>
+          : waiting.length ? "Je regels zijn nog niet klaar: je kent nog te weinig woorden waar ze op werken."
+          : "Zet hieronder een of meer regels aan."}${waiting.length && active.length
+          ? ` · ${waiting.length} nog niet klaar` : ""}</span>
       </div>
     </article>
     ${groups.map((group) => `
@@ -83,12 +94,12 @@ function renderOverview() {
 
 function ruleRowHTML(r) {
   const open = g.open.has(r.id);
-  const none = r.words === 0;
+  const none = !r.ready;
   return `
     <li class="gr-rule ${open ? "open" : ""} ${none ? "none" : ""}">
       <div class="gr-rule-head">
-        <label class="switch" title="${none ? "Geen woorden met deze woordsoort" : r.active ? "Uitzetten" : "Aanzetten"}">
-          <input type="checkbox" data-rule-toggle="${esc(r.id)}" ${r.active ? "checked" : ""} ${none && !r.active ? "disabled" : ""}>
+        <label class="switch" title="${r.active ? "Uitzetten" : none ? "Aanzetten: komt vanzelf vrij als je genoeg woorden kent" : "Aanzetten"}">
+          <input type="checkbox" data-rule-toggle="${esc(r.id)}" ${r.active ? "checked" : ""}>
           <span class="switch-track" aria-hidden="true"></span>
           <span class="sr-only">${esc(r.name)} oefenen</span>
         </label>
@@ -97,7 +108,8 @@ function ruleRowHTML(r) {
           <span class="gr-meaning">${esc(r.meaning)}</span>
           <span class="gr-meta">
             <span class="gr-score ${scoreClass(r.score)}">${scoreText(r.score)}</span>
-            <span class="muted">${none ? "geen woorden" : `${r.words} ${r.words === 1 ? "woord" : "woorden"}`}</span>
+            ${none ? `<span class="gr-not-ready" title="Deze regel heeft minstens ${r.need} woorden nodig die je goed kent">nog niet klaar · ${r.words} van ${r.need}</span>`
+              : `<span class="muted">${r.words} ${r.words === 1 ? "woord" : "woorden"}</span>`}
             <span aria-hidden="true">${open ? "▴" : "▾"}</span>
           </span>
         </button>
@@ -109,7 +121,8 @@ function ruleRowHTML(r) {
           ${r.examples?.length ? `<p class="gr-ex-title">Met jouw woorden:</p>
             <ul class="gr-examples">${r.examples.map((e) => `<li><span lang="hu">${esc(e.word)}</span>
               <span class="muted">${esc(e.dutch)}</span> → ${e.person ? `<span class="muted">${esc(e.person)}</span> ` : ""}<b lang="hu">${esc(e.form)}</b></li>`).join("")}</ul>` : ""}
-          ${none ? `<p class="muted">Nog geen woorden waar deze regel op werkt: geef je woorden een woordsoort in Beheer.</p>`
+          ${none ? `<p class="muted">Nog niet klaar: je kent ${r.words === 0 ? "nog geen" : `pas ${r.words}`} van de minstens ${r.need} woorden
+            die deze regel nodig heeft. Oefen je woorden in de herhalingen; de regel komt vanzelf vrij.</p>`
             : `<button type="button" class="btn secondary" data-rule-try="${esc(r.id)}">Alleen deze regel oefenen</button>`}
         </div>` : ""}
     </li>`;
@@ -134,6 +147,14 @@ function bindOverview() {
         box.checked = !box.checked;
       }
     }));
+  document.getElementById("gr-level").addEventListener("change", async (e) => {
+    try {
+      g.data = await api("PUT", "/api/grammar/level", { minStep: Number(e.target.value) });
+      renderOverview();
+    } catch (err) {
+      toast(err.message);
+    }
+  });
   grammarEl.querySelectorAll("[data-rule-try]").forEach((b) =>
     b.addEventListener("click", () => startPractice(b.dataset.ruleTry)));
 }
@@ -170,7 +191,9 @@ function taskText(ex, rule) {
   if (rule.id === "bb") return "vergrotende trap (-bb)";
   if (rule.id === "leg") return "overtreffende trap (leg-…-bb)";
   const tense = { "ww-mult": "verleden tijd", "ww-mult-bep": "verleden tijd, bepaald (met lijdend voorwerp)",
-    "ww-fog": "toekomende tijd (fog + infinitief)", "ww-hat": "met -hat/-het (kunnen, mogen)" }[rule.id];
+    "ww-fog": "toekomende tijd (fog + infinitief)", "ww-hat": "met -hat/-het (kunnen, mogen)",
+    "ww-felsz": "gebiedende wijs", "ww-felsz-bep": "gebiedende wijs, bepaald (met lijdend voorwerp)" }[rule.id];
+  if (rule.id === "ww-lak") return "ik … jou <span class=\"muted\">(-lak/-lek)</span>";
   if (tense) return `${esc(ex.personLabel)}, ${tense}`;
   if (rule.persons) return `${esc(ex.personLabel)}, ${rule.id === "ww-bep" ? "bepaald (met lijdend voorwerp)" : "onbepaald"}`;
   if (rule.id === "ww-inf") return "de infinitief";

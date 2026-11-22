@@ -6,12 +6,25 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
+	"hungarian-language-learner/internal/grammar"
 	"hungarian-language-learner/internal/storage"
 )
 
+// fewKnownWords: de testlijst heeft één woord; dat kent de leerling hier al een week (stap 2)
+func fewKnownWords(t *testing.T, s *server) {
+	old := grammar.MinWords
+	grammar.MinWords = 1
+	t.Cleanup(func() { grammar.MinWords = old })
+	for i := range s.lib.Concepts {
+		s.lib.Concepts[i].FirstReview, s.lib.Concepts[i].StepIndex = time.Now().AddDate(0, 0, -10), 2
+	}
+}
+
 func TestGrammarFlow(t *testing.T) {
 	s, h := newTestServer(t)
+	fewKnownWords(t, s)
 	s.grammarPath = filepath.Join(t.TempDir(), "regels.jsonl")
 
 	// idő heeft nog geen woordsoort: geen opgave
@@ -80,6 +93,7 @@ func mustJSON(t *testing.T, out map[string]json.RawMessage) []byte {
 
 func TestGrammarDoubtFlow(t *testing.T) {
 	s, h := newTestServer(t)
+	fewKnownWords(t, s)
 	s.grammarPath = filepath.Join(t.TempDir(), "regels.jsonl")
 	call(t, h, "PUT", "/api/concepts/c_nl_hu_weer", `{"answers":["idő"],"wordType":"zn"}`)
 	call(t, h, "PUT", "/api/grammar/active", `{"active":["t"]}`)
@@ -111,5 +125,26 @@ func TestGrammarDoubtFlow(t *testing.T) {
 	// Een woord uit een vaste lijst (Budapest bij -i) kan niet gemeld worden
 	if code, _ := call(t, h, "POST", "/api/grammar/doubt", `{"rule":"i","word":"Budapest","person":2}`); code != http.StatusBadRequest {
 		t.Errorf("vaste lijst: verwacht 400, kreeg %d", code)
+	}
+}
+
+func TestGrammarLevel(t *testing.T) {
+	s, h := newTestServer(t)
+	call(t, h, "PUT", "/api/concepts/c_nl_hu_weer", `{"answers":["idő"],"wordType":"zn"}`)
+	code, out := call(t, h, "PUT", "/api/grammar/level", `{"minStep":4}`)
+	if code != http.StatusOK || string(out["minStep"]) != "4" {
+		t.Fatalf("niveau: %d %s", code, out)
+	}
+	if saved, _ := storage.LoadSettings(s.settingsPath); saved.GrammarMinStep == nil || *saved.GrammarMinStep != 4 {
+		t.Errorf("niveau niet opgeslagen: %+v", saved)
+	}
+	if code, _ := call(t, h, "PUT", "/api/grammar/level", `{"minStep":9}`); code != http.StatusBadRequest {
+		t.Errorf("niveau 9: verwacht 400, kreeg %d", code)
+	}
+	// idő is nog nooit geoefend: -ban/-ben is niet klaar, met een uitleg
+	call(t, h, "PUT", "/api/grammar/active", `{"active":["ban"]}`)
+	code, out = call(t, h, "GET", "/api/grammar/exercise", "")
+	if code != http.StatusNotFound || !strings.Contains(string(out["error"]), "nog niet") && !strings.Contains(string(out["error"]), "klaar") {
+		t.Errorf("niet klaar: %d %s", code, out)
 	}
 }
