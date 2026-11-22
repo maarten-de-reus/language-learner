@@ -80,6 +80,12 @@ var Rules = func() []Rule {
 			Explain: "Wat zie of koop je? Het lijdend voorwerp krijgt -t. Na een klinker direct (kávé → kávét, alma → almát). Na j, l, ly, n, ny, r, s, sz, z, zs ook direct (asztalt, pénzt). Na andere medeklinkers met verbindingsklinker -ot, -et of -öt (ablakot, könyvet, gyümölcsöt).\nVeel korte woorden wijken af (ház → házat, ló → lovat): die staan in de uitzonderingen." + harmonyNote},
 		{ID: "k", Group: "Meervoud en lijdend voorwerp", Name: "-k", Meaning: "meervoud", WordType: "zn", Example: "alma → almák, ablak → ablakok",
 			Explain: "Meervoud: -k. Na een klinker direct (autó → autók, alma → almák). Na een medeklinker met verbindingsklinker -ok, -ek of -ök (ablakok, kertek, gyümölcsök).\nOok hier wijken korte woorden vaak af (ház → házak, madár → madarak)." + harmonyNote},
+		{ID: "bir", Group: "Bezittelijke vormen", Name: "Bezittelijk (mijn, jouw …)", Meaning: "mijn huis, jouw huis …", WordType: "zn", Persons: true, Example: "ház → házam, házad, háza",
+			Explain: "Eén bezitter, één ding: én -m, te -d, ő -a/-e of -ja/-je, mi -nk/-unk/-ünk, ti -tok/-tek/-tök, ők -uk/-ük of -juk/-jük.\n" +
+				"Na een klinker direct, met -á/-é voor een eind-a/-e en altijd een j bij ő en ők: almám, almád, almája, almánk, almátok, almájuk.\n" +
+				"Na een medeklinker met verbindingsklinker: asztalom, kertem, gyümölcsöm; woorden die bij -t van stam veranderen doen dat hier ook (házam, lovam, kezem, sarkom).\n" +
+				"ő en ők: géén j na s, sz, z, cs, gy, ny, ly, j (pénze, hegye, lánya) en na -ság/-ség; wél een j na twee medeklinkers (kertje, boltja). Daartussen is het per woord (asztala, maar telefonja): die vraagt de app pas als het woord in de lijst staat.\n" +
+				"Onregelmatig: fiú → fia, apa → apja, anya → anyja, idő → ideje, szó → szava, út → útja."},
 		{ID: "i", Group: "Afleidingen", Name: "-i", Meaning: "uit, van (plaats of tijd)", WordType: "zn", Example: "Budapest → budapesti",
 			Explain: "Van een plaats of tijd een bijvoeglijk naamwoord maken: -i, voor alle woorden hetzelfde, zonder verlenging (Amerika → amerikai) en met een kleine letter. Eindigt het woord al op -i, dan komt er niets bij.\n" +
 				"Een paar worden korter: este → esti, hét → heti, hónap → havi, Eger → egri.\n" +
@@ -121,6 +127,14 @@ var Rules = func() []Rule {
 				"Onregelmatig: van/lesz → legyen, megy → menj, jön → gyere/gyertek, eszik → egyél, iszik → igyál, tesz → tegyél, vesz → vegyél, visz → vigyél, hisz → higgyél."},
 		{ID: "ww-felsz-bep", Group: "Werkwoorden", Name: "Gebiedende wijs, bepaald", Meaning: "lees het! …", WordType: "ww", Persons: true, Example: "olvas → olvasd!, néz → nézd!",
 			Explain: "Met een bepaald lijdend voorwerp: én -jam/-jem, te kort -d (olvasd, nézd, tanuld, lásd, tanítsd) of lang -jad/-jed, ő -ja/-je, mi -juk/-jük, ti -játok/-jétek, ők -ják/-jék, met dezelfde samensmelting van de j (olvassa, nézze, tanítsa). Onregelmatig: edd, idd, tedd, vedd, vidd, hidd."},
+		{ID: "ww-felt", Group: "Werkwoorden", Name: "Voorwaardelijke wijs", Meaning: "ik zou lezen …", WordType: "ww", Persons: true, Example: "olvas → olvasnék, szeret → szeretnék",
+			Explain: "De infinitief zonder -ni, dan: én -nék, te -nál/-nél, ő -na/-ne, mi -nánk/-nénk, ti -nátok/-nétek, ők -nának/-nének (olvasnék, olvasnál, olvasna; néznék, néznél, nézne). Let op: én is altijd -nék.\n" +
+				"Omdat het uit de infinitief komt, gaan de onregelmatige vanzelf: enni → ennék, inni → innék, lenni → lennék (of volna), menni → mennék, tanítani → tanítanék.\n" +
+				"Veel gebruikt om iets beleefd te vragen: szeretnék egy kávét (ik zou graag een koffie willen)."},
+		{ID: "ww-felt-bep", Group: "Werkwoorden", Name: "Voorwaardelijke wijs, bepaald", Meaning: "ik zou het lezen …", WordType: "ww", Persons: true, Example: "olvas → olvasnám, olvasná",
+			Explain: "Met een bepaald lijdend voorwerp: achter -nám, -nád, -ná, -nánk, -nátok, -nák; voor -ném, -néd, -né, -nénk, -nétek, -nék (olvasnám, olvasná; nézném, nézné)."},
+		{ID: "ww-felt-mult", Group: "Werkwoorden", Name: "Voorwaardelijke wijs, verleden", Meaning: "ik zou gelezen hebben …", WordType: "ww", Persons: true, Example: "olvas → olvastam volna",
+			Explain: "De verleden tijd met volna erachter, voor alle personen hetzelfde volna: olvastam volna, olvastál volna, olvasott volna (ik zou gelezen hebben …)."},
 		{ID: "ww-inf", Group: "Werkwoorden", Name: "Infinitief", Meaning: "lezen, wonen …", WordType: "ww", Example: "olvas → olvasni, tanít → tanítani",
 			Explain: "Stam + -ni (olvasni, lakni). Na -ít of twee medeklinkers komt er een verbindingsklinker: -ani/-eni (tanítani, mondani, érteni). -ni zelf doet niet mee aan klinkerharmonie.\n" +
 				"Onregelmatig: van/lesz → lenni, megy → menni, eszik → enni, iszik → inni, tesz → tenni, vesz → venni, visz → vinni, hisz → hinni, alszik → aludni."},
@@ -135,6 +149,8 @@ var Rules = func() []Rule {
 			r.make = func(w string, _ Person) (Form, bool) { return accOrPlural(w, false) }
 		case "k":
 			r.make = func(w string, _ Person) (Form, bool) { return accOrPlural(w, true) }
+		case "bir":
+			r.make = func(w string, p Person) (Form, bool) { return Possessive(w, p) }
 		case "i":
 			s := caseSuffix{kind: adjective, forms: []string{"i"}}
 			r.make = func(w string, _ Person) (Form, bool) { return applySuffix(w, s) }
@@ -157,6 +173,17 @@ var Rules = func() []Rule {
 			r.make = func(w string, p Person) (Form, bool) { return Present(w, p, false) }
 		case "ww-bep":
 			r.make = func(w string, p Person) (Form, bool) { return Present(w, p, true) }
+		case "ww-felt", "ww-felt-bep":
+			def := r.ID == "ww-felt-bep"
+			r.make = func(w string, p Person) (Form, bool) {
+				inf, ok := Infinitive(w)
+				if !ok {
+					return Form{}, false
+				}
+				return Conditional(w, inf.Text, p, def)
+			}
+		case "ww-felt-mult":
+			r.make = func(w string, p Person) (Form, bool) { return PastConditional(w, p) }
 		case "ww-felsz":
 			r.make = func(w string, p Person) (Form, bool) { return Imperative(w, p, false) }
 		case "ww-felsz-bep":

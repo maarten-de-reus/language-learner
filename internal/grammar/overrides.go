@@ -24,7 +24,8 @@ var formKeys = map[string]formSlot{
 	"ról": {"rol", Sg3}, "nál": {"nal", Sg3}, "hoz": {"hoz", Sg3}, "tól": {"tol", Sg3}, "nak": {"nak", Sg3},
 	"val": {"val", Sg3}, "vá": {"va", Sg3}, "ig": {"ig", Sg3}, "ért": {"ert", Sg3}, "ként": {"kent", Sg3},
 	"t": {"t", Sg3}, "k": {"k", Sg3}, "i": {"i", Sg3}, "inf": {"ww-inf", Sg3},
-	"kor": {"kor", Sg3}, "szor": {"szor", Sg3}, "bb": {"bb", Sg3}, "leg": {"leg", Sg3},
+	"kor":    {"kor", Sg3},
+	"bir-én": {"bir", Sg1}, "bir-te": {"bir", Sg2}, "bir-ő": {"bir", Sg3}, "bir-mi": {"bir", Pl1}, "bir-ti": {"bir", Pl2}, "bir-ők": {"bir", Pl3}, "szor": {"szor", Sg3}, "bb": {"bb", Sg3}, "leg": {"leg", Sg3},
 	"én": {"ww-onbep", Sg1}, "te": {"ww-onbep", Sg2}, "ő": {"ww-onbep", Sg3}, "mi": {"ww-onbep", Pl1},
 	"ti": {"ww-onbep", Pl2}, "ők": {"ww-onbep", Pl3},
 	"bep-én": {"ww-bep", Sg1}, "bep-te": {"ww-bep", Sg2}, "bep-ő": {"ww-bep", Sg3}, "bep-mi": {"ww-bep", Pl1},
@@ -34,6 +35,10 @@ var formKeys = map[string]formSlot{
 	"multbep-én": {"ww-mult-bep", Sg1}, "multbep-te": {"ww-mult-bep", Sg2}, "multbep-ő": {"ww-mult-bep", Sg3},
 	"multbep-mi": {"ww-mult-bep", Pl1}, "multbep-ti": {"ww-mult-bep", Pl2}, "multbep-ők": {"ww-mult-bep", Pl3},
 	"hat": {"ww-hat", Sg3}, "lak": {"ww-lak", Sg3},
+	"felt-én": {"ww-felt", Sg1}, "felt-te": {"ww-felt", Sg2}, "felt-ő": {"ww-felt", Sg3}, "felt-mi": {"ww-felt", Pl1},
+	"felt-ti": {"ww-felt", Pl2}, "felt-ők": {"ww-felt", Pl3},
+	"feltbep-én": {"ww-felt-bep", Sg1}, "feltbep-te": {"ww-felt-bep", Sg2}, "feltbep-ő": {"ww-felt-bep", Sg3},
+	"feltbep-mi": {"ww-felt-bep", Pl1}, "feltbep-ti": {"ww-felt-bep", Pl2}, "feltbep-ők": {"ww-felt-bep", Pl3},
 	"felsz-én": {"ww-felsz", Sg1}, "felsz-te": {"ww-felsz", Sg2}, "felsz-ő": {"ww-felsz", Sg3}, "felsz-mi": {"ww-felsz", Pl1},
 	"felsz-ti": {"ww-felsz", Pl2}, "felsz-ők": {"ww-felsz", Pl3},
 	"felszbep-én": {"ww-felsz-bep", Sg1}, "felszbep-te": {"ww-felsz-bep", Sg2}, "felszbep-ő": {"ww-felsz-bep", Sg3},
@@ -56,7 +61,8 @@ func FormKey(ruleID string, p Person) string {
 
 func isPersonRule(id string) bool {
 	switch id {
-	case "ww-onbep", "ww-bep", "ww-mult", "ww-mult-bep", "ww-hat", "ww-fog", "ww-felsz", "ww-felsz-bep", "pers":
+	case "ww-onbep", "ww-bep", "ww-mult", "ww-mult-bep", "ww-hat", "ww-fog", "ww-felsz", "ww-felsz-bep",
+		"ww-felt", "ww-felt-bep", "ww-felt-mult", "bir", "pers":
 		return true
 	}
 	return false
@@ -119,12 +125,15 @@ func (r Rule) MakeFor(w Word, p Person) (Form, bool) {
 	if _, doubt := w.Doubts[FormKey(r.ID, p)]; doubt {
 		return Form{}, false // iemand twijfelt aan deze vorm: niet oefenen tot het is opgelost
 	}
-	if (r.ID == "ww-bep" || r.ID == "ww-mult-bep" || r.ID == "ww-felsz-bep" || r.ID == "ww-lak") && w.Forms["bep"] == "?" {
+	if (r.ID == "ww-bep" || r.ID == "ww-mult-bep" || r.ID == "ww-felsz-bep" || r.ID == "ww-felt-bep" || r.ID == "ww-lak") && w.Forms["bep"] == "?" {
 		return Form{}, false
 	}
 	// Afgeleid van een afwijkende infinitief of -hat-vorm bij het woord
 	if r.ID == "ww-fog" && w.Forms["inf"] != "" && w.Forms["inf"] != "?" {
 		return Future(w.Forms["inf"], p)
+	}
+	if (r.ID == "ww-felt" || r.ID == "ww-felt-bep") && w.Forms["inf"] != "" && w.Forms["inf"] != "?" {
+		return Conditional(w.Hungarian, w.Forms["inf"], p, r.ID == "ww-felt-bep")
 	}
 	if r.ID == "ww-hat" && p != Sg3 && w.Forms["hat"] != "" {
 		if w.Forms["hat"] == "?" {

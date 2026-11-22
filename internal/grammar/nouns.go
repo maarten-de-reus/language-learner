@@ -167,6 +167,7 @@ var nounExceptions = map[string]nounException{
 	"titok":   {"titkot", "titkok", "titkon", "de o valt weg: titok → titk-"},
 	"fakanál": {"fakanalat", "fakanalak", "", "samenstelling met kanál: de á wordt kort en er komt -a- bij"},
 	"étterem": {"éttermet", "éttermek", "?", "de e valt weg: étterem → étterm-"},
+	"bogár":   {"bogarat", "bogarak", "", "de á wordt kort en er komt -a- bij"},
 	"könyv":   {"könyvet", "könyvek", "", "neemt -e- als verbindingsklinker, niet -ö-"},
 	"föld":    {"földet", "földek", "", "neemt -e- als verbindingsklinker, niet -ö-"},
 	"fül":     {"fület", "fülek", "", "neemt -e- als verbindingsklinker"},
