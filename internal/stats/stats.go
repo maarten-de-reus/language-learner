@@ -16,6 +16,7 @@ import (
 const (
 	ActivityDays  = 30 // dagen in de activiteitsgrafiek
 	ForecastDays  = 14 // dagen in de vooruitblik
+	CalendarDays  = 91 // dagen in de kalender (13 weken)
 	HardestLimit  = 10 // aantal moeilijkste woorden
 	MinRetryCases = 5  // minimaal aantal gevallen voordat het effect van herhalen iets zegt
 	MinLapseStep  = 2  // een woord telt als vergeten vanaf deze stap (7 dagen): daarvoor ben je het nog aan het leren
@@ -40,6 +41,8 @@ type Report struct {
 	Activity   []Day         `json:"activity"`   // laatste ActivityDays dagen, oudste eerst
 	Progress   []ProgressDay `json:"progress"`   // per dag de kaarten per stap, oudste eerst
 	Forecast   []DueDay      `json:"forecast"`   // vandaag (inclusief achterstand) en de dagen erna
+	Calendar   []DueDay      `json:"calendar"`   // hetzelfde, CalendarDays lang
+	Later      Later         `json:"later"`      // herhalingen na de kalender
 	Hardest    []Hard        `json:"hardest"`
 	Retry      RetryEffect   `json:"retry"`
 	Lapses     Lapses        `json:"lapses"`
@@ -52,6 +55,12 @@ type Day struct {
 	Correct int    `json:"correct"`
 	Wrong   int    `json:"wrong"`
 	Retries int    `json:"retries"`
+}
+
+// Later: herhalingen die na de kalender vallen (lange intervallen, beheerste woorden)
+type Later struct {
+	Count int    `json:"count"`
+	Last  string `json:"last,omitempty"` // datum van de verste herhaling
 }
 
 type DueDay struct {
@@ -235,7 +244,8 @@ func Compute(lib *storage.Library, reviews []storage.Review, now time.Time, newP
 			rep.Activity = append(rep.Activity, Day{Date: date})
 		}
 	}
-	rep.Forecast = forecast(lib, today)
+	rep.Calendar, rep.Later = forecast(lib, today, CalendarDays)
+	rep.Forecast = rep.Calendar[:ForecastDays]
 	rep.Progress = progress(lib, reviews, today)
 	rep.Directions = directions(lib, reviews)
 	rep.Hardest = hardest(lib, reviews)
@@ -280,9 +290,10 @@ func streaks(byDay map[string]*Day, today time.Time) (current, longest int) {
 	return current, longest
 }
 
-// forecast telt per dag hoeveel concepten aan de beurt zijn; wat al te laat is telt bij vandaag
-func forecast(lib *storage.Library, today time.Time) []DueDay {
-	out := make([]DueDay, ForecastDays)
+// forecast telt per dag hoeveel concepten aan de beurt zijn, voor days dagen vanaf vandaag; wat al
+// te laat is telt bij vandaag. Wat daarna komt telt in later.
+func forecast(lib *storage.Library, today time.Time, days int) (out []DueDay, later Later) {
+	out = make([]DueDay, days)
 	for i := range out {
 		out[i].Date = today.AddDate(0, 0, i).Format(time.DateOnly)
 	}
@@ -290,12 +301,18 @@ func forecast(lib *storage.Library, today time.Time) []DueDay {
 		if engine.IsNew(c) {
 			continue // nieuwe woorden staan in de wachtrij, nog niet ingepland
 		}
-		i := max(0, engine.DaysBetween(today, engine.DayOf(c.NextReview.In(today.Location()))))
-		if i < ForecastDays {
+		day := engine.DayOf(c.NextReview.In(today.Location()))
+		i := max(0, engine.DaysBetween(today, day))
+		if i < days {
 			out[i].Due++
+			continue
+		}
+		later.Count++
+		if d := day.Format(time.DateOnly); d > later.Last {
+			later.Last = d
 		}
 	}
-	return out
+	return out, later
 }
 
 // directions telt de eerste pogingen per leerrichting; verwijderde concepten tellen niet mee

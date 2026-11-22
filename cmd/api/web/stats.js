@@ -66,15 +66,7 @@ function renderStatistics(r, quiz) {
 
     <section class="sx-card" id="sx-progress">${progressCard(r.progress)}</section>
 
-    <section class="sx-card">
-      <div class="sx-head">
-        <div><h3>Planning: komende 2 weken <span class="sx-tag ahead">vooruitblik</span></h3>
-          <p class="muted">Hoeveel woorden er per dag aan de beurt zijn, van vandaag t/m
-          ${esc(dayLabel(r.forecast[r.forecast.length - 1].date, { weekday: "long", day: "numeric", month: "long" }))}.
-          Wat je nog moet inhalen telt bij vandaag.</p></div>
-      </div>
-      ${forecastChart(r.forecast)}
-    </section>
+    <section class="sx-card">${calendarCard(r)}</section>
 
     <div class="sx-grid">
       <div class="sx-stack">
@@ -108,6 +100,7 @@ function renderStatistics(r, quiz) {
     ${r.skipped ? `<p class="muted sx-note">${r.skipped} onleesbare regel(s) in het antwoordenlog overgeslagen.</p>` : ""}`;
 
   bindCharts();
+  bindCalendar();
   bindProgress(r.progress);
   statsEl.querySelectorAll("[data-word]").forEach((row) => {
     const open = () => {
@@ -192,25 +185,103 @@ function activityChart(activity) {
   });
 }
 
-function forecastChart(forecast) {
-  const peak = forecast.reduce((a, d) => (d.due > a.due ? d : a), forecast[0]);
-  const max = niceMax(peak.due);
-  const cols = forecast.map((d, i) => {
-    const when = i === 0 ? "vandaag" : i === 1 ? "morgen" : dayLabel(d.date, { weekday: "short", day: "numeric", month: "short" });
-    return `<div class="sx-col" data-tip="${esc(`${when}: ${d.due} ${d.due === 1 ? "woord" : "woorden"}`)}">
-      <div class="sx-bar">${d.due ? `<span class="sx-seg due ${d === peak ? "peak" : ""}" style="height:${(d.due / max) * 100}%"></span>` : ""}</div>
-    </div>`;
-  }).join("");
+// ---------- Kalender: herhalingen per dag, 13 weken vooruit ----------
+
+const WEEKDAYS = ["ma", "di", "wo", "do", "vr", "za", "zo"];
+const words = (n) => `${n} ${n === 1 ? "woord" : "woorden"}`;
+
+// calLevel: 0 (niets) t/m 5, oplopend met het aantal herhalingen ten opzichte van de drukste dag
+const calLevel = (n, max) => (n === 0 ? 0 : Math.max(1, Math.ceil((n / max) * 5)));
+
+function calendarCard(r) {
+  const cal = r.calendar;
+  const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  const parse = (s) => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+  const byDate = new Map(cal.map((d) => [d.date, d.due]));
+  const first = parse(cal[0].date);
+  const last = parse(cal[cal.length - 1].date);
+  const max = Math.max(1, ...cal.map((d) => d.due));
+  const peak = cal.reduce((a, d) => (d.due > a.due ? d : a), cal[0]);
+  const total = cal.reduce((a, d) => a + d.due, 0);
+  // De wachtrij met nieuwe woorden: wanneer is die leeg bij de daglimiet?
+  const q = r.queue;
+  const queueEnd = q.waiting && q.days ? iso(new Date(first.getFullYear(), first.getMonth(), first.getDate() + q.days - 1)) : null;
+
+  // Weken van maandag t/m zondag; dagen voor vandaag en na het eind blijven leeg
+  const start = new Date(first.getFullYear(), first.getMonth(), first.getDate() - ((first.getDay() + 6) % 7));
+  const rows = [];
+  for (let d = new Date(start); d <= last; ) {
+    const cells = [];
+    let week = 0;
+    for (let i = 0; i < 7; i++, d = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1)) {
+      const key = iso(d);
+      if (!byDate.has(key)) { cells.push(`<div class="cal-day out" aria-hidden="true"></div>`); continue; }
+      const n = byDate.get(key);
+      week += n;
+      const isToday = key === cal[0].date;
+      const label = isToday ? "vandaag" : dayLabel(key, { weekday: "long", day: "numeric", month: "long" });
+      const day = d.getDate() === 1 || isToday || cells.length === 0 && rows.length === 0
+        ? dayLabel(key, { day: "numeric", month: "short" }) : String(d.getDate());
+      const tip = `${label}: ${n ? words(n) : "niets"}${isToday ? " (met wat je nog moet inhalen)" : ""}${key === queueEnd ? " · wachtrij leeg" : ""}`;
+      cells.push(`<div class="cal-day l${calLevel(n, max)} ${isToday ? "today" : ""} ${key === queueEnd ? "queue-end" : ""}" data-tip="${esc(tip)}">
+        <span class="cal-date">${esc(day)}</span>${n ? `<span class="cal-n">${n}</span>` : ""}</div>`);
+    }
+    rows.push(`${cells.join("")}<div class="cal-week" title="Totaal deze week">${week || ""}</div>`);
+  }
+
+  const later = r.later.count
+    ? `Daarna nog ${words(r.later.count)}, de laatste op ${esc(dayLabel(r.later.last, { day: "numeric", month: "long", year: "numeric" }))}
+       (beheerste woorden komen eens per jaar terug).` : "";
+  const queue = q.waiting
+    ? q.perDay
+      ? `Nieuwe woorden komen er nog bij: ${q.waiting} kaarten in je wachtrij, bij ${q.perDay} per dag is die leeg rond
+         ${esc(dayLabel(queueEnd, { day: "numeric", month: "long" }))}${queueEnd <= cal[cal.length - 1].date ? " (gemarkeerd)" : ""}.
+         Hun herhalingen staan hier nog niet in: die worden pas gepland als je ze voor het eerst doet.`
+      : `Nieuwe woorden komen er nog bij: ${q.waiting} kaarten in je wachtrij, zonder daglimiet.`
+    : "";
 
   return `
-    ${peak.due ? `<p class="sx-callout">Drukste dag: <b>${esc(dayLabel(peak.date, { weekday: "long", day: "numeric", month: "long" }))}</b> met ${peak.due} woorden</p>` : ""}
-    ${chartFrame({
-      cols, max,
-      label: `Komende ${forecast.length} dagen: ${forecast.reduce((a, d) => a + d.due, 0)} herhalingen, het meest op ${dayLabel(peak.date)} (${peak.due}).`,
-      ticks: ticksFor(forecast.map((d) => d.date), 7, "start"),
-      tableHead: ["Dag", "Woorden"],
-      tableRows: forecast.map((d) => [dayLabel(d.date), d.due]),
-    })}`;
+    <div class="sx-head">
+      <div><h3>Kalender: komende 3 maanden <span class="sx-tag ahead">vooruitblik</span></h3>
+        <p class="muted">Herhalingen per dag van woorden die al in je herhalingen zitten: hoe donkerder, hoe drukker.
+        Wat je nog moet inhalen telt bij vandaag. ${total} in totaal.</p></div>
+    </div>
+    ${total ? `<p class="sx-callout">Drukste dag: <b>${esc(dayLabel(peak.date, { weekday: "long", day: "numeric", month: "long" }))}</b> met ${words(peak.due)}</p>` : ""}
+    <div class="cal sx-chart-cal" role="img" aria-label="${esc(`Herhalingen per dag, komende ${cal.length} dagen: ${total} in totaal.`)}">
+      ${WEEKDAYS.map((w) => `<div class="cal-head">${w}</div>`).join("")}<div class="cal-head" title="Totaal per week">week</div>
+      ${rows.join("")}
+      <div class="sx-tip" hidden></div>
+    </div>
+    <ul class="sx-legend cal-legend" aria-hidden="true">
+      <li>minder</li>${[1, 2, 3, 4, 5].map((l) => `<li><span class="cal-swatch l${l}"></span></li>`).join("")}<li>meer</li>
+      ${queueEnd && queueEnd <= cal[cal.length - 1].date ? `<li class="cal-legend-q"><span class="cal-swatch queue-end"></span> wachtrij leeg</li>` : ""}
+    </ul>
+    ${queue ? `<p class="muted cal-note">${queue}</p>` : ""}
+    ${later ? `<p class="muted cal-note">${later}</p>` : ""}
+    <details class="sx-table">
+      <summary>Als tabel</summary>
+      <div class="sx-table-wrap"><table>
+        <thead><tr><th>Dag</th><th>Woorden</th></tr></thead>
+        <tbody>${cal.filter((d) => d.due).map((d) => `<tr><td>${esc(dayLabel(d.date, { weekday: "short", day: "numeric", month: "short" }))}</td><td>${d.due}</td></tr>`).join("")}</tbody>
+      </table></div>
+    </details>`;
+}
+
+// bindCalendar: tooltip boven de dag waar je met de muis op staat
+function bindCalendar(root = statsEl) {
+  root.querySelectorAll(".cal").forEach((cal) => {
+    const tip = cal.querySelector(".sx-tip");
+    cal.querySelectorAll(".cal-day[data-tip]").forEach((day) => {
+      day.addEventListener("mouseenter", () => {
+        tip.textContent = day.dataset.tip;
+        tip.hidden = false;
+        const x = Math.min(Math.max(day.offsetLeft + day.offsetWidth / 2, tip.offsetWidth / 2), cal.offsetWidth - tip.offsetWidth / 2);
+        tip.style.left = `${x}px`;
+        tip.style.top = `${day.offsetTop - 4}px`;
+      });
+      day.addEventListener("mouseleave", () => { tip.hidden = true; });
+    });
+  });
 }
 
 function bindCharts(root = statsEl) {

@@ -298,3 +298,23 @@ func TestProgressPerDay(t *testing.T) {
 		t.Errorf("zonder antwoorden: lege lijst, kreeg %v", p)
 	}
 }
+
+func TestCalendarAndLater(t *testing.T) {
+	lib := testLib()
+	lib.Concepts = append(lib.Concepts,
+		storage.TranslationConcept{ID: "c_ver", SourceWordID: "w_nl_water", TargetWordIDs: []string{"w_hu_viz"}, StepIndex: 5,
+			NextReview: at(24, 4).AddDate(0, 0, 60), FirstReview: at(1, 9)}, // binnen 91 dagen
+		storage.TranslationConcept{ID: "c_jaar", SourceWordID: "w_nl_koffie", TargetWordIDs: []string{"w_hu_kave"}, StepIndex: 6,
+			NextReview: at(24, 4).AddDate(1, 0, 0), FirstReview: at(1, 9)}, // beheerst: over een jaar
+	)
+	rep := Compute(lib, nil, at(24, 12), 20)
+	if len(rep.Calendar) != CalendarDays || rep.Calendar[60].Due != 1 {
+		t.Errorf("kalender: %d dagen, dag 60 = %+v", len(rep.Calendar), rep.Calendar[60])
+	}
+	if rep.Later.Count != 1 || rep.Later.Last != "2027-10-24" {
+		t.Errorf("later: %+v", rep.Later)
+	}
+	if len(rep.Forecast) != ForecastDays || rep.Forecast[0] != rep.Calendar[0] {
+		t.Errorf("de vooruitblik is het begin van de kalender: %+v", rep.Forecast[:1])
+	}
+}
