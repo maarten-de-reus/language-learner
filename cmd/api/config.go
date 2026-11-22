@@ -38,6 +38,9 @@ func (c config) wordsPath() string    { return filepath.Join(c.DataDir, "woorden
 func (c config) progressPath() string { return filepath.Join(c.DataDir, "voortgang.json") }
 func (c config) reviewsPath() string  { return filepath.Join(c.DataDir, "antwoorden.jsonl") }
 func (c config) grammarPath() string  { return filepath.Join(c.DataDir, "regels.jsonl") }
+func (c config) grammarProgressPath() string {
+	return filepath.Join(c.DataDir, "regels-voortgang.json")
+}
 
 func (c config) settingsPath() string { return filepath.Join(c.DataDir, "instellingen.json") }
 func (c config) authEnabled() bool    { return c.AuthUser != "" }

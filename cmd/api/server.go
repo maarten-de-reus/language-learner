@@ -24,8 +24,11 @@ type server struct {
 	settings     storage.Settings
 	grammarPath  string                   // regels.jsonl: antwoorden in de regeloefening
 	grammarLog   []storage.GrammarAttempt // in het geheugen, voor de scores
-	session      *quiz.Session
-	saveError    string
+	// Regels in de herhalingen: de planning per regel (regels-voortgang.json)
+	grammarProgressPath string
+	grammarProgress     map[string]storage.RuleProgress
+	session             *quiz.Session
+	saveError           string
 }
 
 // handle voert een actie uit onder de lock en stuurt daarna de actuele staat terug

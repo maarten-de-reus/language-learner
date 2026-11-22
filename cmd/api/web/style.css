@@ -1003,3 +1003,5 @@ button.rv-form:hover { border-color: var(--bad); }
 .gr-level select { font: inherit; font-size: 14px; padding: 4px 8px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--bg); color: var(--text); }
 .gr-level small { flex-basis: 100%; }
 .gr-not-ready { color: var(--warn); font-weight: 600; }
+.gr-review-list { list-style: none; padding: 0; margin: 10px 0 16px; display: flex; flex-direction: column; gap: 4px; }
+.gr-head .m-actions a.btn { text-decoration: none; }

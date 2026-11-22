@@ -52,6 +52,10 @@ func main() {
 	if err != nil {
 		log.Printf("Regellog niet gelezen: %v", err)
 	}
+	grammarProgress, err := storage.LoadGrammarProgress(cfg.grammarProgressPath())
+	if err != nil {
+		log.Fatalf("Fout bij laden planning van de regels: %v", err)
+	}
 
 	session := quiz.New(lib, cfg.progressPath(), RunSize)
 	session.LogReviewsTo(storage.NewReviewLog(cfg.reviewsPath()))
@@ -60,6 +64,7 @@ func main() {
 		lib: lib, session: session, settings: settings,
 		wordsPath: cfg.wordsPath(), reviewsPath: cfg.reviewsPath(), settingsPath: cfg.settingsPath(),
 		grammarPath: cfg.grammarPath(), grammarLog: grammarLog,
+		grammarProgressPath: cfg.grammarProgressPath(), grammarProgress: grammarProgress,
 	}
 	srv := &http.Server{
 		Addr:              cfg.Addr,
@@ -129,6 +134,8 @@ func (s *server) routes() *http.ServeMux {
 	mux.HandleFunc("GET /api/grammar/exercise", s.handleGrammarExercise)
 	mux.HandleFunc("POST /api/grammar/check", s.handleGrammarCheck)
 	mux.HandleFunc("POST /api/grammar/doubt", s.handleGrammarDoubt)
+	mux.HandleFunc("GET /api/grammar/review", s.handleGrammarReview)
+	mux.HandleFunc("POST /api/grammar/review/{rule}", s.handleGrammarReviewDone)
 	mux.HandleFunc("POST /api/grammar/forms", s.handleGrammarForms)
 	mux.HandleFunc("POST /api/concepts/{id}/doubt", s.handleResolveDoubt)
 

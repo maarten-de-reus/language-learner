@@ -16,6 +16,7 @@ const g = {
   result: null, // nagekeken antwoord
   input: "",
   session: { n: 0, good: 0 },
+  review: null, // regels herhalen: { queue, index, count, correct, size, pass, results }
 };
 
 // De niveaus van de herhalingen (engine.AnkiIntervals), voor "woorden die je kent sinds minstens"
@@ -37,8 +38,14 @@ function scoreClass(s) {
 
 export async function showGrammar() {
   refreshStats();
-  // Vanuit de feedback in Oefenen of Kaarten: #regels/ww-onbep opent die regel
+  // Vanuit de feedback in Oefenen of Kaarten: #regels/ww-onbep opent die regel.
+  // Vanuit Oefenen (knop Regels): #regels/herhalen herhaalt de regels die aan de beurt zijn.
   const wanted = decodeURIComponent(location.hash.split("/")[1] ?? "");
+  if (wanted === "herhalen") {
+    if (g.review && g.view === "practice" && g.ex) return renderPractice();
+    return startReview();
+  }
+  g.review = null;
   if (wanted) {
     g.open.add(wanted);
     Object.assign(g, { view: "overview", ex: null });
@@ -161,12 +168,97 @@ function bindOverview() {
 
 // ---------- Oefenen ----------
 
+// ---------- Regels herhalen (de derde modus van Oefenen) ----------
+
+async function startReview() {
+  grammarEl.innerHTML = `<div class="skeleton"></div>`;
+  let rv;
+  try {
+    [g.data, rv] = await Promise.all([api("GET", "/api/grammar"), api("GET", "/api/grammar/review")]);
+  } catch (err) {
+    grammarEl.innerHTML = `<p class="error">Kon de regels niet laden: ${esc(err.message)}</p>`;
+    return;
+  }
+  if (!rv.due.length) return renderReviewDone(rv, []);
+  g.review = { queue: rv.due, index: 0, size: rv.size, pass: rv.pass, perDay: rv.perDay, doneToday: rv.doneToday, results: [] };
+  startReviewRule();
+}
+
+function startReviewRule() {
+  const r = g.review;
+  Object.assign(r, { count: 0, correct: 0 });
+  Object.assign(g, { onlyRule: r.queue[r.index].id, session: { n: 0, good: 0 }, ex: null });
+  nextExercise();
+}
+
+// finishReviewRule: de opgaven van deze regel zijn klaar; planning bijwerken en uitslag tonen
+async function finishReviewRule() {
+  const r = g.review;
+  const rule = r.queue[r.index];
+  let res;
+  try {
+    res = await api("POST", `/api/grammar/review/${encodeURIComponent(rule.id)}`, { correct: r.correct });
+  } catch (err) {
+    toast(err.message);
+    return;
+  }
+  r.results.push({ rule, correct: r.correct, size: r.size, ...res });
+  refreshStats();
+  const last = r.index + 1 >= r.queue.length;
+  const when = res.passed ? (res.interval === 1 ? "morgen weer" : `over ${res.interval} dagen weer`) : "morgen nog een keer";
+  g.view = "between";
+  grammarEl.innerHTML = `
+    <article class="card gr-review-step">
+      <div class="feedback ${res.passed ? "good" : "bad"}" role="status">
+        <span class="icon" aria-hidden="true">${res.passed ? "✓" : "✕"}</span>
+        <div>
+          <strong lang="hu">${esc(rule.name)}</strong>
+          <p>${r.correct} van ${r.size} goed · ${when}</p>
+          ${res.passed ? "" : `<p class="muted">Bij ${r.pass} of meer goed gaat een regel een stap verder; anders komt hij morgen terug.</p>`}
+        </div>
+      </div>
+      <div class="next-row">
+        <button class="btn block" id="gr-review-next" type="button">${last ? "Klaar" : `Volgende regel (${r.index + 2} van ${r.queue.length})`}</button>
+      </div>
+    </article>`;
+  const next = document.getElementById("gr-review-next");
+  next.focus();
+  next.addEventListener("click", () => {
+    if (last) return renderReviewDone(null, r.results);
+    r.index++;
+    startReviewRule();
+  });
+}
+
+function renderReviewDone(rv, results) {
+  g.review = null;
+  g.view = "between";
+  const passed = results.filter((x) => x.passed).length;
+  grammarEl.innerHTML = `
+    <article class="card gr-head">
+      <h2>Regels herhalen</h2>
+      ${results.length
+        ? `<p>${results.length} ${results.length === 1 ? "regel" : "regels"} herhaald, ${passed} een stap verder.</p>
+           <ul class="gr-review-list">${results.map((x) => `<li>${x.passed ? "✓" : "✕"} <span lang="hu">${esc(x.rule.name)}</span>
+             <span class="muted">${x.correct} van ${x.size} goed · ${x.passed ? `over ${x.interval} ${x.interval === 1 ? "dag" : "dagen"}` : "morgen"}</span></li>`).join("")}</ul>`
+        : `<p class="muted">${rv && rv.doneToday >= rv.perDay
+            ? `Je hebt vandaag al ${rv.doneToday} regels herhaald (het maximum per dag). Morgen meer.`
+            : "Er zijn nu geen regels aan de beurt. Regels die aan staan en klaar zijn komen hier vanzelf, net als je woorden."}</p>`}
+      <div class="m-actions">
+        <a class="btn secondary" href="#regels">Naar Regels</a>
+        <a class="btn" href="#oefenen">Terug naar Oefenen</a>
+      </div>
+    </article>`;
+}
+
 async function startPractice(onlyRule) {
+  g.review = null;
   Object.assign(g, { onlyRule, session: { n: 0, good: 0 }, ex: null });
   await nextExercise();
 }
 
 async function nextExercise() {
+  if (g.review && g.review.count >= g.review.size) return finishReviewRule();
   const params = new URLSearchParams();
   if (g.onlyRule) params.set("rule", g.onlyRule);
   if (g.ex) params.set("avoid", g.ex.word);
@@ -206,8 +298,10 @@ function renderPractice() {
   const r = g.result;
   grammarEl.innerHTML = `
     <div class="run-progress gr-progress">
-      <span>${g.onlyRule ? `Alleen ${esc(rule.name)}` : "Regels oefenen"}</span>
-      <span class="run-count">${g.session.n ? `${g.session.good} van ${g.session.n} goed` : ""}</span>
+      <span>${g.review ? `Regels herhalen · regel ${g.review.index + 1} van ${g.review.queue.length}`
+        : g.onlyRule ? `Alleen ${esc(rule.name)}` : "Regels oefenen"}</span>
+      <span class="run-count">${g.review ? `opgave ${Math.min(g.review.count + (g.result ? 0 : 1), g.review.size)} van ${g.review.size}`
+        : g.session.n ? `${g.session.good} van ${g.session.n} goed` : ""}</span>
       <button type="button" class="linklike" id="gr-stop">Stoppen</button>
     </div>
     <article class="card gr-card">
@@ -259,6 +353,12 @@ function feedbackHTML(r, rule) {
 
 function bindPractice() {
   document.getElementById("gr-stop").addEventListener("click", () => {
+    if (g.review) {
+      // Een half afgemaakte herhaling telt niet: de regel blijft aan de beurt
+      g.review = null;
+      location.hash = "#oefenen";
+      return;
+    }
     if (g.session.n) toast(`${g.session.good} van ${g.session.n} goed`);
     showOverview();
   });
@@ -313,6 +413,10 @@ async function check(value, unknown = false) {
   }
   g.session.n++;
   if (g.result.correct) g.session.good++;
+  if (g.review) {
+    g.review.count++;
+    if (g.result.correct) g.review.correct++;
+  }
   // De score in het overzicht meteen bijwerken
   const rule = ruleById(g.ex.rule);
   if (rule) rule.score = g.result.score;

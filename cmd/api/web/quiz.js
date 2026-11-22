@@ -53,7 +53,7 @@ async function act(path, body) {
 export async function refreshStats() {
   try {
     const st = await api("GET", "/api/state");
-    renderStats(st.stats);
+    renderStats(st.stats, st.rulesDue);
   } catch { /* statistiek is bijzaak */ }
 }
 
@@ -65,19 +65,22 @@ export async function showQuiz() {
 
 // ---------- Stats ----------
 
-// Herhalen of nieuwe woorden leren: twee knoppen boven de kaart, met wat er vandaag nog kan
-function renderModes(stats) {
+// Herhalen, nieuwe woorden leren of regels herhalen: knoppen boven de kaart, met wat er vandaag
+// nog kan. Regels herhalen gebeurt in het tabblad Regels.
+function renderModes(stats, rulesDue = 0) {
   const el = document.getElementById("mode-switch");
   const option = (mode, label, n) => `
     <button type="button" class="mode ${stats.mode === mode ? "active" : ""}" data-mode="${mode}" aria-pressed="${stats.mode === mode}">
       ${label} <span class="mode-count">${n}</span></button>`;
-  el.innerHTML = option("review", "Herhalen", stats.due) + option("new", "Nieuwe woorden", stats.dueNew);
+  el.innerHTML = option("review", "Herhalen", stats.due) + option("new", "Nieuwe woorden", stats.dueNew) +
+    `<button type="button" class="mode" id="mode-rules" title="Grammaticaregels die aan de beurt zijn">Regels <span class="mode-count">${rulesDue}</span></button>`;
   el.querySelectorAll("[data-mode]").forEach((b) =>
     b.addEventListener("click", () => act("/api/mode", { mode: b.dataset.mode })));
+  document.getElementById("mode-rules").addEventListener("click", () => { location.hash = "#regels/herhalen"; });
 }
 
-export function renderStats(stats) {
-  renderModes(stats);
+export function renderStats(stats, rulesDue = 0) {
+  renderModes(stats, rulesDue);
   // Op het tabblad Controleren: hoeveel kaarten in de wachtrij nog op controle wachten
   const rvCount = document.getElementById("rv-count");
   rvCount.textContent = stats.newUnverified;
@@ -361,7 +364,7 @@ function renderDone() {
 // ---------- Main render ----------
 
 function render() {
-  renderStats(state.stats);
+  renderStats(state.stats, state.rulesDue);
 
   if (state.saveError) {
     errorBox.textContent = state.saveError;

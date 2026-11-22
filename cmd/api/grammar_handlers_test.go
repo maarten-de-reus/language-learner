@@ -148,3 +148,37 @@ func TestGrammarLevel(t *testing.T) {
 		t.Errorf("niet klaar: %d %s", code, out)
 	}
 }
+
+func TestGrammarReviewFlow(t *testing.T) {
+	s, h := newTestServer(t)
+	fewKnownWords(t, s)
+	s.grammarProgressPath = filepath.Join(t.TempDir(), "regels-voortgang.json")
+	call(t, h, "PUT", "/api/concepts/c_nl_hu_weer", `{"answers":["idő"],"wordType":"zn"}`)
+	call(t, h, "PUT", "/api/grammar/active", `{"active":["ban","t"]}`)
+
+	code, out := call(t, h, "GET", "/api/state", "")
+	if code != http.StatusOK || string(out["rulesDue"]) != "2" {
+		t.Fatalf("twee nieuwe regels aan de beurt: %d %s", code, out["rulesDue"])
+	}
+	code, out = call(t, h, "GET", "/api/grammar/review", "")
+	if code != http.StatusOK || !strings.Contains(string(out["due"]), `"id":"ban"`) || string(out["size"]) != "5" {
+		t.Fatalf("herhaling: %d %s", code, out)
+	}
+	// -ban/-ben: 5 van 5 goed -> stap 0 (morgen), niet meer aan de beurt vandaag
+	code, out = call(t, h, "POST", "/api/grammar/review/ban", `{"correct":5}`)
+	if code != http.StatusOK || string(out["passed"]) != "true" || string(out["step"]) != "0" {
+		t.Fatalf("klaar met ban: %d %s", code, out)
+	}
+	if saved, _ := storage.LoadGrammarProgress(s.grammarProgressPath); saved["ban"].FirstReview.IsZero() {
+		t.Errorf("planning niet opgeslagen: %+v", saved)
+	}
+	if _, out := call(t, h, "GET", "/api/state", ""); string(out["rulesDue"]) != "1" {
+		t.Errorf("nog één regel aan de beurt, kreeg %s", out["rulesDue"])
+	}
+	if code, _ := call(t, h, "POST", "/api/grammar/review/soep", `{"correct":5}`); code != http.StatusBadRequest {
+		t.Errorf("onbekende regel: verwacht 400, kreeg %d", code)
+	}
+	if code, _ := call(t, h, "POST", "/api/grammar/review/t", `{"correct":9}`); code != http.StatusBadRequest {
+		t.Errorf("meer goed dan opgaven: verwacht 400, kreeg %d", code)
+	}
+}

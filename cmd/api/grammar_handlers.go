@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"hungarian-language-learner/internal/catalog"
+	"hungarian-language-learner/internal/engine"
 	"hungarian-language-learner/internal/grammar"
 	"hungarian-language-learner/internal/storage"
 )
@@ -299,4 +300,73 @@ func (s *server) handleGrammarForms(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	writeJSON(w, http.StatusOK, map[string]map[string]wordForms{"forms": out})
+}
+
+// ---------- Regels in de herhalingen ----------
+
+func (s *server) dueRules() ([]grammar.DueRule, int) {
+	if s.grammarProgress == nil {
+		s.grammarProgress = map[string]storage.RuleProgress{}
+	}
+	return grammar.DueRules(s.knownWords(), s.activeRules(), s.grammarProgress, time.Now())
+}
+
+// rulesDue: hoeveel regels er vandaag aan de beurt zijn (voor de knop in Oefenen)
+func (s *server) rulesDue() int {
+	due, _ := s.dueRules()
+	return len(due)
+}
+
+type grammarReviewView struct {
+	Due       []grammar.DueRule `json:"due"`
+	DoneToday int               `json:"doneToday"`
+	PerDay    int               `json:"perDay"`
+	Size      int               `json:"size"`      // opgaven per regel
+	Pass      int               `json:"pass"`      // zoveel goed om een stap verder te gaan
+	Intervals [7]int            `json:"intervals"` // dagen per stap
+}
+
+func (s *server) handleGrammarReview(w http.ResponseWriter, r *http.Request) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	due, done := s.dueRules()
+	writeJSON(w, http.StatusOK, grammarReviewView{Due: due, DoneToday: done, PerDay: grammar.RulesPerDay,
+		Size: grammar.ReviewSize, Pass: grammar.PassCorrect, Intervals: engine.AnkiIntervals})
+}
+
+// handleGrammarReviewDone: een herhaling van een regel is klaar (zoveel van de opgaven goed)
+func (s *server) handleGrammarReviewDone(w http.ResponseWriter, r *http.Request) {
+	var req struct {
+		Correct int `json:"correct"`
+	}
+	if !decode(w, r, &req) {
+		return
+	}
+	id := r.PathValue("rule")
+	if _, ok := grammar.RuleByID(id); !ok || req.Correct < 0 || req.Correct > grammar.ReviewSize {
+		writeError(w, http.StatusBadRequest, errors.New("deze herhaling bestaat niet"))
+		return
+	}
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if s.grammarProgress == nil {
+		s.grammarProgress = map[string]storage.RuleProgress{}
+	}
+	old, had := s.grammarProgress[id]
+	next, passed := grammar.ApplyReview(old, req.Correct, time.Now())
+	s.grammarProgress[id] = next
+	if s.grammarProgressPath != "" {
+		if err := storage.SaveGrammarProgress(s.grammarProgressPath, s.grammarProgress); err != nil {
+			if had {
+				s.grammarProgress[id] = old
+			} else {
+				delete(s.grammarProgress, id)
+			}
+			writeError(w, http.StatusInternalServerError, errors.New("planning niet opgeslagen: "+err.Error()))
+			return
+		}
+	}
+	due, _ := s.dueRules()
+	writeJSON(w, http.StatusOK, map[string]any{"passed": passed, "step": next.Step, "nextReview": next.NextReview,
+		"interval": engine.AnkiIntervals[next.Step], "due": due})
 }

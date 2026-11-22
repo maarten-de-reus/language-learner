@@ -19,7 +19,7 @@ export async function showStatistics() {
   try {
     const [report, quiz] = await Promise.all([api("GET", "/api/stats"), api("GET", "/api/state")]);
     renderStatistics(report, quiz.stats);
-    renderStats(quiz.stats);
+    renderStats(quiz.stats, quiz.rulesDue);
   } catch (err) {
     statsEl.innerHTML = `<p class="error">Kon de statistiek niet laden: ${esc(err.message)}</p>`;
   }
