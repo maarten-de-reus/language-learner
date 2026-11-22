@@ -962,3 +962,4 @@ button.rv-form:hover { border-color: var(--bad); }
 .diff-word .d-sub { color: var(--bad); }
 .diff-word .d-acc { color: var(--warn); }
 .diff-word .d-extra { color: var(--bad); text-decoration: line-through; font-weight: 400; opacity: .8; }
+.fc-only-new { margin-top: 10px; }

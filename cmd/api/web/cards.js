@@ -22,6 +22,7 @@ const fc = {
   setKey: null,
   dir: "hu-nl",
   mode: "flip",
+  onlyNew: false, // alleen woorden die je nog niet bij Oefenen hebt gehad (geen van beide richtingen)
   queue: [], // kaarten die nog moeten; de eerste is de huidige
   flipped: false,
   result: null, // typen: uitslag van het nakijken van de huidige kaart
@@ -57,6 +58,10 @@ function fcDeck(set, dir) {
     if (used.has(e.id)) continue;
     const reverse = (e.reverse || []).map((id) => byId.get(id)).filter(Boolean);
     const options = [e, ...reverse];
+    if (fc.onlyNew && options.some((o) => !o.new)) {
+      for (const o of options) used.add(o.id);
+      continue; // een van de richtingen is al eens bij Oefenen gevraagd
+    }
     let card;
     if (dir === "mixed") card = options[Math.floor(Math.random() * options.length)];
     else card = options.find((o) => `${o.from}-${o.to}` === dir) ?? e;
@@ -75,7 +80,7 @@ function shuffle(list) {
 }
 
 function fcRemember() {
-  try { localStorage.setItem("fc-choice", JSON.stringify({ setKey: fc.setKey, dir: fc.dir, mode: fc.mode })); } catch { /* geen opslag */ }
+  try { localStorage.setItem("fc-choice", JSON.stringify({ setKey: fc.setKey, dir: fc.dir, mode: fc.mode, onlyNew: fc.onlyNew })); } catch { /* geen opslag */ }
 }
 
 function fcRecall() {
@@ -99,6 +104,7 @@ export async function showCards() {
   const saved = fcRecall();
   fc.dir = FC_DIRECTIONS.some((d) => d.key === saved.dir) ? saved.dir : fc.dir;
   fc.mode = FC_MODES.some((m) => m.key === saved.mode) ? saved.mode : fc.mode;
+  fc.onlyNew = saved.onlyNew === true;
   const count = (s) => fcDeck(s, "hu-nl").length;
   if (!sets.some((s) => s.key === fc.setKey && count(s) > 0)) {
     // Standaard: wat nieuw binnenkomt, anders wat je fout had, anders alles
@@ -143,6 +149,8 @@ function fcRenderSetup() {
       <div class="fc-options" role="radiogroup" aria-label="Welke woorden">${quick.map(setChip).join("")}</div>
       ${groups.length ? `<div class="fc-options fc-groups" role="radiogroup" aria-label="Groepen">
         <span class="muted">Groepen:</span>${groups.map(setChip).join("")}</div>` : ""}
+      <label class="m-radio fc-only-new"><input type="checkbox" id="fc-only-new" ${fc.onlyNew ? "checked" : ""}>
+        <span>Alleen nog niet geoefend <small class="muted">woorden die je nog niet bij Oefenen hebt gehad (in geen van beide richtingen)</small></span></label>
 
       <div class="fc-row">
         ${segmented("Richting", FC_DIRECTIONS, fc.dir, "data-dir")}
@@ -155,6 +163,7 @@ function fcRenderSetup() {
 
   cardsEl.querySelectorAll("[data-set]").forEach((b) =>
     b.addEventListener("click", () => { fc.setKey = b.dataset.set; fcRemember(); fcRenderSetup(); }));
+  document.getElementById("fc-only-new").addEventListener("change", (e) => { fc.onlyNew = e.target.checked; fcRemember(); fcRenderSetup(); });
   cardsEl.querySelectorAll("[data-dir]").forEach((b) =>
     b.addEventListener("click", () => { fc.dir = b.dataset.dir; fcRemember(); fcRenderSetup(); }));
   cardsEl.querySelectorAll(".fc-choice [data-mode]").forEach((b) =>
