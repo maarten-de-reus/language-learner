@@ -99,6 +99,10 @@ var Rules = func() []Rule {
 		{ID: "ww-bep", Group: "Werkwoorden", Name: "Tegenwoordige tijd, bepaald", Meaning: "ik lees het …", WordType: "ww", Persons: true, Example: "olvas → olvasom, olvassa",
 			Explain: "Met een bepaald lijdend voorwerp (a könyvet): achter: -om, -od, -ja, -juk, -játok, -ják; voor: -em, -ed, -i, -jük, -itek, -ik (rond: -öm, -öd).\n" +
 				"Na s, sz en z wordt de j gelijk aan die medeklinker: olvas + ja → olvassa, néz + jük → nézzük. Werkwoorden zonder lijdend voorwerp (megy, lakik) hebben geen bepaalde vervoeging."},
+		{ID: "ww-lak", Group: "Werkwoorden", Name: "-lak/-lek", Meaning: "ik … jou", WordType: "ww", Example: "lát → látlak, szeret → szeretlek",
+			Explain: "Doe ík iets met jóu, dan is er één vorm: -lak (achter) of -lek (voor) achter de stam: látlak (ik zie je), szeretlek (ik hou van je), várlak (ik wacht op je).\n" +
+				"Na -ít of twee medeklinkers met verbindingsklinker: tanítalak, értelek, mondalak. Een stam op -ll krijgt geen derde l: hallak.\n" +
+				"Alleen bij werkwoorden met een lijdend voorwerp (niet bij megy, lakik)."},
 		{ID: "ww-mult", Group: "Werkwoorden", Name: "Verleden tijd, onbepaald", Meaning: "ik las, jij las …", WordType: "ww", Persons: true, Example: "tanul → tanultam, olvas → olvasott",
 			Explain: "Verleden tijd: -t- achter de stam, dan de uitgang: én -am/-em, te -ál/-él, mi -unk/-ünk, ti -atok/-etek, ők -ak/-ek (tanultam, tanultál, tanultunk, tanultatok, tanultak; néztem, néztél).\n" +
 				"Na -ít, na medeklinker + t (ért, tart, fest) en bij korte stammen op -t (fut) komt er overal -ott/-ett/-ött tussen: tanítottam, értettem, futottam.\n" +
@@ -111,6 +115,12 @@ var Rules = func() []Rule {
 		{ID: "ww-hat", Group: "Werkwoorden", Name: "-hat/-het", Meaning: "kunnen, mogen", WordType: "ww", Persons: true, Example: "olvas → olvashat, néz → nézhet",
 			Explain: "-hat (achter) of -het (voor) achter de stam, daarna vervoegd als gewoon werkwoord: olvashatok, olvashatsz, olvashat, olvashatunk, olvashattok, olvashatnak.\n" +
 				"Onregelmatig: van/lesz → lehet, megy → mehet, jön → jöhet, eszik → ehet, iszik → ihat, tesz → tehet, vesz → vehet, visz → vihet, hisz → hihet, alszik → alhat."},
+		{ID: "ww-felsz", Group: "Werkwoorden", Name: "Gebiedende wijs", Meaning: "lees!, laten we lezen …", WordType: "ww", Persons: true, Example: "tanul → tanulj!, olvas → olvass!",
+			Explain: "Er komt een j tussen stam en uitgang: én -jak/-jek, te -j (of -jál/-jél), ő -jon/-jen/-jön, mi -junk/-jünk, ti -jatok/-jetek, ők -janak/-jenek (tanuljak, tanulj, tanuljon …). Ook na hogy: azt akarom, hogy tanulj.\n" +
+				"De j smelt samen met de laatste medeklinker: na s, sz, z wordt hij die medeklinker (olvass, nézz, játssz); klinker + t wordt ss (láss, fizess); -ít en medeklinker + t worden ts (taníts, érts); st wordt ss (fess).\n" +
+				"Onregelmatig: van/lesz → legyen, megy → menj, jön → gyere/gyertek, eszik → egyél, iszik → igyál, tesz → tegyél, vesz → vegyél, visz → vigyél, hisz → higgyél."},
+		{ID: "ww-felsz-bep", Group: "Werkwoorden", Name: "Gebiedende wijs, bepaald", Meaning: "lees het! …", WordType: "ww", Persons: true, Example: "olvas → olvasd!, néz → nézd!",
+			Explain: "Met een bepaald lijdend voorwerp: én -jam/-jem, te kort -d (olvasd, nézd, tanuld, lásd, tanítsd) of lang -jad/-jed, ő -ja/-je, mi -juk/-jük, ti -játok/-jétek, ők -ják/-jék, met dezelfde samensmelting van de j (olvassa, nézze, tanítsa). Onregelmatig: edd, idd, tedd, vedd, vidd, hidd."},
 		{ID: "ww-inf", Group: "Werkwoorden", Name: "Infinitief", Meaning: "lezen, wonen …", WordType: "ww", Example: "olvas → olvasni, tanít → tanítani",
 			Explain: "Stam + -ni (olvasni, lakni). Na -ít of twee medeklinkers komt er een verbindingsklinker: -ani/-eni (tanítani, mondani, érteni). -ni zelf doet niet mee aan klinkerharmonie.\n" +
 				"Onregelmatig: van/lesz → lenni, megy → menni, eszik → enni, iszik → inni, tesz → tenni, vesz → venni, visz → vinni, hisz → hinni, alszik → aludni."},
@@ -147,6 +157,12 @@ var Rules = func() []Rule {
 			r.make = func(w string, p Person) (Form, bool) { return Present(w, p, false) }
 		case "ww-bep":
 			r.make = func(w string, p Person) (Form, bool) { return Present(w, p, true) }
+		case "ww-felsz":
+			r.make = func(w string, p Person) (Form, bool) { return Imperative(w, p, false) }
+		case "ww-felsz-bep":
+			r.make = func(w string, p Person) (Form, bool) { return Imperative(w, p, true) }
+		case "ww-lak":
+			r.make = func(w string, _ Person) (Form, bool) { return Lak(w) }
 		case "ww-mult":
 			r.make = func(w string, p Person) (Form, bool) { return Past(w, p, false) }
 		case "ww-mult-bep":

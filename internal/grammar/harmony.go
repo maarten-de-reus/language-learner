@@ -52,6 +52,14 @@ func HarmonyOf(word string) (h Harmony, mixed bool, why string) {
 	if h, ok := harmonyExceptions[w]; ok {
 		return h, false, w + " is een uitzondering: " + h.String()
 	}
+	// Met voorvoegsel: felhív en megír volgen hív en ír, niet de e van fel-/meg-
+	for _, p := range prefixes {
+		if rest := strings.TrimPrefix(w, p); rest != w {
+			if h, ok := harmonyExceptions[rest]; ok {
+				return h, false, rest + " is een uitzondering: " + h.String() + " (ook met " + p + "-)"
+			}
+		}
+	}
 	for _, part := range frontFinalParts {
 		if strings.HasSuffix(w, part) && w != part && hasAny(strings.TrimSuffix(w, part), backVowels) {
 			return Front, false, "samenstelling: het laatste deel (" + part + ") beslist"

@@ -57,12 +57,13 @@ var intransitive = map[string]bool{
 	"táncol": true, "fordul": true, "jár": true, "nyaral": true, "pihen": true, "ebédel": true,
 	"vacsorázik": true, "reggelizik": true, "koncentrál": true, "dönt": true, "tankol": true,
 	"áll": true, "száll": true, "fut": true, "ül": true, "siet": true, "lehet": true, "kell": true,
-	"mosolyog": true, "örül": true,
+	"mosolyog": true, "örül": true, "repül": true, "kiabál": true, "telefonál": true, "sportol": true,
+	"sír": true, "nevet": true, "fél": true, "ér": true,
 }
 var transitiveIk = map[string]bool{"eszik": true, "iszik": true, "játszik": true}
 
 // Woorden die als werkwoord in je lijst staan maar niet te vervoegen zijn
-var notConjugated = map[string]bool{"nincs": true, "lehet": true, "kell": true, "szabad": true, "tilos": true}
+var notConjugated = map[string]bool{"nincs": true, "lehet": true, "kell": true, "szabad": true, "tilos": true, "szokott": true}
 
 // Voorvoegsels: elmegy vervoegt als megy, met el- ervoor
 var prefixes = []string{"vissza", "tovább", "össze", "végig", "haza", "újra", "szét", "meg", "fel", "föl", "oda", "ide", "át", "el", "le", "ki", "be", "rá"}

@@ -112,6 +112,8 @@ func TestPresentIndefinite(t *testing.T) {
 		"tesz":       {"teszek", "teszel", "tesz", "teszünk", "tesztek", "tesznek"},
 		"kezd":       {"kezdek", "kezdesz", "kezd", "kezdünk", "kezdtek", "kezdenek"},
 		"fest":       {"festek", "festesz", "fest", "festünk", "festetek", "festenek"},
+		"felhív":     {"felhívok", "felhívsz", "felhív", "felhívunk", "felhívtok", "felhívnak"},
+		"megír":      {"megírok", "megírsz", "megír", "megírunk", "megírtok", "megírnak"},
 	} {
 		for p, form := range want {
 			f, ok := Present(verb, Person(p), false)

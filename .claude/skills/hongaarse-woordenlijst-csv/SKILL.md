@@ -9,7 +9,7 @@ Gebruik dit wanneer de gebruiker een Hongaarse woordenlijst, glossary-PDF of les
 
 De app leert woorden alleen in hun basisvorm en maakt de andere vormen (naamvallen, meervoud, vervoegingen) zelf met regels, in het tabblad Regels. Dit bestand levert daarom: de basisvormen, hun woordsoort, en per woord de vormen waar die regels de mist in zouden gaan.
 
-Deze skill volgt de regels in de app (`internal/grammar`, stand 2026-11-21, versie 4: verleden tijd, toekomende tijd met fog, -hat/-het). Komt er logica bij in de app, dan wordt deze skill bijgewerkt.
+Deze skill volgt de regels in de app (`internal/grammar`, stand 2026-11-21, versie 5: -lak/-lek, gebiedende wijs). Komt er logica bij in de app, dan wordt deze skill bijgewerkt.
 
 ## Bestand
 - CSV, scheidingsteken puntkomma `;`, UTF-8.
@@ -42,7 +42,7 @@ Deze skill volgt de regels in de app (`internal/grammar`, stand 2026-11-21, vers
 - Neem van elk werkwoord alleen de infinitief en de 3e persoon enkelvoud op, elk als eigen regel. De app maakt de andere personen zelf uit de 3e persoon.
   - Infinitief -> Nederlandse infinitief (főzni = koken).
   - 3e persoon enkelvoud -> Nederlandse 3e persoon enkelvoud zonder voornaamwoord (alszik = slaapt, megy = gaat).
-- Andere vervoegde vormen (mondok, beszélsz, mosolygunk, olvasott, mentem, olvashat, fogok, ...) niet opnemen; zet ze om naar het werkwoord en neem dan de infinitief en 3e persoon enkelvoud op. De app maakt de tegenwoordige en verleden tijd, de toekomende tijd met fog en -hat/-het zelf. Alleen *lehet* (kan, het is mogelijk) blijft als eigen woord.
+- Andere vervoegde vormen (mondok, beszélsz, mosolygunk, olvasott, mentem, olvashat, fogok, szeretlek, olvass, menj, gyere, legyen, ...) niet opnemen; zet ze om naar het werkwoord en neem dan de infinitief en 3e persoon enkelvoud op. De app maakt de tegenwoordige en verleden tijd, de toekomende tijd met fog, -hat/-het, -lak/-lek en de gebiedende wijs zelf. Alleen *lehet* (kan, het is mogelijk) blijft als eigen woord.
 - Wederkerend 'zich' vervalt als dat nodig is (fejlődik = ontwikkelt).
 - Neem altijd **allebei** op, ook als het bronmateriaal er maar één geeft: de app vervoegt vanuit de 3e persoon, en de import waarschuwt als een werkwoord zonder partner binnenkomt. Let op -ik-werkwoorden: dolgozni → dolgozik, esni → esik, reggelizni → reggelizik.
 - Context altijd in de vaste vorm (zie kolom 3), woordsoort `ww` bij allebei. De app zet werkwoorden zelf in de groep Werkwoorden.
@@ -90,7 +90,7 @@ Leeg, tenzij de regels van de app (hieronder) voor dit woord een verkeerde vorm 
 - Zelfstandige naamwoorden: `t` (lijdend voorwerp), `k` (meervoud), `ban`, `ba`, `ból`, `on` (de -n/-on/-en/-ön-vorm), `ra`, `ról`, `nál`, `hoz`, `tól`, `nak`, `val`, `vá`, `ig`, `ért`, `ként`, `i` (bijvoeglijk op -i), `kor`.
 - Bijvoeglijke naamwoorden: `bb` (vergrotende trap), `leg` (overtreffende trap).
 - Telwoorden: `szor` (… keer).
-- Werkwoorden (uit de 3e persoon): `inf` (infinitief); onbepaald `én`, `te`, `ő`, `mi`, `ti`, `ők`; bepaald `bep-én`, `bep-te`, `bep-ő`, `bep-mi`, `bep-ti`, `bep-ők`; verleden tijd `mult-én` … `mult-ők` en bepaald `multbep-én` … `multbep-ők`; `hat` (de -hat/-het-vorm, bijv. `hat=lehet`); en `bep=?` voor een werkwoord zonder lijdend voorwerp (geen bepaalde vervoeging in de tegenwoordige én de verleden tijd, bijv. sétál, marad). De toekomende tijd volgt uit `inf`.
+- Werkwoorden (uit de 3e persoon): `inf` (infinitief); onbepaald `én`, `te`, `ő`, `mi`, `ti`, `ők`; bepaald `bep-én`, `bep-te`, `bep-ő`, `bep-mi`, `bep-ti`, `bep-ők`; verleden tijd `mult-én` … `mult-ők` en bepaald `multbep-én` … `multbep-ők`; `hat` (de -hat/-het-vorm, bijv. `hat=lehet`); `lak` (ik … jou); gebiedende wijs `felsz-én` … `felsz-ők` en bepaald `felszbep-én` … `felszbep-ők`; en `bep=?` voor een werkwoord zonder lijdend voorwerp (geen bepaalde vervoeging, geen bepaalde gebiedende wijs en geen -lak, bijv. sétál, marad). De toekomende tijd volgt uit `inf`.
 
 **Wat de app zelf al goed doet (dan kolom 6 leeg laten)**
 
@@ -138,7 +138,13 @@ Voorbeelden zoals de app ze maakt:
 
 *Toekomende tijd en -hat/-het.* fog + infinitief (olvasni fogok / fogok olvasni), dus alleen een afwijkende `inf` doet ertoe. -hat (achter) / -het (voor) achter de stam, daarna als gewoon werkwoord vervoegd (olvashatok, nézhettek). Onregelmatig bekend: van/lesz → lehet, megy → mehet, jön → jöhet, eszik → ehet, iszik → ihat, tesz → tehet, vesz → vehet, visz → vihet, hisz → hihet, alszik → alhat, fekszik → fekhet. Een ander werkwoord met een onregelmatige stam: `hat=…`.
 
-Onregelmatige werkwoorden die de app kent (ook met voorvoegsel, elmegy = el + megy): van, lesz, megy, jön, eszik, iszik, alszik, fekszik, haragszik, tesz, vesz, visz, hisz, fürdik, hall, áll, száll. Zonder bepaalde vervoeging bekend: van, lesz, megy, jön, él, marad, sétál, táncol, fordul, jár, nyaral, pihen, ebédel, vacsorázik, reggelizik, koncentrál, dönt, tankol, áll, száll, fut, ül, siet, mosolyog, örül. Niet vervoegd: nincs, lehet, kell, szabad, tilos.
+*-lak/-lek (ik … jou).* Stam + -lak (achter) / -lek (voor): látlak, szeretlek, várlak; na -ít of twee medeklinkers -alak/-elek (tanítalak, értelek, mondalak); stam op -ll zonder derde l (hallak). Alleen bij werkwoorden met een lijdend voorwerp.
+
+*Gebiedende wijs.* Er komt een j tussen stam en uitgang: -jak/-jek, -j (lang -jál/-jél), -jon/-jen/-jön, -junk/-jünk, -jatok/-jetek, -janak/-jenek; bepaald -jam/-jem, -d (lang -jad/-jed), -ja/-je, -juk/-jük, -játok/-jétek, -ják/-jék. De j smelt samen: na s/sz/z wordt hij die medeklinker (olvass, nézz, játssz, ússz), klinker + t wordt ss (láss, fizess, fuss), -ít en medeklinker + t worden ts (taníts, érts, tarts), st wordt ss (fess), szt wordt ssz. Korte bepaalde jij-vorm: olvasd, nézd, tanuld, lásd, tanítsd, fesd, mondd. Onregelmatig bekend: van/lesz (legyen), megy (menj), jön (gyere, gyertek, jöjjön), eszik (egyél, edd), iszik (igyál, idd), tesz (tegyél, tedd), vesz (vegyél, vedd), visz (vigyél, vidd), hisz (higgyél, hidd), alszik (aludj), fekszik (feküdj), fürdik (fürödj). Werkwoorden op een klinker (lő) en op een dubbele medeklinker behalve ll slaat de app over; vul daar `felsz-…` in.
+
+*Voorvoegsels.* Een werkwoord met voorvoegsel volgt het werkwoord zelf, ook in de klinkerharmonie: felhív als hív (felhívok, felhívlak), megír als ír.
+
+Onregelmatige werkwoorden die de app kent (ook met voorvoegsel, elmegy = el + megy): van, lesz, megy, jön, eszik, iszik, alszik, fekszik, haragszik, tesz, vesz, visz, hisz, fürdik, hall, áll, száll. Zonder bepaalde vervoeging bekend: van, lesz, megy, jön, él, marad, sétál, táncol, fordul, jár, nyaral, pihen, ebédel, vacsorázik, reggelizik, koncentrál, dönt, tankol, áll, száll, fut, ül, siet, mosolyog, örül, repül, kiabál, telefonál, sportol, sír, nevet, fél, ér. Niet vervoegd: nincs, lehet, kell, szabad, tilos, szokott.
 
 **Wanneer kolom 6 invullen**
 - Zelfstandig naamwoord dat zijn stam verandert en niet in de lijst staat: verlaagde verbindingsklinker (`t=falat`), korter wordende klinker (`t=szekeret, k=szekerek`), v-stam (`t=lovat, k=lovak, on=lovon`), wegvallende klinker (`t=bokrot, k=bokrok, on=bokron`).

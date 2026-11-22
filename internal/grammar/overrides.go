@@ -33,7 +33,11 @@ var formKeys = map[string]formSlot{
 	"mult-ti": {"ww-mult", Pl2}, "mult-ők": {"ww-mult", Pl3},
 	"multbep-én": {"ww-mult-bep", Sg1}, "multbep-te": {"ww-mult-bep", Sg2}, "multbep-ő": {"ww-mult-bep", Sg3},
 	"multbep-mi": {"ww-mult-bep", Pl1}, "multbep-ti": {"ww-mult-bep", Pl2}, "multbep-ők": {"ww-mult-bep", Pl3},
-	"hat": {"ww-hat", Sg3},
+	"hat": {"ww-hat", Sg3}, "lak": {"ww-lak", Sg3},
+	"felsz-én": {"ww-felsz", Sg1}, "felsz-te": {"ww-felsz", Sg2}, "felsz-ő": {"ww-felsz", Sg3}, "felsz-mi": {"ww-felsz", Pl1},
+	"felsz-ti": {"ww-felsz", Pl2}, "felsz-ők": {"ww-felsz", Pl3},
+	"felszbep-én": {"ww-felsz-bep", Sg1}, "felszbep-te": {"ww-felsz-bep", Sg2}, "felszbep-ő": {"ww-felsz-bep", Sg3},
+	"felszbep-mi": {"ww-felsz-bep", Pl1}, "felszbep-ti": {"ww-felsz-bep", Pl2}, "felszbep-ők": {"ww-felsz-bep", Pl3},
 }
 
 // Zonder accenten mag ook (bol = ból)
@@ -52,7 +56,7 @@ func FormKey(ruleID string, p Person) string {
 
 func isPersonRule(id string) bool {
 	switch id {
-	case "ww-onbep", "ww-bep", "ww-mult", "ww-mult-bep", "ww-hat", "ww-fog", "pers":
+	case "ww-onbep", "ww-bep", "ww-mult", "ww-mult-bep", "ww-hat", "ww-fog", "ww-felsz", "ww-felsz-bep", "pers":
 		return true
 	}
 	return false
@@ -115,7 +119,7 @@ func (r Rule) MakeFor(w Word, p Person) (Form, bool) {
 	if _, doubt := w.Doubts[FormKey(r.ID, p)]; doubt {
 		return Form{}, false // iemand twijfelt aan deze vorm: niet oefenen tot het is opgelost
 	}
-	if (r.ID == "ww-bep" || r.ID == "ww-mult-bep") && w.Forms["bep"] == "?" {
+	if (r.ID == "ww-bep" || r.ID == "ww-mult-bep" || r.ID == "ww-felsz-bep" || r.ID == "ww-lak") && w.Forms["bep"] == "?" {
 		return Form{}, false
 	}
 	// Afgeleid van een afwijkende infinitief of -hat-vorm bij het woord
