@@ -3,6 +3,8 @@
 
 package grammar
 
+import "strings"
+
 // Rule is een regel uit de oefenlijst
 type Rule struct {
 	ID       string `json:"id"`
@@ -33,7 +35,12 @@ func caseRule(id, name, meaning, example, explain string, s caseSuffix) Rule {
 	}
 	r := Rule{ID: id, Group: "Naamvallen", Name: name, Meaning: meaning, Explain: explain, WordType: "zn", Example: example}
 
-	r.make = func(word string, _ Person) (Form, bool) { return applySuffix(word, s) }
+	r.make = func(word string, _ Person) (Form, bool) {
+		if ex, ok := caseExceptions[strings.ToLower(word)][id]; ok {
+			return ex, true
+		}
+		return applySuffix(word, s)
+	}
 	return r
 }
 

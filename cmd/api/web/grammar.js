@@ -17,6 +17,7 @@ const g = {
   input: "",
   session: { n: 0, good: 0 },
   review: null, // regels herhalen: { queue, index, count, correct, size, pass, results }
+  seen: new Set(), // varianten die in deze sessie al geweest zijn: eerst komen de andere
 };
 
 // De niveaus van de herhalingen (engine.AnkiIntervals), voor "woorden die je kent sinds minstens"
@@ -187,7 +188,7 @@ async function startReview() {
 function startReviewRule() {
   const r = g.review;
   Object.assign(r, { count: 0, correct: 0 });
-  Object.assign(g, { onlyRule: r.queue[r.index].id, session: { n: 0, good: 0 }, ex: null });
+  Object.assign(g, { onlyRule: r.queue[r.index].id, session: { n: 0, good: 0 }, ex: null, seen: new Set() });
   nextExercise();
 }
 
@@ -253,7 +254,7 @@ function renderReviewDone(rv, results) {
 
 async function startPractice(onlyRule) {
   g.review = null;
-  Object.assign(g, { onlyRule, session: { n: 0, good: 0 }, ex: null });
+  Object.assign(g, { onlyRule, session: { n: 0, good: 0 }, ex: null, seen: new Set() });
   await nextExercise();
 }
 
@@ -262,6 +263,7 @@ async function nextExercise() {
   const params = new URLSearchParams();
   if (g.onlyRule) params.set("rule", g.onlyRule);
   if (g.ex) params.set("avoid", g.ex.word);
+  for (const v of g.seen) params.append("seen", v);
   try {
     g.ex = await api("GET", `/api/grammar/exercise?${params}`);
   } catch (err) {
@@ -413,6 +415,7 @@ async function check(value, unknown = false) {
   }
   g.session.n++;
   if (g.result.correct) g.session.good++;
+  if (g.ex.variant) g.seen.add(g.ex.variant);
   if (g.review) {
     g.review.count++;
     if (g.result.correct) g.review.correct++;

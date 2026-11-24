@@ -141,6 +141,12 @@ func suffixFor(h Harmony, s caseSuffix, word string) string {
 	return "-" + pick(h, s.forms...)
 }
 
+// caseExceptions: losse naamvalsvormen die van de regel afwijken (woord -> regel -> vorm)
+var caseExceptions = map[string]map[string]Form{
+	"este": {"ig": {Text: "estig", Also: []string{"estéig"}, Steps: []string{
+		"este + -ig is een uitzondering: estig (reggeltől estig), zonder de verlenging tot -é; estéig hoor je in péntek estéig"}}},
+}
+
 // ---------- Lijdend voorwerp (-t) en meervoud (-k) ----------
 
 // nounException: woorden die hun stam veranderen of een andere verbindingsklinker nemen

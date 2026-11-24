@@ -41,7 +41,7 @@ func TestWordsAndNext(t *testing.T) {
 	rng := rand.New(rand.NewPCG(1, 2))
 	seen := map[string]bool{}
 	for range 50 {
-		ex, ok := Next(words, []string{"ban", "ww-onbep"}, nil, "", rng)
+		ex, ok := Next(words, []string{"ban", "ww-onbep"}, nil, "", nil, rng)
 		if !ok {
 			t.Fatal("verwacht een opgave")
 		}
@@ -53,7 +53,7 @@ func TestWordsAndNext(t *testing.T) {
 	if !seen["ban:ház"] || !seen["ww-onbep:olvas"] || len(seen) != 2 {
 		t.Errorf("opgaven: %v", seen)
 	}
-	if _, ok := Next(words, []string{"ww-bep"}[:0], nil, "", rng); ok {
+	if _, ok := Next(words, []string{"ww-bep"}[:0], nil, "", nil, rng); ok {
 		t.Error("zonder actieve regels geen opgave")
 	}
 }
@@ -160,14 +160,78 @@ func TestOnlyKnownWords(t *testing.T) {
 		t.Errorf("vanaf stap 1: n=%d ready=%v", n, ready)
 	}
 	rng := rand.New(rand.NewPCG(3, 4))
-	if _, ok := Next(known, []string{"ban"}, nil, "", rng); ok {
+	if _, ok := Next(known, []string{"ban"}, nil, "", nil, rng); ok {
 		t.Error("een regel die nog niet klaar is geeft geen opgave")
 	}
-	if ex, ok := Next(known, []string{"ban", "i"}, nil, "", rng); !ok || ex.Rule != "i" {
+	if ex, ok := Next(known, []string{"ban", "i"}, nil, "", nil, rng); !ok || ex.Rule != "i" {
 		t.Errorf("de -i-regel (vaste lijst) is altijd klaar: %+v %v", ex, ok)
 	}
 	w := Words(practiceLib())
 	if w[0].Hungarian != "ház" || w[0].Step != 0 || w[1].Step != -1 {
 		t.Errorf("stap per woord: %+v", w)
+	}
+}
+
+func TestEveryVariantFirst(t *testing.T) {
+	fewWords(t)
+	words := []Word{
+		{Hungarian: "ház", Type: "zn", Known: true}, {Hungarian: "bolt", Type: "zn", Known: true}, {Hungarian: "kert", Type: "zn", Known: true},
+		{Hungarian: "szék", Type: "zn", Known: true}, {Hungarian: "alma", Type: "zn", Known: true}, {Hungarian: "kefe", Type: "zn", Known: true},
+		{Hungarian: "asztal", Type: "zn", Known: true}, {Hungarian: "autó", Type: "zn", Known: true},
+	}
+	ban, _ := RuleByID("ban")
+	all := map[string]bool{}
+	for _, w := range words {
+		f, _ := ban.MakeFor(w, Sg3)
+		all[Variant(ban, w, Sg3, f.Text)] = true // ban, ben, ában, ében
+	}
+	rng := rand.New(rand.NewPCG(7, 8))
+	seen := map[string]bool{}
+	for range all {
+		ex, ok := Next(words, []string{"ban"}, nil, "", seen, rng)
+		if !ok || seen[ex.Variant] {
+			t.Fatalf("variant %q kwam terug voordat alle %d varianten geweest zijn (%v)", ex.Variant, len(all), seen)
+		}
+		seen[ex.Variant] = true
+	}
+	if len(seen) != len(all) {
+		t.Errorf("varianten: %v van %v", seen, all)
+	}
+	// Werkwoord: eerst alle personen
+	verbs := []Word{{Hungarian: "olvas", Type: "ww", Known: true}, {Hungarian: "tanít", Type: "ww", Known: true},
+		{Hungarian: "van", Type: "ww", Known: true}, {Hungarian: "lakik", Type: "ww", Known: true}}
+	seen = map[string]bool{}
+	persons := map[int]bool{}
+	for range 5 { // én, te, mi, ti, ők (ő staat al op de kaart)
+		ex, _ := Next(verbs, []string{"ww-onbep"}, nil, "", seen, rng)
+		seen[ex.Variant] = true
+		persons[ex.Person] = true
+	}
+	if len(persons) != 5 {
+		t.Errorf("in 5 opgaven alle 5 personen, kreeg %v", persons)
+	}
+}
+
+func TestVariantOfIrregular(t *testing.T) {
+	onbep, _ := RuleByID("ww-onbep")
+	if v := Variant(onbep, Word{Hungarian: "van", Type: "ww"}, Sg2, "vagy"); v != "ww-onbep|te (jij)|stamverandering" {
+		t.Errorf("vagy: %q", v)
+	}
+	if v := Variant(onbep, Word{Hungarian: "lakik", Type: "ww"}, Sg1, "lakom"); v != "ww-onbep|én (ik)|om" {
+		t.Errorf("lakom: %q", v)
+	}
+	on, _ := RuleByID("on")
+	if v := Variant(on, Word{Hungarian: "ló", Type: "zn"}, Sg3, "lovon"); v != "on|stamverandering" {
+		t.Errorf("lovon: %q", v)
+	}
+}
+
+func TestVariantLengthening(t *testing.T) {
+	ban, _ := RuleByID("ban")
+	if v := Variant(ban, Word{Hungarian: "alma", Type: "zn"}, Sg3, "almában"); v != "ban|verlenging+ban" {
+		t.Errorf("almában: %q", v)
+	}
+	if v := Variant(ban, Word{Hungarian: "kefe", Type: "zn"}, Sg3, "kefében"); v != "ban|verlenging+ben" {
+		t.Errorf("kefében: %q", v)
 	}
 }

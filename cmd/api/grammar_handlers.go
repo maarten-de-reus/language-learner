@@ -143,7 +143,8 @@ func (s *server) handleGrammarLevel(w http.ResponseWriter, r *http.Request) {
 }
 
 // handleGrammarExercise geeft een opgave. ?rule= beperkt tot één regel (ook als die niet actief
-// is: een regel uitproberen vanuit de uitleg), ?avoid= is het woord van de vorige opgave.
+// is: een regel uitproberen vanuit de uitleg), ?avoid= is het woord van de vorige opgave, ?seen=
+// (meerdere keren) zijn de varianten die al geweest zijn in deze sessie.
 func (s *server) handleGrammarExercise(w http.ResponseWriter, r *http.Request) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -152,7 +153,11 @@ func (s *server) handleGrammarExercise(w http.ResponseWriter, r *http.Request) {
 		active = []string{id}
 	}
 	rng := rand.New(rand.NewPCG(rand.Uint64(), rand.Uint64()))
-	ex, ok := grammar.Next(s.knownWords(), active, grammar.Scores(s.grammarLog), r.URL.Query().Get("avoid"), rng)
+	seen := map[string]bool{}
+	for _, v := range r.URL.Query()["seen"] {
+		seen[v] = true
+	}
+	ex, ok := grammar.Next(s.knownWords(), active, grammar.Scores(s.grammarLog), r.URL.Query().Get("avoid"), seen, rng)
 	if !ok {
 		writeError(w, http.StatusNotFound, errors.New("geen opgave: geen van je regels is al klaar. Een regel heeft minstens "+
 			fmt.Sprint(grammar.MinWords)+" woorden nodig die je goed kent; zet een andere regel aan of oefen eerst je woorden"))

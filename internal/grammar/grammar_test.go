@@ -59,7 +59,10 @@ func TestCaseSuffixes(t *testing.T) {
 		"kocsi": "kocsival", "kávé": "kávéval", "alma": "almával", "barát": "baráttal", "hegy": "heggyel", "könyv": "könyvvel",
 		"tej": "tejjel", "vonat": "vonattal", "villamos": "villamossal", "gyerek": "gyerekkel", "nő": "nővel", "fiú": "fiúval"})
 	check(t, "va", map[string]string{"víz": "vízzé", "jég": "jéggé", "tanár": "tanárrá", "kő": "kővé"})
-	check(t, "ig", map[string]string{"busz": "buszig", "posta": "postáig", "este": "estéig", "hétfő": "hétfőig"})
+	check(t, "ig", map[string]string{"busz": "buszig", "posta": "postáig", "este": "estig", "hétfő": "hétfőig"})
+	if r, _ := Check("ig", Word{Hungarian: "este"}, 0, "estéig"); !r.Correct {
+		t.Error("estéig mag ook")
+	}
 	check(t, "ert", map[string]string{"kenyér": "kenyérért", "tej": "tejért", "alma": "almáért"})
 	check(t, "kent", map[string]string{"tanár": "tanárként", "orvos": "orvosként", "barát": "barátként"})
 	check(t, "i", map[string]string{"Budapest": "budapesti", "London": "londoni", "Amerika": "amerikai", "reggel": "reggeli",

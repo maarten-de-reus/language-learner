@@ -199,11 +199,47 @@ type Exercise struct {
 	Dutch       string `json:"dutch"`
 	Person      int    `json:"person"`
 	PersonLabel string `json:"personLabel,omitempty"`
+	Variant     string `json:"variant"` // welke variant van de regel dit is (zie Variant)
+}
+
+// Variant: wat er bij deze opgave achter het woord komt, per regel en persoon (-ban, -ben, -ában;
+// én + -ok). Twee opgaven met dezelfde variant oefenen hetzelfde stukje van de regel.
+// Een vorm die niet gewoon achter het woord komt (lovon, mész, vagy) telt als één variant:
+// "stamverandering", anders zou elk onregelmatig woord een eigen variant zijn en steeds voorgaan.
+func Variant(r Rule, w Word, p Person, form string) string {
+	base := strings.ToLower(w.Hungarian)
+	if w.Type == "ww" {
+		base, _ = verbStem(base)
+	}
+	end := "stamverandering"
+	f := strings.ToLower(form)
+	if long, _ := lengthen(base); strings.HasPrefix(f, base) {
+		end = strings.TrimPrefix(f, base)
+	} else if long != base && strings.HasPrefix(f, long) {
+		end = "verlenging+" + strings.TrimPrefix(f, long) // alma -> almában, kefe -> kefében
+	}
+	if r.Persons {
+		return r.ID + "|" + PersonLabels[p] + "|" + end
+	}
+	return r.ID + "|" + end
+}
+
+// variantPerson: de persoon in een variant ("" bij regels zonder personen)
+func variantPerson(v string) string {
+	parts := strings.Split(v, "|")
+	if len(parts) == 3 {
+		return parts[1]
+	}
+	return ""
 }
 
 // Next kiest een opgave: een actieve regel (regels met een lage score vaker), een woord dat je al
 // kent (als dat kan) en bij werkwoorden een persoon. avoid is het woord van de vorige opgave.
-func Next(words []Word, active []string, scores map[string]Score, avoid string, rng *rand.Rand) (Exercise, bool) {
+//
+// seen zijn de varianten die je in deze sessie al had (zie Variant): eerst komen de varianten die
+// nog niet geweest zijn, zodat je bij -ban/-ben zowel -ban, -ben als -ában krijgt, en bij een
+// werkwoord alle personen, voordat er iets terugkomt.
+func Next(words []Word, active []string, scores map[string]Score, avoid string, seen map[string]bool, rng *rand.Rand) (Exercise, bool) {
 	type option struct {
 		rule  Rule
 		words []Word
@@ -250,13 +286,58 @@ func Next(words []Word, active []string, scores map[string]Score, avoid string, 
 	if len(known) >= 5 && rng.Float64() < 0.8 {
 		pool = known
 	}
-	w := pool[rng.IntN(len(pool))]
-	if w.Hungarian == avoid && len(pool) > 1 {
-		w = pool[(slices.IndexFunc(pool, func(x Word) bool { return x.Hungarian == avoid })+1)%len(pool)]
+	// Alle combinaties van woord en persoon, per variant; een variant die nog niet geweest is gaat voor
+	type cand struct {
+		w Word
+		p Person
 	}
-	ps := o.rule.persons(w)
-	p := ps[rng.IntN(len(ps))]
-	ex := Exercise{Rule: o.rule.ID, Word: w.Hungarian, Dutch: w.Dutch, Person: int(p)}
+	byVariant := map[string][]cand{}
+	var variants, fresh []string
+	for _, w := range pool {
+		if w.Hungarian == avoid && len(pool) > 1 {
+			continue
+		}
+		for _, p := range o.rule.persons(w) {
+			f, _ := o.rule.MakeFor(w, p)
+			v := Variant(o.rule, w, p, f.Text)
+			if _, ok := byVariant[v]; !ok {
+				variants = append(variants, v)
+				if !seen[v] {
+					fresh = append(fresh, v)
+				}
+			}
+			byVariant[v] = append(byVariant[v], cand{w, p})
+		}
+	}
+	if len(variants) == 0 {
+		return Exercise{}, false
+	}
+	choice := variants
+	if len(fresh) > 0 {
+		choice = fresh
+	}
+	// Bij werkwoorden eerst elke persoon één keer, daarna de andere uitgangen per persoon
+	if o.rule.Persons {
+		had := map[string]bool{}
+		for v := range seen {
+			if strings.HasPrefix(v, o.rule.ID+"|") {
+				had[variantPerson(v)] = true
+			}
+		}
+		var newPerson []string
+		for _, v := range choice {
+			if !had[variantPerson(v)] {
+				newPerson = append(newPerson, v)
+			}
+		}
+		if len(newPerson) > 0 {
+			choice = newPerson
+		}
+	}
+	v := choice[rng.IntN(len(choice))]
+	c := byVariant[v][rng.IntN(len(byVariant[v]))]
+	w, p := c.w, c.p
+	ex := Exercise{Rule: o.rule.ID, Word: w.Hungarian, Dutch: w.Dutch, Person: int(p), Variant: v}
 	if o.rule.Persons {
 		ex.PersonLabel = PersonLabels[p]
 	}
