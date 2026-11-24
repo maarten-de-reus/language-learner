@@ -29,7 +29,7 @@ Deze skill volgt de regels in de app (`internal/grammar`, stand 2026-11-22, vers
 - Neem geen vormen op met een naamvalsuitgang: -ban/-ben (városban), -ba/-be, -ból/-ből, -n/-on/-en/-ön (hétfőn, kedden), -ra/-re, -ról/-ről, -nál/-nél, -hoz/-hez/-höz, -tól/-től, -nak/-nek, -val/-vel, -vá/-vé, -ig, -ért, -ként, -kor (éjfélkor, ötkor), -szor/-szer/-ször (ötször, egyszer, kétszer).
 - Geen naamvallen met een persoon: nekem, nálam, nála, tőle, velem, vele, hozzá, benne, belőle, rajta, róla, rá, érte (enz.). Die maakt de app met de regel "Naamval met persoon".
 - Geen trappen van vergelijking: kisebb, legkisebb, jobb (beter), nagyobb, legszebb, később. Neem alleen het bijvoeglijk naamwoord zelf op (kicsi, jó, nagy, szép, késő).
-- Uitzondering op deze drie: woorden met een eigen betekenis blijven (sokszor = vaak, először = eerst, legkésőbb = uiterlijk, hánykor = hoe laat). Twijfel je, meld het.
+- Uitzondering op deze drie: woorden met een eigen betekenis blijven (sokszor = vaak, először = eerst, legkésőbb = uiterlijk, hánykor = hoe laat, kicsit = een beetje, als bijwoord met woordsoort `bw`). Twijfel je, meld het.
 - Geen lijdend voorwerp (-t/-ot/-et/-öt: szót) en geen meervoud (-k/-ok/-ek/-ök).
 - Geen bezittelijke vormen: -m/-om/-em/-am (barátom), -d/-od/-ed (füled), -a/-e/-ja/-je (háza, neve), meervoudige bezitters enz. De app maakt ze zelf (regel "Bezittelijk"); wel kan kolom 6 nodig zijn (zie hieronder).
 - Zet zo'n vorm om naar het woord waar het over gaat (városban -> város, fül/ed -> fül, barátom -> barát, éjfélkor -> éjfél) en neem alleen dat op. Een slash die een uitgang afscheidt (`szomszéd/od`) betekent alleen het basiswoord (szomszéd).
